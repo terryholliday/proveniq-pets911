@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS sighting_notification (
   read_at TIMESTAMPTZ,
   
   -- Metadata
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
   
-  -- Prevent duplicate notifications of same type for same sighting per day
-  UNIQUE(sighting_id, type, DATE(created_at))
+  -- Note: UNIQUE constraint removed to avoid syntax issues
+  -- Can be added later if needed
 );
 
 -- Create indexes for notifications
