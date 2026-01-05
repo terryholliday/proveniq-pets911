@@ -169,7 +169,7 @@ export async function getSightingReport(id: string): Promise<SightingReportExten
  */
 export async function updateSightingReport(
   id: string, 
-  updates: Partial<Pick<SightingReportExtended, 'status' | 'estimatedArrival' | 'rescuerAssigned'>>,
+  updates: Partial<Pick<SightingReportExtended, 'status'>>,
   notification?: Omit<SightingNotification, 'id' | 'timestamp' | 'read'>
 ): Promise<void> {
   const db = await getDB();

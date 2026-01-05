@@ -47,8 +47,11 @@ const SPECIES_OPTIONS = [
   { id: 'DOG', label: 'Dog', icon: Dog },
   { id: 'CAT', label: 'Cat', icon: Cat },
   { id: 'BIRD', label: 'Bird', icon: Bird },
+  { id: 'RABBIT', label: 'Rabbit', icon: Rabbit },
+  { id: 'REPTILE', label: 'Reptile', icon: Rabbit },
+  { id: 'SMALL_MAMMAL', label: 'Small Mammal', icon: Rabbit },
+  { id: 'LIVESTOCK', label: 'Livestock', icon: Rabbit },
   { id: 'OTHER', label: 'Other', icon: Rabbit },
-  { id: 'UNKNOWN', label: 'Not Sure', icon: AlertCircle },
 ];
 
 const CONDITION_OPTIONS = [
@@ -62,7 +65,7 @@ export default function ReportSighting() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [report, setReport] = useState<SightingReport>({
-    species: 'UNKNOWN',
+    species: 'OTHER',
     breed: '',
     color: '',
     size: '',
@@ -101,44 +104,58 @@ export default function ReportSighting() {
   const handleSubmit = async () => {
     console.log('Submitting sighting:', report);
     
-    // Determine priority based on canStayWithAnimal flag
-    const priority = report.canStayWithAnimal ? 'HIGH' : 'MEDIUM';
-    
     // Convert photo to data URL if exists
-    let photoDataUrl: string | null = null;
+    let photoUrl: string | null = null;
     if (report.photo) {
-      photoDataUrl = await new Promise<string>((resolve) => {
+      // TODO: Upload photo to storage and get URL
+      photoUrl = await new Promise<string>((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target?.result as string);
         reader.readAsDataURL(report.photo!);
       });
     }
     
-    // Save to IndexedDB
-    const sightingId = await saveSightingReport({
-      species: report.species,
-      breed: report.breed,
-      color: report.color,
-      size: report.size,
-      condition: report.condition,
-      sightingDate: report.sightingDate,
-      sightingTime: report.sightingTime,
-      location: report.location,
-      stillThere: report.stillThere,
-      description: report.description,
-      reporterName: report.reporterName,
-      reporterPhone: report.reporterPhone,
-      reporterEmail: report.reporterEmail,
-      canStayWithAnimal: report.canStayWithAnimal,
-      photo_data_url: photoDataUrl,
-      priority: priority as 'HIGH' | 'MEDIUM' | 'LOW',
-      status: 'ACTIVE',
-    });
-    
-    console.log('Sighting saved with ID:', sightingId, 'Priority:', priority);
-    
-    // Navigate to success page
-    router.push('/sighting/report/success');
+    // Submit to backend API
+    try {
+      const response = await fetch('/api/sightings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reporter_name: report.reporterName,
+          reporter_phone: report.reporterPhone,
+          reporter_email: report.reporterEmail,
+          sighting_address: report.location,
+          description: report.description,
+          species: report.species,
+          breed: report.breed,
+          color: report.color,
+          size: report.size,
+          condition: report.condition,
+          can_stay_with_animal: report.canStayWithAnimal,
+          photo_url: photoUrl,
+          county: 'GREENBRIER', // TODO: Get from user profile
+          sighting_at: new Date().toISOString(),
+        }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('Failed to submit sighting:', error);
+        alert('Failed to submit sighting. Please try again.');
+        return;
+      }
+      
+      const result = await response.json();
+      console.log('Sighting submitted successfully:', result);
+      
+      // Navigate to success page
+      router.push('/sighting/report/success');
+    } catch (error) {
+      console.error('Error submitting sighting:', error);
+      alert('Failed to submit sighting. Please try again.');
+    }
   };
 
   // If critical condition, show emergency prompt

@@ -31,8 +31,12 @@ export default function SightingsPage() {
 
   const loadSightings = async () => {
     try {
-      const reports = await getSightingReports();
-      setSightings(reports);
+      const response = await fetch('/api/sightings');
+      if (!response.ok) {
+        throw new Error('Failed to fetch sightings');
+      }
+      const data = await response.json();
+      setSightings(data.sightings || []);
     } catch (error) {
       console.error('Failed to load sightings:', error);
     } finally {
@@ -43,29 +47,23 @@ export default function SightingsPage() {
   const updateStatus = async (sightingId: string, status: 'ACTIVE' | 'IN_PROGRESS' | 'RESOLVED') => {
     setUpdating(sightingId);
     try {
-      await updateSightingReport(
-        sightingId,
-        { status },
-        {
-          type: 'STATUS_UPDATE',
-          message: `Status updated to: ${status.replace('_', ' ')}`,
-        }
-      );
+      const response = await fetch(`/api/sightings/${sightingId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status,
+          // Add ETA and rescuer for IN_PROGRESS status
+          ...(status === 'IN_PROGRESS' && {
+            estimated_arrival: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+            rescuer_assigned: 'Rescue Team Alpha',
+          }),
+        }),
+      });
       
-      // Update ETA for IN_PROGRESS status
-      if (status === 'IN_PROGRESS') {
-        const eta = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
-        await updateSightingReport(
-          sightingId,
-          { 
-            estimatedArrival: eta.toISOString(),
-            rescuerAssigned: 'Rescue Team Alpha'
-          },
-          {
-            type: 'ETA_UPDATE',
-            message: `Rescue team assigned. ETA: ${eta.toLocaleTimeString()}`,
-          }
-        );
+      if (!response.ok) {
+        throw new Error('Failed to update sighting');
       }
       
       await loadSightings();
@@ -234,7 +232,7 @@ export default function SightingsPage() {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(sighting.status)}`}>
                           {sighting.status.replace('_', ' ')}
                         </span>
-                        {sighting.canStayWithAnimal && (
+                        {sighting.can_stay_with_animal && (
                           <span className="px-2 py-1 rounded-full text-xs font-medium text-emerald-500 bg-emerald-500/10">
                             With Reporter
                           </span>
@@ -265,6 +263,16 @@ export default function SightingsPage() {
                           </div>
                         )}
                         <div className="flex items-center gap-2">
+                          <span className="text-slate-400">Priority:</span>
+                          <span className={`font-medium ${
+                            sighting.priority === 'HIGH' ? 'text-red-500' :
+                            sighting.priority === 'MEDIUM' ? 'text-yellow-500' :
+                            'text-slate-500'
+                          }`}>
+                            {sighting.priority}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
                           <span className="text-slate-400">Condition:</span>
                           <span className={`font-medium ${
                             sighting.condition === 'CRITICAL' ? 'text-red-500' :
@@ -275,10 +283,10 @@ export default function SightingsPage() {
                             {sighting.condition}
                           </span>
                         </div>
-                        {sighting.photo_data_url && (
+                        {sighting.photo_url && (
                           <div className="mt-3">
                             <img 
-                              src={sighting.photo_data_url} 
+                              src={sighting.photo_url} 
                               alt="Sighting" 
                               className="w-32 h-32 object-cover rounded-lg border border-slate-700"
                             />
@@ -292,33 +300,33 @@ export default function SightingsPage() {
                           <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
                           <div>
                             <span className="text-slate-400 block">Location:</span>
-                            <span className="text-white">{sighting.location}</span>
+                            <span className="text-white">{sighting.sighting_address}</span>
                           </div>
                         </div>
-                        {sighting.reporterName && (
+                        {sighting.reporter_name && (
                           <div className="flex items-center gap-2">
                             <User className="w-4 h-4 text-slate-400" />
-                            <span className="text-white">{sighting.reporterName}</span>
+                            <span className="text-white">{sighting.reporter_name}</span>
                           </div>
                         )}
-                        {sighting.reporterPhone && (
+                        {sighting.reporter_phone && (
                           <div className="flex items-center gap-2">
                             <Phone className="w-4 h-4 text-slate-400" />
-                            <span className="text-white">{sighting.reporterPhone}</span>
+                            <span className="text-white">{sighting.reporter_phone}</span>
                           </div>
                         )}
-                        {sighting.estimatedArrival && (
+                        {sighting.estimated_arrival && (
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-orange-500" />
                             <span className="text-orange-500">
-                              ETA: {new Date(sighting.estimatedArrival).toLocaleTimeString()}
+                              ETA: {new Date(sighting.estimated_arrival).toLocaleTimeString()}
                             </span>
                           </div>
                         )}
-                        {sighting.rescuerAssigned && (
+                        {sighting.rescuer_assigned && (
                           <div className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-green-500" />
-                            <span className="text-green-500">{sighting.rescuerAssigned}</span>
+                            <span className="text-green-500">{sighting.rescuer_assigned}</span>
                           </div>
                         )}
                       </div>

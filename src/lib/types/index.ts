@@ -105,28 +105,55 @@ export interface PetGoBagProfile {
 
 export interface SightingReportExtended {
   id: string;
-  species: Species;
-  breed: string;
-  color: string;
-  size: string;
-  condition: string;
-  sightingDate: string;
-  sightingTime: string;
-  location: string;
-  stillThere: boolean | null;
+  reporter_id?: string;
+  reporter_name?: string;
+  reporter_phone?: string;
+  reporter_email?: string;
+  missing_case_id?: string;
+  sighting_at: string;
+  sighting_lat?: number;
+  sighting_lng?: number;
+  sighting_address: string;
   description: string;
-  reporterName: string;
-  reporterPhone: string;
-  reporterEmail: string;
-  canStayWithAnimal: boolean;
-  photo_data_url: string | null;
+  direction_heading?: string;
+  animal_behavior?: string;
+  confidence_level: 'CERTAIN' | 'LIKELY' | 'UNSURE';
+  photo_url?: string;
+  county: 'GREENBRIER' | 'KANAWHA';
+  can_stay_with_animal: boolean;
   priority: 'HIGH' | 'MEDIUM' | 'LOW';
   status: 'ACTIVE' | 'IN_PROGRESS' | 'RESOLVED';
+  estimated_arrival?: string;
+  rescuer_assigned?: string;
+  is_verified: boolean;
+  verified_by?: string;
+  verified_at?: string;
   created_at: string;
   updated_at: string;
-  estimatedArrival?: string;
-  rescuerAssigned?: string;
-  notifications: SightingNotification[];
+  is_deleted: boolean;
+  
+  // Joined fields
+  species?: Species;
+  breed?: string;
+  color?: string;
+  size?: string;
+  condition?: string;
+  
+  // Reporter info (joined)
+  reporter?: {
+    display_name?: string;
+    phone?: string;
+  };
+  
+  // Missing case info (joined)
+  missing_case?: {
+    id: string;
+    pet_name: string;
+    species: Species;
+    owner?: {
+      display_name: string;
+    };
+  };
 }
 
 export interface SightingNotification {
@@ -135,6 +162,7 @@ export interface SightingNotification {
   message: string;
   timestamp: string;
   read: boolean;
+  sightingId?: string; // Added to link notification to sighting
 }
 
 // --- Infrastructure Entities ---

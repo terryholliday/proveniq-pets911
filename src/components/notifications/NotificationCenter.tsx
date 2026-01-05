@@ -111,7 +111,7 @@ export function NotificationCenter() {
                       !notification.read ? 'bg-slate-700/30' : ''
                     }`}
                     onClick={() => {
-                      if (!notification.read) {
+                      if (!notification.read && notification.sightingId) {
                         markAsRead(notification.sightingId, [notification.id]);
                       }
                     }}
