@@ -194,7 +194,7 @@ GET /county-packs/{county}/emergency-contacts
           "type": "REDUCED_HOURS",
           "reason": "Staff shortage",
           "effective_until": "2026-01-15T00:00:00Z",
-          "alternate_phone": "+13045559999"
+          "alternate_phone": "+13046477911"
         }
       }
     ]

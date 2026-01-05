@@ -11,33 +11,33 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           INFRASTRUCTURE LAYER                               │
+│                           INFRASTRUCTURE LAYER                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  county_pack          │  emergency_contact      │  aco_availability_override │
+│  county_pack          │  emergency_contact     │  aco_availability_override │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              CASE LAYER                                      │
+│                              CASE LAYER                                     │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  missing_pet_case     │  found_animal_case      │  sighting                  │
-│                       │                         │                            │
-│  ◄─── match_suggestion ───►                     │                            │
+│  missing_pet_case     │  found_animal_case      │     sighting              │
+│                       │                         │                           │
+│  ◄─── match_suggestion ───►                     │                           │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            ACTION LAYER                                      │
+│                            ACTION LAYER                                     │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  moderator_action     │  emergency_vet_notify   │  municipal_interaction_log │
-│                       │   _attempt              │                            │
+│  moderator_action     │  emergency_vet_notify   │ municipal_interaction_log │
+│                       │   _attempt              │                           │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           TELEMETRY LAYER                                    │
+│                           TELEMETRY LAYER                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  pilot_metrics_log    │  offline_queued_action                               │
+│  pilot_metrics_log    │  offline_queued_action                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 

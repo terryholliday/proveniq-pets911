@@ -82,11 +82,11 @@ Every AI-generated output visible to users MUST include an appropriate disclosur
 ┌─────────────────────────────────────────────────────────────────┐
 │ [AI CONTENT BLOCK]                                              │
 │                                                                 │
-│ Based on 5 recent sightings, Buddy may be in the downtown      │
+│ Based on 5 recent sightings, Buddy may be in the downtown       │
 │ Lewisburg area, moving generally eastward.                      │
 │                                                                 │
 │ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ ℹ️ AI advisory only. Actual location unknown.               │ │
+│ │ ℹ️ AI advisory only. Actual location unknown.              │  │
 │ │    Based on unverified user reports.                        │ │
 │ └─────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
