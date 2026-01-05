@@ -23,6 +23,8 @@
 │  missing_pet_case     │  found_animal_case      │     sighting              │
 │                       │                         │                           │
 │  ◄─── match_suggestion ───►                     │                           │
+│                                                 │                           │
+│  pet_registration ──────────────────────────────┘                           │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -387,7 +389,37 @@ CREATE INDEX idx_missing_case_location ON missing_pet_case(last_seen_lat, last_s
   WHERE last_seen_lat IS NOT NULL;
 ```
 
-### 4.2 found_animal_case
+### 4.2 pet_registration
+
+Permanent registration for pets (Microchip Registry replacement). 
+Allows owners to anchor pet data BEFORE they go missing.
+
+```sql
+CREATE TABLE pet_registration (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner_id          UUID NOT NULL REFERENCES user_profile(id),
+  
+  -- Pet Details
+  pet_name          TEXT NOT NULL,
+  species           species_enum NOT NULL,
+  breed             TEXT,
+  microchip_id      TEXT NOT NULL UNIQUE,
+  microchip_issuer  TEXT,                      -- "HomeAgain", "AVID", etc.
+  
+  -- Verification
+  is_verified       BOOLEAN NOT NULL DEFAULT FALSE,
+  verified_at       TIMESTAMPTZ,
+  
+  -- Audit
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX idx_registration_chip ON pet_registration(microchip_id);
+CREATE INDEX idx_registration_owner ON pet_registration(owner_id);
+```
+
+### 4.3 found_animal_case
 
 Reported found animals.
 
@@ -464,7 +496,7 @@ CREATE INDEX idx_found_case_needs_vet ON found_animal_case(needs_immediate_vet)
   WHERE needs_immediate_vet = TRUE;
 ```
 
-### 4.3 sighting
+### 4.4 sighting
 
 Public sighting reports for missing pets.
 
@@ -522,7 +554,7 @@ CREATE INDEX idx_sighting_unlinked ON sighting(county, created_at)
   WHERE missing_case_id IS NULL;
 ```
 
-### 4.4 match_suggestion
+### 4.5 match_suggestion
 
 AI-suggested matches between found animals and missing pets.
 
@@ -1030,17 +1062,18 @@ Initial migration order (respecting foreign key dependencies):
 4. `aco_availability_override`
 5. `user_profile`
 6. `missing_pet_case`
-7. `found_animal_case`
-8. `sighting`
-9. `match_suggestion`
-10. `moderator_action`
-11. `emergency_vet_notify_attempt`
-12. `municipal_interaction_log`
-13. `pilot_metrics_log`
-14. `offline_queued_action`
-15. Create views
-16. Create triggers
-17. Enable RLS policies
+7. `pet_registration`
+8. `found_animal_case`
+9. `sighting`
+10. `match_suggestion`
+11. `moderator_action`
+12. `emergency_vet_notify_attempt`
+13. `municipal_interaction_log`
+14. `pilot_metrics_log`
+15. `offline_queued_action`
+16. Create views
+17. Create triggers
+18. Enable RLS policies
 
 ---
 

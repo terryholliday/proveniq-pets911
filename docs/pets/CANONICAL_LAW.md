@@ -14,6 +14,8 @@ This document constitutes the **Canonical Law** for the PROVENIQ Pets (WV) subsy
 
 **Mission:** Reduce preventable pet deaths and permanent family separations through deterministic, audit-safe emergency coordination infrastructure.
 
+**Strategic Doctrine (Microchip Legacy Replacement):** The system serves as a zero-cost "Truth Layer" for microchip identification, actively replacing rent-seeking registry companies that gate reunification behind paywalls.
+
 ---
 
 ## 1. POWER HIERARCHY (FINAL)
@@ -42,6 +44,7 @@ This document constitutes the **Canonical Law** for the PROVENIQ Pets (WV) subsy
 | **Triage Dashboard** | PigPig moderators escalate to shelter; lock cases |
 | **Match Suggestions** | Found→Missing matching, non-public until moderator confirmation |
 | **Pilot Telemetry** | Day 1 metrics: case_type, county, action, outcome |
+| **Microchip Registry** | Zero-cost registration and lookup; replacement for legacy paid registries |
 
 ### 2.2 OUT-OF-SCOPE (PROHIBITED)
 

@@ -14,8 +14,10 @@ import {
   Bird,
   Rabbit,
   Camera,
+  Upload,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -271,35 +273,66 @@ function AnimalDetailsStep({
                 }}
                 className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
               >
-                <AlertCircle className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
           ) : (
-            <label className="block">
-              <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer">
-                <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
-                <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
-                <p className="text-slate-500 text-sm">Photos greatly help with identification</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = (e) => {
-                        updateReport({
-                          photo: file,
-                          photoPreview: e.target?.result as string,
-                        });
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
-                  className="hidden"
-                />
-              </div>
-            </label>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Take Photo Button */}
+              <label className="block">
+                <div className="border-2 border-dashed border-slate-600 rounded-2xl p-6 text-center hover:border-slate-500 transition-colors cursor-pointer">
+                  <Camera className="w-10 h-10 text-slate-500 mx-auto mb-2" />
+                  <p className="text-slate-300 font-medium mb-1">Take Photo</p>
+                  <p className="text-slate-500 text-sm">Use camera</p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          updateReport({
+                            photo: file,
+                            photoPreview: e.target?.result as string,
+                          });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </div>
+              </label>
+              
+              {/* Upload Photo Button */}
+              <label className="block">
+                <div className="border-2 border-dashed border-slate-600 rounded-2xl p-6 text-center hover:border-slate-500 transition-colors cursor-pointer">
+                  <Upload className="w-10 h-10 text-slate-500 mx-auto mb-2" />
+                  <p className="text-slate-300 font-medium mb-1">Upload Photo</p>
+                  <p className="text-slate-500 text-sm">From device</p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          updateReport({
+                            photo: file,
+                            photoPreview: e.target?.result as string,
+                          });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </div>
+              </label>
+            </div>
           )}
         </div>
       </div>

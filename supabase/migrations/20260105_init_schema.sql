@@ -193,6 +193,25 @@ CREATE TRIGGER update_user_profile_updated_at
 BEFORE UPDATE ON user_profile
 FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 
+-- ## 4.2 pet_registration (Microchip Registry Replacement)
+CREATE TABLE pet_registration (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner_id          UUID NOT NULL REFERENCES user_profile(id),
+  pet_name          TEXT NOT NULL,
+  species           species_enum NOT NULL,
+  breed             TEXT,
+  microchip_id      TEXT NOT NULL UNIQUE,
+  microchip_issuer  TEXT,
+  is_verified       BOOLEAN NOT NULL DEFAULT FALSE,
+  verified_at       TIMESTAMPTZ,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER update_pet_registration_updated_at
+BEFORE UPDATE ON pet_registration
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
 -- #############################################################################
 -- # 5. CASE LAYER
 -- #############################################################################
@@ -465,6 +484,7 @@ ALTER TABLE emergency_vet_notify_attempt ENABLE ROW LEVEL SECURITY;
 ALTER TABLE municipal_interaction_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pilot_metrics_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE offline_queued_action ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pet_registration ENABLE ROW LEVEL SECURITY;
 
 -- Help function to get current user ID from firebase_uid
 CREATE OR REPLACE FUNCTION get_current_user_id() 
@@ -560,3 +580,10 @@ USING (EXISTS (SELECT 1 FROM user_profile WHERE firebase_uid = auth.uid()::TEXT 
 -- ## 9.12 offline_queued_action policies
 CREATE POLICY "users_manage_own_offline_actions" ON offline_queued_action FOR ALL 
 USING (user_id = get_current_user_id()) WITH CHECK (user_id = get_current_user_id());
+
+-- ## 9.13 pet_registration policies
+CREATE POLICY "owners_manage_own_registrations" ON pet_registration FOR ALL 
+USING (owner_id = get_current_user_id()) WITH CHECK (owner_id = get_current_user_id());
+
+CREATE POLICY "moderators_read_all_registrations" ON pet_registration FOR SELECT 
+USING (is_moderator());
