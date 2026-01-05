@@ -1,0 +1,513 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { 
+  ChevronLeft, 
+  ChevronRight,
+  MapPin,
+  Calendar,
+  Clock,
+  Dog,
+  Cat,
+  Bird,
+  Rabbit,
+  Camera,
+  CheckCircle,
+  AlertCircle
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+
+type Species = 'DOG' | 'CAT' | 'BIRD' | 'OTHER' | 'UNKNOWN';
+type AnimalCondition = 'HEALTHY' | 'INJURED' | 'CRITICAL' | 'UNKNOWN';
+
+interface SightingReport {
+  species: Species;
+  breed: string;
+  color: string;
+  size: string;
+  condition: AnimalCondition;
+  sightingDate: string;
+  sightingTime: string;
+  location: string;
+  stillThere: boolean | null;
+  description: string;
+  reporterName: string;
+  reporterPhone: string;
+  reporterEmail: string;
+  canStayWithAnimal: boolean;
+}
+
+const SPECIES_OPTIONS = [
+  { id: 'DOG', label: 'Dog', icon: Dog },
+  { id: 'CAT', label: 'Cat', icon: Cat },
+  { id: 'BIRD', label: 'Bird', icon: Bird },
+  { id: 'OTHER', label: 'Other', icon: Rabbit },
+  { id: 'UNKNOWN', label: 'Not Sure', icon: AlertCircle },
+];
+
+const CONDITION_OPTIONS = [
+  { id: 'HEALTHY', label: 'Appears Healthy', color: 'emerald' },
+  { id: 'INJURED', label: 'Possibly Injured', color: 'amber' },
+  { id: 'CRITICAL', label: 'Needs Urgent Help', color: 'red' },
+  { id: 'UNKNOWN', label: 'Can\'t Tell', color: 'slate' },
+];
+
+export default function ReportSighting() {
+  const router = useRouter();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [report, setReport] = useState<SightingReport>({
+    species: 'UNKNOWN',
+    breed: '',
+    color: '',
+    size: '',
+    condition: 'UNKNOWN',
+    sightingDate: new Date().toISOString().split('T')[0],
+    sightingTime: new Date().toTimeString().slice(0, 5),
+    location: '',
+    stillThere: null,
+    description: '',
+    reporterName: '',
+    reporterPhone: '',
+    reporterEmail: '',
+    canStayWithAnimal: false,
+  });
+
+  const updateReport = (updates: Partial<SightingReport>) => {
+    setReport(prev => ({ ...prev, ...updates }));
+  };
+
+  const handleNext = () => {
+    if (currentStep < 2) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log('Submitting sighting:', report);
+    router.push('/sighting/report/success');
+  };
+
+  // If critical condition, show emergency prompt
+  if (report.condition === 'CRITICAL' && currentStep === 0) {
+    return (
+      <main className="min-h-screen bg-slate-900 flex items-center justify-center px-6">
+        <div className="max-w-lg w-full">
+          <Card className="bg-red-900/50 border-red-700">
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-600 flex items-center justify-center">
+                <AlertCircle className="w-9 h-9 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-3">This animal needs urgent help</h1>
+              <p className="text-red-200 mb-6">
+                For critical emergencies, use our Emergency Assist to get immediate routing to help.
+              </p>
+              <div className="space-y-3">
+                <Link href="/emergency">
+                  <Button className="w-full bg-red-600 hover:bg-red-700 py-6 text-lg">
+                    Go to Emergency Assist
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  className="w-full border-red-700 text-red-200"
+                  onClick={() => updateReport({ condition: 'INJURED' })}
+                >
+                  Continue with sighting report
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-slate-900">
+      {/* Header */}
+      <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-10">
+        <div className="max-w-2xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+              <ChevronLeft className="w-5 h-5" />
+              <span>Back</span>
+            </Link>
+            <span className="text-sm text-slate-400">
+              Step {currentStep + 1} of 3
+            </span>
+          </div>
+          
+          {/* Progress */}
+          <div className="flex gap-2">
+            {[0, 1, 2].map((step) => (
+              <div
+                key={step}
+                className={`flex-1 h-1 rounded-full transition-colors ${
+                  step <= currentStep ? 'bg-emerald-500' : 'bg-slate-700'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </header>
+      
+      {/* Content */}
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        {currentStep === 0 && (
+          <AnimalDetailsStep report={report} updateReport={updateReport} onNext={handleNext} />
+        )}
+        {currentStep === 1 && (
+          <LocationStep report={report} updateReport={updateReport} onNext={handleNext} onBack={handleBack} />
+        )}
+        {currentStep === 2 && (
+          <ContactStep report={report} updateReport={updateReport} onSubmit={handleSubmit} onBack={handleBack} />
+        )}
+      </div>
+    </main>
+  );
+}
+
+function AnimalDetailsStep({ 
+  report, 
+  updateReport, 
+  onNext 
+}: { 
+  report: SightingReport; 
+  updateReport: (updates: Partial<SightingReport>) => void;
+  onNext: () => void;
+}) {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-white mb-2">What did you see?</h1>
+        <p className="text-slate-400 text-lg">Describe the animal as best you can</p>
+      </div>
+      
+      {/* Photo Upload */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-3">Photo (if possible)</label>
+        <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer">
+          <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
+          <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
+          <p className="text-slate-500 text-sm">Photos greatly help with identification</p>
+        </div>
+      </div>
+      
+      {/* Animal Condition - IMPORTANT */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-3">Animal&apos;s Condition</label>
+        <div className="grid grid-cols-2 gap-3">
+          {CONDITION_OPTIONS.map(({ id, label, color }) => (
+            <button
+              key={id}
+              onClick={() => updateReport({ condition: id as AnimalCondition })}
+              className={`p-4 rounded-xl border-2 transition-all text-left ${
+                report.condition === id
+                  ? `border-${color}-500 bg-${color}-500/10`
+                  : 'border-slate-700 hover:border-slate-600'
+              }`}
+            >
+              <span className={`font-medium ${report.condition === id ? `text-${color}-400` : 'text-slate-300'}`}>
+                {label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Species */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-3">Type of Animal</label>
+        <div className="grid grid-cols-5 gap-2">
+          {SPECIES_OPTIONS.map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              onClick={() => updateReport({ species: id as Species })}
+              className={`p-3 rounded-xl border-2 transition-all ${
+                report.species === id
+                  ? 'border-emerald-500 bg-emerald-500/10'
+                  : 'border-slate-700 hover:border-slate-600'
+              }`}
+            >
+              <Icon className={`w-6 h-6 mx-auto mb-1 ${report.species === id ? 'text-emerald-400' : 'text-slate-400'}`} />
+              <span className={`text-xs ${report.species === id ? 'text-emerald-400' : 'text-slate-400'}`}>{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Color */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Color/Markings</label>
+        <input
+          type="text"
+          value={report.color}
+          onChange={(e) => updateReport({ color: e.target.value })}
+          placeholder="e.g., Black, White with spots, Orange tabby"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Size */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Approximate Size</label>
+        <input
+          type="text"
+          value={report.size}
+          onChange={(e) => updateReport({ size: e.target.value })}
+          placeholder="e.g., Small, Medium, Large"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Additional details */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Any other details?</label>
+        <textarea
+          value={report.description}
+          onChange={(e) => updateReport({ description: e.target.value })}
+          placeholder="Collar? Tags? Behavior? Direction of travel?"
+          rows={3}
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 resize-none"
+        />
+      </div>
+      
+      <Button
+        size="lg"
+        className="w-full bg-emerald-600 hover:bg-emerald-700 py-6 text-lg"
+        onClick={onNext}
+      >
+        Continue
+        <ChevronRight className="w-5 h-5 ml-2" />
+      </Button>
+    </div>
+  );
+}
+
+function LocationStep({
+  report,
+  updateReport,
+  onNext,
+  onBack,
+}: {
+  report: SightingReport;
+  updateReport: (updates: Partial<SightingReport>) => void;
+  onNext: () => void;
+  onBack: () => void;
+}) {
+  const isValid = report.location;
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-white mb-2">Where did you see it?</h1>
+        <p className="text-slate-400 text-lg">Be as specific as possible</p>
+      </div>
+      
+      {/* Date */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          <Calendar className="w-4 h-4 inline mr-2" />
+          Date of Sighting
+        </label>
+        <input
+          type="date"
+          value={report.sightingDate}
+          onChange={(e) => updateReport({ sightingDate: e.target.value })}
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Time */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          <Clock className="w-4 h-4 inline mr-2" />
+          Time of Sighting
+        </label>
+        <input
+          type="time"
+          value={report.sightingTime}
+          onChange={(e) => updateReport({ sightingTime: e.target.value })}
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Location */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          <MapPin className="w-4 h-4 inline mr-2" />
+          Location *
+        </label>
+        <input
+          type="text"
+          value={report.location}
+          onChange={(e) => updateReport({ location: e.target.value })}
+          placeholder="Street address, intersection, or landmark"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+        <Button variant="outline" className="mt-3 border-slate-600 text-slate-300">
+          <MapPin className="w-4 h-4 mr-2" />
+          Use Current Location
+        </Button>
+      </div>
+      
+      {/* Still There? */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-3">Is the animal still there?</label>
+        <div className="grid grid-cols-3 gap-3">
+          {[{ value: true, label: 'Yes' }, { value: false, label: 'No' }, { value: null, label: 'Not Sure' }].map(opt => (
+            <button
+              key={String(opt.value)}
+              onClick={() => updateReport({ stillThere: opt.value })}
+              className={`py-4 rounded-xl border-2 transition-all ${
+                report.stillThere === opt.value
+                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                  : 'border-slate-700 text-slate-400 hover:border-slate-600'
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Can Stay */}
+      {report.stillThere === true && (
+        <Card className="bg-emerald-900/30 border-emerald-700/50">
+          <CardContent className="p-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={report.canStayWithAnimal}
+                onChange={(e) => updateReport({ canStayWithAnimal: e.target.checked })}
+                className="mt-1 w-5 h-5 rounded border-emerald-600 text-emerald-600 focus:ring-emerald-500"
+              />
+              <div>
+                <span className="font-medium text-emerald-300">I can stay with the animal</span>
+                <p className="text-emerald-200/70 text-sm mt-1">
+                  This greatly helps rescuers locate the animal. We&apos;ll keep you updated.
+                </p>
+              </div>
+            </label>
+          </CardContent>
+        </Card>
+      )}
+      
+      <div className="flex gap-3">
+        <Button
+          variant="outline"
+          size="lg"
+          className="flex-1 border-slate-600 text-slate-300 py-6"
+          onClick={onBack}
+        >
+          <ChevronLeft className="w-5 h-5 mr-2" />
+          Back
+        </Button>
+        <Button
+          size="lg"
+          className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-6"
+          onClick={onNext}
+          disabled={!isValid}
+        >
+          Continue
+          <ChevronRight className="w-5 h-5 ml-2" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function ContactStep({
+  report,
+  updateReport,
+  onSubmit,
+  onBack,
+}: {
+  report: SightingReport;
+  updateReport: (updates: Partial<SightingReport>) => void;
+  onSubmit: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-white mb-2">Almost done!</h1>
+        <p className="text-slate-400 text-lg">Your contact info (optional but helpful)</p>
+      </div>
+      
+      <Card className="bg-slate-800 border-slate-700">
+        <CardContent className="p-4">
+          <p className="text-slate-300 text-sm">
+            💡 <strong>You can submit anonymously</strong>, but providing contact info helps us follow up if we need more details.
+          </p>
+        </CardContent>
+      </Card>
+      
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Your Name</label>
+        <input
+          type="text"
+          value={report.reporterName}
+          onChange={(e) => updateReport({ reporterName: e.target.value })}
+          placeholder="Optional"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Phone */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number</label>
+        <input
+          type="tel"
+          value={report.reporterPhone}
+          onChange={(e) => updateReport({ reporterPhone: e.target.value })}
+          placeholder="Optional - for follow-up only"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      {/* Email */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
+        <input
+          type="email"
+          value={report.reporterEmail}
+          onChange={(e) => updateReport({ reporterEmail: e.target.value })}
+          placeholder="Optional"
+          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+        />
+      </div>
+      
+      <div className="flex gap-3">
+        <Button
+          variant="outline"
+          size="lg"
+          className="flex-1 border-slate-600 text-slate-300 py-6"
+          onClick={onBack}
+        >
+          <ChevronLeft className="w-5 h-5 mr-2" />
+          Back
+        </Button>
+        <Button
+          size="lg"
+          className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-6"
+          onClick={onSubmit}
+        >
+          Submit Sighting
+        </Button>
+      </div>
+    </div>
+  );
+}
