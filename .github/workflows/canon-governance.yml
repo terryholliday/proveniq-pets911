@@ -1,0 +1,33 @@
+name: Canonical Governance Enforcement
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/lib/ai/counselor-engine.ts'
+      - '__tests__/counselor-engine.test.ts'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/lib/ai/counselor-engine.ts'
+      - '__tests__/counselor-engine.test.ts'
+
+jobs:
+  governance-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run Governance Checks
+        run: node scripts/canon-governance.js
+        
+      - name: Run Tests
+        run: npm test -- --testPathPattern=counselor-engine

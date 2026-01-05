@@ -2,10 +2,32 @@
 
 import Link from 'next/link';
 import { AlertTriangle, Search, Eye, Heart, Users, ClipboardList, MessageCircleHeart } from 'lucide-react';
+import { NotificationCenter } from '@/components/notifications/NotificationCenter';
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-900">
+      {/* Header */}
+      <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Heart className="w-6 h-6 text-red-500" />
+              <span className="font-bold text-white">PROVENIQ Pets 911</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link 
+                href="/sightings" 
+                className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
+              >
+                Sightings
+              </Link>
+              <NotificationCenter />
+            </div>
+          </div>
+        </div>
+      </header>
+      
       {/* Hero - Emergency First */}
       <section className="relative min-h-[50vh] flex flex-col">
         {/* Background */}
@@ -43,7 +65,7 @@ export default function HomePage() {
       
       {/* What brings you here? */}
       <section className="px-6 py-12 bg-slate-900">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-3">
             What brings you here?
           </h2>
@@ -282,6 +304,9 @@ export default function HomePage() {
                 <li><Link href="/emergency" className="text-slate-400 hover:text-white transition-colors">Emergency Assist</Link></li>
                 <li><Link href="/missing" className="text-slate-400 hover:text-white transition-colors">Missing Pets Board</Link></li>
                 <li><Link href="/resources" className="text-slate-400 hover:text-white transition-colors">Resources</Link></li>
+                <li><Link href="/support" className="text-slate-400 hover:text-white transition-colors">Support Companion</Link></li>
+                <li><Link href="/help/safety" className="text-slate-400 hover:text-white transition-colors">Help &amp; Safety</Link></li>
+                <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors">About</Link></li>
               </ul>
             </div>
             <div>

@@ -19,8 +19,9 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { saveSightingReport } from '@/lib/db/indexed-db';
+import type { SightingReportExtended, Species } from '@/lib/types';
 
-type Species = 'DOG' | 'CAT' | 'BIRD' | 'OTHER' | 'UNKNOWN';
 type AnimalCondition = 'HEALTHY' | 'INJURED' | 'CRITICAL' | 'UNKNOWN';
 
 interface SightingReport {
@@ -38,6 +39,8 @@ interface SightingReport {
   reporterPhone: string;
   reporterEmail: string;
   canStayWithAnimal: boolean;
+  photo: File | null;
+  photoPreview: string | null;
 }
 
 const SPECIES_OPTIONS = [
@@ -73,6 +76,8 @@ export default function ReportSighting() {
     reporterPhone: '',
     reporterEmail: '',
     canStayWithAnimal: false,
+    photo: null,
+    photoPreview: null,
   });
 
   const updateReport = (updates: Partial<SightingReport>) => {
@@ -93,8 +98,46 @@ export default function ReportSighting() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('Submitting sighting:', report);
+    
+    // Determine priority based on canStayWithAnimal flag
+    const priority = report.canStayWithAnimal ? 'HIGH' : 'MEDIUM';
+    
+    // Convert photo to data URL if exists
+    let photoDataUrl: string | null = null;
+    if (report.photo) {
+      photoDataUrl = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target?.result as string);
+        reader.readAsDataURL(report.photo!);
+      });
+    }
+    
+    // Save to IndexedDB
+    const sightingId = await saveSightingReport({
+      species: report.species,
+      breed: report.breed,
+      color: report.color,
+      size: report.size,
+      condition: report.condition,
+      sightingDate: report.sightingDate,
+      sightingTime: report.sightingTime,
+      location: report.location,
+      stillThere: report.stillThere,
+      description: report.description,
+      reporterName: report.reporterName,
+      reporterPhone: report.reporterPhone,
+      reporterEmail: report.reporterEmail,
+      canStayWithAnimal: report.canStayWithAnimal,
+      photo_data_url: photoDataUrl,
+      priority: priority as 'HIGH' | 'MEDIUM' | 'LOW',
+      status: 'ACTIVE',
+    });
+    
+    console.log('Sighting saved with ID:', sightingId, 'Priority:', priority);
+    
+    // Navigate to success page
     router.push('/sighting/report/success');
   };
 
@@ -197,10 +240,50 @@ function AnimalDetailsStep({
       {/* Photo Upload */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">Photo (if possible)</label>
-        <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer">
-          <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
-          <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
-          <p className="text-slate-500 text-sm">Photos greatly help with identification</p>
+        <div className="space-y-4">
+          {report.photoPreview ? (
+            <div className="relative">
+              <img
+                src={report.photoPreview}
+                alt="Sighting photo"
+                className="w-full h-64 object-cover rounded-xl border-2 border-slate-700"
+              />
+              <button
+                onClick={() => {
+                  updateReport({ photo: null, photoPreview: null });
+                }}
+                className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
+              >
+                <AlertCircle className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <label className="block">
+              <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer">
+                <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
+                <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
+                <p className="text-slate-500 text-sm">Photos greatly help with identification</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                        updateReport({
+                          photo: file,
+                          photoPreview: e.target?.result as string,
+                        });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="hidden"
+                />
+              </div>
+            </label>
+          )}
         </div>
       </div>
       

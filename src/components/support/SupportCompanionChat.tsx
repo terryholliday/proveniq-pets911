@@ -446,12 +446,14 @@ export default function SupportCompanionChat({
   const [isTyping, setIsTyping] = useState(false);
   const [displayedResponse, setDisplayedResponse] = useState('');
   const [crisisType, setCrisisType] = useState<string | undefined>(initialCrisisType);
+  const [showQuickActions, setShowQuickActions] = useState(!initialCrisisType);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
+    if (showQuickActions) return;
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, displayedResponse]);
 
@@ -495,6 +497,7 @@ export default function SupportCompanionChat({
 
   // Handle quick action selection
   const handleQuickAction = (actionType: string) => {
+    setShowQuickActions(false);
     setCrisisType(actionType);
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -521,32 +524,37 @@ export default function SupportCompanionChat({
 
   // Handle message submission
   const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!inputValue.trim() || isTyping) return;
+    const handleSendMessage = () => {
+      if (!inputValue.trim()) return;
+      setShowQuickActions(false);
+      
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        role: 'user',
+        content: inputValue.trim(),
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, userMessage]);
+      setInputValue('');
+      setCompanionState('thinking');
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: inputValue.trim(),
-      timestamp: new Date()
+      // Generate response after thinking delay
+      setTimeout(() => {
+        const response = generateCompanionResponse(userMessage.content, messages, crisisType);
+        simulateTyping(response, () => {
+          setMessages(prev => [...prev, {
+            id: (Date.now() + 1).toString(),
+            role: 'companion',
+            content: response,
+            timestamp: new Date()
+          }]);
+        });
+      }, SUPPORT_COMPANION_CONFIG.thinkingDelay);
     };
-    
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setCompanionState('thinking');
 
-    // Generate response after thinking delay
-    setTimeout(() => {
-      const response = generateCompanionResponse(userMessage.content, messages, crisisType);
-      simulateTyping(response, () => {
-        setMessages(prev => [...prev, {
-          id: (Date.now() + 1).toString(),
-          role: 'companion',
-          content: response,
-          timestamp: new Date()
-        }]);
-      });
-    }, SUPPORT_COMPANION_CONFIG.thinkingDelay);
+    e?.preventDefault();
+    handleSendMessage();
   };
 
   const getQuickActionIcon = (type: string) => {
@@ -584,7 +592,7 @@ export default function SupportCompanionChat({
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Quick Actions (shown only at start) */}
-        {messages.length === 0 && !initialCrisisType && (
+        {showQuickActions && !initialCrisisType && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

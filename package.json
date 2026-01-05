@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "governance": "node scripts/canon-governance.js",
+    "pre-commit": "npm run governance && npm test -- --testPathPattern=counselor-engine"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",

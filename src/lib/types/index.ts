@@ -85,6 +85,58 @@ export type ConditionTriage = 'CRITICAL' | 'INJURED_STABLE' | 'HEALTHY';
 
 export type ConfidenceLevel = 'CERTAIN' | 'LIKELY' | 'UNSURE';
 
+export interface PetGoBagProfile {
+  id: string;
+  pet_name: string;
+  species: Species;
+  breed: string | null;
+  color: string | null;
+  microchip_id: string | null;
+  microchip_registry: string | null;
+  vet_name: string | null;
+  vet_phone: string | null;
+  vet_address: string | null;
+  medications: string | null;
+  notes: string | null;
+  photo_data_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SightingReportExtended {
+  id: string;
+  species: Species;
+  breed: string;
+  color: string;
+  size: string;
+  condition: string;
+  sightingDate: string;
+  sightingTime: string;
+  location: string;
+  stillThere: boolean | null;
+  description: string;
+  reporterName: string;
+  reporterPhone: string;
+  reporterEmail: string;
+  canStayWithAnimal: boolean;
+  photo_data_url: string | null;
+  priority: 'HIGH' | 'MEDIUM' | 'LOW';
+  status: 'ACTIVE' | 'IN_PROGRESS' | 'RESOLVED';
+  created_at: string;
+  updated_at: string;
+  estimatedArrival?: string;
+  rescuerAssigned?: string;
+  notifications: SightingNotification[];
+}
+
+export interface SightingNotification {
+  id: string;
+  type: 'STATUS_UPDATE' | 'ETA_UPDATE' | 'RESOLVER_ARRIVAL' | 'SAFETY_GUIDE';
+  message: string;
+  timestamp: string;
+  read: boolean;
+}
+
 // --- Infrastructure Entities ---
 
 export interface CountyPack {
