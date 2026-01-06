@@ -16,8 +16,8 @@ export default function HomePage() {
               <span className="font-bold text-white">PROVENIQ Pets 911</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link 
-                href="/sightings" 
+              <Link
+                href="/sightings"
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 Sightings
@@ -27,12 +27,12 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      
+
       {/* Hero - Emergency First */}
       <section className="relative min-h-[50vh] flex flex-col">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-red-600 via-red-700 to-slate-900" />
-        
+
         {/* Content */}
         <div className="relative flex-1 flex flex-col justify-center px-6 py-12">
           <div className="max-w-2xl mx-auto w-full text-center">
@@ -40,29 +40,29 @@ export default function HomePage() {
               <Heart className="w-4 h-4" />
               PROVENIQ Pets 911 • West Virginia
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-              Found an Animal<br/>That Needs Help?
+              Found an Animal<br />That Needs Help?
             </h1>
-            
+
             <p className="text-xl text-red-100 mb-8 max-w-md mx-auto">
               Get immediate access to emergency vets and animal control in your area.
             </p>
-            
+
             <Link href="/emergency" className="inline-block w-full max-w-sm">
               <div className="bg-white text-red-600 font-bold text-xl py-5 px-8 rounded-2xl shadow-2xl shadow-black/30 hover:bg-red-50 hover:scale-105 transition-all flex items-center justify-center gap-3">
                 <AlertTriangle className="w-7 h-7" />
                 EMERGENCY ASSIST
               </div>
             </Link>
-            
+
             <p className="text-red-200 text-sm mt-4">
               No sign-up required • Works offline
             </p>
           </div>
         </div>
       </section>
-      
+
       {/* What brings you here? */}
       <section className="px-6 py-12 bg-slate-900">
         <div className="max-w-4xl mx-auto">
@@ -72,7 +72,7 @@ export default function HomePage() {
           <p className="text-slate-400 text-center mb-8 text-lg">
             Choose the option that best describes your situation
           </p>
-          
+
           <div className="space-y-4">
             {/* Lost My Pet */}
             <Link href="/missing/report" className="block group">
@@ -89,7 +89,7 @@ export default function HomePage() {
                 </div>
               </div>
             </Link>
-            
+
             {/* Spotted a Lost Pet */}
             <Link href="/sighting/report" className="block group">
               <div className="bg-slate-800 border-2 border-slate-700 hover:border-emerald-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
@@ -105,7 +105,7 @@ export default function HomePage() {
                 </div>
               </div>
             </Link>
-            
+
             {/* Browse Missing Pets */}
             <Link href="/missing" className="block group">
               <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
@@ -121,23 +121,23 @@ export default function HomePage() {
                 </div>
               </div>
             </Link>
-            
-            {/* Register / Help */}
-            <Link href="/onboarding" className="block group">
+
+            {/* Register My Pet */}
+            <Link href="/register" className="block group">
               <div className="bg-slate-800 border-2 border-slate-700 hover:border-purple-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
                 <div className="flex items-center gap-5">
                   <div className="w-16 h-16 rounded-2xl bg-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <Users className="w-8 h-8 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Register & Help</h3>
-                    <p className="text-slate-400">Create a profile to get alerts and assist others</p>
+                    <h3 className="text-xl font-bold text-white mb-1">Register My Pet</h3>
+                    <p className="text-slate-400">Helps reunification if your pet is ever lost</p>
                   </div>
                   <span className="text-slate-500 text-2xl group-hover:text-purple-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
-            
+
             {/* Support Companion */}
             <Link href="/support" className="block group">
               <div className="bg-slate-800 border-2 border-slate-700 hover:border-teal-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
@@ -156,14 +156,14 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* What We Do / Don't Do */}
       <section className="px-6 py-16 bg-slate-800">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-white text-center mb-12">
             How We Help
           </h2>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             {/* What We Do */}
             <div className="bg-emerald-900/30 border border-emerald-700/50 rounded-2xl p-8">
@@ -196,7 +196,7 @@ export default function HomePage() {
                 </li>
               </ul>
             </div>
-            
+
             {/* What We Don't Do */}
             <div className="bg-red-900/30 border border-red-700/50 rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-6">
@@ -231,7 +231,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* FAQ / Resource Center */}
       <section className="px-6 py-16 bg-slate-900">
         <div className="max-w-3xl mx-auto">
@@ -241,41 +241,41 @@ export default function HomePage() {
           <p className="text-slate-400 text-center mb-12 text-lg">
             Frequently asked questions and helpful information
           </p>
-          
+
           <div className="space-y-4">
-            <FAQItem 
+            <FAQItem
               question="What should I do if I find an injured animal?"
               answer="Tap the EMERGENCY ASSIST button at the top of this page. You'll be guided through assessing the animal's condition and connected to the nearest emergency vet or animal control. No sign-up required."
             />
-            <FAQItem 
+            <FAQItem
               question="How does the Missing Pets Board work?"
               answer="Pet owners can post details and photos of their missing pets. Community members can browse the board and report sightings. Our moderators verify potential matches before connecting parties to prevent scams."
             />
-            <FAQItem 
+            <FAQItem
               question="Is this service free?"
               answer="Yes. PROVENIQ Pets 911 is free for all users. We're a pilot program serving Greenbrier and Kanawha counties in West Virginia."
             />
-            <FAQItem 
+            <FAQItem
               question="What is the Support Companion and how can it help me?"
               answer="The Support Companion is our empathetic AI guide designed to help you through pet-related crises. When you report a missing pet or need help, the Support Companion provides emotional support, practical search tips, and gentle guidance during a difficult time. It's like having a supportive friend available 24/7."
             />
-            <FAQItem 
+            <FAQItem
               question="How do you verify sightings and prevent scams?"
               answer="All potential matches go through human moderators before any contact info is shared. We use location verification, photo comparison, and behavior analysis. We never share your contact details without your explicit consent."
             />
-            <FAQItem 
+            <FAQItem
               question="Does the app work without internet?"
               answer="Yes. Emergency contacts, vet locations, and call scripts are cached on your device. You can access critical information even in areas with poor signal. Actions you take offline sync when you're back online."
             />
-            <FAQItem 
+            <FAQItem
               question="What counties do you serve?"
               answer="Currently we're piloting in Greenbrier County (Lewisburg, White Sulphur Springs) and Kanawha County (Charleston) in West Virginia. We plan to expand based on pilot results."
             />
           </div>
-          
+
           <div className="mt-12 text-center">
-            <Link 
-              href="/resources" 
+            <Link
+              href="/resources"
               className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
               View all resources
@@ -284,7 +284,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* Footer */}
       <footer className="px-6 py-8 bg-slate-950 border-t border-slate-800">
         <div className="max-w-4xl mx-auto">
