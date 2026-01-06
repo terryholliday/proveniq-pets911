@@ -143,7 +143,7 @@ CREATE TYPE municipal_outcome_enum AS ENUM (
 );
 ```
 
-### 1.8 User Role
+### 1.8 User/Custodian Role
 
 ```sql
 CREATE TYPE user_role_enum AS ENUM (
@@ -153,6 +153,23 @@ CREATE TYPE user_role_enum AS ENUM (
   'PIGPIG_MODERATOR',
   'SHELTER_MODERATOR',
   'SYSTEM_ADMIN'
+);
+
+CREATE TYPE custodian_type_enum AS ENUM (
+  'OWNER',
+  'SHELTER',
+  'RESCUER',
+  'VET'
+);
+```
+
+### 1.10 Reward Entry Type
+
+```sql
+CREATE TYPE reward_entry_type_enum AS ENUM (
+  'REGISTRATION',
+  'ANNUAL_SCAN',
+  'REUNIFICATION'
 );
 ```
 
@@ -389,37 +406,7 @@ CREATE INDEX idx_missing_case_location ON missing_pet_case(last_seen_lat, last_s
   WHERE last_seen_lat IS NOT NULL;
 ```
 
-### 4.2 pet_registration
-
-Permanent registration for pets (Microchip Registry replacement). 
-Allows owners to anchor pet data BEFORE they go missing.
-
-```sql
-CREATE TABLE pet_registration (
-  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  owner_id          UUID NOT NULL REFERENCES user_profile(id),
-  
-  -- Pet Details
-  pet_name          TEXT NOT NULL,
-  species           species_enum NOT NULL,
-  breed             TEXT,
-  microchip_id      TEXT NOT NULL UNIQUE,
-  microchip_issuer  TEXT,                      -- "HomeAgain", "AVID", etc.
-  
-  -- Verification
-  is_verified       BOOLEAN NOT NULL DEFAULT FALSE,
-  verified_at       TIMESTAMPTZ,
-  
-  -- Audit
-  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-CREATE UNIQUE INDEX idx_registration_chip ON pet_registration(microchip_id);
-CREATE INDEX idx_registration_owner ON pet_registration(owner_id);
-```
-
-### 4.3 found_animal_case
+### 4.2 found_animal_case
 
 Reported found animals.
 
@@ -496,7 +483,7 @@ CREATE INDEX idx_found_case_needs_vet ON found_animal_case(needs_immediate_vet)
   WHERE needs_immediate_vet = TRUE;
 ```
 
-### 4.4 sighting
+### 4.3 sighting
 
 Public sighting reports for missing pets.
 
@@ -554,7 +541,7 @@ CREATE INDEX idx_sighting_unlinked ON sighting(county, created_at)
   WHERE missing_case_id IS NULL;
 ```
 
-### 4.5 match_suggestion
+### 4.4 match_suggestion
 
 AI-suggested matches between found animals and missing pets.
 
@@ -830,7 +817,198 @@ CREATE INDEX idx_offline_expires ON offline_queued_action(expires_at);
 
 ---
 
-## 7. EVENT TAXONOMY
+## 7. REGISTRY LAYER (CANONICAL)
+
+Core Truth Layer for pet identification and custodial history.
+
+### 7.1 pets
+
+Master record for an individual animal.
+
+```sql
+CREATE TABLE pets (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  species         species_enum NOT NULL,
+  name            TEXT NOT NULL,
+  dob             DATE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+
+### 7.2 microchips
+
+Physical identification anchor.
+
+```sql
+CREATE TABLE microchips (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  iso_code        TEXT NOT NULL UNIQUE,       -- Standard 15-digit code
+  manufacturer    TEXT,
+  activated_at    TIMESTAMPTZ,
+  status          TEXT NOT NULL DEFAULT 'ACTIVE' -- 'ACTIVE', 'RETIRED'
+);
+
+CREATE UNIQUE INDEX idx_chip_iso ON microchips(iso_code);
+```
+
+### 7.3 pet_chip_link
+
+**IMMUTABLE BRIDGE** — Links a pet to a physical anchor.
+
+```sql
+CREATE TABLE pet_chip_link (
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  linked_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  is_immutable    BOOLEAN NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (pet_id, chip_id)
+);
+```
+
+### 7.4 custodians
+
+Entities with legal or temporary responsibility for a pet.
+
+```sql
+CREATE TABLE custodians (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type            custodian_type_enum NOT NULL,
+  user_id         UUID REFERENCES user_profile(id), -- Null if external entity
+  hashed_identity_ref TEXT,                         -- For non-app entities
+  name            TEXT,                             -- Display name
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_custodian_user ON custodians(user_id);
+```
+
+### 7.5 custody_history
+
+**THE LEDGER** — Timeline of custodial responsibility.
+
+```sql
+CREATE TABLE custody_history (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  custodian_id    UUID NOT NULL REFERENCES custodians(id),
+  role            TEXT NOT NULL,                    -- 'LEGAL_OWNER', 'TEMPORARY_SHELTER'
+  effective_from  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  effective_to    TIMESTAMPTZ,                      -- Null for current status
+  notes           TEXT
+);
+
+CREATE INDEX idx_custody_pet ON custody_history(pet_id);
+CREATE INDEX idx_custody_current ON custody_history(pet_id) 
+  WHERE effective_to IS NULL;
+```
+
+### 7.6 verification_events
+
+**APPEND-ONLY LEDGER** — Physical proof of chip presence.
+
+```sql
+CREATE TABLE verification_events (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  verified_by     UUID NOT NULL REFERENCES custodians(id),
+  method          TEXT NOT NULL,                    -- 'SCAN', 'CERTIFICATE', 'SIGHTING'
+  verified_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- RLS: NO UPDATE, NO DELETE
+CREATE INDEX idx_verification_chip ON verification_events(chip_id);
+```
+
+### 7.7 lost_found_events
+
+Registry-level status tracking.
+
+```sql
+CREATE TABLE lost_found_events (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  status          TEXT NOT NULL,                    -- 'LOST', 'FOUND', 'REUNITED'
+  reported_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  resolved_at     TIMESTAMPTZ
+);
+
+CREATE INDEX idx_lf_pet_status ON lost_found_events(pet_id, status);
+```
+
+CREATE INDEX idx_lf_pet_status ON lost_found_events(pet_id, status);
+```
+
+---
+
+## 8. HOMEWARD REWARDS (INCENTIVE LAYER)
+
+Incentivizes registration and annual verification behavior.
+
+### 8.1 homeward_entries
+
+Eligible actions for reward drawings.
+
+```sql
+CREATE TABLE homeward_entries (
+  entry_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  entry_type      reward_entry_type_enum NOT NULL,
+  period          TEXT NOT NULL,                    -- e.g., '2026-Q1'
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_reward_entry_chip ON homeward_entries(chip_id);
+```
+
+### 8.2 drawings
+
+Record of prize selection events.
+
+```sql
+CREATE TABLE drawings (
+  drawing_id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  period          TEXT NOT NULL,
+  conducted_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  method_hash     TEXT NOT NULL,                    -- Verifiable random seed/method
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+
+### 8.3 prizes
+
+Inventory of available incentives.
+
+```sql
+CREATE TABLE prizes (
+  prize_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type            TEXT NOT NULL,
+  value_cap       DECIMAL(10,2) NOT NULL CHECK (value_cap <= 250),
+  restricted_use  BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+
+### 8.4 winners
+
+Tracking selection and fulfillment.
+
+```sql
+CREATE TABLE winners (
+  winner_id       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  drawing_id      UUID NOT NULL REFERENCES drawings(drawing_id),
+  entry_id        UUID NOT NULL REFERENCES homeward_entries(entry_id),
+  notified_at     TIMESTAMPTZ,
+  accepted_at     TIMESTAMPTZ,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_winner_drawing ON winners(drawing_id);
+CREATE UNIQUE INDEX idx_winner_entry ON winners(entry_id);
+```
+
+---
+
+## 9. EVENT TAXONOMY
 
 All significant state changes spawn events. This taxonomy defines the canonical event types.
 
@@ -882,7 +1060,7 @@ All significant state changes spawn events. This taxonomy defines the canonical 
 
 ---
 
-## 8. VIEW DEFINITIONS
+## 10. VIEW DEFINITIONS
 
 ### 8.1 Active Cases Summary
 
@@ -941,7 +1119,7 @@ ORDER BY ms.confidence_score DESC;
 
 ---
 
-## 9. ROW LEVEL SECURITY (RLS) POLICIES
+## 11. ROW LEVEL SECURITY (RLS) POLICIES
 
 ### 9.1 General Principles
 
@@ -981,7 +1159,7 @@ CREATE POLICY "moderator_access" ON missing_pet_case
 
 ---
 
-## 10. TRIGGER DEFINITIONS
+## 12. TRIGGER DEFINITIONS
 
 ### 10.1 Audit Timestamp Updates
 
@@ -1052,7 +1230,7 @@ CREATE TRIGGER trg_found_case_metric
 
 ---
 
-## 11. MIGRATION SEQUENCE
+## 13. MIGRATION SEQUENCE
 
 Initial migration order (respecting foreign key dependencies):
 
@@ -1061,19 +1239,29 @@ Initial migration order (respecting foreign key dependencies):
 3. `emergency_contact`
 4. `aco_availability_override`
 5. `user_profile`
-6. `missing_pet_case`
-7. `pet_registration`
-8. `found_animal_case`
-9. `sighting`
-10. `match_suggestion`
-11. `moderator_action`
-12. `emergency_vet_notify_attempt`
-13. `municipal_interaction_log`
-14. `pilot_metrics_log`
-15. `offline_queued_action`
-16. Create views
-17. Create triggers
-18. Enable RLS policies
+6. `pets`
+7. `microchips`
+8. `pet_chip_link`
+9. `custodians`
+10. `custody_history`
+11. `verification_events`
+12. `lost_found_events`
+13. `homeward_entries`
+14. `drawings`
+15. `prizes`
+16. `winners`
+17. `missing_pet_case`
+18. `found_animal_case`
+19. `sighting`
+20. `match_suggestion`
+21. `moderator_action`
+22. `emergency_vet_notify_attempt`
+23. `municipal_interaction_log`
+24. `pilot_metrics_log`
+25. `offline_queued_action`
+26. Create views
+27. Create triggers
+28. Enable RLS policies
 
 ---
 

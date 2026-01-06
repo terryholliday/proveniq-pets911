@@ -1,4 +1,4 @@
-# PROVENIQ Pets (WV) - Pilot PWA
+# PROVENIQ Pet 911 (WV) - Pilot PWA
 
 Emergency coordination for lost and found pets in West Virginia. Offline-first PWA with moderator console.
 

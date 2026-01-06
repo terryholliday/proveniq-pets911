@@ -235,7 +235,7 @@ export const ORI_API_CONFIG = {
     endSession: '/ori/sessions/{sessionId}/end',
   },
   headers: {
-    'X-Origins-App': 'proveniq-pets-911',
+    'X-Origins-App': 'proveniq-pet-911',
     'X-Origins-Character': 'empathy',
   },
 };

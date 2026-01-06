@@ -83,6 +83,19 @@ CREATE TYPE user_role_enum AS ENUM (
   'SYSTEM_ADMIN'
 );
 
+CREATE TYPE custodian_type_enum AS ENUM (
+  'OWNER',
+  'SHELTER',
+  'RESCUER',
+  'VET'
+);
+
+CREATE TYPE reward_entry_type_enum AS ENUM (
+  'REGISTRATION',
+  'ANNUAL_SCAN',
+  'REUNIFICATION'
+);
+
 CREATE TYPE metrics_action_enum AS ENUM (
   'CASE_CREATED_MISSING',
   'CASE_CREATED_FOUND',
@@ -193,27 +206,118 @@ CREATE TRIGGER update_user_profile_updated_at
 BEFORE UPDATE ON user_profile
 FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 
--- ## 4.2 pet_registration (Microchip Registry Replacement)
-CREATE TABLE pet_registration (
-  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  owner_id          UUID NOT NULL REFERENCES user_profile(id),
-  pet_name          TEXT NOT NULL,
-  species           species_enum NOT NULL,
-  breed             TEXT,
-  microchip_id      TEXT NOT NULL UNIQUE,
-  microchip_issuer  TEXT,
-  is_verified       BOOLEAN NOT NULL DEFAULT FALSE,
-  verified_at       TIMESTAMPTZ,
-  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+-- #############################################################################
+-- # 5. REGISTRY LAYER
+-- #############################################################################
+
+CREATE TABLE pets (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  species         species_enum NOT NULL,
+  name            TEXT NOT NULL,
+  dob             DATE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TRIGGER update_pet_registration_updated_at
-BEFORE UPDATE ON pet_registration
-FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+CREATE TABLE microchips (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  iso_code        TEXT NOT NULL UNIQUE,
+  manufacturer    TEXT,
+  activated_at    TIMESTAMPTZ,
+  status          TEXT NOT NULL DEFAULT 'ACTIVE'
+);
+
+CREATE TABLE pet_chip_link (
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  linked_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  is_immutable    BOOLEAN NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (pet_id, chip_id)
+);
+
+-- Safeguard: Prevent updating or deleting pet_chip_link if is_immutable is true
+CREATE RULE no_update_immutable_link AS ON UPDATE TO pet_chip_link 
+  WHERE OLD.is_immutable = TRUE DO INSTEAD NOTHING;
+CREATE RULE no_delete_immutable_link AS ON DELETE TO pet_chip_link 
+  WHERE OLD.is_immutable = TRUE DO INSTEAD NOTHING;
+
+CREATE TABLE custodians (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type            custodian_type_enum NOT NULL,
+  user_id         UUID REFERENCES user_profile(id),
+  hashed_identity_ref TEXT,
+  name            TEXT,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE custody_history (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  custodian_id    UUID NOT NULL REFERENCES custodians(id),
+  role            TEXT NOT NULL,
+  effective_from  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  effective_to    TIMESTAMPTZ,
+  notes           TEXT
+);
+
+CREATE TABLE verification_events (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  verified_by     UUID NOT NULL REFERENCES custodians(id),
+  method          TEXT NOT NULL,
+  verified_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Append-only safeguards for verification_events
+CREATE RULE no_update_verification AS ON UPDATE TO verification_events DO INSTEAD NOTHING;
+CREATE RULE no_delete_verification AS ON DELETE TO verification_events DO INSTEAD NOTHING;
+
+CREATE TABLE lost_found_events (
+  event_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id          UUID NOT NULL REFERENCES pets(id),
+  status          TEXT NOT NULL,
+  reported_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  resolved_at     TIMESTAMPTZ
+);
 
 -- #############################################################################
--- # 5. CASE LAYER
+-- # 5.5 HOMEWARD REWARDS
+-- #############################################################################
+
+CREATE TABLE homeward_entries (
+  entry_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  chip_id         UUID NOT NULL REFERENCES microchips(id),
+  entry_type      reward_entry_type_enum NOT NULL,
+  period          TEXT NOT NULL,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE drawings (
+  drawing_id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  period          TEXT NOT NULL,
+  conducted_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  method_hash     TEXT NOT NULL,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE prizes (
+  prize_id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type            TEXT NOT NULL,
+  value_cap       DECIMAL(10,2) NOT NULL CHECK (value_cap <= 250),
+  restricted_use  BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE winners (
+  winner_id       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  drawing_id      UUID NOT NULL REFERENCES drawings(drawing_id),
+  entry_id        UUID NOT NULL REFERENCES homeward_entries(entry_id),
+  notified_at     TIMESTAMPTZ,
+  accepted_at     TIMESTAMPTZ,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- #############################################################################
+-- # 6. CASE LAYER
 -- #############################################################################
 
 CREATE TABLE missing_pet_case (
@@ -467,6 +571,19 @@ CREATE INDEX idx_municipal_time ON municipal_interaction_log(created_at DESC);
 CREATE INDEX idx_metrics_time ON pilot_metrics_log(timestamp DESC);
 CREATE INDEX idx_offline_pending ON offline_queued_action(sync_status) WHERE sync_status = 'PENDING';
 
+-- Registry Indexes
+CREATE INDEX idx_pets_species ON pets(species);
+CREATE INDEX idx_custodian_user ON custodians(user_id);
+CREATE INDEX idx_custody_pet ON custody_history(pet_id);
+CREATE INDEX idx_custody_current ON custody_history(pet_id) WHERE effective_to IS NULL;
+CREATE INDEX idx_verification_chip ON verification_events(chip_id);
+CREATE INDEX idx_lf_pet_status ON lost_found_events(pet_id, status);
+
+-- Homeward Rewards Indexes
+CREATE INDEX idx_reward_entry_chip ON homeward_entries(chip_id);
+CREATE INDEX idx_winner_drawing ON winners(drawing_id);
+CREATE UNIQUE INDEX idx_winner_entry ON winners(entry_id);
+
 -- #############################################################################
 -- # 9. ROW-LEVEL SECURITY (RLS)
 -- #############################################################################
@@ -481,10 +598,23 @@ ALTER TABLE sighting ENABLE ROW LEVEL SECURITY;
 ALTER TABLE match_suggestion ENABLE ROW LEVEL SECURITY;
 ALTER TABLE moderator_action ENABLE ROW LEVEL SECURITY;
 ALTER TABLE emergency_vet_notify_attempt ENABLE ROW LEVEL SECURITY;
-ALTER TABLE municipal_interaction_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pilot_metrics_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE offline_queued_action ENABLE ROW LEVEL SECURITY;
-ALTER TABLE pet_registration ENABLE ROW LEVEL SECURITY;
+
+-- Enable RLS for Registry Tables
+ALTER TABLE pets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE microchips ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pet_chip_link ENABLE ROW LEVEL SECURITY;
+ALTER TABLE custodians ENABLE ROW LEVEL SECURITY;
+ALTER TABLE custody_history ENABLE ROW LEVEL SECURITY;
+ALTER TABLE verification_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE lost_found_events ENABLE ROW LEVEL SECURITY;
+
+-- Enable RLS for Rewards Tables
+ALTER TABLE homeward_entries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE drawings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE prizes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE winners ENABLE ROW LEVEL SECURITY;
 
 -- Help function to get current user ID from firebase_uid
 CREATE OR REPLACE FUNCTION get_current_user_id() 
@@ -573,7 +703,6 @@ CREATE POLICY "moderators_read_all_municipal_logs" ON municipal_interaction_log 
 USING (is_moderator());
 
 -- ## 9.11 pilot_metrics_log policies
-CREATE POLICY "allow_app_insert_metrics" ON pilot_metrics_log FOR INSERT WITH CHECK (true);
 CREATE POLICY "admin_read_metrics" ON pilot_metrics_log FOR SELECT 
 USING (EXISTS (SELECT 1 FROM user_profile WHERE firebase_uid = auth.uid()::TEXT AND role = 'SYSTEM_ADMIN'));
 
@@ -581,9 +710,62 @@ USING (EXISTS (SELECT 1 FROM user_profile WHERE firebase_uid = auth.uid()::TEXT 
 CREATE POLICY "users_manage_own_offline_actions" ON offline_queued_action FOR ALL 
 USING (user_id = get_current_user_id()) WITH CHECK (user_id = get_current_user_id());
 
--- ## 9.13 pet_registration policies
-CREATE POLICY "owners_manage_own_registrations" ON pet_registration FOR ALL 
-USING (owner_id = get_current_user_id()) WITH CHECK (owner_id = get_current_user_id());
+-- ## 9.13 Registry Policies
 
-CREATE POLICY "moderators_read_all_registrations" ON pet_registration FOR SELECT 
-USING (is_moderator());
+CREATE POLICY "public_read_pets" ON pets FOR SELECT USING (true);
+CREATE POLICY "public_read_microchips" ON microchips FOR SELECT USING (true);
+CREATE POLICY "public_read_links" ON pet_chip_link FOR SELECT USING (true);
+
+CREATE POLICY "custodians_read_own_data" ON custodians FOR SELECT 
+USING (user_id = get_current_user_id() OR is_moderator());
+
+CREATE POLICY "custodians_read_history" ON custody_history FOR SELECT 
+USING (EXISTS (SELECT 1 FROM custodians WHERE id = custodian_id AND user_id = get_current_user_id()) OR is_moderator());
+
+CREATE POLICY "public_read_verification_events" ON verification_events FOR SELECT USING (true);
+CREATE POLICY "public_read_lost_found_events" ON lost_found_events FOR SELECT USING (true);
+
+-- Moderators can manage all registry data
+CREATE POLICY "moderators_manage_registry" ON pets FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_chips" ON microchips FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_links" ON pet_chip_link FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_custodians" ON custodians FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_history" ON custody_history FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_verifications" ON verification_events FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_lf_events" ON lost_found_events FOR ALL USING (is_moderator());
+
+-- ## 9.14 Homeward Rewards Policies
+
+CREATE POLICY "public_read_drawings" ON drawings FOR SELECT USING (true);
+CREATE POLICY "public_read_prizes" ON prizes FOR SELECT USING (true);
+
+CREATE POLICY "custodians_read_own_entries" ON homeward_entries FOR SELECT 
+USING (
+  EXISTS (
+    SELECT 1 FROM pet_chip_link pcl
+    JOIN custody_history ch ON pcl.pet_id = ch.pet_id
+    JOIN custodians c ON ch.custodian_id = c.id
+    WHERE pcl.chip_id = homeward_entries.chip_id 
+      AND c.user_id = get_current_user_id()
+      AND ch.effective_to IS NULL
+  ) OR is_moderator()
+);
+
+CREATE POLICY "custodians_read_own_wins" ON winners FOR SELECT 
+USING (
+  EXISTS (
+    SELECT 1 FROM homeward_entries he
+    JOIN pet_chip_link pcl ON he.chip_id = pcl.chip_id
+    JOIN custody_history ch ON pcl.pet_id = ch.pet_id
+    JOIN custodians c ON ch.custodian_id = c.id
+    WHERE he.entry_id = winners.entry_id
+      AND c.user_id = get_current_user_id()
+      AND ch.effective_to IS NULL
+  ) OR is_moderator()
+);
+
+-- Moderators manage rewards (conducting drawings, assigning prizes)
+CREATE POLICY "moderators_manage_entries" ON homeward_entries FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_drawings" ON drawings FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_prizes" ON prizes FOR ALL USING (is_moderator());
+CREATE POLICY "moderators_manage_winners" ON winners FOR ALL USING (is_moderator());
