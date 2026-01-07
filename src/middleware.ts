@@ -99,14 +99,15 @@ function getDomainType(hostname: string): DomainType | 'DEV' | null {
     host = host.split(':')[0];
   }
 
-  // Check development
+  // Check development and deployment previews
   if (
     DEV_HOSTNAMES.includes(host) ||
     host.startsWith('192.168.') ||
     host.startsWith('10.') ||
     host.startsWith('172.') ||
     host === '[::1]' ||
-    host.endsWith('.local')
+    host.endsWith('.local') ||
+    host.endsWith('.vercel.app')
   ) {
     return 'DEV';
   }
