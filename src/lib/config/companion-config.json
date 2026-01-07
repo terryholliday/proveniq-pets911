@@ -1,4 +1,3 @@
-```json
 {
     "VERSION": "3.0.0_WORLD_CLASS_PRODUCTION",
     "SYSTEM_IDENTITY": {
@@ -1860,7 +1859,7 @@
             ]
         },
         "theft_dispute": {
-            "response": "I can hear how angry and terrified you are. However, for your safety and your pet's safety, please pause.\n\n**DO NOT confront the person violently or try to break into their property.**\n• You could be injured or arrested.\n• Confrontation can cause the person to hide or harm the pet.\n\n**Effective steps:**\n1) Gather documentation (photos, microchip/vet records).\n2) File a police report (even if they say "civil matter").\n3) Consider a certified demand letter.\n4) Consider court remedies (often replevin / return of property).\n\nDo you have documentation that proves you're the possible owner?",
+            "response": "I can hear how angry and terrified you are. However, for your safety and your pet's safety, please pause.\n\n**DO NOT confront the person violently or try to break into their property.**\n• You could be injured or arrested.\n• Confrontation can cause the person to hide or harm the pet.\n\n**Effective steps:**\n1) Gather documentation (photos, microchip/vet records).\n2) File a police report (even if they say \"civil matter\").\n3) Consider a certified demand letter.\n4) Consider court remedies (often replevin / return of property).\n\nDo you have documentation that proves you're the possible owner?",
             "escalation": "HIGH",
             "mustContain": [
                 "DO NOT",
@@ -1896,7 +1895,7 @@
             ]
         },
         "scam_alert": {
-            "response": "**🚨 SCAM ALERT** — what you're describing has multiple red flags.\n\n⚠️\n\n**NEVER:**\n• Share verification codes\n• Send money to "hold" or "ship" a pet via Zelle/CashApp/Western Union\n• Trust a "Flight Nanny" you haven't met\n• Pay before meeting the pet\n\nPrefer in-person meetups at a public place (or shelter/vet) and verify microchip/vet records when possible.\n\nIf you want, tell me exactly what they asked for (no personal info) and I'll point out the red flags.",
+            "response": "**🚨 SCAM ALERT** — what you're describing has multiple red flags.\n\n⚠️\n\n**NEVER:**\n• Share verification codes\n• Send money to \"hold\" or \"ship\" a pet via Zelle/CashApp/Western Union\n• Trust a \"Flight Nanny\" you haven't met\n• Pay before meeting the pet\n\nPrefer in-person meetups at a public place (or shelter/vet) and verify microchip/vet records when possible.\n\nIf you want, tell me exactly what they asked for (no personal info) and I'll point out the red flags.",
             "escalation": "STANDARD",
             "visualAid": true
         },
@@ -2193,4 +2192,3 @@
         }
     }
 }
-```
