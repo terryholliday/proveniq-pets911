@@ -23,17 +23,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       try {
         const { getSightingReports } = await import('@/lib/db/indexed-db');
         const reports = await getSightingReports();
-        
+
         // Flatten all notifications
-        const allNotifications = reports.flatMap(report => 
-          report.notifications.map(notif => ({ ...notif, sightingId: report.id }))
+        const allNotifications = reports.flatMap(report =>
+          (report.notifications || []).map(notif => ({ ...notif, sightingId: report.id }))
         );
-        
+
         // Sort by timestamp (newest first)
-        allNotifications.sort((a, b) => 
+        allNotifications.sort((a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         );
-        
+
         setNotifications(allNotifications);
       } catch (error) {
         console.error('Failed to load notifications:', error);
@@ -48,10 +48,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     // Reload notifications
     const { getSightingReports } = await import('@/lib/db/indexed-db');
     const reports = await getSightingReports();
-    const allNotifications = reports.flatMap(report => 
-      report.notifications.map(notif => ({ ...notif, sightingId: report.id }))
+    const allNotifications = reports.flatMap(report =>
+      (report.notifications || []).map(notif => ({ ...notif, sightingId: report.id }))
     );
-    allNotifications.sort((a, b) => 
+    allNotifications.sort((a, b) =>
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
     setNotifications(allNotifications);
@@ -59,8 +59,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   const markAsRead = async (sightingId: string, notificationIds?: string[]) => {
     await markNotificationsRead(sightingId, notificationIds);
-    setNotifications(prev => 
-      prev.map(notif => 
+    setNotifications(prev =>
+      prev.map(notif =>
         (notif.sightingId === sightingId && (!notificationIds || notificationIds.includes(notif.id)))
           ? { ...notif, read: true }
           : notif

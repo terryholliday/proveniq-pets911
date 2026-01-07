@@ -1,11 +1,11 @@
-import { 
-  getPendingActions, 
-  markAsSyncing, 
-  markAsSynced, 
-  markAsFailed, 
+import {
+  getPendingActions,
+  markAsSyncing,
+  markAsSynced,
+  markAsFailed,
   markAsConflict,
   incrementRetry,
-  getAction 
+  getAction
 } from '@/lib/db/offline-queue-store';
 import { getEndpointForAction } from '@/lib/api/client';
 import type { OfflineQueuedAction, SyncStatus } from '@/lib/types';
@@ -41,7 +41,7 @@ interface SyncEventDetail {
  * Per OFFLINE_PROTOCOL.md
  */
 function calculateDelay(attempt: number): number {
-  const exponential = RETRY_CONFIG.base_delay_ms * 
+  const exponential = RETRY_CONFIG.base_delay_ms *
     Math.pow(RETRY_CONFIG.backoff_factor, attempt - 1);
   const capped = Math.min(exponential, RETRY_CONFIG.max_delay_ms);
   const jitter = capped * RETRY_CONFIG.jitter_factor * Math.random();
@@ -63,12 +63,12 @@ async function getAuthToken(): Promise<string | null> {
 async function syncAction(action: OfflineQueuedAction): Promise<SyncResult> {
   const endpoint = getEndpointForAction(action.action_type);
   const token = await getAuthToken();
-  
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     'Idempotency-Key': action.idempotency_key,
   };
-  
+
   if (token) {
     (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
   }
@@ -93,9 +93,9 @@ async function syncAction(action: OfflineQueuedAction): Promise<SyncResult> {
     if (response.status >= 400 && response.status < 500) {
       // Client error - do not retry
       const errorData = await response.json().catch(() => ({}));
-      return { 
-        status: 'FAILED', 
-        error: errorData.error?.message || `Client error: ${response.status}` 
+      return {
+        status: 'FAILED',
+        error: errorData.error?.message || `Client error: ${response.status}`
       };
     }
 
@@ -104,9 +104,9 @@ async function syncAction(action: OfflineQueuedAction): Promise<SyncResult> {
 
   } catch (error) {
     // Network error or server error - mark as pending for retry
-    return { 
-      status: 'PENDING', 
-      error: error instanceof Error ? error.message : 'Unknown error' 
+    return {
+      status: 'PENDING',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -130,14 +130,14 @@ export async function processQueue(): Promise<{
   pending: number;
 }> {
   const pendingActions = await getPendingActions();
-  
+
   if (pendingActions.length === 0) {
     return { synced: 0, failed: 0, pending: 0 };
   }
 
-  emitSyncEvent({ 
-    type: 'sync_started', 
-    total: pendingActions.length 
+  emitSyncEvent({
+    type: 'sync_started',
+    total: pendingActions.length
   });
 
   let synced = 0;
@@ -150,8 +150,8 @@ export async function processQueue(): Promise<{
     if (action.sync_attempts >= RETRY_CONFIG.max_attempts) {
       await markAsFailed(action.id, 'Max retry attempts exceeded');
       failed++;
-      emitSyncEvent({ 
-        type: 'action_failed', 
+      emitSyncEvent({
+        type: 'action_failed',
         actionId: action.id,
         error: 'Max retry attempts exceeded'
       });
@@ -166,11 +166,12 @@ export async function processQueue(): Promise<{
 
     switch (result.status) {
       case 'SYNCED':
-        const entityId = result.data?.data?.id || 
-                        result.data?.data?.case?.id || 
-                        result.data?.data?.sighting?.id ||
-                        result.data?.data?.log_id ||
-                        'unknown';
+        const data = result.data as any;
+        const entityId = data?.data?.id ||
+          data?.data?.case?.id ||
+          data?.data?.sighting?.id ||
+          data?.data?.log_id ||
+          'unknown';
         await markAsSynced(action.id, String(entityId));
         synced++;
         emitSyncEvent({ type: 'action_synced', actionId: action.id });
@@ -184,8 +185,8 @@ export async function processQueue(): Promise<{
       case 'FAILED':
         await markAsFailed(action.id, result.error || 'Unknown error');
         failed++;
-        emitSyncEvent({ 
-          type: 'action_failed', 
+        emitSyncEvent({
+          type: 'action_failed',
           actionId: action.id,
           error: result.error
         });
@@ -195,7 +196,7 @@ export async function processQueue(): Promise<{
         // Increment retry counter and keep as pending
         const attempts = await incrementRetry(action.id);
         pending++;
-        
+
         // If this was a network error and we have more attempts, wait before continuing
         if (attempts < RETRY_CONFIG.max_attempts) {
           const delay = calculateDelay(attempts);
@@ -205,11 +206,11 @@ export async function processQueue(): Promise<{
     }
   }
 
-  emitSyncEvent({ 
-    type: 'sync_completed', 
-    synced, 
-    failed, 
-    total: pendingActions.length 
+  emitSyncEvent({
+    type: 'sync_completed',
+    synced,
+    failed,
+    total: pendingActions.length
   });
 
   return { synced, failed, pending };
@@ -229,12 +230,12 @@ export function scheduleSyncOnReconnect(): void {
     if (syncTimeout) {
       clearTimeout(syncTimeout);
     }
-    
+
     syncTimeout = setTimeout(() => {
       processQueue().catch(error => {
-        emitSyncEvent({ 
-          type: 'sync_error', 
-          error: error instanceof Error ? error.message : 'Sync failed' 
+        emitSyncEvent({
+          type: 'sync_error',
+          error: error instanceof Error ? error.message : 'Sync failed'
         });
       });
     }, 2000);
@@ -252,7 +253,7 @@ export async function triggerSync(): Promise<{
   if (typeof navigator !== 'undefined' && !navigator.onLine) {
     return { synced: 0, failed: 0, pending: 0 };
   }
-  
+
   return processQueue();
 }
 
@@ -263,17 +264,17 @@ export async function triggerSync(): Promise<{
 export async function canSyncAction(action: OfflineQueuedAction): Promise<boolean> {
   // Check if this action depends on a local case ID that hasn't synced yet
   const payload = action.payload as Record<string, unknown>;
-  
+
   if (action.action_type === 'CREATE_SIGHTING' && payload.missing_case_id) {
     // Check if the case ID is a local ID (not synced yet)
     const caseId = payload.missing_case_id as string;
     const dependentAction = await getAction(caseId);
-    
+
     if (dependentAction && dependentAction.sync_status !== 'SYNCED') {
       return false;
     }
   }
-  
+
   return true;
 }
 

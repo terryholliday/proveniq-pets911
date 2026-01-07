@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SyncStatus } from '@/lib/types';
 
 /**
  * POST /api/sync/queue
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
       action_type: string;
       payload: Record<string, unknown>;
       created_at: string;
-    }) => {
+    }): { idempotency_key: string; status: SyncStatus; error?: string; resolved_entity_id?: string } => {
       // Simulate checking for duplicate idempotency key
       // In production, this would query the database
       const isDuplicate = false; // Math.random() < 0.1; // 10% chance of being a duplicate

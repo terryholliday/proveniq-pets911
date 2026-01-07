@@ -7,17 +7,17 @@
 
 export type County = 'GREENBRIER' | 'KANAWHA';
 
-export type Species = 
-  | 'DOG' 
-  | 'CAT' 
-  | 'BIRD' 
-  | 'RABBIT' 
-  | 'REPTILE' 
-  | 'SMALL_MAMMAL' 
-  | 'LIVESTOCK' 
+export type Species =
+  | 'DOG'
+  | 'CAT'
+  | 'BIRD'
+  | 'RABBIT'
+  | 'REPTILE'
+  | 'SMALL_MAMMAL'
+  | 'LIVESTOCK'
   | 'OTHER';
 
-export type CaseStatus = 
+export type CaseStatus =
   | 'ACTIVE'
   | 'PENDING_VERIFY'
   | 'MATCHED'
@@ -28,7 +28,7 @@ export type CaseStatus =
   | 'CLOSED_DUPLICATE'
   | 'LOCKED';
 
-export type ContactType = 
+export type ContactType =
   | 'ER_VET'
   | 'SHELTER'
   | 'ANIMAL_CONTROL'
@@ -36,7 +36,7 @@ export type ContactType =
   | 'RESCUE_ORG'
   | 'OTHER';
 
-export type NotificationStatus = 
+export type NotificationStatus =
   | 'QUEUED'
   | 'ATTEMPTED'
   | 'SENT'
@@ -44,7 +44,7 @@ export type NotificationStatus =
   | 'FAILED'
   | 'EXPIRED';
 
-export type ModeratorActionType = 
+export type ModeratorActionType =
   | 'LOCK_CASE'
   | 'UNLOCK_CASE'
   | 'ESCALATE_TO_SHELTER'
@@ -56,7 +56,7 @@ export type ModeratorActionType =
   | 'FLAG_ABUSE'
   | 'CLOSE_CASE';
 
-export type MunicipalOutcome = 
+export type MunicipalOutcome =
   | 'OFFICER_DISPATCHED'
   | 'CALLBACK_PROMISED'
   | 'NO_ANSWER'
@@ -64,7 +64,7 @@ export type MunicipalOutcome =
   | 'DECLINED'
   | 'UNKNOWN';
 
-export type UserRole = 
+export type UserRole =
   | 'PUBLIC_USER'
   | 'OWNER'
   | 'FINDER'
@@ -72,7 +72,7 @@ export type UserRole =
   | 'SHELTER_MODERATOR'
   | 'SYSTEM_ADMIN';
 
-export type SyncStatus = 
+export type SyncStatus =
   | 'PENDING'
   | 'SYNCING'
   | 'SYNCED'
@@ -131,20 +131,20 @@ export interface SightingReportExtended {
   created_at: string;
   updated_at: string;
   is_deleted: boolean;
-  
+
   // Joined fields
   species?: Species;
   breed?: string;
   color?: string;
   size?: string;
   condition?: string;
-  
+
   // Reporter info (joined)
   reporter?: {
     display_name?: string;
     phone?: string;
   };
-  
+
   // Missing case info (joined)
   missing_case?: {
     id: string;
@@ -154,6 +154,7 @@ export interface SightingReportExtended {
       display_name: string;
     };
   };
+  notifications?: SightingNotification[];
 }
 
 export interface SightingNotification {
@@ -371,7 +372,7 @@ export interface MunicipalInteractionLog {
 
 // --- Offline Queue ---
 
-export type QueueableAction = 
+export type QueueableAction =
   | 'CREATE_MISSING_CASE'
   | 'CREATE_FOUND_CASE'
   | 'UPDATE_CASE'

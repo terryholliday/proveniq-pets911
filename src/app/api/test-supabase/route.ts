@@ -4,13 +4,13 @@ import { createClientForAPI } from '@/lib/supabase/client';
 export async function GET() {
   try {
     const supabase = createClientForAPI();
-    
+
     // Test basic connection
     const { data, error } = await supabase
       .from('sighting')
       .select('count')
       .limit(1);
-    
+
     if (error) {
       return NextResponse.json({
         success: false,
@@ -18,11 +18,11 @@ export async function GET() {
         details: 'Supabase connection failed - check your .env file'
       }, { status: 500 });
     }
-    
+
     // Check if tables exist
     const tables = ['sighting', 'sighting_notification', 'sighting_status_log'];
-    const tableStatus = {};
-    
+    const tableStatus: Record<string, string> = {};
+
     for (const table of tables) {
       try {
         const { error: tableError } = await supabase
@@ -34,7 +34,7 @@ export async function GET() {
         tableStatus[table] = 'Error';
       }
     }
-    
+
     return NextResponse.json({
       success: true,
       message: 'Supabase connection successful!',

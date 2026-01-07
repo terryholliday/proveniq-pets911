@@ -111,13 +111,13 @@ export default function EmergencyPage() {
             )}
 
             {stats.pending > 0 && (
-              <QueuedActionIndicator count={stats.pending} />
+              <QueuedActionIndicator />
             )}
 
             <Alert variant="info" className="mt-6">
               <Info className="h-4 w-4" />
               <AlertDescription>
-                <strong>Offline Mode:</strong> Emergency contacts and call scripts are 
+                <strong>Offline Mode:</strong> Emergency contacts and call scripts are
                 cached locally. All actions will sync when you&apos;re back online.
               </AlertDescription>
             </Alert>
