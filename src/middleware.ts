@@ -86,11 +86,28 @@ type DomainType = keyof typeof DOMAIN_CONFIG;
  * Determine domain type from hostname
  */
 function getDomainType(hostname: string): DomainType | 'DEV' | null {
-  // Strip port if present
-  const host = hostname.split(':')[0].toLowerCase();
+  // Robust hostname extraction (handles port and IPv6)
+  let host = hostname.toLowerCase();
+
+  if (host.includes('[')) {
+    // Bracketed IPv6: [::1]:3000 -> ::1
+    host = host.split(']')[0].substring(1);
+  } else if ((host.match(/:/g) || []).length > 1) {
+    // raw IPv6: ::1 -> ::1 (do nothing, it's the host)
+  } else {
+    // Normal host or IPv4: localhost:3000 -> localhost
+    host = host.split(':')[0];
+  }
 
   // Check development
-  if (DEV_HOSTNAMES.includes(host) || host.endsWith('.local')) {
+  if (
+    DEV_HOSTNAMES.includes(host) ||
+    host.startsWith('192.168.') ||
+    host.startsWith('10.') ||
+    host.startsWith('172.') ||
+    host === '[::1]' ||
+    host.endsWith('.local')
+  ) {
     return 'DEV';
   }
 
