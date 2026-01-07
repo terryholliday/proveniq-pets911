@@ -4,7 +4,7 @@ const path = require('path');
 
 // 1. Define Paths based on your screenshot
 // We go up two levels from 'scripts' to reach 'AI Projects', then into 'ADMIN'
-const MASTER_REPO_PATH = path.resolve(__dirname, '../../ADMIN'); 
+const MASTER_REPO_PATH = path.resolve(__dirname, '../../ADMIN');
 const MASTER_ENV_FILE = path.join(MASTER_REPO_PATH, '.env.master');
 const LOCAL_OVERRIDES_FILE = path.join(__dirname, '../.env.local');
 const DESTINATION_FILE = path.join(__dirname, '../.env');
@@ -27,19 +27,19 @@ function parseEnv(content) {
 
 try {
   // 3. Load Master Env (Shared Google Cloud, Auth Secrets)
-  if (!fs.existsSync(MASTER_ENV_FILE)) {
+  if (!fs.existsSync(MASTER_ENV_FILE) && !process.env.VERCEL) {
     console.warn(`⚠️  WARNING: Could not find Master ENV at: ${MASTER_ENV_FILE}`);
     console.warn('   Ensure the "ADMIN" folder is a sibling to this project folder.');
   }
-  
-  const masterContent = fs.existsSync(MASTER_ENV_FILE) 
-    ? fs.readFileSync(MASTER_ENV_FILE, 'utf8') 
+
+  const masterContent = fs.existsSync(MASTER_ENV_FILE)
+    ? fs.readFileSync(MASTER_ENV_FILE, 'utf8')
     : '';
   const masterEnv = parseEnv(masterContent);
 
   // 4. Load Local Overrides (Project-Specific Supabase Keys)
-  const localContent = fs.existsSync(LOCAL_OVERRIDES_FILE) 
-    ? fs.readFileSync(LOCAL_OVERRIDES_FILE, 'utf8') 
+  const localContent = fs.existsSync(LOCAL_OVERRIDES_FILE)
+    ? fs.readFileSync(LOCAL_OVERRIDES_FILE, 'utf8')
     : '';
   const localEnv = parseEnv(localContent);
 

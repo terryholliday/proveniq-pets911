@@ -394,6 +394,7 @@ export interface OfflineQueuedAction {
   last_sync_attempt: string | null;
   sync_error: string | null;
   resolved_entity_id: string | null;
+  sequence_number?: number;
 }
 
 // --- Sighting Intelligence ---

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { MatchSuggestion } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/moderator/match-suggestions
  * Returns pending match suggestions for moderator review
@@ -15,14 +17,14 @@ export async function GET(request: NextRequest) {
   try {
     // TODO: Verify moderator role from auth token
     // const token = request.headers.get('Authorization');
-    
+
     const searchParams = request.nextUrl.searchParams;
     const county = searchParams.get('county');
     const minConfidence = searchParams.get('min_confidence');
 
     // TODO: Implement actual Supabase query with ML matching
     // For now, return stub data
-    
+
     const suggestions: MatchSuggestion[] = [
       {
         match_id: 'match-001',
@@ -60,7 +62,7 @@ export async function GET(request: NextRequest) {
     ];
 
     // Filter by confidence if specified
-    const filtered = minConfidence 
+    const filtered = minConfidence
       ? suggestions.filter(s => s.confidence_score >= parseFloat(minConfidence))
       : suggestions;
 
@@ -78,7 +80,7 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Match suggestions fetch error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,

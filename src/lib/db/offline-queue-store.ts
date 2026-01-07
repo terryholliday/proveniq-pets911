@@ -1,11 +1,13 @@
 import { getDB } from './indexed-db';
 import { generateIdempotencyKey, getDeviceId, calculateExpiryTimestamp } from '@/lib/utils/idempotency';
-import type { 
-  OfflineQueuedAction, 
-  QueueableAction, 
-  SyncStatus 
+import type {
+  OfflineQueuedAction,
+  QueueableAction,
+  SyncStatus
 } from '@/lib/types';
 import { v4 as uuidv4 } from 'uuid';
+
+let sequenceCounter = Date.now(); // Initialize with timestamp to avoid collisions across reloads if possible
 
 /**
  * Add action to offline queue
@@ -17,7 +19,7 @@ export async function queueAction(
   userId: string
 ): Promise<OfflineQueuedAction> {
   const db = await getDB();
-  
+
   const action: OfflineQueuedAction = {
     id: uuidv4(),
     idempotency_key: generateIdempotencyKey(),
@@ -32,10 +34,11 @@ export async function queueAction(
     last_sync_attempt: null,
     sync_error: null,
     resolved_entity_id: null,
+    sequence_number: sequenceCounter++,
   };
-  
+
   await db.put('offline-queue', action);
-  
+
   return action;
 }
 
@@ -46,10 +49,10 @@ export async function queueAction(
 export async function getPendingActions(): Promise<OfflineQueuedAction[]> {
   const db = await getDB();
   const all = await db.getAllFromIndex('offline-queue', 'by-status', 'PENDING');
-  
-  // Sort by created_at ascending (FIFO)
-  return all.sort((a, b) => 
-    new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+
+  // Sort by sequence_number ascending (Strict FIFO)
+  return all.sort((a, b) =>
+    (a.sequence_number || 0) - (b.sequence_number || 0)
   );
 }
 
@@ -82,17 +85,17 @@ export async function updateActionStatus(
 ): Promise<void> {
   const db = await getDB();
   const action = await db.get('offline-queue', id);
-  
+
   if (!action) {
     throw new Error(`Action not found: ${id}`);
   }
-  
+
   const updated: OfflineQueuedAction = {
     ...action,
     sync_status: status,
     ...updates,
   };
-  
+
   await db.put('offline-queue', updated);
 }
 
@@ -109,7 +112,7 @@ export async function markAsSyncing(id: string): Promise<void> {
  * Mark action as synced with resolved entity ID
  */
 export async function markAsSynced(
-  id: string, 
+  id: string,
   resolvedEntityId: string
 ): Promise<void> {
   await updateActionStatus(id, 'SYNCED', {
@@ -123,11 +126,11 @@ export async function markAsSynced(
 export async function markAsFailed(id: string, error: string): Promise<void> {
   const db = await getDB();
   const action = await db.get('offline-queue', id);
-  
+
   if (!action) {
     throw new Error(`Action not found: ${id}`);
   }
-  
+
   await updateActionStatus(id, 'FAILED', {
     sync_error: error,
     sync_attempts: action.sync_attempts + 1,
@@ -151,18 +154,18 @@ export async function markAsConflict(id: string): Promise<void> {
 export async function incrementRetry(id: string): Promise<number> {
   const db = await getDB();
   const action = await db.get('offline-queue', id);
-  
+
   if (!action) {
     throw new Error(`Action not found: ${id}`);
   }
-  
+
   const newAttempts = action.sync_attempts + 1;
-  
+
   await updateActionStatus(id, 'PENDING', {
     sync_attempts: newAttempts,
     last_sync_attempt: new Date().toISOString(),
   });
-  
+
   return newAttempts;
 }
 
@@ -179,7 +182,7 @@ export async function getQueueStats(): Promise<{
 }> {
   const db = await getDB();
   const all = await db.getAll('offline-queue');
-  
+
   const stats = {
     pending: 0,
     syncing: 0,
@@ -188,7 +191,7 @@ export async function getQueueStats(): Promise<{
     conflict: 0,
     total: all.length,
   };
-  
+
   for (const action of all) {
     switch (action.sync_status) {
       case 'PENDING':
@@ -208,7 +211,7 @@ export async function getQueueStats(): Promise<{
         break;
     }
   }
-  
+
   return stats;
 }
 
@@ -220,9 +223,9 @@ export async function cleanupSyncedActions(maxAgeDays: number = 7): Promise<numb
   const db = await getDB();
   const all = await db.getAll('offline-queue');
   const cutoff = Date.now() - (maxAgeDays * 24 * 60 * 60 * 1000);
-  
+
   let cleaned = 0;
-  
+
   for (const action of all) {
     if (
       action.sync_status === 'SYNCED' &&
@@ -232,7 +235,7 @@ export async function cleanupSyncedActions(maxAgeDays: number = 7): Promise<numb
       cleaned++;
     }
   }
-  
+
   return cleaned;
 }
 
@@ -244,16 +247,16 @@ export async function cleanupExpiredActions(): Promise<number> {
   const db = await getDB();
   const all = await db.getAll('offline-queue');
   const now = new Date();
-  
+
   let cleaned = 0;
-  
+
   for (const action of all) {
     if (new Date(action.expires_at) < now) {
       await db.delete('offline-queue', action.id);
       cleaned++;
     }
   }
-  
+
   return cleaned;
 }
 

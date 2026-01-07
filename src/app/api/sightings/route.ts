@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClientForAPI } from '@/lib/supabase/client';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const supabase = createClientForAPI();
@@ -65,7 +67,7 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     const required = ['county', 'sighting_address', 'description'];
     const missing = required.filter(field => !body[field]);
-    
+
     if (missing.length > 0) {
       return NextResponse.json(
         { error: `Missing required fields: ${missing.join(', ')}` },
