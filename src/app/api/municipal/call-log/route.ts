@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
 /**
  * POST /api/municipal/call-log
@@ -13,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const idempotencyKey = request.headers.get('Idempotency-Key');
-    
+
     if (!idempotencyKey) {
       return NextResponse.json(
         {
@@ -32,15 +33,15 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { 
-      case_id, 
-      case_type, 
-      contact_id, 
-      dialer_initiated_at, 
+    const {
+      case_id,
+      case_type,
+      contact_id,
+      dialer_initiated_at,
       call_duration_seconds,
-      outcome, 
+      outcome,
       outcome_notes,
-      county 
+      county
     } = body;
 
     if (!contact_id || !outcome || !county) {
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     // TODO: Implement actual Supabase insert
     // For now, return stub response
-    
+
     const logId = crypto.randomUUID();
 
     return NextResponse.json({
@@ -106,7 +107,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Municipal call log error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,

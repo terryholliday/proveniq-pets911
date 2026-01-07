@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import type { MatchSuggestion } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
 /**
  * POST /api/notifications/emergency-vet
@@ -11,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const idempotencyKey = request.headers.get('Idempotency-Key');
-    
+
     if (!idempotencyKey) {
       return NextResponse.json(
         {
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     // TODO: Implement actual notification sending via Twilio/Resend
     // For now, return stub response
-    
+
     const attemptId = crypto.randomUUID();
 
     return NextResponse.json({
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Emergency vet notification error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,

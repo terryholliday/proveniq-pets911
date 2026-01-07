@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { SyncStatus } from '@/lib/types';
 
 /**
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     // TODO: Implement actual batch processing
     // For now, simulate processing each action
-    
+
     const results = actions.map((action: {
       idempotency_key: string;
       action_type: string;
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
       // Simulate checking for duplicate idempotency key
       // In production, this would query the database
       const isDuplicate = false; // Math.random() < 0.1; // 10% chance of being a duplicate
-      
+
       if (isDuplicate) {
         return {
           idempotency_key: action.idempotency_key,
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Sync queue error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,
