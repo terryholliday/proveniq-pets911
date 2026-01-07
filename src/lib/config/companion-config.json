@@ -1,0 +1,585 @@
+{
+    "MARKERS": {
+        "SUICIDE": {
+            "passive": [
+                "wish i hadn't woken up",
+                "don't want to be here",
+                "what's the point",
+                "no point anymore",
+                "can't do this anymore",
+                "don't want to go on",
+                "nothing matters",
+                "empty without",
+                "can't live without",
+                "life is meaningless"
+            ],
+            "active": [
+                "want to join",
+                "join them",
+                "be with them",
+                "want to die",
+                "want to end",
+                "don't want to live",
+                "rather be dead",
+                "kill myself",
+                "end it all",
+                "end my life"
+            ],
+            "intent": [
+                "have pills",
+                "have a plan",
+                "tonight",
+                "going to do it",
+                "goodbye",
+                "this is it",
+                "final",
+                "last message"
+            ]
+        },
+        "MDD": [
+            "i am worthless",
+            "i'm worthless",
+            "i destroy everything",
+            "i ruin everything",
+            "everyone would be better off",
+            "i hate myself",
+            "i'm a terrible person",
+            "i can't do anything right",
+            "everything i touch",
+            "i always fail",
+            "i'm broken",
+            "no one could love",
+            "i don't deserve"
+        ],
+        "PARALYSIS": [
+            "can't get out of bed",
+            "haven't eaten",
+            "can't eat",
+            "can't sleep",
+            "haven't slept",
+            "can't function",
+            "can't do anything",
+            "just lay here",
+            "haven't left",
+            "stopped",
+            "given up",
+            "paralyzed",
+            "frozen",
+            "stuck"
+        ],
+        "NEURODIVERGENT": [
+            "autistic",
+            "autism",
+            "adhd",
+            "neurodivergent",
+            "on the spectrum",
+            "only friend",
+            "only one who understood",
+            "didn't judge me",
+            "sensory",
+            "routine",
+            "couldn't connect with people"
+        ],
+        "DEATH": [
+            "dead",
+            "died",
+            "death",
+            "passed away",
+            "passed on",
+            "gone",
+            "killed",
+            "hit by",
+            "ran over",
+            "struck by",
+            "put down",
+            "put to sleep",
+            "euthanize",
+            "euthanized",
+            "euthanasia",
+            "had to put",
+            "didn't make it",
+            "didn't survive",
+            "lost him",
+            "lost her",
+            "lost them",
+            "no longer with us",
+            "crossed the rainbow bridge",
+            "rainbow bridge",
+            "found dead",
+            "found deceased",
+            "body",
+            "remains",
+            "murdered",
+            "poisoned",
+            "attacked and killed"
+        ],
+        "ANTICIPATORY": [
+            "dying",
+            "terminal",
+            "cancer",
+            "tumor",
+            "not long",
+            "vet says",
+            "doctor says",
+            "doesn't have long",
+            "last days",
+            "saying goodbye",
+            "preparing to",
+            "going to lose",
+            "going to put",
+            "have to put",
+            "making the decision",
+            "hardest decision",
+            "slowly",
+            "losing them slowly",
+            "anticipating",
+            "anticipatory"
+        ],
+        "EMERGENCY": [
+            "emergency",
+            "hurt",
+            "injured",
+            "bleeding",
+            "broken",
+            "not breathing",
+            "unconscious",
+            "seizure",
+            "poisoned",
+            "ate something",
+            "swallowed",
+            "choking",
+            "can't walk",
+            "hit by car",
+            "accident",
+            "attacked",
+            "bitten"
+        ],
+        "SCAM": [
+            "verification code",
+            "verify you",
+            "prove you",
+            "send money first",
+            "shipping fee",
+            "transport fee",
+            "different state",
+            "another city",
+            "flight nanny",
+            "pay before",
+            "won't meet",
+            "sounds suspicious",
+            "asking for money",
+            "wants payment",
+            "wire money",
+            "western union",
+            "zelle",
+            "cashapp",
+            "gift card"
+        ],
+        "LOST_PET": [
+            "lost",
+            "missing",
+            "can't find",
+            "ran away",
+            "escaped",
+            "got out",
+            "slipped out",
+            "ran off",
+            "disappeared",
+            "haven't seen",
+            "searching for"
+        ],
+        "FOUND_PET": [
+            "found a",
+            "found this",
+            "there's a",
+            "stray",
+            "wandering"
+        ],
+        "GUILT": [
+            "my fault",
+            "blame myself",
+            "should have",
+            "shouldn't have",
+            "feel guilty",
+            "if only",
+            "i failed",
+            "failed them",
+            "could have prevented",
+            "why didn't i",
+            "i let",
+            "let them down",
+            "bad owner",
+            "bad parent",
+            "terrible person",
+            "never forgive myself"
+        ],
+        "DISENFRANCHISED": [
+            "just a",
+            "only a",
+            "silly",
+            "stupid",
+            "crazy",
+            "people think",
+            "others don't understand",
+            "no one understands",
+            "shouldn't be this upset",
+            "overreacting",
+            "too much",
+            "it's just",
+            "just an animal",
+            "get another",
+            "move on"
+        ],
+        "PEDIATRIC": [
+            "my child",
+            "my kid",
+            "my daughter",
+            "my son",
+            "tell my",
+            "explain to",
+            "how do i tell",
+            "kids are",
+            "children",
+            "little one"
+        ],
+        "EUTHANASIA_DECISION": [
+            "how do i know when",
+            "when is it time",
+            "quality of life",
+            "is it selfish",
+            "am i being selfish",
+            "right time",
+            "too soon",
+            "too late",
+            "suffering",
+            "in pain",
+            "good days",
+            "bad days",
+            "eating",
+            "not eating"
+        ],
+        "DV_COERCIVE_CONTROL": [
+            "domestic violence",
+            "abuser",
+            "abusive",
+            "he hit me",
+            "she hit me",
+            "i am not safe",
+            "i don't feel safe",
+            "restraining order",
+            "shelter",
+            "dv shelter",
+            "safe house",
+            "he took my dog",
+            "she took my dog",
+            "he took my cat",
+            "she took my cat",
+            "threatened my pet",
+            "threatened to kill my",
+            "hurt my pet",
+            "won't let me leave",
+            "keeps me from leaving"
+        ]
+    },
+    "TEMPLATES": {
+        "suicide_intent": {
+            "response": "I'm really glad you told me. **Your life matters, and you deserve support right now.**\n\nIf you might act on these thoughts, please contact help immediately:\n\n📞 **988** (US) — call or text\n📞 **Veterinary Social Work Helpline (UT Knoxville): 865-755-8839**\n\nIf you're in immediate danger, call **911** (or your local emergency number).\n\nYou don't have to carry this alone. Are you safe right now?",
+            "mustContain": [
+                "988",
+                "Your life matters",
+                "865-755-8839"
+            ],
+            "mustNotContain": [
+                "just a",
+                "get another pet"
+            ]
+        },
+        "dv_coercive_control": {
+            "response": "I'm really glad you told me. **If you are in immediate danger, call 911 (or your local emergency number) now.**\n\nIf you can do so safely, you can also contact the **National Domestic Violence Hotline**:\n• Call **1-800-799-7233**\n• Text **START** to **88788**\n\n**Safety + privacy note:** please **do not share your exact location, shelter address, or identifying details** here. If it is safe to share only your **state**, I can help you think through safer next steps (like who to call and what questions to ask) without revealing where you are.\n\nIf your pet is being used to control or threaten you, you are not alone — and you deserve support that keeps both you and your pet safe.",
+            "mustContain": [
+                "Domestic Violence Hotline",
+                "If you are in immediate danger",
+                "do not share your exact location"
+            ],
+            "mustNotContain": [
+                "what is your address",
+                "share your address"
+            ]
+        },
+        "suicide_active": {
+            "response": "I hear you, and I want you to know **your life has value**. I can't keep you safe by myself, but I can help you reach people who can.\n\n📞 **988** — call or text now\n📞 **Veterinary Social Work Helpline (UT Knoxville): 865-755-8839**\n\nIf you feel like you might act on this, call **911** (or your local emergency number).\n\nAre you alone right now?",
+            "mustContain": [
+                "988",
+                "your life has value",
+                "865-755-8839"
+            ],
+            "mustNotContain": [
+                "calm down",
+                "don't worry"
+            ]
+        },
+        "suicide_passive": {
+            "response": "I hear the heaviness in your words. When we lose a pet, we lose a source of daily comfort, routine, and unconditional love. It makes sense that the world feels emptier.\n\nThese feelings are a testament to how much they meant to you. But if these feelings become too heavy to carry, please know there are people trained to help:\n\n📞 **ASPCA Pet Loss Hotline: 1-877-474-3310**\n📞 **988** - If you ever feel unsafe\n\nIf you can, tell me what happened with your pet. I'm here with you.",
+            "mustContain": [
+                "ASPCA Pet Loss Hotline",
+                "988"
+            ],
+            "mustNotContain": [
+                "overreacting"
+            ]
+        },
+        "mdd": {
+            "response": "I'm noticing something important in what you've shared. The feelings you're describing—the sense of worthlessness, of being fundamentally flawed—these go beyond grief for your pet.\n\nGrief says \"I miss them.\" What you're describing sounds more like depression saying \"I am defective.\"\n\n**This distinction matters.** If these feelings of worthlessness persist even in areas unconnected to your pet, please consider speaking with a mental health professional. This isn't weakness—it's wisdom.\n\n📞 **988** - Suicide & Crisis Lifeline (also for depression)\n📞 **SAMHSA: 1-800-662-4357** - Mental health referrals\n\nYour pet loved you. Depression lies about who you are. Would you like to talk more about what you're experiencing?",
+            "mustContain": [
+                "worthlessness",
+                "depression",
+                "SAMHSA",
+                "988"
+            ],
+            "mustNotContain": [
+                "just grief"
+            ]
+        },
+        "paralysis": {
+            "response": "Your body and mind are in grief shock. What you're describing—the paralysis, the inability to function—is a physiological response to loss, not a character flaw.\n\nBut here's what we know: **grief feeds on stillness.** The emotion wants you to stay frozen.\n\n**Opposite Action** is a technique that can help:\n• If you can't eat → Take one bite of anything. Just one.\n• If you can't get up → Put your feet on the floor for 30 seconds.\n• If you can't leave → Open a window. Let air touch your face.\n\nThese aren't about \"getting over it.\" They're about reminding your nervous system that you're still here, still alive.\n\nYour pet would want you to take care of yourself. What's one tiny thing you could try right now?",
+            "mustContain": [
+                "Opposite Action",
+                "grief shock"
+            ],
+            "mustNotContain": [
+                "snap out of it",
+                "get over it"
+            ]
+        },
+        "neurodivergent": {
+            "response": "I hear you, and I want you to know: **this loss may be hitting you differently than it would others, and that's completely valid.**\n\nFor many neurodivergent people, a pet isn't just a companion—they're often the primary source of safe, regulated connection in a world that feels overwhelming. Your pet didn't require masking. They didn't judge your stims or your need for routine. They just loved you.\n\nLosing that is not \"just losing a pet.\" It's losing your anchor.\n\nYour grief may be more intense than others expect. That's not wrong—it's proportional to what you lost.\n\nWould you like to tell me about your pet? About the ways they helped you navigate the world?",
+            "mustContain": [
+                "differently",
+                "valid",
+                "anchor"
+            ],
+            "mustNotContain": [
+                "just a pet",
+                "overreacting"
+            ]
+        },
+        "death_traumatic": {
+            "response": "I am so deeply sorry. What happened to your pet is devastating, and the shock of losing them this way makes it even harder to bear. There are no words that can take away this pain.\n\nPlease know that your grief is valid. Your pet knew they were loved. That bond doesn't end - it just changes form.\n\nI'm here if you want to talk about them, share a memory, or just sit in this space together. There's no right way to grieve.",
+            "mustContain": [
+                "deeply sorry",
+                "devastating",
+                "grief is valid"
+            ],
+            "mustNotContain": [
+                "at least",
+                "better place",
+                "get another"
+            ]
+        },
+        "death_euthanasia": {
+            "response": "I'm so sorry. Making that decision is one of the hardest things a pet parent ever has to do, and it comes from a place of profound love.\n\nYou gave them the gift of a peaceful passing. You stayed with them. You put their comfort above your own pain. That is the final, greatest act of love.\n\nGrief after euthanasia is complicated - it's loss mixed with guilt, relief, and heartbreak all at once. All of those feelings are valid.\n\nWould you like to tell me about them? Sometimes sharing memories helps.",
+            "mustContain": [
+                "hardest things",
+                "profound love",
+                "gift of a peaceful passing"
+            ],
+            "mustNotContain": [
+                "killed",
+                "wrong decision"
+            ]
+        },
+        "death_general": {
+            "response": "I am so deeply sorry for your loss. Losing a pet is losing a family member, a companion, a piece of your daily life. The pain you're feeling is real and valid.\n\nThere's no timeline for grief. Some days will be harder than others. You might hear their collar jingle or reach down to pet them before remembering. That's normal. That's love.\n\nI'm here with you. Would you like to tell me about them? What was their name? What made them special?",
+            "mustContain": [
+                "deeply sorry",
+                "family member",
+                "no timeline for grief"
+            ],
+            "mustNotContain": [
+                "just a",
+                "move on",
+                "get another"
+            ]
+        },
+        "anticipatory": {
+            "response": "I hear you navigating the painful space of anticipatory grief. Losing them slowly is its own kind of heartbreak—living in the space between hope and reality.\n\nThis is **Anticipatory Grief**, and it's real. You're grieving before the actual loss, which means you're doing emotional work twice. That's exhausting.\n\n**What helps:**\n• Focus on quality time, not quantity\n• Create memories while you can\n• Allow yourself to feel both hope and sadness\n• Consider memorial projects (photos, paw prints)\n\nYou're not giving up on them by preparing. You're loving them through their final chapter.\n\nHow are they doing today? What moments matter most right now?",
+            "mustContain": [
+                "Anticipatory grief",
+                "losing them slowly"
+            ],
+            "mustNotContain": [
+                "hurry up",
+                "get it over with"
+            ]
+        },
+        "scam": {
+            "response": "⚠️ **SCAM ALERT** - What you're describing has red flags of a common pet scam.\n\n**NEVER:**\n• Share verification codes (Google Voice scam)\n• Pay fees before meeting the pet in person\n• Wire money or use gift cards\n• Trust \"flight nanny\" or shipping services\n\n**LEGITIMATE finders:**\n• Will meet you in person at a safe public place\n• Can video chat with the pet\n• Won't ask for money before reunion\n• Will let you verify identity (collar, microchip, behavior)\n\nDid someone contact you about your pet? Tell me what they said and I can help you assess if it's legitimate.",
+            "mustContain": [
+                "SCAM ALERT",
+                "NEVER",
+                "verification code"
+            ],
+            "mustNotContain": []
+        },
+        "lost_pet": {
+            "response": "I'm so sorry you're going through this. The panic and fear you're feeling right now shows how much you love them.\n\nI can't predict outcomes, but we *can* focus on the steps that give you the best chance of getting them home:\n\n**Right now (next 30–60 minutes):**\n• Re-check the last-seen area slowly (quiet voice, treat bag, favorite squeaky toy).\n• Ask a neighbor to help so you can cover more ground.\n• If it is safe, leave a familiar-smelling item (blanket/shirt) near the point they got out.\n\n**Next:**\n• Call **local shelters/animal control** and ask them to scan for a **microchip** if anyone brings them in.\n• Post a clear photo + contact method, but **do not share your home address** publicly.\n\nIf you want, tell me:\n• Their name and what they look like\n• When/where you last saw them\n• Collar/tags/microchip",
+            "mustContain": [
+                "do not share your address",
+                "microchip",
+                "local shelter"
+            ],
+            "mustNotContain": [
+                "probably dead",
+                "give up"
+            ]
+        },
+        "guilt_cbt": {
+            "response": "I hear the weight of guilt in your words. Let me help you look at this differently.\n\n**Let's check the facts together:**\n\n1. **Outcome vs. Intent:** Guilt implies you INTENDED harm. Did you?\n2. **The Puzzle Metaphor:** What happened was a puzzle with many pieces—genetics, timing, biology, chance. Your actions were ONE piece, not the whole picture.\n3. **Hindsight isn't foresight:** You're judging yourself with information you couldn't have had.\n\nCats hide illness. Dogs bolt through doors. Bodies fail suddenly. These things happen to the most devoted pet parents.\n\n**The truth:** You loved them. You did your best with what you knew. That's not the profile of someone who deserves guilt.\n\nWould you like to talk about what specifically is weighing on you?",
+            "mustContain": [
+                "Outcome vs. Intent",
+                "Puzzle Metaphor",
+                "Hindsight"
+            ],
+            "mustNotContain": [
+                "your fault",
+                "you should have"
+            ]
+        },
+        "disenfranchised": {
+            "response": "Let me stop you right there: **They were NOT 'just' anything.**\n\nYour pet was a family member. A source of daily comfort. A being who loved you unconditionally and regulated your stress hormones just by being near you.\n\nWhen researchers study pet loss, they find grief responses equivalent to—and sometimes MORE intense than—human bereavement. This isn't weakness. It's biology.\n\n**The people who say 'it's just a pet' have never loved like you do.** Their inability to understand says nothing about the validity of your grief.\n\nYour brain is processing a major loss. Give yourself permission to grieve fully. I'm here to witness that grief, because it matters.\n\nWould you like to tell me about them?",
+            "mustContain": [
+                "NOT 'just'",
+                "family member",
+                "biology"
+            ],
+            "mustNotContain": [
+                "overreacting",
+                "too much"
+            ]
+        },
+        "pediatric": {
+            "response": "Helping a child through pet loss is one of the most important conversations you'll have as a parent. Here's age-appropriate guidance:\n\n**Ages 3-5 (Toddlers):**\n• Use concrete, biological language: \"Their body stopped working\"\n• AVOID \"put to sleep\"—causes sleep anxiety\n• They may not grasp permanence; expect repeated questions\n\n**Ages 6-9:**\n• Understand death is final\n• May fear contagion: \"Will you die too?\"\n• Reassure their safety; offer rituals (drawing, burial)\n\n**Ages 10+ / Teens:**\n• May grieve privately or with peers\n• Don't minimize their bond—it was real\n• Validate that grief is normal, not weakness\n\n**For all ages:**\n• Let them see you cry—models healthy grief\n• Answer questions honestly\n• Don't rush replacement; let them grieve first\n\nHow old is your child, and how close were they to the pet?",
+            "mustContain": [
+                "Ages 3-5",
+                "Ages 6-9",
+                "body stopped working"
+            ],
+            "mustNotContain": [
+                "put to sleep"
+            ]
+        },
+        "quality_of_life": {
+            "response": "This is one of the hardest questions a pet parent ever faces, and there's no perfect answer—only the most loving one.\n\n**The Quality of Life Scale (HHHHHMM):**\n• **Hurt** - Can their pain be managed?\n• **Hunger** - Are they eating?\n• **Hydration** - Are they drinking?\n• **Hygiene** - Can they keep themselves clean?\n• **Happiness** - Do they still have moments of joy?\n• **Mobility** - Can they move to where they want to be?\n• **More good days than bad?**\n\n**A helpful question:** \"Am I keeping them alive for THEM, or for me?\"\n\nIf you're asking this question, it often means your heart already knows. The fact that you're thinking about their quality of life—not just your own grief—is proof of how much you love them.\n\nWould it help to talk through what you're seeing day-to-day?",
+            "mustContain": [
+                "HHHHHMM",
+                "Hurt",
+                "Hunger",
+                "More good days than bad"
+            ],
+            "mustNotContain": [
+                "just do it",
+                "hurry up"
+            ]
+        },
+        "death_found_deceased": {
+            "response": "I am so deeply sorry for your devastating discovery. Finding your pet deceased is a traumatic experience, and it's normal to feel shock, disbelief, and overwhelming grief.\n\n**Immediate steps:**\n• Take a moment to breathe. This is a shock to your system.\n• If you need to move them, do so gently with a blanket.\n• Contact your vet for guidance on aftercare options.\n\nThere's no right way to process this. Your grief is valid, and the bond you shared was real. I'm here to listen if you need to talk about what happened or share memories.",
+            "mustContain": [
+                "found deceased",
+                "devastating discovery",
+                "immediate steps"
+            ],
+            "mustNotContain": [
+                "at least",
+                "better place"
+            ]
+        },
+        "emergency": {
+            "response": "🚨 **This sounds like a veterinary emergency.** Please act immediately.\n\n**Call your vet or emergency vet NOW.**\n\nIf it's after hours:\n• Search \"24 hour emergency vet near me\"\n• Call the ASPCA Animal Poison Control: 888-426-4435\n\n**Do not wait to see what happens.** Minutes matter in emergencies.\n\nAfter they're safe, please come back and tell me what happened. I'll be here to support you through whatever comes next.\n\n**Your pet needs you to act fast right now.**",
+            "mustContain": [
+                "emergency",
+                "immediate",
+                "veterinary emergency"
+            ],
+            "mustNotContain": [
+                "wait",
+                "see what happens"
+            ]
+        },
+        "found_pet": {
+            "response": "Thank you for helping a found pet! Your compassion could reunite them with their family.\n\n**Immediate steps:**\n1. **Check for identification:** Look for collar, tags, or microchip\n2. **Safety first:** Keep them secure and separate from your pets\n3. **Alert local resources:**\n   • Post on Nextdoor/neighborhood apps\n   • Contact local shelters and vets\n   • Check lost pet posts in your area\n\n**Important:** Don't assume they're abandoned. Many pets escape from loving homes.\n\nCan you tell me more about the pet? What do they look like, and where did you find them?",
+            "mustContain": [
+                "found a pet",
+                "check for",
+                "microchip"
+            ],
+            "mustNotContain": [
+                "keep it",
+                "it's yours now"
+            ]
+        },
+        "general": {
+            "response": "I'm here to listen. Tell me more about what you're going through, and we'll figure this out together.",
+            "mustContain": [],
+            "mustNotContain": []
+        }
+    },
+    "OPENINGS": [
+        "I'm here to help. Whether you've lost a pet, found one, or just need support during a difficult time - I'm listening. What's going on?",
+        "Hi there. I know pet emergencies can be overwhelming. I'm here to help you through this, one step at a time. What's happening?",
+        "I'm your support companion. Tell me what's going on with your pet, and let's figure out the best next steps together."
+    ],
+    "SERVICE_RESPONSES": {
+        "greeting": [
+            "I'm so sorry {petName} is missing. 💜 This must be incredibly difficult.",
+            "I can only imagine how worried you must be about {petName}. I'm here with you.",
+            "Losing {petName} must feel overwhelming right now. You're not alone in this."
+        ],
+        "searchTips": [
+            "Many pets are found within a 3-5 block radius of where they went missing. Have you checked hiding spots nearby?",
+            "Putting out items with your scent (worn clothes, their bed) near where {petName} was last seen can help guide them home.",
+            "The early morning and evening hours are often the best times to search, when it's quieter.",
+            "Local shelters should be checked in person - photos don't always do pets justice, especially if they're stressed.",
+            "Social media groups for lost pets in your area can be incredibly helpful. Have you posted there?"
+        ],
+        "emotionalSupport": [
+            "It's okay to feel overwhelmed. What you're feeling is completely valid.",
+            "Remember to take care of yourself too. {petName} needs you to stay strong.",
+            "Many pets are found days or even weeks later. Don't lose hope. 💜",
+            "You're doing everything you can. That matters.",
+            "It's okay to take breaks. Exhausting yourself won't help {petName}."
+        ],
+        "checkIn": [
+            "Hey, just checking in. How are you holding up today?",
+            "Thinking of you and {petName}. Any updates?",
+            "I wanted to see how you're doing. Remember, I'm here if you need to talk."
+        ],
+        "practicalHelp": [
+            "Would you like me to help you create a lost pet flyer?",
+            "I can help you draft a post for social media if you'd like.",
+            "Let me know if you need help finding local resources like shelters or rescue groups."
+        ]
+    },
+    "CONFIG": {
+        "typingSpeed": 25,
+        "thinkingDelay": 800,
+        "maxResponseLength": 300
+    },
+    "QUICK_ACTIONS": [
+        {
+            "label": "My pet is lost",
+            "type": "lost_pet"
+        },
+        {
+            "label": "I found a pet",
+            "type": "found_pet"
+        },
+        {
+            "label": "Pet emergency",
+            "type": "emergency"
+        },
+        {
+            "label": "Just need support",
+            "type": "general"
+        }
+    ]
+}
