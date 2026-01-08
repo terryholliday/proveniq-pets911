@@ -20,6 +20,16 @@ import {
 } from 'lucide-react';
 import type { MissingPetCase, FoundAnimalCase } from '@/lib/types';
 
+// Helper function to get photo labels for each case
+function getPhotoLabels(caseId: string): string[] {
+  const labels: Record<string, string[]> = {
+    '1': ['Front view', 'Side view', 'Red collar detail'],
+    '2': ['Face', 'White paws', 'Side profile', 'Tail'],
+    '3': ['Injured leg', 'Injury close-up', 'Face', 'Body', 'In carrier']
+  };
+  return labels[caseId] || [];
+}
+
 export default function CaseDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -55,7 +65,11 @@ export default function CaseDetailPage() {
           sex: 'M',
           is_neutered: true,
           microchip_id: null,
-          photo_urls: ['https://picsum.photos/seed/buddy-golden/400/300.jpg'],
+          photo_urls: [
+          'https://picsum.photos/seed/buddy-golden-front/400/300.jpg',
+          'https://picsum.photos/seed/buddy-golden-side/400/300.jpg',
+          'https://picsum.photos/seed/buddy-golden-collar/400/300.jpg'
+        ],
           last_seen_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           last_seen_lat: 37.7749,
           last_seen_lng: -122.4194,
@@ -82,7 +96,12 @@ export default function CaseDetailPage() {
           sex: 'F',
           is_neutered: true,
           microchip_id: null,
-          photo_urls: ['https://picsum.photos/seed/tabby-gray/400/300.jpg'],
+          photo_urls: [
+          'https://picsum.photos/seed/tabby-gray-face/400/300.jpg',
+          'https://picsum.photos/seed/tabby-gray-paws/400/300.jpg',
+          'https://picsum.photos/seed/tabby-gray-side/400/300.jpg',
+          'https://picsum.photos/seed/tabby-gray-tail/400/300.jpg'
+        ],
           found_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           found_lat: 38.3498,
           found_lng: -81.6326,
@@ -115,7 +134,13 @@ export default function CaseDetailPage() {
           collar_description: null,
           microchip_scanned: false,
           microchip_id: null,
-          photo_urls: ['https://picsum.photos/seed/dog-brown/400/300.jpg'],
+          photo_urls: [
+          'https://picsum.photos/seed/dog-brown-injured-leg/400/300.jpg',
+          'https://picsum.photos/seed/dog-brown-injury-closeup/400/300.jpg',
+          'https://picsum.photos/seed/dog-brown-face/400/300.jpg',
+          'https://picsum.photos/seed/dog-brown-body/400/300.jpg',
+          'https://picsum.photos/seed/dog-brown-carrier/400/300.jpg'
+        ],
           found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           found_lat: 37.7954,
           found_lng: -80.4462,
@@ -235,6 +260,9 @@ export default function CaseDetailPage() {
                         alt={missingCase?.pet_name || caseItem.species}
                         className="w-full h-96 object-cover rounded-lg bg-gray-100"
                       />
+                      <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+                        {getPhotoLabels(caseItem.id)[0] || 'Main photo'}
+                      </div>
                       {caseItem.photo_urls.length > 1 && (
                         <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
                           +{caseItem.photo_urls.length - 1} more
@@ -243,14 +271,22 @@ export default function CaseDetailPage() {
                     </div>
                     {caseItem.photo_urls.length > 1 && (
                       <div className="grid grid-cols-4 gap-2">
-                        {caseItem.photo_urls.slice(1, 5).map((url, index) => (
-                          <img
-                            key={index}
-                            src={url}
-                            alt={`${missingCase?.pet_name || caseItem.species} ${index + 2}`}
-                            className="w-full h-24 object-cover rounded-lg bg-gray-100 cursor-pointer hover:opacity-80"
-                          />
-                        ))}
+                        {caseItem.photo_urls.slice(1, 5).map((url, index) => {
+                          const photoLabels = getPhotoLabels(caseItem.id);
+                          const labelIndex = index;
+                          return (
+                            <div key={index} className="relative group">
+                              <img
+                                src={url}
+                                alt={`${missingCase?.pet_name || caseItem.species} ${index + 2}`}
+                                className="w-full h-24 object-cover rounded-lg bg-gray-100 cursor-pointer hover:opacity-80"
+                              />
+                              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                {photoLabels[labelIndex + 1]}
+                              </div>
+                            </div>
+                          );
+                        })}
                         {caseItem.photo_urls.length > 5 && (
                           <div className="w-full h-24 rounded-lg bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-200">
                             <span className="text-gray-600 font-medium">
