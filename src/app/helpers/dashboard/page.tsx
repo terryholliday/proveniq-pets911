@@ -140,6 +140,7 @@ export default function HelperDashboardPage() {
           <Button
             variant="outline"
             onClick={() => router.push('/helpers/settings')}
+            className="text-white hover:text-white border-slate-600 hover:bg-slate-700"
           >
             <Settings className="h-4 w-4 mr-2" />
             Settings
