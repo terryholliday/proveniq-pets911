@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { PhotoTips } from '@/components/shared/photo-tips';
 import { saveSightingReport } from '@/lib/db/indexed-db';
 import type { SightingReportExtended, Species } from '@/lib/types';
 
@@ -336,6 +337,12 @@ function AnimalDetailsStep({
           )}
         </div>
       </div>
+
+      {/* Photo Tips */}
+      <PhotoTips 
+        animalType={report.species === 'DOG' ? 'dog' : report.species === 'CAT' ? 'cat' : 'other'}
+        context="found"
+      />
       
       {/* Animal Condition - IMPORTANT */}
       <div>

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { PhotoTips } from '@/components/shared/photo-tips';
 
 type Species = 'DOG' | 'CAT' | 'BIRD' | 'OTHER';
 type Size = 'SMALL' | 'MEDIUM' | 'LARGE';
@@ -189,6 +190,12 @@ function PetDetailsStep({
           <p className="text-slate-500 text-sm">Clear, recent photos help the most</p>
         </div>
       </div>
+
+      {/* Photo Tips */}
+      <PhotoTips 
+        animalType={report.species === 'DOG' ? 'dog' : report.species === 'CAT' ? 'cat' : 'other'}
+        context="missing"
+      />
 
       {/* Pet Name */}
       <div>
