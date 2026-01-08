@@ -16,7 +16,8 @@ import {
   Activity,
   Heart,
   Car,
-  Building2
+  Building2,
+  XCircle
 } from 'lucide-react';
 import { useCountyPack } from '@/lib/hooks/use-county-pack';
 import { useNetworkStatus } from '@/lib/hooks/use-network-status';
@@ -83,6 +84,17 @@ export function RoutingCards({
         isStale={isStale}
         county={county}
         onNotifyVet={onNotifyVet}
+        onLogOutcome={onLogOutcome}
+      />
+    );
+  }
+
+  if (condition === 'DECEASED') {
+    return (
+      <DeceasedRoutingCard
+        animalControl={animalControl}
+        location={location}
+        isStale={isStale}
         onLogOutcome={onLogOutcome}
       />
     );

@@ -81,7 +81,7 @@ export type SyncStatus =
 
 export type NetworkState = 'ONLINE' | 'DEGRADED' | 'OFFLINE';
 
-export type ConditionTriage = 'CRITICAL' | 'INJURED_STABLE' | 'HEALTHY';
+export type ConditionTriage = 'CRITICAL' | 'INJURED_STABLE' | 'HEALTHY' | 'DECEASED';
 
 export type ConfidenceLevel = 'CERTAIN' | 'LIKELY' | 'UNSURE';
 
