@@ -21,7 +21,7 @@ import { fetchMatchSuggestions, resolveMatchSuggestion, recordModeratorAction } 
 import { useNetworkStatus } from '@/lib/hooks/use-network-status';
 import { useOfflineQueue } from '@/lib/hooks/use-offline-queue';
 import { generateIdempotencyKey } from '@/lib/utils/idempotency';
-import type { MatchSuggestion, MissingPetCase, FoundAnimalCase } from '@/lib/types';
+import type { MatchSuggestion, MissingPetCase, FoundAnimalCase, CaseStatus } from '@/lib/types';
 
 type CaseItem = (MissingPetCase | FoundAnimalCase) & { type: 'missing' | 'found' };
 
