@@ -42,7 +42,6 @@ export default function CaseDetailPage() {
       const mockCases: Record<string, MissingPetCase | FoundAnimalCase> = {
         '1': {
           id: '1',
-          type: 'missing',
           case_reference: 'MP-2024-001',
           status: 'ACTIVE',
           pet_name: 'Buddy',
@@ -71,17 +70,16 @@ export default function CaseDetailPage() {
         },
         '2': {
           id: '2',
-          type: 'found',
           case_reference: 'FA-2024-002',
           status: 'ACTIVE',
           pet_name: null,
           species: 'CAT',
-          breed: 'Tabby',
+          breed_guess: 'Tabby',
           color_primary: 'Gray',
           color_secondary: 'White',
           distinguishing_features: 'White paws, timid',
-          weight_lbs: 10,
-          age_years: 2,
+          weight_lbs_estimate: 10,
+          age_estimate: '2 years',
           sex: 'F',
           is_neutered: true,
           microchip_id: null,
@@ -103,19 +101,21 @@ export default function CaseDetailPage() {
         },
         '3': {
           id: '3',
-          type: 'found',
           case_reference: 'FA-2024-003',
           status: 'ACTIVE',
           pet_name: null,
           species: 'DOG',
-          breed: 'Unknown',
+          breed_guess: 'Unknown',
           color_primary: 'Brown',
           color_secondary: 'Black',
           distinguishing_features: 'Injured leg, limping',
-          weight_lbs: 40,
-          age_years: 3,
+          weight_lbs_estimate: 40,
+          age_estimate: '3 years',
           sex: 'M',
           is_neutered: false,
+          has_collar: true,
+          collar_description: null,
+          microchip_scanned: false,
           microchip_id: null,
           photo_urls: [],
           found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
@@ -184,7 +184,7 @@ export default function CaseDetailPage() {
     );
   }
 
-  const isMissing = caseItem.type === 'missing';
+  const isMissing = 'pet_name' in caseItem;
   const missingCase = isMissing ? caseItem as MissingPetCase : null;
   const foundCase = !isMissing ? caseItem as FoundAnimalCase : null;
 
@@ -206,7 +206,7 @@ export default function CaseDetailPage() {
                 <Badge variant={isMissing ? 'default' : 'warning'}>
                   {isMissing ? 'Missing' : 'Found'}
                 </Badge>
-                <Badge variant="outline">{caseItem.county}</Badge>
+                <Badge variant="outline">{(caseItem as any).county}</Badge>
                 <StatusBadge status={caseItem.status} />
               </div>
               
@@ -247,7 +247,7 @@ export default function CaseDetailPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Breed</label>
-                    <p className="text-lg">{caseItem.breed || 'Unknown'}</p>
+                    <p className="text-lg">{foundCase?.breed_guess || missingCase?.breed || 'Unknown'}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Color</label>
@@ -258,7 +258,7 @@ export default function CaseDetailPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Size</label>
-                    <p className="text-lg capitalize">{caseItem.size || 'Unknown'}</p>
+                    <p className="text-lg capitalize">{(missingCase as any)?.size || 'Unknown'}</p>
                   </div>
                 </div>
 
@@ -293,11 +293,11 @@ export default function CaseDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-500">Weight</label>
-                    <p className="text-lg">{caseItem.weight_lbs ? `${caseItem.weight_lbs} lbs` : 'Unknown'}</p>
+                    <p className="text-lg">{foundCase?.weight_lbs_estimate || missingCase?.weight_lbs ? `${foundCase?.weight_lbs_estimate || missingCase?.weight_lbs} lbs` : 'Unknown'}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Age</label>
-                    <p className="text-lg">{caseItem.age_years ? `${caseItem.age_years} years` : 'Unknown'}</p>
+                    <p className="text-lg">{foundCase?.age_estimate || missingCase?.age_years ? `${foundCase?.age_estimate || missingCase?.age_years}${missingCase?.age_years ? ' years' : ''}` : 'Unknown'}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Sex</label>
@@ -305,7 +305,7 @@ export default function CaseDetailPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Neutered/Spayed</label>
-                    <p className="text-lg">{caseItem.is_neutered ? 'Yes' : 'No'}</p>
+                    <p className="text-lg">{missingCase?.is_neutered ? 'Yes' : foundCase?.has_collar !== null ? (foundCase?.has_collar ? 'Has Collar' : 'No Collar') : 'Unknown'}</p>
                   </div>
                 </div>
               </CardContent>
@@ -320,9 +320,9 @@ export default function CaseDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700">{caseItem.location_description}</p>
+                <p className="text-gray-700">{(caseItem as any).location_description}</p>
                 <p className="text-sm text-gray-500 mt-2">
-                  Last seen: {new Date(caseItem.last_seen_date).toLocaleDateString()}
+                  {isMissing ? `Last seen: ${new Date(missingCase?.last_seen_at || '').toLocaleDateString()}` : `Found: ${new Date(foundCase?.found_at || '').toLocaleDateString()}`}
                 </p>
               </CardContent>
             </Card>
@@ -339,25 +339,25 @@ export default function CaseDetailPage() {
                 <div>
                   <label className="text-sm font-medium text-gray-500">Name</label>
                   <p className="flex items-center gap-2 mt-1">
-                    <span>{caseItem.contact_name}</span>
+                    <span>{(caseItem as any).contact_name}</span>
                   </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-500">Phone</label>
                   <p className="flex items-center gap-2 mt-1">
                     <Phone className="h-4 w-4" />
-                    <a href={`tel:${caseItem.contact_phone}`} className="text-blue-600 hover:underline">
-                      {caseItem.contact_phone}
+                    <a href={`tel:${(caseItem as any).contact_phone}`} className="text-blue-600 hover:underline">
+                      {(caseItem as any).contact_phone}
                     </a>
                   </p>
                 </div>
-                {caseItem.contact_email && (
+                {(caseItem as any).contact_email && (
                   <div>
                     <label className="text-sm font-medium text-gray-500">Email</label>
                     <p className="flex items-center gap-2 mt-1">
                       <Mail className="h-4 w-4" />
-                      <a href={`mailto:${caseItem.contact_email}`} className="text-blue-600 hover:underline">
-                        {caseItem.contact_email}
+                      <a href={`mailto:${(caseItem as any).contact_email}`} className="text-blue-600 hover:underline">
+                        {(caseItem as any).contact_email}
                       </a>
                     </p>
                   </div>
