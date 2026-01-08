@@ -26,7 +26,8 @@ export type CaseStatus =
   | 'CLOSED_DECEASED'
   | 'CLOSED_EXPIRED'
   | 'CLOSED_DUPLICATE'
-  | 'LOCKED';
+  | 'LOCKED'
+  | 'ESCALATED_TO_SHELTER';
 
 export type ContactType =
   | 'ER_VET'
