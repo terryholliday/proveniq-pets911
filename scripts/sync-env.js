@@ -3,8 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 // 1. Define Paths based on your screenshot
-// Point to the proveniq-admin directory
-const MASTER_REPO_PATH = path.resolve('C:/Users/Admin1/Desktop/AI Projects/PROVENIQ/poveniq-admin/proveniq-admin');
+// Use local admin path for development, Vercel path for production
+const MASTER_REPO_PATH = process.env.VERCEL 
+  ? path.resolve(__dirname, '../../ADMIN')
+  : path.resolve('C:/Users/Admin1/Desktop/AI Projects/PROVENIQ/poveniq-admin/proveniq-admin');
 const MASTER_ENV_FILE = path.join(MASTER_REPO_PATH, '.env.master');
 const LOCAL_OVERRIDES_FILE = path.join(__dirname, '../.env.local');
 const DESTINATION_FILE = path.join(__dirname, '../.env');

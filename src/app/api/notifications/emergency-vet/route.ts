@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
         contact: {
           id: contact.id,
           name: contact.name,
-          phone: contact.phone_primary,
+          phone: (contact.phone_primary ?? '') || (contact.phone_secondary ?? ''),
         },
         channels: {
           sms: {
