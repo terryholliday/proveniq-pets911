@@ -489,6 +489,7 @@ function StatusBadge({ status }: { status: string }) {
     CLOSED_EXPIRED: { variant: 'secondary', label: 'Expired' },
     CLOSED_DUPLICATE: { variant: 'secondary', label: 'Duplicate' },
     LOCKED: { variant: 'destructive', label: 'Locked' },
+    ESCALATED_TO_SHELTER: { variant: 'warning', label: 'Escalated to Shelter' },
   };
 
   const config = statusConfig[status] || { variant: 'secondary', label: status };

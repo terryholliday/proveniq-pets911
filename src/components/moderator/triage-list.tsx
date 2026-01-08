@@ -181,7 +181,7 @@ function CaseCard({
               <Lock className="h-4 w-4 mr-1" />
               Lock
             </Button>
-            {isFound && (
+            {isFound && caseItem.status !== 'ESCALATED_TO_SHELTER' && caseItem.status !== 'LOCKED' && (
               <Button variant="ghost" size="sm" onClick={onEscalate}>
                 <Building className="h-4 w-4 mr-1" />
                 Shelter
@@ -195,7 +195,7 @@ function CaseCard({
 }
 
 function StatusBadge({ status }: { status: CaseStatus }) {
-  const variants: Record<CaseStatus, { variant: 'default' | 'secondary' | 'success' | 'warning' | 'destructive'; label: string }> = {
+  const statusConfig: Record<string, { variant: 'default' | 'secondary' | 'success' | 'warning' | 'destructive'; label: string }> = {
     ACTIVE: { variant: 'success', label: 'Active' },
     PENDING_VERIFY: { variant: 'warning', label: 'Pending' },
     MATCHED: { variant: 'default', label: 'Matched' },
@@ -205,9 +205,10 @@ function StatusBadge({ status }: { status: CaseStatus }) {
     CLOSED_EXPIRED: { variant: 'secondary', label: 'Expired' },
     CLOSED_DUPLICATE: { variant: 'secondary', label: 'Duplicate' },
     LOCKED: { variant: 'destructive', label: 'Locked' },
+    ESCALATED_TO_SHELTER: { variant: 'warning', label: 'Escalated' },
   };
 
-  const config = variants[status] || { variant: 'secondary', label: status };
+  const config = statusConfig[status] || { variant: 'secondary', label: status };
 
   return <Badge variant={config.variant}>{config.label}</Badge>;
 }

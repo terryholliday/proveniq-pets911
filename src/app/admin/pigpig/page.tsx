@@ -86,23 +86,42 @@ export default function PigPigDashboard() {
   };
 
   const handleEscalate = async (caseId: string, caseType: 'missing' | 'found') => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(
+      'Are you sure you want to escalate this case to the shelter?\n\n' +
+      'This will:\n' +
+      '• Mark the case as escalated\n' +
+      '• Notify shelter staff\n' +
+      '• Transfer case ownership to shelter system\n\n' +
+      'Case ID: ' + caseId
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const idempotencyKey = generateIdempotencyKey();
     
-    if (networkState === 'OFFLINE') {
-      try {
-        if (queueAction) {
-          await queueAction('UPDATE_CASE', {
-            case_id: caseId,
-            case_type: caseType,
-            action: 'ESCALATE_TO_SHELTER',
-          });
-        }
-      } catch (err) {
-        console.error('Failed to queue escalate action:', err);
+    try {
+      if (queueAction) {
+        await queueAction('UPDATE_CASE', {
+          case_id: caseId,
+          case_type: caseType,
+          action: 'ESCALATE_TO_SHELTER',
+        });
       }
-    } else {
-      // TODO: Implement actual escalation
-      console.log('Escalating case:', caseId, caseType);
+      
+      // Update local state to reflect escalation
+      setCases(prev => prev.map(c => 
+        c.id === caseId ? { ...c, status: 'ESCALATED_TO_SHELTER' as const } : c
+      ));
+      
+      // Show success message
+      alert('Case has been escalated to the shelter successfully!');
+      
+    } catch (err) {
+      console.error('Failed to escalate case:', err);
+      alert('Failed to escalate case. Please try again.');
     }
   };
 
