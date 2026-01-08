@@ -37,9 +37,9 @@ export default function EmergencyPage() {
       emergency_summary: `Emergency notification from finder. Condition: ${condition}`,
       callback_number: '+1-304-555-0123', // TODO: Get from user profile
       county: selectedCounty,
-      finder_location: location?.text || 'Location unavailable',
+      finder_location: 'Location unavailable', // TODO: Add geolocation
     });
-  }, [condition, queueAction, selectedCounty, location]);
+  }, [condition, queueAction, selectedCounty]);
 
   const handleLogOutcome = useCallback(async (outcome: MunicipalOutcome, contactId: string) => {
     // Queue the municipal call log (works offline)
