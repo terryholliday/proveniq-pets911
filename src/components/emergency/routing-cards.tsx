@@ -362,14 +362,14 @@ function InjuredRoutingCard({
             </div>
 
             {/* Option 1: Volunteer Helper Network */}
-            {user && location && (
+            {user && (
               <VolunteerDispatchCard
                 county={county}
                 species="DOG"
                 animalSize="MEDIUM"
-                pickupLat={location.lat}
-                pickupLng={location.lng}
-                pickupAddress={location.text}
+                pickupLat={location?.lat || (county === 'GREENBRIER' ? 37.7954 : 38.3498)}
+                pickupLng={location?.lng || (county === 'GREENBRIER' ? -80.4462 : -81.6326)}
+                pickupAddress={location?.text || `${county} County, WV`}
                 requesterId={user.id}
                 requesterName={user.email || 'Anonymous'}
                 requesterPhone=""
