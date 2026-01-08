@@ -21,7 +21,14 @@ const RETRY_CONFIG = {
 
 export interface SyncResult {
   status: SyncStatus;
-  data?: Record<string, unknown>;
+  data?: {
+    data?: {
+      id?: string;
+      case?: { id?: string };
+      sighting?: { id?: string };
+      log_id?: string;
+    };
+  };
   error?: string;
 }
 

@@ -111,7 +111,7 @@ export default function EmergencyPage() {
             )}
 
             {stats.pending > 0 && (
-              <QueuedActionIndicator count={stats.pending} />
+              <QueuedActionIndicator />
             )}
 
             <Alert variant="info" className="mt-6">

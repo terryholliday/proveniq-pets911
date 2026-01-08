@@ -1,0 +1,52 @@
+{
+  "fixtures": [
+    {
+      "fixture_id": "BASIC_EMIT_ALL",
+      "expected": {
+        "eligible_channels": ["email", "push"],
+        "suppressed_reasons_by_channel": {},
+        "emitted_channels": ["email", "push"]
+      }
+    },
+    {
+      "fixture_id": "CONSENT_MISSING",
+      "expected": {
+        "eligible_channels": [],
+        "suppressed_reasons_by_channel": { "email": "consent_missing" },
+        "emitted_channels": []
+      }
+    },
+    {
+      "fixture_id": "PARTNER_UNKNOWN",
+      "expected": {
+        "eligible_channels": [],
+        "suppressed_reasons_by_channel": { "email": "partner_unavailable" },
+        "emitted_channels": []
+      }
+    },
+    {
+      "fixture_id": "FRAUD_SIGNAL",
+      "expected": {
+        "eligible_channels": [],
+        "suppressed_reasons_by_channel": { "push": "fraud_signal" },
+        "emitted_channels": []
+      }
+    },
+    {
+      "fixture_id": "RATE_LIMITED",
+      "expected": {
+        "eligible_channels": [],
+        "suppressed_reasons_by_channel": { "email": "rate_limited" },
+        "emitted_channels": []
+      }
+    },
+    {
+      "fixture_id": "AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE",
+      "expected": {
+        "eligible_channels": [],
+        "suppressed_reasons_by_channel": { "push": "policy_ambiguity" },
+        "emitted_channels": []
+      }
+    }
+  ]
+}

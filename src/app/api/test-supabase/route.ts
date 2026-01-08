@@ -21,7 +21,7 @@ export async function GET() {
     
     // Check if tables exist
     const tables = ['sighting', 'sighting_notification', 'sighting_status_log'];
-    const tableStatus = {};
+    const tableStatus: Record<string, string> = {};
     
     for (const table of tables) {
       try {

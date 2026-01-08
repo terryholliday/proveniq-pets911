@@ -1,5 +1,5 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { createServerComponentClient } from '@supabase/ssr';
+import { createServerClient as createSSRServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -12,8 +12,13 @@ export const createClient = () => {
 
 // Server-side Supabase client for server components
 export const createServerClient = () => {
-  return createServerComponentClient({
-    cookies,
+  const cookieStore = cookies();
+  return createSSRServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      get(name: string) {
+        return cookieStore.get(name)?.value;
+      },
+    },
   });
 };
 
