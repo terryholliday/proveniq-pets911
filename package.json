@@ -15,12 +15,13 @@
     "pre-commit": "npm run governance && npm run test:pet911-alert-compliance"
   },
   "dependencies": {
+    "@radix-ui/react-progress": "^1.1.8",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/auth-helpers-react": "^0.15.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.89.0",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "firebase": "^10.7.1",
     "framer-motion": "^12.23.26",
     "idb": "^8.0.0",
@@ -28,7 +29,7 @@
     "next": "14.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.0",
+    "tailwind-merge": "^2.6.0",
     "twilio": "^5.11.2",
     "uuid": "^9.0.1"
   },
