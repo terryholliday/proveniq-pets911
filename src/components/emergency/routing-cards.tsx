@@ -22,6 +22,8 @@ import { useCountyPack } from '@/lib/hooks/use-county-pack';
 import { useNetworkStatus } from '@/lib/hooks/use-network-status';
 import { reverseGeocode, formatGpsCoordinates, getCurrentPosition } from '@/lib/utils/geocode';
 import type { ConditionTriage, County, EmergencyContact, MunicipalOutcome } from '@/lib/types';
+import { VolunteerDispatchCard } from './VolunteerDispatchCard';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RoutingCardsProps {
   condition: ConditionTriage;
@@ -79,6 +81,7 @@ export function RoutingCards({
         animalControl={animalControl}
         location={location}
         isStale={isStale}
+        county={county}
         onLogOutcome={onLogOutcome}
       />
     );
@@ -277,14 +280,18 @@ function InjuredRoutingCard({
   animalControl,
   location,
   isStale,
+  county,
   onLogOutcome,
 }: {
   erVets: EmergencyContact[];
   animalControl: EmergencyContact[];
   location: { lat: number; lng: number; text: string } | null;
   isStale: boolean;
+  county: County;
   onLogOutcome?: (outcome: MunicipalOutcome, contactId: string) => void;
 }) {
+  const { user } = useAuth();
+
   return (
     <div className="space-y-4">
       <Alert variant="warning">
@@ -343,33 +350,55 @@ function InjuredRoutingCard({
           </div>
 
           {/* NO - Cannot Transport */}
-          <div className="p-4 border-2 border-amber-200 bg-amber-50 rounded-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <Building2 className="h-5 w-5 text-amber-600" />
-              <p className="font-semibold text-amber-800">No, I cannot transport</p>
+          <div className="space-y-3">
+            <div className="p-4 border-2 border-amber-200 bg-amber-50 rounded-xl">
+              <div className="flex items-center gap-2 mb-3">
+                <Building2 className="h-5 w-5 text-amber-600" />
+                <p className="font-semibold text-amber-800">No, I cannot transport</p>
+              </div>
+              <p className="text-sm text-amber-700 mb-3">
+                We have two options to help:
+              </p>
             </div>
-            <p className="text-sm text-amber-700 mb-3">
-              Contact Animal Control for pickup assistance:
-            </p>
-            {animalControl.length > 0 ? (
-              animalControl.map((contact) => (
-                <DispatchCard 
-                  key={contact.id}
-                  contact={contact}
-                  onLogOutcome={onLogOutcome}
-                />
-              ))
-            ) : (
-              <Button
-                variant="default"
-                size="lg"
-                className="w-full bg-amber-600 hover:bg-amber-700"
-                onClick={() => window.location.href = 'tel:911'}
-              >
-                <Phone className="h-5 w-5 mr-2" />
-                Call 911 for Assistance
-              </Button>
+
+            {/* Option 1: Volunteer Helper Network */}
+            {user && location && (
+              <VolunteerDispatchCard
+                county={county}
+                species="DOG"
+                animalSize="MEDIUM"
+                pickupLat={location.lat}
+                pickupLng={location.lng}
+                pickupAddress={location.text}
+                requesterId={user.id}
+                requesterName={user.email || 'Anonymous'}
+                requesterPhone=""
+              />
             )}
+
+            {/* Option 2: Animal Control */}
+            <div className="p-4 border-2 border-slate-200 bg-slate-50 rounded-xl space-y-3">
+              <p className="text-sm font-medium text-slate-800">Or contact Animal Control:</p>
+              {animalControl.length > 0 ? (
+                animalControl.map((contact) => (
+                  <DispatchCard 
+                    key={contact.id}
+                    contact={contact}
+                    onLogOutcome={onLogOutcome}
+                  />
+                ))
+              ) : (
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="w-full bg-slate-600 hover:bg-slate-700"
+                  onClick={() => window.location.href = 'tel:911'}
+                >
+                  <Phone className="h-5 w-5 mr-2" />
+                  Call 911 for Assistance
+                </Button>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

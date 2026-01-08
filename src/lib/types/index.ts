@@ -463,3 +463,6 @@ export interface UserProfile {
   email_enabled: boolean;
   primary_county: County | null;
 }
+
+// --- Volunteer/Helper Network ---
+export * from './volunteer';
