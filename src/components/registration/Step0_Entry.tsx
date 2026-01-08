@@ -14,7 +14,7 @@ export function Step0_Entry({ onNext }: { onNext: () => void }) {
                 Register My Pet
             </h1>
             <p className="text-slate-400 text-lg mb-8 max-w-sm mx-auto leading-relaxed">
-                建立基線真相。 A pet known to the system is a pet that returns home.
+             A pet known to the system is a pet that returns home.
             </p>
 
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 mb-10 text-left">
