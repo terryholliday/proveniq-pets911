@@ -38,9 +38,113 @@ export default function CaseDetailPage() {
     setError(null);
 
     try {
-      // TODO: Replace with actual API call
-      // For now, return mock data or redirect
-      setError('Case details not yet implemented. Please check back later.');
+      // Mock data for demonstration
+      const mockCases: Record<string, MissingPetCase | FoundAnimalCase> = {
+        '1': {
+          id: '1',
+          type: 'missing',
+          case_reference: 'MP-2024-001',
+          status: 'ACTIVE',
+          pet_name: 'Buddy',
+          species: 'DOG',
+          breed: 'Golden Retriever',
+          color_primary: 'Golden',
+          color_secondary: null,
+          distinguishing_features: 'Red collar, friendly',
+          weight_lbs: 65,
+          age_years: 5,
+          sex: 'M',
+          is_neutered: true,
+          microchip_id: null,
+          photo_urls: [],
+          last_seen_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          last_seen_lat: 37.7749,
+          last_seen_lng: -122.4194,
+          last_seen_date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          location_description: 'Near the park on Main Street',
+          county: 'GREENBRIER',
+          contact_name: 'John Smith',
+          contact_phone: '+1-304-555-0101',
+          contact_email: 'john.smith@email.com',
+          created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          updated_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+        },
+        '2': {
+          id: '2',
+          type: 'found',
+          case_reference: 'FA-2024-002',
+          status: 'ACTIVE',
+          pet_name: null,
+          species: 'CAT',
+          breed: 'Tabby',
+          color_primary: 'Gray',
+          color_secondary: 'White',
+          distinguishing_features: 'White paws, timid',
+          weight_lbs: 10,
+          age_years: 2,
+          sex: 'F',
+          is_neutered: true,
+          microchip_id: null,
+          photo_urls: [],
+          found_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          found_lat: 38.3498,
+          found_lng: -81.6326,
+          found_date: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          location_description: 'Under a porch on Oak Avenue',
+          county: 'KANAWHA',
+          condition_notes: 'Seems healthy but scared',
+          needs_immediate_vet: false,
+          holding_location: 'Currently in garage with food and water',
+          contact_name: 'Jane Doe',
+          contact_phone: '+1-304-555-0102',
+          contact_email: 'jane.doe@email.com',
+          created_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          updated_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+        },
+        '3': {
+          id: '3',
+          type: 'found',
+          case_reference: 'FA-2024-003',
+          status: 'ACTIVE',
+          pet_name: null,
+          species: 'DOG',
+          breed: 'Unknown',
+          color_primary: 'Brown',
+          color_secondary: 'Black',
+          distinguishing_features: 'Injured leg, limping',
+          weight_lbs: 40,
+          age_years: 3,
+          sex: 'M',
+          is_neutered: false,
+          microchip_id: null,
+          photo_urls: [],
+          found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          found_lat: 37.7954,
+          found_lng: -80.4462,
+          found_date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          location_description: 'Side of the road on Route 60',
+          county: 'GREENBRIER',
+          condition_notes: 'Visible injury on front leg, bleeding',
+          needs_immediate_vet: true,
+          holding_location: 'In carrier in my car',
+          contact_name: 'Mike Johnson',
+          contact_phone: '+1-304-555-0103',
+          contact_email: null,
+          created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          updated_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+        },
+      };
+
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const caseData = mockCases[caseId];
+      if (!caseData) {
+        setError('Case not found');
+        return;
+      }
+
+      setCaseItem(caseData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load case');
     } finally {
@@ -147,7 +251,10 @@ export default function CaseDetailPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Color</label>
-                    <p className="text-lg">{caseItem.color || 'Unknown'}</p>
+                    <p className="text-lg">
+                      {caseItem.color_primary || 'Unknown'}
+                      {caseItem.color_secondary && ` / ${caseItem.color_secondary}`}
+                    </p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Size</label>
@@ -162,12 +269,45 @@ export default function CaseDetailPage() {
                   </div>
                 )}
 
+                {foundCase?.holding_location && (
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Holding Location</label>
+                    <p className="mt-1 text-gray-700">{foundCase.holding_location}</p>
+                  </div>
+                )}
+
                 {missingCase?.microchip_id && (
                   <div>
                     <label className="text-sm font-medium text-gray-500">Microchip ID</label>
                     <p className="mt-1 font-mono">{missingCase.microchip_id}</p>
                   </div>
                 )}
+
+                {caseItem.distinguishing_features && (
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Distinguishing Features</label>
+                    <p className="mt-1 text-gray-700">{caseItem.distinguishing_features}</p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Weight</label>
+                    <p className="text-lg">{caseItem.weight_lbs ? `${caseItem.weight_lbs} lbs` : 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Age</label>
+                    <p className="text-lg">{caseItem.age_years ? `${caseItem.age_years} years` : 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Sex</label>
+                    <p className="text-lg">{caseItem.sex || 'Unknown'}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Neutered/Spayed</label>
+                    <p className="text-lg">{caseItem.is_neutered ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
