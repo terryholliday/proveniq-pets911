@@ -7,6 +7,8 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get('code');
   const redirectTo = requestUrl.searchParams.get('redirectTo') || '/';
 
+  const response = NextResponse.redirect(new URL(redirectTo, request.url));
+
   if (code) {
     try {
       const cookieStore = cookies();
@@ -20,12 +22,15 @@ export async function GET(request: Request) {
       }
       
       console.log('OAuth session created successfully for user:', data.user?.email);
+      
+      // Session is now set in cookies via createServerClient
+      // Return the redirect response
+      return response;
     } catch (err) {
       console.error('OAuth callback exception:', err);
       return NextResponse.redirect(new URL('/login?error=auth_failed', request.url));
     }
   }
 
-  // Redirect to the specified URL or home
-  return NextResponse.redirect(new URL(redirectTo, request.url));
+  return response;
 }
