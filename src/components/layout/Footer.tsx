@@ -9,7 +9,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-400 text-sm">
             <Heart className="w-4 h-4 text-red-500 fill-red-500/20" />
-            <span>© 2025-2026 PROVENIQ Foundation. All rights reserved.</span>
+            <span>© 2025-2026 PetNexus Foundation. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-6 text-slate-500 text-sm">
             <a href="/privacy" className="hover:text-slate-300 transition-colors">Privacy</a>

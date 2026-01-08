@@ -1,6 +1,6 @@
 {
-  "name": "PROVENIQ Pets (WV)",
-  "short_name": "Pets911",
+  "name": "PetNexus Pet911 (WV)",
+  "short_name": "Pet911",
   "description": "Emergency coordination for lost and found pets in West Virginia",
   "start_url": "/",
   "display": "standalone",

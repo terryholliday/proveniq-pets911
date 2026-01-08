@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { NotificationProvider } from '@/contexts/NotificationContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'PROVENIQ Pets (WV)',
+  title: 'PetNexus Pet911 (WV)',
   description: 'Emergency coordination for lost and found pets in West Virginia',
   manifest: '/manifest.json',
 };
@@ -24,12 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
-        <NotificationProvider>
-          <div className="flex flex-col min-h-screen">
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </NotificationProvider>
+        <AuthProvider>
+          <NotificationProvider>
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </NotificationProvider>
+        </AuthProvider>
       </body>
     </html>
   );

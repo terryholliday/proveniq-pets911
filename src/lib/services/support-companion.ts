@@ -234,7 +234,7 @@ export const SUPPORT_API_CONFIG = {
     endSession: '/sessions/{sessionId}/end',
   },
   headers: {
-    'X-Client-Tag': 'proveniq-pet-911',
+    'X-Client-Tag': 'proveniq-Pet911',
     'X-Companion-Type': 'empathy',
   },
 };

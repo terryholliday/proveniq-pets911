@@ -1,4 +1,4 @@
-# PROVENIQ Pet 911 (WV) - Pilot PWA
+# PetNexus Pet911 - Pilot PWA
 
 Emergency coordination for lost and found pets in West Virginia. Offline-first PWA with moderator console.
 
@@ -134,4 +134,4 @@ Connect to actual Supabase/Firebase backend by implementing the TODO comments in
 
 ## License
 
-Proprietary - PROVENIQ Inc.
+Proprietary - PROVENIQ Charitable Trust
