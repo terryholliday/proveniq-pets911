@@ -135,7 +135,7 @@ export default function CaseDetailPage() {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      const caseData = mockCases[caseId];
+      const caseData = mockCases[caseId] as any;
       if (!caseData) {
         setError('Case not found');
         return;
