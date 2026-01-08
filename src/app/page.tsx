@@ -314,7 +314,7 @@ export default function HomePage() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/privacy" className="text-slate-400 hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="text-slate-400 hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/admin/pigpig" className="text-slate-400 hover:text-white transition-colors">Moderator Access</Link></li>
+                <li><Link href="https://proveniqpets911.org/admin/pigpig" className="text-slate-400 hover:text-white transition-colors">Moderator Access</Link></li>
               </ul>
             </div>
           </div>
