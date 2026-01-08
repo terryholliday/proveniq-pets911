@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,6 +31,7 @@ interface TriageListProps {
  */
 export function TriageList({ cases, onSelectCase, onLockCase, onEscalate }: TriageListProps) {
   const [filter, setFilter] = useState<'all' | 'missing' | 'found'>('all');
+  const router = useRouter();
 
   const filteredCases = cases.filter(c => {
     if (filter === 'all') return true;
@@ -86,7 +88,7 @@ export function TriageList({ cases, onSelectCase, onLockCase, onEscalate }: Tria
             <CaseCard
               key={caseItem.id}
               caseItem={caseItem}
-              onSelect={() => onSelectCase(caseItem)}
+              onSelect={() => router.push(`/case/${caseItem.id}`)}
               onLock={() => onLockCase(caseItem.id, caseItem.type)}
               onEscalate={() => onEscalate(caseItem.id, caseItem.type)}
             />

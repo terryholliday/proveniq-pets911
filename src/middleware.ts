@@ -110,6 +110,7 @@ const DOMAIN_CONFIG = {
     allowedPaths: [
       '/',
       '/admin/(.*)',
+      '/case/(.*)',
       '/api/(.*)',
       '/moderator/(.*)',
       '/helpers/(.*)',
