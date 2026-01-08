@@ -343,7 +343,7 @@ export default function HomePage() {
           </div>
           <div className="pt-8 border-t border-slate-800 text-center">
             <p className="text-slate-500 text-sm">
-              © 2024 PROVENIQ Inc. • Greenbrier & Kanawha Counties, WV
+              © 2024 PetNexus Foundation. • Greenbrier & Kanawha Counties, WV
             </p>
           </div>
         </div>
