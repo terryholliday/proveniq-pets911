@@ -59,7 +59,6 @@ export default function CaseDetailPage() {
           last_seen_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           last_seen_lat: 37.7749,
           last_seen_lng: -122.4194,
-          last_seen_date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           location_description: 'Near the park on Main Street',
           county: 'GREENBRIER',
           contact_name: 'John Smith',
@@ -72,7 +71,7 @@ export default function CaseDetailPage() {
           id: '2',
           case_reference: 'FA-2024-002',
           status: 'ACTIVE',
-          pet_name: null,
+          pet_name: undefined,
           species: 'CAT',
           breed_guess: 'Tabby',
           color_primary: 'Gray',
@@ -87,7 +86,6 @@ export default function CaseDetailPage() {
           found_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           found_lat: 38.3498,
           found_lng: -81.6326,
-          found_date: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           location_description: 'Under a porch on Oak Avenue',
           county: 'KANAWHA',
           condition_notes: 'Seems healthy but scared',
@@ -103,7 +101,7 @@ export default function CaseDetailPage() {
           id: '3',
           case_reference: 'FA-2024-003',
           status: 'ACTIVE',
-          pet_name: null,
+          pet_name: undefined,
           species: 'DOG',
           breed_guess: 'Unknown',
           color_primary: 'Brown',
@@ -121,7 +119,6 @@ export default function CaseDetailPage() {
           found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           found_lat: 37.7954,
           found_lng: -80.4462,
-          found_date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           location_description: 'Side of the road on Route 60',
           county: 'GREENBRIER',
           condition_notes: 'Visible injury on front leg, bleeding',
@@ -269,10 +266,10 @@ export default function CaseDetailPage() {
                   </div>
                 )}
 
-                {foundCase?.holding_location && (
+                {(foundCase as FoundAnimalCase)?.holding_location && (
                   <div>
                     <label className="text-sm font-medium text-gray-500">Holding Location</label>
-                    <p className="mt-1 text-gray-700">{foundCase.holding_location}</p>
+                    <p className="mt-1 text-gray-700">{(foundCase as FoundAnimalCase).holding_location}</p>
                   </div>
                 )}
 
@@ -379,8 +376,8 @@ export default function CaseDetailPage() {
                   <span>{new Date(caseItem.created_at).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Last seen:</span>
-                  <span>{new Date(caseItem.last_seen_date).toLocaleDateString()}</span>
+                  <span>{isMissing ? 'Last seen:' : 'Found:'}</span>
+                  <span>{new Date(isMissing ? missingCase?.last_seen_at || '' : foundCase?.found_at || '').toLocaleDateString()}</span>
                 </div>
                 {caseItem.updated_at !== caseItem.created_at && (
                   <div className="flex justify-between">
