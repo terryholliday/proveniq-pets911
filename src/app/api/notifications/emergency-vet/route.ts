@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     // Send notification via Twilio
     const notificationResult = await twilioService.notifyVet({
       contactName: contact.name,
-      contactPhone: contact.phone_primary,
+      contactPhone: contact.phone_primary || contact.phone_secondary || '',
       emergencySummary: emergency_summary || 'Emergency pet transport en route',
       callbackNumber: callback_number || 'Not provided',
       finderLocation: finder_location || undefined,
