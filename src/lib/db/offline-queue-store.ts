@@ -229,7 +229,7 @@ export async function cleanupSyncedActions(maxAgeDays: number = 7): Promise<numb
   for (const action of all) {
     if (
       action.sync_status === 'SYNCED' &&
-      new Date(action.created_at).getTime() < cutoff
+      new Date(action.created_at).getTime() <= cutoff
     ) {
       await db.delete('offline-queue', action.id);
       cleaned++;

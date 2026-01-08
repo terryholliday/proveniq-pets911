@@ -90,13 +90,27 @@ This implementation follows:
 3. **SMS opt-in only** - Default to in-app notifications
 4. **Municipal accountability is INTERNAL** - No public scoreboard
 
-## Testing
+## Compliance & Testing
+
+### Compliance Documents
+
+- [Pet911 Alert Compliance](docs/pets/PET911_ALERT_COMPLIANCE.md) – E2E determinism, auditability, fail-closed
+- [Offline Sync Compliance](docs/pets/OFFLINE_SYNC_COMPLIANCE.md) – FIFO, idempotency, retry, dependencies
+- [Canonical Law](docs/pets/CANONICAL_LAW.md) – Governance and fail-closed rules
+- [Offline Protocol](docs/pets/OFFLINE_PROTOCOL.md) – Caching tiers, sync lifecycle
+
+### Testing
 
 ```bash
 # Run all tests
 npm test
 
+# Run tests in watch mode
+npm run test:watch
+
 # Run specific test suites
+npm run test:pet911-alert-compliance
+npm run test:sync-worker-e2e
 npm test -- --testPathPattern=offline-queue
 npm test -- --testPathPattern=county-pack
 npm test -- --testPathPattern=moderator-gating

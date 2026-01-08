@@ -1420,7 +1420,9 @@
             "told me to get over it",
             "people judge me",
             "they were just a dog",
-            "no one takes it seriously"
+            "no one takes it seriously",
+            "feel stupid",
+            "crying over"
         ],
         "PEDIATRIC": [
             "my child",
@@ -1835,12 +1837,16 @@
                 "ifDeclined": "I understand. Please save {HOTLINES.{REGION}.crisis_988}. If things escalate, call or text them immediately."
             },
             "escalation": "CRITICAL",
-            "requiresHumanHandoff": true
+            "requiresHumanHandoff": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "suicide_passive": {
             "response": "I'm really sorry you're hurting like this. The pain can feel endless, but it can change.\n\n**If these thoughts are getting stronger or you feel unsafe, call or text {HOTLINES.{REGION}.crisis_988}.**\n\nAre you feeling safe right now?",
             "escalation": "HIGH",
-            "requiresHumanHandoff": true
+            "requiresHumanHandoff": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "vet_med_crisis": {
             "response": "I hear the weight you are carrying. To the world, you are a helper. But right now, you are the one who needs support.\n\nCompassion fatigue and moral injury are not signs you are weak. They are the cost of caring deeply in a broken system.\n\n**Specific support:**\n• NOT ONE MORE VET (NOMV): {HOTLINES.US.nomv}\n• Vets4Vets (VIN Foundation): {HOTLINES.US.vets4vets}\n• Vetlife (UK): {HOTLINES.UK.vetlife}\n• Crisis support: {HOTLINES.{REGION}.crisis_988}\n\nAre you safe right now?",
@@ -1859,7 +1865,7 @@
             ]
         },
         "theft_dispute": {
-            "response": "I can hear how angry and terrified you are. However, for your safety and your pet's safety, please pause.\n\n**DO NOT confront the person violently or try to break into their property.**\n• You could be injured or arrested.\n• Confrontation can cause the person to hide or harm the pet.\n\n**Effective steps:**\n1) Gather documentation (photos, microchip/vet records).\n2) File a police report (even if they say "civil matter").\n3) Consider a certified demand letter.\n4) Consider court remedies (often replevin / return of property).\n\nDo you have documentation that proves you're the possible owner?",
+            "response": "I can hear how angry and terrified you are. However, for your safety and your pet's safety, please pause.\n\n**DO NOT confront the person violently or try to break into their property.**\n• You could be injured or arrested.\n• Confrontation can cause the person to hide or harm the pet.\n\n**Effective steps:**\n1) Gather documentation (photos, microchip/vet records).\n2) File a police report (even if they say \"civil matter\").\n3) Consider a certified demand letter.\n4) Consider court remedies (often replevin / return of property).\n\nDo you have documentation that proves you're the possible owner?",
             "escalation": "HIGH",
             "mustContain": [
                 "DO NOT",
@@ -1881,6 +1887,30 @@
             "mustNotContain": [],
             "visualAid": true
         },
+        "anticipatory": {
+            "response": "I hear how heavy your heart is. This is known as **Anticipatory Grief**—the pain of losing them slowly before they are actually gone.\n\nIt is an excruciating space to be in, grieving the living. You are doing the hard work of loving them through the end. Be gentle with yourself.",
+            "escalation": "MEDIUM",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "quality_of_life": {
+            "response": "Deciding when to let go is the heaviest burden of love. You are asking the right questions.\n\n**The HHHHHMM Quality of Life Scale:**\n• **Hurt**: Is pain managed?\n• **Hunger**: Eating normally?\n• **Hydration**: Drinking?\n• **Hygiene**: Can they keep clean?\n• **Happiness**: Do they have joy?\n• **Mobility**: Can they move?\n• **More good days than bad**: This is the key measure.\n\nAsk yourself this brave question: \"Am I keeping them alive for THEM, or for me?\"",
+            "escalation": "MEDIUM",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "guilt_cbt": {
+            "response": "I hear the weight of the guilt you are carrying. This is 'hindsight bias'—judging your past self with information you only have now.\n\n**Let's use the Check the Facts protocol:**\n\n1. **Outcome vs. Intent:** You did not intend harm. You loved them.\n2. **The Puzzle Metaphor:** You only had one piece of the puzzle then. You can't solve a puzzle with missing pieces.\n3. **Hindsight:** It is unfair to blame yourself for not knowing the future.\n\nWhat is one thing you did out of love for them?",
+            "escalation": "MEDIUM",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "pediatric": {
+            "response": "Explaining loss to children is deeply challenging. Honesty is the safest path.\n\n**Key Guidance by Age:**\n• **Ages 3-5:** Use concrete words like \"died\" or \"body stopped working.\" Avoid \"put to sleep\" (can cause sleep anxiety).\n• **Ages 6-9:** They may ask about the mechanics of death. Answer simply and honestly.\n\nAvoid saying they \"ran away\" or went to a \"farm,\" as this creates confusion and false hope.",
+            "escalation": "STANDARD",
+            "mustContain": [],
+            "mustNotContain": []
+        },
         "euthanasia_logistics": {
             "response": "It makes sense to feel terrified about the appointment. Knowing what usually happens can reduce the fear of the unknown.\n\n**In many clinics, it looks like this:**\n1) **A calming medication first:** many vets give a sedative so your pet becomes very relaxed and sleepy.\n2) **Then the final medication:** once they are deeply asleep, the vet gives the medication that allows them to pass.\n3) **You can usually stay:** you can hold them, talk to them, and be close—your presence matters.\n\nA grounded truth: vets aim for this to be calm and gentle. Sometimes there can be small reflexes afterward—that doesn't mean suffering.\n\nIf you tell me whether this is at-home or at-clinic, I can help you plan what to bring and what to expect emotionally.",
             "escalation": "MEDIUM",
@@ -1895,23 +1925,61 @@
             ]
         },
         "scam_alert": {
-            "response": "**🚨 SCAM ALERT** — what you're describing has multiple red flags.\n\n⚠️\n\n**NEVER:**\n• Share verification codes\n• Send money to "hold" or "ship" a pet via Zelle/CashApp/Western Union\n• Trust a "Flight Nanny" you haven't met\n• Pay before meeting the pet\n\nPrefer in-person meetups at a public place (or shelter/vet) and verify microchip/vet records when possible.\n\nIf you want, tell me exactly what they asked for (no personal info) and I'll point out the red flags.",
+            "response": "**🚨 SCAM ALERT** — what you're describing has multiple red flags.\n\n⚠️\n\n**NEVER:**\n• Share verification codes (often Google Voice)\n• Send money to \"hold\" or \"ship\" a pet via Zelle/CashApp/Western Union\n• Trust a \"Flight Nanny\" you haven't met\n• Pay before meeting the pet\n\nPrefer in-person meetups at a public place (or shelter/vet) and verify microchip/vet records when possible.\n\nIf you want, tell me exactly what they asked for (no personal info) and I'll point out the red flags.",
             "escalation": "STANDARD",
-            "visualAid": true
+            "visualAid": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "emergency_veterinary": {
             "response": "This sounds like a veterinary emergency. **Please act immediately.**\n\n**If your pet is:**\n• Not breathing\n• Unconscious\n• Actively seizing\n• Bleeding severely\n• Has pale/blue gums\n\n**→ Contact an emergency vet or local emergency services NOW.**\n\n**CHECK GUMS:**\nCompare your pet's gums to this guide:\n• **Pink** = Normal\n• **Pale/White** = Shock/Blood Loss\n• **Blue/Purple** = Oxygen Deprivation\n\n**If CHOKING:**\nFor dogs >20 lbs: Stand behind, fist below ribcage, thrust upward 3-5 times.\n\nIf you tell me your pet's species and what happened in one sentence, I'll help you decide the safest next step.",
             "escalation": "HIGH",
-            "visualAid": true
+            "visualAid": true,
+            "mustContain": [
+                "emergency",
+                "act immediately"
+            ],
+            "mustNotContain": [
+                "just a",
+                "calm down"
+            ]
         },
         "lost_pet": {
-            "response": "I'm sorry your pet is missing. We'll take this step by step.\n\n**Start with:**\n• Last-seen location and time\n• Species, color, size\n• Any collar/tag/microchip\n• Whether they're shy or friendly\n\nDo you want help creating a flyer and a social post?",
-            "escalation": "STANDARD"
+            "response": "I'm sorry your pet is missing. We can't predict exactly where they went, but we can take smart steps.\n\n**Key Steps:**\n1) **Search Physically:** Start close. Check hiding spots.\n2) **Microchip:** Contact the microchip company to flag them as lost.\n3) **Post Safely:** Create flyers, but **do not share your home address** publicly.\n\nTell me where they were last seen.",
+            "escalation": "STANDARD",
+            "mustContain": [],
+            "mustNotContain": []
         },
         "found_pet": {
-            "response": "Thank you for helping. Let's keep you and the pet safe.\n\n**BEFORE YOU TOUCH THEM:**\nLook at their body language. A wagging tail doesn't always mean friendly.\n\n**Warning signs:**\n• Whale eye (whites of eyes showing)\n• Stiff tail\n• Lip licking\n• Ears pinned back\n\n**Safe steps:**\n• Avoid declaring ownership\n• Check for ID\n• Contact local shelter/rescue to scan for microchip\n• Post a found report without revealing unique identifiers publicly\n\nCan you describe the pet (species, size, color) and where you found them (general area only)?",
+            "response": "Thank you for helping regarding this **found pet**. Let's keep you and the pet safe.\n\n**BEFORE YOU TOUCH THEM:**\nLook at their body language. A wagging tail doesn't always mean friendly.\n\n**Warning signs:**\n• Whale eye (whites of eyes showing)\n• Stiff tail\n• Lip licking\n• Ears pinned back\n\n**Safe steps:**\n• Avoid declaring ownership\n• Check for ID\n• Contact local shelter/rescue to scan for microchip\n• Post a found report without revealing unique identifiers publicly\n\nCan you describe the pet (species, size, color) and where you found them (general area only)?",
             "escalation": "STANDARD",
-            "visualAid": true
+            "visualAid": true,
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "death_general": {
+            "response": "I am **deeply sorry** for your loss. They were a beloved **family member**, and their absence leaves a huge hole.\n\nPlease know that there is **no timeline for grief**. Take all the time you need to process this.",
+            "escalation": "STANDARD",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "death_traumatic": {
+            "response": "I am so sorry. This was a **traumatic** and sudden loss. Your brain may be trying to process the shock.\n\nYou are safe now. Take a slow breath. It was not your fault.",
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "death_euthanasia": {
+            "response": "Making the decision for **euthanasia** is the hardest part of loving a pet. Ideally, it is a peaceful release from suffering.\n\nYou gave them the gift of a gentle passing. You took their pain and made it your own.",
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "death_found_deceased": {
+            "response": "This is a **devastating discovery**. Finding them like this is a shock to your system.\n\nIt is okay to look away. You do not need to be strong right now. Are you in a safe place?",
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
         },
         "dv_immediate_danger": {
             "response": "I'm concerned you may be in immediate danger. **If you can do so safely, contact local emergency services now.**\n\n**US DV Resources:**\n• Call: {HOTLINES.US.dv_hotline}\n• Text: {HOTLINES.US.dv_text}\n\n**If you need to exit quickly, type /exit.**\n\nAre you able to move to a safer place right now without being seen?",
@@ -1920,33 +1988,63 @@
                 "ifDeclined": "I understand. Please save this resource: {HOTLINES.US.dv_hotline}. If danger escalates, contact emergency services."
             },
             "escalation": "CRITICAL",
-            "requiresHumanHandoff": true
+            "requiresHumanHandoff": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "dv_coercive_control": {
             "response": "What you're describing sounds like coercive control. You deserve safety and support.\n\n**Tech Safety:**\n• Avoid shared devices\n• Consider whether your phone may be monitored\n• Be careful with location sharing\n• Use private/incognito browsing\n\n**If you need to exit quickly, type /exit.**\n\n**US DV Resources:**\n• Call: {HOTLINES.US.dv_hotline}\n• Text: {HOTLINES.US.dv_text}\n• Chat: {HOTLINES.US.dv_chat}\n\nWould you like a safety plan checklist that doesn't require you to share your location?",
             "escalation": "HIGH",
-            "requiresHumanHandoff": true
+            "requiresHumanHandoff": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "child_abuse": {
             "response": "I'm really glad you reached out. I can't investigate, but I can share safe guidance.\n\n**If a child is in immediate danger, contact local emergency services now.**\n\n**US:** {HOTLINES.US.childhelp}\n**UK:** {HOTLINES.UK.childline}\n\nDo you believe the child is in danger right now?",
             "escalation": "CRITICAL",
-            "requiresHumanHandoff": true
+            "requiresHumanHandoff": true,
+            "mustContain": [],
+            "mustNotContain": []
         },
         "general": {
             "response": "I'm here with you. Tell me what's going on—lost pet, found pet, grief, or something else?",
-            "escalation": "STANDARD"
+            "escalation": "STANDARD",
+            "mustContain": [],
+            "mustNotContain": []
         },
         "mdd": {
             "response": "I hear how much pain you're in. Those thoughts—feeling worthless, broken—are symptoms of depression, not truths about who you are.\n\nYou deserve support. If these feelings are overwhelming, please reach out:\n• {HOTLINES.{REGION}.crisis_988}\n• {HOTLINES.{REGION}.samhsa}\n\nWould you like to talk about what's contributing to these feelings?",
-            "escalation": "HIGH"
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
         },
         "paralysis": {
             "response": "It sounds like you're in shutdown mode. Sometimes when grief or stress is too much, our bodies just stop.\n\nYou don't have to force yourself to function right now. But if you can do one tiny thing—drink water, open a window—that's enough.\n\nAre you safe where you are right now?",
-            "escalation": "HIGH"
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "disenfranchised": {
+            "response": "I hear how much you are hurting. People who say \"it's just a pet\" have likely never loved like you do. I want you to know: They were **NOT 'just'** a pet. They were a family member.\n\nThe bond you shared is rooted in your shared history and even your biology. You have every right to grieve this loss as deeply as you need to.",
+            "mustContain": [
+                "family member",
+                "right to grieve",
+                "NOT 'just'",
+                "biology",
+                "people who say",
+                "never loved like you do"
+            ],
+            "mustNotContain": [
+                "just a",
+                "get another pet",
+                "calm down"
+            ]
         },
         "behavioral_euthanasia": {
             "response": "I'm so sorry you're facing this. Behavioral euthanasia is one of the most painful decisions, and it's often made in isolation.\n\nYou are not a bad person. You tried. Sometimes love means making the safest choice, even when it breaks your heart.\n\n**Support:**\n• Losing Lulu (Facebook group for BE)\n• Your vet may have a social worker available\n\nDo you want to talk about what led to this decision?",
-            "escalation": "HIGH"
+            "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
         }
     },
     "HANDOFF_PROTOCOL": {
@@ -2106,6 +2204,13 @@
         "It was meant to be",
         "I know how you feel",
         "At least you had time together"
+    ],
+    "OPENINGS": [
+        "Hi, I'm here to help. What's going on with your pet?",
+        "Hello. I'm your Pet911 support companion. How can I help you today?",
+        "I'm here to support you. Tell me what's happening.",
+        "Welcome. I'm here to help with any pet emergency or concern you have.",
+        "Hi there. Whether it's an emergency or you just need support, I'm here to listen."
     ],
     "CONFIG": {
         "typingSpeed": 25,

@@ -9,9 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:pet911-alert-compliance": "jest --testPathPattern=pet911-alert-compliance",
     "test:watch": "jest --watch",
     "governance": "node scripts/canon-governance.js",
-    "pre-commit": "npm run governance && npm test -- --testPathPattern=counselor-engine"
+    "pre-commit": "npm run governance && npm run test:pet911-alert-compliance"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.15.0",
