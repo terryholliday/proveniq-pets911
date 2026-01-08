@@ -198,12 +198,46 @@ async function logDispatchNotification(data: {
   sent_at: string;
   message_sid: string;
 }): Promise<void> {
-  // TODO: Insert into dispatch_notifications table
-  console.log('Logging dispatch notification:', data);
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  await supabase.from('dispatch_notifications').insert({
+    dispatch_request_id: data.dispatch_request_id,
+    volunteer_id: data.volunteer_id,
+    notification_type: data.notification_type,
+    sent_at: data.sent_at,
+    message_sid: data.message_sid,
+  });
 }
 
 async function findPendingDispatchForVolunteer(phone: string): Promise<string | null> {
-  // TODO: Query dispatch_requests for most recent PENDING request where volunteer was notified
-  console.log('Finding pending dispatch for:', phone);
-  return null;
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  // Find volunteer by phone
+  const { data: volunteer } = await supabase
+    .from('volunteers')
+    .select('id')
+    .eq('phone', phone)
+    .single();
+
+  if (!volunteer) return null;
+
+  // Find most recent pending dispatch where this volunteer was notified
+  const { data: notification } = await supabase
+    .from('dispatch_notifications')
+    .select('dispatch_request_id')
+    .eq('volunteer_id', volunteer.id)
+    .is('response_at', null)
+    .order('sent_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  return notification?.dispatch_request_id || null;
 }
