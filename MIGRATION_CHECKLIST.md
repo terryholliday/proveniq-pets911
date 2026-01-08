@@ -8,12 +8,12 @@
 - [ ] Document current branch structure
 
 ### 2. Create New Repositories
-- [ ] Create `proveniq-pet-911` repository
+- [ ] Create `proveniq-Pet911` repository
 - [ ] Create `proveniq-trust` repository
 - [ ] Configure repository settings (teams, protections, etc.)
 - [ ] Set up branch protection rules
 
-## Phase 1: Update Current Repository (proveniq-pets911 → proveniq-pet-911)
+## Phase 1: Update Current Repository (proveniq-pets911 → proveniq-Pet911)
 
 ### Repository Configuration
 - [x] Update `package.json` name field
@@ -34,7 +34,7 @@
 ## Phase 2: Setup proveniq-trust Repository
 
 ### Initial Setup
-- [ ] Clone template from proveniq-pet-911
+- [ ] Clone template from proveniq-Pet911
 - [ ] Remove app-specific files
 - [ ] Update package.json with new name/description
 - [ ] Configure CI/CD pipeline
@@ -52,7 +52,7 @@
 - [ ] Copy `/src/app/about/page.tsx`
 - [ ] Copy `/src/app/press/page.tsx`
 - [ ] Update branding and navigation
-- [ ] Remove from pet-911 repository
+- [ ] Remove from Pet911 repository
 - [ ] Test links and routing
 
 ### Support Components
@@ -63,16 +63,16 @@
 - [ ] Copy `/src/app/support/page.tsx`
 - [ ] Rename "Ori" references to "Support Companion"
 - [ ] Update imports and dependencies
-- [ ] Remove from pet-911 repository
+- [ ] Remove from Pet911 repository
 
 ### Legal Documents
 - [ ] Copy `/src/app/terms/page.tsx`
 - [ ] Copy `/src/app/privacy/page.tsx`
 - [ ] Update with nonprofit information
 - [ ] Add additional legal documents
-- [ ] Remove from pet-911 repository
+- [ ] Remove from Pet911 repository
 
-## Phase 4: Update proveniq-pet-911
+## Phase 4: Update proveniq-Pet911
 
 ### Remove Moved Content
 - [ ] Delete organizational pages
@@ -97,7 +97,7 @@
 ## Phase 5: Domain and Deployment Configuration
 
 ### Domain Setup
-- [ ] Configure `pet-911.proveniq.org` → proveniq-pet-911
+- [ ] Configure `Pet911.proveniq.org` → proveniq-Pet911
 - [ ] Configure `proveniq.org` → proveniq-trust
 - [ ] Set up `api.proveniq.org` as shared gateway
 - [ ] Configure SSL certificates
@@ -113,7 +113,7 @@
 ## Phase 6: Testing and Validation
 
 ### Functionality Testing
-- [ ] Test all app features in pet-911
+- [ ] Test all app features in Pet911
 - [ ] Test all pages in trust site
 - [ ] Test cross-site navigation
 - [ ] Test authentication flow

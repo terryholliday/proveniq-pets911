@@ -1,10 +1,10 @@
-# Repository Reorganization: PROVENIQ Pet 911 & PROVENIQ Trust
+# Repository Reorganization: PROVENIQ Pet 911 & PROVENIQ Charitable Trust
 
 ## Overview
 
-The PROVENIQ project has been split into two repositories to better separate concerns:
+The PetNexus Pet911 project has been split into two repositories to better separate concerns:
 
-1. **proveniq-pet-911** - The emergency pet coordination application
+1. **PetNexus-pet911** - The emergency pet coordination application
 2. **proveniq-trust** - All nonprofit-related content and operations
 
 ## Files/Components to Move to proveniq-trust
@@ -43,7 +43,7 @@ These should be maintained by the nonprofit:
 - Press kit materials
 - Marketing templates
 
-## Staying in proveniq-pet-911
+## Staying in proveniq-Pet911
 
 ### Core Application Features
 - Emergency finder assist (`/emergency`)
@@ -85,15 +85,15 @@ These should be maintained by the nonprofit:
 2. **Move identified files**
    - Copy files to new repository
    - Update imports and references
-   - Remove from pet-911 repo
+   - Remove from Pet911 repo
 
-3. **Update pet-911 application**
+3. **Update Pet911 application**
    - Remove references to moved components
    - Update navigation to point to trust site where needed
    - Add links to trust domain for organizational info
 
 4. **Configure domains**
-   - pet-911.proveniq.org (or similar) - Application
+   - Pet911.proveniq.org (or similar) - Application
    - proveniq.org - Nonprofit organization site
 
 5. **Update documentation**
@@ -109,7 +109,7 @@ These should be maintained by the nonprofit:
 - Shared user database
 
 ### API Integration
-- Trust site may need API access to pet-911 for:
+- Trust site may need API access to Pet911 for:
   - Donation tracking
   - Impact metrics
   - Volunteer management
@@ -131,4 +131,4 @@ These should be maintained by the nonprofit:
 - The empathy companion ("Ori") should be renamed to "Support Companion" as per organizational guidelines
 - All references to "Ori" or "Origins app character" should be removed
 - The trust repository will focus on the nonprofit mission, stories, and community engagement
-- The pet-911 repository will focus purely on the emergency coordination functionality
+- The Pet911 repository will focus purely on the emergency coordination functionality

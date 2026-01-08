@@ -12,6 +12,7 @@
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
 // Domain configuration
 const DOMAIN_CONFIG = {
@@ -162,9 +163,29 @@ function getDomainHeaders(domainType: DomainType | 'DEV'): Record<string, string
   return headers;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host') || 'localhost';
+
+  // Create Supabase client for auth
+  const response = NextResponse.next();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  // Check authentication for protected routes
+  if (pathname === '/register') {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      const redirectUrl = new URL('/login', request.url);
+      redirectUrl.searchParams.set('redirectTo', '/register');
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
 
   // Determine domain type
   const domainType = getDomainType(hostname);
@@ -189,7 +210,6 @@ export function middleware(request: NextRequest) {
 
   // Development mode - allow all routes
   if (domainType === 'DEV') {
-    const response = NextResponse.next();
     response.headers.set('X-Proveniq-Domain', 'DEV');
     response.headers.set('X-Proveniq-Mode', 'development');
     return response;
@@ -239,8 +259,6 @@ export function middleware(request: NextRequest) {
   }
 
   // Path allowed - continue with domain headers
-  const response = NextResponse.next();
-
   for (const [key, value] of Object.entries(getDomainHeaders(domainType))) {
     response.headers.set(key, value);
   }

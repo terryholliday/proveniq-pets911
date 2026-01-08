@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { AlertTriangle, Search, Eye, Heart, Users, ClipboardList, MessageCircleHeart } from 'lucide-react';
+import { AlertTriangle, Search, Eye, Heart, Users, ClipboardList, MessageCircleHeart, LogOut, LogIn } from 'lucide-react';
 import { NotificationCenter } from '@/components/notifications/NotificationCenter';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function HomePage() {
+  const { user, signOut, loading } = useAuth();
+
   return (
     <main className="min-h-screen bg-slate-900">
       {/* Header */}
@@ -13,7 +16,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Heart className="w-6 h-6 text-red-500" />
-              <span className="font-bold text-white">PROVENIQ Pets 911</span>
+              <span className="font-bold text-white">PetNexus Pet911</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
@@ -22,6 +25,26 @@ export default function HomePage() {
               >
                 Sightings
               </Link>
+              {!loading && user ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-slate-300 text-sm">Hi, {user.user_metadata?.full_name || user.email}</span>
+                  <button
+                    onClick={signOut}
+                    className="text-slate-300 hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login?redirectTo=/register"
+                  className="text-slate-300 hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Sign In
+                </Link>
+              )}
               <NotificationCenter />
             </div>
           </div>
@@ -38,7 +61,7 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto w-full text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white/90 text-sm font-medium mb-6">
               <Heart className="w-4 h-4" />
-              PROVENIQ Pets 911 • West Virginia
+              PetNexus Pet911 • West Virginia
             </div>
 
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
@@ -65,7 +88,7 @@ export default function HomePage() {
 
       {/* What brings you here? */}
       <section className="px-6 py-12 bg-slate-900">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-3">
             What brings you here?
           </h2>
@@ -73,83 +96,83 @@ export default function HomePage() {
             Choose the option that best describes your situation
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* Lost My Pet */}
             <Link href="/missing/report" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Search className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Search className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">I Lost My Pet</h3>
-                    <p className="text-slate-400">Report a missing pet and get help searching</p>
+                    <h3 className="text-lg font-bold text-white mb-1">I Lost My Pet</h3>
+                    <p className="text-slate-400 text-sm">Report a missing pet and get help searching</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-blue-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-blue-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Spotted a Lost Pet */}
             <Link href="/sighting/report" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-emerald-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Eye className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-emerald-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Eye className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">I Spotted a Lost Pet</h3>
-                    <p className="text-slate-400">Report a sighting to help reunite families</p>
+                    <h3 className="text-lg font-bold text-white mb-1">I Spotted a Lost Pet</h3>
+                    <p className="text-slate-400 text-sm">Report a sighting to help reunite families</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-emerald-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-emerald-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Browse Missing Pets */}
             <Link href="/missing" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <ClipboardList className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <ClipboardList className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Missing Pets Board</h3>
-                    <p className="text-slate-400">Browse pets reported missing in your area</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Missing Pets Board</h3>
+                    <p className="text-slate-400 text-sm">Browse pets reported missing in your area</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-amber-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-amber-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Register My Pet */}
             <Link href="/register" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-purple-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Users className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-purple-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Users className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Register My Pet</h3>
-                    <p className="text-slate-400">Helps reunification if your pet is ever lost</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Register My Pet</h3>
+                    <p className="text-slate-400 text-sm">Helps reunification if your pet is ever lost</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-purple-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-purple-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Support Companion */}
             <Link href="/support" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-teal-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <MessageCircleHeart className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-teal-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <MessageCircleHeart className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Support Companion</h3>
-                    <p className="text-slate-400">Get empathetic support during a difficult time</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Support Companion</h3>
+                    <p className="text-slate-400 text-sm">Get empathetic support during a difficult time</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-teal-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-teal-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
@@ -253,7 +276,7 @@ export default function HomePage() {
             />
             <FAQItem
               question="Is this service free?"
-              answer="Yes. PROVENIQ Pets 911 is free for all users. We're a pilot program serving Greenbrier and Kanawha counties in West Virginia."
+              answer="Yes. PetNexus Pet911 is free for all users. We're a pilot program serving Greenbrier and Kanawha counties in West Virginia."
             />
             <FAQItem
               question="What is the Support Companion and how can it help me?"
@@ -269,7 +292,7 @@ export default function HomePage() {
             />
             <FAQItem
               question="What counties do you serve?"
-              answer="Currently we're piloting in Greenbrier County (Lewisburg, White Sulphur Springs) and Kanawha County (Charleston) in West Virginia. We plan to expand based on pilot results."
+              answer="Currently we're piloting in Greenbrier & Kanawha Counties We plan to expand based on pilot results."
             />
           </div>
 
@@ -292,7 +315,7 @@ export default function HomePage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="w-5 h-5 text-red-500" />
-                <span className="font-bold text-white">PROVENIQ Pets 911</span>
+                <span className="font-bold text-white">PetNexus Pet911</span>
               </div>
               <p className="text-slate-400 text-sm">
                 Emergency coordination for lost and found pets in West Virginia.
@@ -320,7 +343,7 @@ export default function HomePage() {
           </div>
           <div className="pt-8 border-t border-slate-800 text-center">
             <p className="text-slate-500 text-sm">
-              © 2024 PROVENIQ Inc. • Greenbrier & Kanawha Counties, WV
+              © 2024 PetNexus Foundation. • Greenbrier & Kanawha Counties, WV
             </p>
           </div>
         </div>

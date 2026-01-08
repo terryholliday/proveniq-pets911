@@ -1,4 +1,4 @@
 
-> proveniq-pet-911@0.1.0 test
+> proveniq-Pet911@0.1.0 test
 > jest
 
