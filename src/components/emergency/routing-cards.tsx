@@ -484,6 +484,145 @@ function HealthyRoutingCard({
 }
 
 /**
+ * Deceased animal: Show respectful handling options
+ */
+function DeceasedRoutingCard({
+  animalControl,
+  location,
+  isStale,
+  onLogOutcome,
+}: {
+  animalControl: EmergencyContact[];
+  location: { lat: number; lng: number; text: string } | null;
+  isStale: boolean;
+  onLogOutcome?: (outcome: MunicipalOutcome, contactId: string) => void;
+}) {
+  const [callStarted, setCallStarted] = useState(false);
+  const [selectedOutcome, setSelectedOutcome] = useState<MunicipalOutcome | null>(null);
+  const [showScript, setShowScript] = useState(false);
+
+  const handleCall = (contactId: string) => {
+    setCallStarted(true);
+    const contact = animalControl.find(ac => ac.id === contactId);
+    if (contact?.phone_primary) {
+      window.location.href = `tel:${contact.phone_primary}`;
+    }
+  };
+
+  const handleOutcome = (outcome: MunicipalOutcome, contactId: string) => {
+    setSelectedOutcome(outcome);
+    onLogOutcome?.(outcome, contactId);
+  };
+
+  return (
+    <div className="space-y-4">
+      <Alert variant="destructive">
+        <XCircle className="h-4 w-4" />
+        <AlertDescription className="font-semibold">
+          Animal Has Passed Away - Respectful Handling Required
+        </AlertDescription>
+      </Alert>
+
+      <Alert>
+        <AlertDescription>
+          Please contact animal control for proper handling and disposal. Do not leave the animal where it may create a traffic hazard or public health concern.
+        </AlertDescription>
+      </Alert>
+
+      <LocationDisplay location={location} isLoading={false} />
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Contact Animal Control</CardTitle>
+          <p className="text-sm text-gray-600">
+            Report the location for respectful removal and disposal
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {animalControl.map((ac) => (
+            <div key={ac.id} className="border rounded-lg p-4">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h4 className="font-semibold">{ac.name}</h4>
+                  {ac.address && (
+                    <p className="text-sm text-gray-600">{ac.address}</p>
+                  )}
+                </div>
+                {ac.is_24_hour && (
+                  <Badge variant="secondary">24 Hour</Badge>
+                )}
+              </div>
+              
+              <div className="space-y-2">
+                {ac.phone_primary && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => handleCall(ac.id)}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call: {ac.phone_primary}
+                  </Button>
+                )}
+
+                {callStarted && !selectedOutcome && (
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-600">
+                      What was the response?
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOutcome('OFFICER_DISPATCHED', ac.id)}
+                      >
+                        Officer Dispatched
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOutcome('CALLBACK_PROMISED', ac.id)}
+                      >
+                        Callback Promised
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOutcome('NO_ANSWER', ac.id)}
+                      >
+                        No Answer
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {selectedOutcome && (
+                  <p className="text-sm text-green-600 font-medium">
+                    ✓ Outcome logged: {selectedOutcome.replace(/_/g, ' ').toLowerCase()}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {animalControl.length === 0 && (
+            <CardContent className="py-8 text-center">
+              <p className="text-gray-500">
+                No animal control contacts found for this county.
+              </p>
+              <p className="text-sm text-gray-400 mt-2">
+                Please call your local police department or sheriff's office for assistance.
+              </p>
+            </CardContent>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+/**
  * Dispatch/ACO contact card with call script
  */
 function DispatchCard({
