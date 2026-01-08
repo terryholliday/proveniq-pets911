@@ -14,7 +14,10 @@ import {
   Building,
   Eye,
   Camera,
-  XCircle
+  XCircle,
+  Share2,
+  Mail,
+  Instagram
 } from 'lucide-react';
 import type { MissingPetCase, FoundAnimalCase, CaseStatus } from '@/lib/types';
 
@@ -120,7 +123,55 @@ function CaseCard({
   const foundCase = isFound ? (caseItem as FoundAnimalCase) : null;
   const missingCase = !isFound ? (caseItem as MissingPetCase) : null;
 
+  const [shareOpen, setShareOpen] = useState(false);
+
   const isUrgent = foundCase?.needs_immediate_vet;
+
+  const getShareUrl = () => {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}/case/${caseItem.id}`;
+  };
+
+  const getShareText = () => {
+    const typeLabel = isFound ? 'FOUND PET' : 'MISSING PET';
+    const nameLine = missingCase?.pet_name ? `${missingCase.pet_name} (${caseItem.species})` : `${caseItem.species}`;
+    const features = caseItem.distinguishing_features ? `Features: ${caseItem.distinguishing_features}` : '';
+    const county = caseItem.county ? `County: ${caseItem.county}` : '';
+    return [typeLabel, nameLine, county, features].filter(Boolean).join('\n');
+  };
+
+  const shareFacebook = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = getShareUrl();
+    if (!url) return;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+    setShareOpen(false);
+  };
+
+  const shareEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = getShareUrl();
+    const subject = isFound ? 'Found pet report (Pet911)' : 'Missing pet alert (Pet911)';
+    const body = `${getShareText()}\n\nView case: ${url}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setShareOpen(false);
+  };
+
+  const shareInstagram = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = getShareUrl();
+    const text = `${getShareText()}\n\nLink: ${url}`;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // ignore
+    }
+    window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+    setShareOpen(false);
+  };
 
   return (
     <Card className={isUrgent ? 'border-red-300 bg-red-50' : ''}>
@@ -199,6 +250,52 @@ function CaseCard({
                 Close
               </Button>
             )}
+
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShareOpen(v => !v);
+                }}
+              >
+                <Share2 className="h-4 w-4 mr-1" />
+                Share
+              </Button>
+
+              {shareOpen && (
+                <div
+                  className="absolute right-0 top-full mt-1 w-56 rounded-md border bg-white shadow-lg z-10"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  <button
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"
+                    onClick={shareFacebook}
+                  >
+                    Facebook
+                  </button>
+                  <button
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2"
+                    onClick={shareInstagram}
+                  >
+                    <Instagram className="h-4 w-4" />
+                    Instagram (copies text + opens Instagram)
+                  </button>
+                  <button
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2"
+                    onClick={shareEmail}
+                  >
+                    <Mail className="h-4 w-4" />
+                    Email
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
