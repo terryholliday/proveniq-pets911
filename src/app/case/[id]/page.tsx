@@ -55,7 +55,7 @@ export default function CaseDetailPage() {
           sex: 'M',
           is_neutered: true,
           microchip_id: null,
-          photo_urls: [],
+          photo_urls: ['https://picsum.photos/seed/buddy-golden/400/300.jpg'],
           last_seen_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           last_seen_lat: 37.7749,
           last_seen_lng: -122.4194,
@@ -82,7 +82,7 @@ export default function CaseDetailPage() {
           sex: 'F',
           is_neutered: true,
           microchip_id: null,
-          photo_urls: [],
+          photo_urls: ['https://picsum.photos/seed/tabby-gray/400/300.jpg'],
           found_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           found_lat: 38.3498,
           found_lng: -81.6326,
@@ -115,7 +115,7 @@ export default function CaseDetailPage() {
           collar_description: null,
           microchip_scanned: false,
           microchip_id: null,
-          photo_urls: [],
+          photo_urls: ['https://picsum.photos/seed/dog-brown/400/300.jpg'],
           found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           found_lat: 37.7954,
           found_lng: -80.4462,
@@ -221,6 +221,54 @@ export default function CaseDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Photo Gallery */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Photos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {caseItem.photo_urls && caseItem.photo_urls.length > 0 ? (
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <img
+                        src={caseItem.photo_urls[0]}
+                        alt={missingCase?.pet_name || caseItem.species}
+                        className="w-full h-96 object-cover rounded-lg bg-gray-100"
+                      />
+                      {caseItem.photo_urls.length > 1 && (
+                        <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+                          +{caseItem.photo_urls.length - 1} more
+                        </div>
+                      )}
+                    </div>
+                    {caseItem.photo_urls.length > 1 && (
+                      <div className="grid grid-cols-4 gap-2">
+                        {caseItem.photo_urls.slice(1, 5).map((url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`${missingCase?.pet_name || caseItem.species} ${index + 2}`}
+                            className="w-full h-24 object-cover rounded-lg bg-gray-100 cursor-pointer hover:opacity-80"
+                          />
+                        ))}
+                        {caseItem.photo_urls.length > 5 && (
+                          <div className="w-full h-24 rounded-lg bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-200">
+                            <span className="text-gray-600 font-medium">
+                              +{caseItem.photo_urls.length - 5}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Camera className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500">No photos available</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
             {/* Status Alert */}
             {foundCase?.needs_immediate_vet && (
               <Alert variant="destructive">

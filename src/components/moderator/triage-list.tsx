@@ -12,7 +12,8 @@ import {
   ChevronRight,
   Lock,
   Building,
-  Eye
+  Eye,
+  Camera
 } from 'lucide-react';
 import type { MissingPetCase, FoundAnimalCase, CaseStatus } from '@/lib/types';
 
@@ -119,7 +120,22 @@ function CaseCard({
   return (
     <Card className={isUrgent ? 'border-red-300 bg-red-50' : ''}>
       <CardContent className="p-4">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start gap-4">
+          {/* Photo Thumbnail */}
+          <div className="flex-shrink-0">
+            {caseItem.photo_urls && caseItem.photo_urls.length > 0 ? (
+              <img
+                src={caseItem.photo_urls[0]}
+                alt={missingCase?.pet_name || caseItem.species}
+                className="w-16 h-16 rounded-lg object-cover bg-gray-100"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
+                <Camera className="h-6 w-6 text-gray-400" />
+              </div>
+            )}
+          </div>
+          
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <Badge variant={isFound ? 'warning' : 'default'}>
