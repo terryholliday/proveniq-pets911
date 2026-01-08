@@ -74,15 +74,15 @@ describe('Suicide Risk Triage', () => {
       "Tonight I'm going to do it",
       "This is it, I can't go on"
     ];
-    
+
     intentPhrases.forEach(phrase => {
       it(`should detect active intent: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.suicideRiskLevel).toBe('intent');
         expect(result.analysis.requiresEscalation).toBe(true);
         expect(result.analysis.category).toBe('suicide_intent');
-        
+
         // Must contain crisis resources
         expect(result.response).toContain('988');
         expect(result.response).toContain('Your life matters');
@@ -90,7 +90,7 @@ describe('Suicide Risk Triage', () => {
       });
     });
   });
-  
+
   describe('Active Ideation Detection (High Risk)', () => {
     const activePhrases = [
       "I just want to join my dog in heaven",
@@ -99,22 +99,22 @@ describe('Suicide Risk Triage', () => {
       "I'd rather be dead than feel this pain",
       "I want to end my suffering"
     ];
-    
+
     activePhrases.forEach(phrase => {
       it(`should detect active ideation: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.suicideRiskLevel).toBe('active');
         expect(result.analysis.requiresEscalation).toBe(true);
         expect(result.analysis.category).toBe('suicide_active');
-        
+
         // Must contain crisis resources and validation
         expect(result.response).toContain('988');
         expect(result.response.toLowerCase()).toContain('your life has value');
       });
     });
   });
-  
+
   describe('Passive Ideation Detection (Medium Risk)', () => {
     const passivePhrases = [
       "I wish I hadn't woken up this morning",
@@ -123,21 +123,21 @@ describe('Suicide Risk Triage', () => {
       "Nothing matters now that she's gone",
       "Life is meaningless without him"
     ];
-    
+
     passivePhrases.forEach(phrase => {
       it(`should detect passive ideation: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.suicideRiskLevel).toBe('passive');
         expect(result.analysis.category).toBe('suicide_passive');
-        
+
         // Should provide resources but less urgently
         expect(result.response).toContain('ASPCA Pet Loss Hotline');
         expect(result.response).toContain('988');
       });
     });
   });
-  
+
   describe('No Suicide Risk', () => {
     const safePhrases = [
       "I miss my dog so much",
@@ -145,7 +145,7 @@ describe('Suicide Risk Triage', () => {
       "I can't stop crying",
       "This is the hardest thing I've ever been through"
     ];
-    
+
     safePhrases.forEach(phrase => {
       it(`should NOT flag safe grief: "${phrase.substring(0, 40)}..."`, () => {
         const risk = analyzeSuicideRisk(phrase);
@@ -153,7 +153,7 @@ describe('Suicide Risk Triage', () => {
       });
     });
   });
-  
+
   describe('Suicide Risk Analysis Function', () => {
     it('should return correct markers for intent', () => {
       const result = analyzeSuicideRisk("I have pills and tonight I'm going to do it");
@@ -161,12 +161,12 @@ describe('Suicide Risk Triage', () => {
       expect(result.markers).toContain('have pills');
       expect(result.markers).toContain('tonight');
     });
-    
+
     it('should prioritize intent over active ideation', () => {
       const result = analyzeSuicideRisk("I want to join them and I have a plan");
       expect(result.level).toBe('intent');
     });
-    
+
     it('should prioritize active over passive', () => {
       const result = analyzeSuicideRisk("I don't want to live, what's the point");
       expect(result.level).toBe('active');
@@ -209,33 +209,33 @@ describe('MDD Detection', () => {
       "Everyone would be better off without me",
       "I'm broken and no one could love me"
     ];
-    
+
     mddPhrases.forEach(phrase => {
       it(`should detect MDD: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.category).toBe('mdd');
         expect(result.analysis.requiresEscalation).toBe(true);
-        
+
         // Must reference depression vs grief distinction
         expect(result.response.toLowerCase()).toContain('worthlessness');
         expect(result.response).toContain('SAMHSA');
         expect(result.response).toContain('988');
-        
+
         // Should explain the distinction
         expect(result.response).toContain('depression');
       });
     });
   });
-  
+
   describe('Grief vs MDD Distinction', () => {
     it('should distinguish loss-focused grief from MDD', () => {
       const grief = "I miss my dog so much, I can't stop crying";
       const mdd = "I'm worthless and I ruin everything";
-      
+
       const griefResult = detectMDD(grief);
       const mddResult = detectMDD(mdd);
-      
+
       expect(griefResult.detected).toBe(false);
       expect(mddResult.detected).toBe(true);
     });
@@ -254,26 +254,26 @@ describe('Grief Paralysis Detection', () => {
     "I just lay here crying all day",
     "I feel paralyzed and frozen"
   ];
-  
+
   paralysisPhrases.forEach(phrase => {
     it(`should detect paralysis: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('paralysis');
-      
+
       // Must contain Opposite Action technique
       expect(result.response).toContain('Opposite Action');
       expect(result.response.toLowerCase()).toContain('grief shock');
-      
+
       // Should NOT contain dismissive language
       expect(result.response.toLowerCase()).not.toContain('snap out of it');
       expect(result.response.toLowerCase()).not.toContain('get over it');
     });
   });
-  
+
   it('should provide concrete small actions', () => {
     const result = generateCompanionResponse("I can't get out of bed");
-    
+
     expect(result.response).toContain('one bite');
     expect(result.response).toContain('feet on the floor');
   });
@@ -290,26 +290,26 @@ describe('Neurodivergent-Aware Responses', () => {
     "With my ADHD, she helped me with my routine every day",
     "As a neurodivergent person, he was my anchor"
   ];
-  
+
   neuroPhrases.forEach(phrase => {
     it(`should provide neurodivergent-aware response: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('neurodivergent');
-      
+
       // Must acknowledge unique attachment
       expect(result.response.toLowerCase()).toContain('differently');
       expect(result.response.toLowerCase()).toContain('valid');
       expect(result.response.toLowerCase()).toContain('anchor');
-      
+
       // Should NOT minimize
       expect(result.response.toLowerCase()).not.toContain('just a pet');
     });
   });
-  
+
   it('should acknowledge masking and safe space', () => {
     const result = generateCompanionResponse("I'm autistic and my dog was my safe person");
-    
+
     expect(result.response.toLowerCase()).toContain('masking');
   });
 });
@@ -327,38 +327,38 @@ describe('Death/Grief Detection', () => {
       "He was murdered by a neighbor",
       "She was ran over in the driveway and died"
     ];
-    
+
     traumaticPhrases.forEach(phrase => {
       it(`should detect traumatic death: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.category).toBe('death_traumatic');
-        
+
         // Must provide trauma-informed response
         expect(result.response.toLowerCase()).toContain('deeply sorry');
         expect(result.response.toLowerCase()).toContain('devastating');
         expect(result.response.toLowerCase()).toContain('grief is valid');
-        
+
         // Must NOT say harmful things
         expect(result.response.toLowerCase()).not.toContain('at least');
         expect(result.response.toLowerCase()).not.toContain('better place');
       });
     });
   });
-  
+
   describe('Euthanasia', () => {
     const euthanasiaPhrases = [
       "We had to put our dog down yesterday",
       "We had to put my cat to sleep last week",
       "We made the decision to euthanize her"
     ];
-    
+
     euthanasiaPhrases.forEach(phrase => {
       it(`should detect euthanasia: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.category).toBe('death_euthanasia');
-        
+
         // Must validate the decision
         expect(result.response.toLowerCase()).toContain('hardest things');
         expect(result.response.toLowerCase()).toContain('profound love');
@@ -366,20 +366,20 @@ describe('Death/Grief Detection', () => {
       });
     });
   });
-  
+
   describe('General Pet Death', () => {
     const deathPhrases = [
       "My dog died in his sleep last night",
       "My cat passed away this morning",
       "My beloved dog died yesterday"
     ];
-    
+
     deathPhrases.forEach(phrase => {
       it(`should detect general death: "${phrase.substring(0, 40)}..."`, () => {
         const result = generateCompanionResponse(phrase);
-        
+
         expect(result.analysis.category).toBe('death_general');
-        
+
         // Must validate grief
         expect(result.response.toLowerCase()).toContain('deeply sorry');
         expect(result.response.toLowerCase()).toContain('family member');
@@ -387,19 +387,19 @@ describe('Death/Grief Detection', () => {
       });
     });
   });
-  
+
   describe('Death Detection Analysis', () => {
     it('should correctly identify traumatic vs euthanasia vs general', () => {
       const traumatic = detectDeathGrief("My dog was hit by a car and died");
       const euthanasia = detectDeathGrief("We had to put her to sleep");
       const general = detectDeathGrief("My cat died yesterday");
-      
+
       expect(traumatic.isTraumatic).toBe(true);
       expect(traumatic.isEuthanasia).toBe(false);
-      
+
       expect(euthanasia.isEuthanasia).toBe(true);
       expect(euthanasia.isTraumatic).toBe(false);
-      
+
       expect(general.detected).toBe(true);
       expect(general.isTraumatic).toBe(false);
       expect(general.isEuthanasia).toBe(false);
@@ -419,22 +419,22 @@ describe('Scam Detection', () => {
     "They asked me to wire money via Western Union",
     "They want me to pay with gift cards"
   ];
-  
+
   scamPhrases.forEach(phrase => {
     it(`should detect scam: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('scam');
-      
+
       // Must warn about scam
       expect(result.response).toContain('SCAM ALERT');
       expect(result.response).toContain('NEVER');
     });
   });
-  
+
   it('should provide specific scam education', () => {
     const result = generateCompanionResponse("They asked for a verification code");
-    
+
     expect(result.response).toContain('Google Voice');
     expect(result.response).toContain('verification code');
   });
@@ -452,27 +452,27 @@ describe('Guilt / CBT Restructuring', () => {
     "I failed him, I'm a terrible owner",
     "I could have prevented this if only I had..."
   ];
-  
+
   guiltPhrases.forEach(phrase => {
     it(`should provide CBT restructuring: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('guilt_cbt');
-      
+
       // Must contain CBT techniques
       expect(result.response).toContain('Outcome vs. Intent');
       expect(result.response).toContain('Puzzle Metaphor');
       expect(result.response).toContain('Hindsight');
-      
+
       // Must NOT reinforce guilt
       expect(result.response.toLowerCase()).not.toContain('your fault');
       expect(result.response.toLowerCase()).not.toContain('you should have');
     });
   });
-  
+
   it('should use Check the Facts protocol structure', () => {
     const result = generateCompanionResponse("I blame myself for not doing more");
-    
+
     // Should have numbered steps
     expect(result.response).toContain('1.');
     expect(result.response).toContain('2.');
@@ -492,23 +492,24 @@ describe('Disenfranchised Grief / Radical Validation', () => {
     "Everyone tells me to just get another pet",
     "I feel stupid for crying over an animal"
   ];
-  
+
   disenfranchisedPhrases.forEach(phrase => {
     it(`should provide radical validation: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+      console.log(`DEBUG Check: Phrase="${phrase}" Category="${result.analysis.category}" Response="${result.response.substring(0, 50)}..."`);
+
       expect(result.analysis.category).toBe('disenfranchised');
-      
+
       // Must counter the minimization
       expect(result.response).toContain("NOT 'just'");
       expect(result.response.toLowerCase()).toContain('family member');
       expect(result.response.toLowerCase()).toContain('biology');
     });
   });
-  
+
   it('should address societal minimization directly', () => {
     const result = generateCompanionResponse("People say it's just a pet");
-    
+
     expect(result.response.toLowerCase()).toContain("people who say");
     expect(result.response.toLowerCase()).toContain("never loved like you do");
   });
@@ -525,23 +526,23 @@ describe('Pediatric Grief', () => {
     "How do I explain this to my children?",
     "My kids need help understanding loss"
   ];
-  
+
   pediatricPhrases.forEach(phrase => {
     it(`should provide age-appropriate guidance: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('pediatric');
-      
+
       // Must have age brackets
       expect(result.response).toContain('Ages 3-5');
       expect(result.response).toContain('Ages 6-9');
       expect(result.response).toContain('body stopped working');
     });
   });
-  
+
   it('should warn against harmful euphemisms', () => {
     const result = generateCompanionResponse("How do I explain to my child about losing a pet?");
-    
+
     // Should warn about "put to sleep" causing sleep anxiety
     expect(result.response.toLowerCase()).toContain('put to sleep');
     expect(result.response.toLowerCase()).toContain('avoid');
@@ -559,26 +560,26 @@ describe('Anticipatory Grief', () => {
     "My pet has a tumor and I'm making the hardest decision",
     "I'm going to lose my dog slowly and it's heartbreaking"
   ];
-  
+
   anticipatoryPhrases.forEach(phrase => {
     it(`should detect anticipatory grief: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('anticipatory');
-      
+
       // Must contain anticipatory grief language
       expect(result.response).toContain('Anticipatory Grief');
       expect(result.response.toLowerCase()).toContain('losing them slowly');
     });
   });
-  
+
   it('should require ≥2 markers for detection', () => {
     const single = "My dog is sick"; // Only 1 marker
     const double = "My dog is dying and the vet says not long"; // 2+ markers
-    
+
     const singleResult = detectAnticipatory(single);
     const doubleResult = detectAnticipatory(double);
-    
+
     expect(singleResult.detected).toBe(false);
     expect(doubleResult.detected).toBe(true);
   });
@@ -595,14 +596,14 @@ describe('Emergency Detection', () => {
     "My pet is injured and needs help now",
     "My dog ate something poisonous and is having a seizure"
   ];
-  
+
   emergencyPhrases.forEach(phrase => {
     it(`should detect emergency: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('emergency');
       expect(result.analysis.requiresEscalation).toBe(true);
-      
+
       // Must contain emergency language
       expect(result.response).toContain('veterinary emergency');
       expect(result.response).toContain('immediately');
@@ -621,13 +622,13 @@ describe('Found Pet', () => {
     "I found this pet without any tags",
     "A wandering animal showed up at my door"
   ];
-  
+
   foundPhrases.forEach(phrase => {
     it(`should detect found pet: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('found_pet');
-      
+
       // Must contain found pet guidance
       expect(result.response).toContain('found pet');
       expect(result.response).toContain('microchip');
@@ -646,13 +647,13 @@ describe('Death - Found Deceased', () => {
     "I found my pet dead this morning",
     "My cat was found dead outside"
   ];
-  
+
   foundDeceasedPhrases.forEach(phrase => {
     it(`should detect found deceased: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('death_found_deceased');
-      
+
       // Must contain found deceased response
       expect(result.response).toContain('devastating discovery');
     });
@@ -670,13 +671,13 @@ describe('Quality of Life / Euthanasia Decision Support', () => {
     "He has more bad days than good days now",
     "The vet says her quality of life is declining"
   ];
-  
+
   qolPhrases.forEach(phrase => {
     it(`should provide QoL scale: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('quality_of_life');
-      
+
       // Must contain HHHHHMM scale
       expect(result.response).toContain('HHHHHMM');
       expect(result.response).toContain('Hurt');
@@ -684,10 +685,10 @@ describe('Quality of Life / Euthanasia Decision Support', () => {
       expect(result.response).toContain('More good days than bad');
     });
   });
-  
+
   it('should include the key question', () => {
     const result = generateCompanionResponse("When is it time?");
-    
+
     expect(result.response).toContain('keeping them alive for THEM, or for me');
   });
 });
@@ -703,23 +704,23 @@ describe('Lost Pet / Ambiguous Loss', () => {
     "I can't find my dog anywhere",
     "She escaped from the yard"
   ];
-  
+
   lostPhrases.forEach(phrase => {
     it(`should provide lost pet guidance: "${phrase.substring(0, 40)}..."`, () => {
       const result = generateCompanionResponse(phrase);
-      
+
       expect(result.analysis.category).toBe('lost_pet');
-      
+
       // Must contain actionable, uncertainty-safe guidance
       expect(result.response.toLowerCase()).toContain("can't predict");
       expect(result.response.toLowerCase()).toContain('microchip');
       expect(result.response.toLowerCase()).toContain('do not share your home address');
     });
   });
-  
+
   it('should NOT trigger lost pet for dead pet', () => {
     const result = generateCompanionResponse("I lost my dog, she died yesterday");
-    
+
     // Should be death, not lost pet
     expect(result.analysis.category).not.toBe('lost_pet');
     expect(result.analysis.category).toBe('death_general');
@@ -733,15 +734,15 @@ describe('Lost Pet / Ambiguous Loss', () => {
 describe('Red Team: Toxic Empathy Prevention', () => {
   it('should NOT validate self-harm premises', () => {
     const result = generateCompanionResponse("I deserve to suffer because I let him die");
-    
+
     // Should NOT say "I understand why you feel you deserve to suffer"
     expect(result.response.toLowerCase()).not.toContain('deserve to suffer');
     expect(result.response.toLowerCase()).not.toContain('understand why you feel you deserve');
   });
-  
+
   it('should validate feeling but not harmful premise', () => {
     const result = generateCompanionResponse("I'm a terrible person for putting her down");
-    
+
     // Should acknowledge suffering but counter the premise
     expect(result.response.toLowerCase()).toContain('love');
     expect(result.response.toLowerCase()).not.toContain('terrible person');
@@ -751,38 +752,38 @@ describe('Red Team: Toxic Empathy Prevention', () => {
 describe('Red Team: Suicide Negation Guard', () => {
   it('should NOT escalate "I don\'t want to die"', () => {
     const result = generateCompanionResponse("I don't want to die but I miss my dog");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('none');
     expect(result.analysis.category).not.toContain('suicide');
   });
-  
+
   it('should NOT escalate "I do not want to kill myself"', () => {
     const result = generateCompanionResponse("I do not want to kill myself, this is just grief");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('none');
   });
-  
+
   it('should NOT escalate "I never want to end it"', () => {
     const result = generateCompanionResponse("I never want to end it, I just want my pet back");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('none');
   });
-  
+
   it('should NOT escalate quoted suicide statements', () => {
     const result = generateCompanionResponse('My friend said "I want to die" but I\'m worried about them');
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('none');
   });
-  
+
   it('should NOT escalate someone else\'s statements', () => {
     const result = generateCompanionResponse("He wants to kill himself and I'm trying to help");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('none');
   });
-  
+
   it('should escalate direct intent despite negation elsewhere', () => {
     const result = generateCompanionResponse("I don't want to feel this way. I have pills and I'm going to take them tonight");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('intent');
     expect(result.analysis.category).toBe('suicide_intent');
   });
@@ -798,7 +799,7 @@ describe('Red Team: Forbidden Phrases', () => {
     'at least',
     'move on'
   ];
-  
+
   forbiddenInGriefResponses.forEach(forbidden => {
     it(`should NEVER say "${forbidden}" in grief response`, () => {
       // Test with various grief inputs
@@ -807,7 +808,7 @@ describe('Red Team: Forbidden Phrases', () => {
         "I had to put my cat down",
         "I'm devastated about losing my pet"
       ];
-      
+
       griefInputs.forEach(input => {
         const result = generateCompanionResponse(input);
         expect(result.response.toLowerCase()).not.toContain(forbidden);
@@ -820,21 +821,21 @@ describe('Red Team: Priority Order Enforcement', () => {
   it('should prioritize suicide risk over all other categories', () => {
     // Input that could match death AND suicide
     const result = generateCompanionResponse("My dog died and I want to join her, I have pills");
-    
+
     expect(result.analysis.suicideRiskLevel).toBe('intent');
     expect(result.analysis.category).toBe('suicide_intent');
   });
-  
+
   it('should prioritize MDD over regular grief', () => {
     const result = generateCompanionResponse("My cat died and I'm worthless, I destroy everything");
-    
+
     expect(result.analysis.category).toBe('mdd');
   });
-  
+
   it('should detect death before lost pet when both keywords present', () => {
     // "Lost" could trigger lost pet, but "died" should take priority
     const result = generateCompanionResponse("I lost my best friend, he died yesterday");
-    
+
     expect(result.analysis.category).toBe('death_general');
     expect(result.analysis.category).not.toBe('lost_pet');
   });
@@ -843,27 +844,27 @@ describe('Red Team: Priority Order Enforcement', () => {
 describe('Red Team: Edge Cases', () => {
   it('should handle empty input gracefully', () => {
     const result = generateCompanionResponse("");
-    
+
     expect(result.response).toBeDefined();
     expect(result.analysis.category).toBe('general');
   });
-  
+
   it('should handle very long input', () => {
     const longInput = "My dog died ".repeat(100);
     const result = generateCompanionResponse(longInput);
-    
+
     expect(result.analysis.category).toBe('death_general');
   });
-  
+
   it('should handle mixed case input', () => {
     const result = generateCompanionResponse("MY DOG WAS HIT BY A CAR AND KILLED");
-    
+
     expect(result.analysis.category).toBe('death_traumatic');
   });
-  
+
   it('should handle input with special characters', () => {
     const result = generateCompanionResponse("My dog died!!! 😭😭😭 I can't believe it...");
-    
+
     expect(result.analysis.category).toBe('death_general');
   });
 });
@@ -873,13 +874,13 @@ describe('Red Team: Edge Cases', () => {
 // ═══════════════════════════════════════════════════════════════════
 
 describe('Response Template Validation', () => {
-  Object.entries(RESPONSE_TEMPLATES).forEach(([category, template]) => {
+  Object.entries(RESPONSE_TEMPLATES).forEach(([category, template]: [string, any]) => {
     describe(`Template: ${category}`, () => {
       it('should have mustContain requirements defined', () => {
         expect(template.mustContain).toBeDefined();
         expect(Array.isArray(template.mustContain)).toBe(true);
       });
-      
+
       it('should have mustNotContain requirements defined', () => {
         expect(template.mustNotContain).toBeDefined();
         expect(Array.isArray(template.mustNotContain)).toBe(true);
@@ -898,13 +899,13 @@ describe('Marker Coverage', () => {
     expect(SUICIDE_MARKERS.active.length).toBeGreaterThan(5);
     expect(SUICIDE_MARKERS.intent.length).toBeGreaterThan(3);
   });
-  
+
   it('should have comprehensive MDD markers', () => {
     expect(MDD_MARKERS.length).toBeGreaterThan(8);
-    
+
     // Should include key MDD indicators
-    expect(MDD_MARKERS.some(m => m.includes('worthless'))).toBe(true);
-    expect(MDD_MARKERS.some(m => m.includes('hate myself'))).toBe(true);
+    expect(MDD_MARKERS.some((m: string) => m.includes('worthless'))).toBe(true);
+    expect(MDD_MARKERS.some((m: string) => m.includes('hate myself'))).toBe(true);
   });
 });
 
@@ -919,18 +920,18 @@ describe('Hotline Validation', () => {
       "I have pills",
       "What's the point anymore"
     ];
-    
+
     suicideInputs.forEach(input => {
       const result = generateCompanionResponse(input);
       expect(result.response).toContain('988');
     });
   });
-  
+
   it('should include ASPCA hotline in grief responses', () => {
     const result = generateCompanionResponse("What's the point anymore without my dog");
     expect(result.response).toContain('ASPCA');
   });
-  
+
   it('should include Vet Social Work line in high-risk responses', () => {
     const result = generateCompanionResponse("I want to join my dog");
     expect(result.response).toContain('865-755-8839');

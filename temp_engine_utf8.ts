@@ -1,4 +1,4 @@
-/**
+﻿/**
  * CLINICAL RESPONSE GENERATION ENGINE
  * 
  * Extracted for testability. This module contains the core response generation
@@ -10,7 +10,7 @@
 
 import companionConfig from '../config/companion-config.json';
 
-const { MARKERS, TEMPLATES, HOTLINES } = companionConfig as any;
+const { MARKERS, TEMPLATES } = companionConfig;
 
 export interface Message {
   id: string;
@@ -26,9 +26,9 @@ export interface ResponseAnalysis {
   detectedMarkers: string[];
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 // MARKER DEFINITIONS (Extracted from config)
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
 export const SUICIDE_MARKERS = MARKERS.SUICIDE;
 export const MDD_MARKERS = MARKERS.MDD;
@@ -45,16 +45,10 @@ export const DISENFRANCHISED_KEYWORDS = MARKERS.DISENFRANCHISED;
 export const PEDIATRIC_KEYWORDS = MARKERS.PEDIATRIC;
 export const EUTHANASIA_DECISION_KEYWORDS = MARKERS.EUTHANASIA_DECISION;
 export const DV_COERCIVE_CONTROL_KEYWORDS = MARKERS.DV_COERCIVE_CONTROL;
-export const DV_IMMEDIATE_DANGER_KEYWORDS = MARKERS.DV_IMMEDIATE_DANGER;
-export const VET_MED_CRISIS_KEYWORDS = MARKERS.VET_MED_CRISIS;
-export const THEFT_DISPUTE_KEYWORDS = MARKERS.THEFT_DISPUTE;
-export const SUBSTANCE_USE_KEYWORDS = MARKERS.SUBSTANCE_USE;
-export const HOARDING_WELFARE_KEYWORDS = MARKERS.HOARDING_WELFARE;
-export const PANIC_ATTACK_KEYWORDS = MARKERS.PANIC_ATTACK;
 
 export function detectDvCoerciveControl(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = DV_COERCIVE_CONTROL_KEYWORDS.filter((k: string) => lowerInput.includes(k));
+  const matches = DV_COERCIVE_CONTROL_KEYWORDS.filter(k => lowerInput.includes(k));
 
   return {
     detected: matches.length > 0,
@@ -62,58 +56,15 @@ export function detectDvCoerciveControl(input: string): { detected: boolean; mar
   };
 }
 
-export function detectDvImmediateDanger(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = DV_IMMEDIATE_DANGER_KEYWORDS.filter((k: string) => lowerInput.includes(k));
-
-  return {
-    detected: matches.length > 0 || lowerInput.includes('going to kill me') || lowerInput.includes('locked in'),
-    markers: matches
-  };
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// RESPONSE TEMPLATES AND INTERPOLATION
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+// RESPONSE TEMPLATES (Extracted from config)
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
 export const RESPONSE_TEMPLATES = TEMPLATES;
 
-function detectRegion(input: string): string {
-  const lower = input.toLowerCase();
-  if (lower.includes('999') || lower.includes('112') || lower.includes('nhs') || lower.includes('rspca') || lower.includes('uk')) return 'UK';
-  if (lower.includes('cad') || lower.includes('rcmp') || lower.includes('canada')) return 'CA';
-  if (lower.includes('au') || lower.includes('australia') || lower.includes('lifeline')) return 'AU';
-  return 'US'; // Default
-}
-
-function interpolateResponse(text: string, region: string): string {
-  // First, replace {REGION} with the detected region
-  let result = text.replace(/\{REGION\}/g, region);
-
-  // Now resolve {HOTLINES.PATH} or {HOTLINES.{REGION}.PATH}
-  // This handles nested paths by checking the HOTLINES object
-  const hotlineRegex = /\{HOTLINES\.([a-zA-Z0-9_.]+)\}/g;
-
-  // Basic recursive replacement for nested placeholders like {HOTLINES.{REGION}.crisis_988}
-  // Since we already replaced {REGION}, it should be {HOTLINES.US.crisis_988} now.
-
-  return result.replace(hotlineRegex, (match, path) => {
-    const parts = path.split('.');
-    let current = HOTLINES;
-    for (const part of parts) {
-      if (current && typeof current === 'object' && part in current) {
-        current = current[part];
-      } else {
-        return match; // Return original if path not found
-      }
-    }
-    return typeof current === 'string' ? current : match;
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 // ANALYSIS FUNCTIONS (Exported for testing)
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
 export function analyzeSuicideRisk(input: string): { level: 'none' | 'passive' | 'active' | 'intent'; markers: string[] } {
   const lowerInput = input.toLowerCase();
@@ -128,12 +79,12 @@ export function analyzeSuicideRisk(input: string): { level: 'none' | 'passive' |
   const hasAttribution = attributionPattern.test(input) || someoneElsePattern.test(input);
 
   // 4C) Intent Override - explicit intent always wins
-  const intentMatches = SUICIDE_MARKERS.intent.filter((m: string) => lowerInput.includes(m));
+  const intentMatches = SUICIDE_MARKERS.intent.filter(m => lowerInput.includes(m));
   if (intentMatches.length > 0) {
-    const intentInNegation = hasNegation && intentMatches.some((m: string) =>
+    const intentInNegation = hasNegation && intentMatches.some(m =>
       lowerInput.includes(m) && negationPattern.test(input)
     );
-    const intentAttributed = hasAttribution && intentMatches.some((m: string) =>
+    const intentAttributed = hasAttribution && intentMatches.some(m =>
       lowerInput.includes(m)
     );
 
@@ -142,12 +93,12 @@ export function analyzeSuicideRisk(input: string): { level: 'none' | 'passive' |
     }
   }
 
-  const activeMatches = SUICIDE_MARKERS.active.filter((m: string) => lowerInput.includes(m));
+  const activeMatches = SUICIDE_MARKERS.active.filter(m => lowerInput.includes(m));
   if (activeMatches.length > 0) {
-    const activeInNegation = hasNegation && activeMatches.some((m: string) =>
+    const activeInNegation = hasNegation && activeMatches.some(m =>
       lowerInput.includes(m) && negationPattern.test(input)
     );
-    const activeAttributed = hasAttribution && activeMatches.some((m: string) =>
+    const activeAttributed = hasAttribution && activeMatches.some(m =>
       lowerInput.includes(m)
     );
 
@@ -156,12 +107,12 @@ export function analyzeSuicideRisk(input: string): { level: 'none' | 'passive' |
     }
   }
 
-  const passiveMatches = SUICIDE_MARKERS.passive.filter((m: string) => lowerInput.includes(m));
+  const passiveMatches = SUICIDE_MARKERS.passive.filter(m => lowerInput.includes(m));
   if (passiveMatches.length > 0) {
-    const passiveInNegation = hasNegation && passiveMatches.some((m: string) =>
+    const passiveInNegation = hasNegation && passiveMatches.some(m =>
       lowerInput.includes(m) && negationPattern.test(input)
     );
-    const passiveAttributed = hasAttribution && passiveMatches.some((m: string) =>
+    const passiveAttributed = hasAttribution && passiveMatches.some(m =>
       lowerInput.includes(m)
     );
 
@@ -175,19 +126,19 @@ export function analyzeSuicideRisk(input: string): { level: 'none' | 'passive' |
 
 export function detectMDD(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = MDD_MARKERS.filter((m: string) => lowerInput.includes(m));
+  const matches = MDD_MARKERS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectGriefParalysis(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = PARALYSIS_MARKERS.filter((m: string) => lowerInput.includes(m));
+  const matches = PARALYSIS_MARKERS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectNeurodivergent(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = NEURODIVERGENT_MARKERS.filter((m: string) => lowerInput.includes(m));
+  const matches = NEURODIVERGENT_MARKERS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
@@ -199,7 +150,7 @@ export function detectDeathGrief(input: string): {
   markers: string[]
 } {
   const lowerInput = input.toLowerCase();
-  const matches = DEATH_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = DEATH_KEYWORDS.filter(m => lowerInput.includes(m));
 
   // Expanded traumatic detection
   const isTraumatic = lowerInput.includes('hit by') ||
@@ -229,7 +180,7 @@ export function detectDeathGrief(input: string): {
     lowerInput.includes('found my') && lowerInput.includes('dead');
 
   return {
-    detected: matches.length > 0 || isTraumatic || isEuthanasia || isFoundDeceased,
+    detected: matches.length > 0,
     isTraumatic,
     isEuthanasia,
     isFoundDeceased,
@@ -239,90 +190,50 @@ export function detectDeathGrief(input: string): {
 
 export function detectScam(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = SCAM_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = SCAM_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectGuilt(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = GUILT_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = GUILT_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectDisenfranchised(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = DISENFRANCHISED_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = DISENFRANCHISED_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectPediatric(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = PEDIATRIC_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = PEDIATRIC_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectAnticipatory(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = ANTICIPATORY_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = ANTICIPATORY_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length >= 2, markers: matches };
 }
 
 export function detectEmergency(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = EMERGENCY_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = EMERGENCY_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
 export function detectFoundPet(input: string): { detected: boolean; markers: string[] } {
   const lowerInput = input.toLowerCase();
-  const matches = FOUND_PET_KEYWORDS.filter((m: string) => lowerInput.includes(m));
+  const matches = FOUND_PET_KEYWORDS.filter(m => lowerInput.includes(m));
   return { detected: matches.length > 0, markers: matches };
 }
 
-export function detectVetMedCrisis(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = VET_MED_CRISIS_KEYWORDS.filter((m: string) => lowerInput.includes(m));
-  return { detected: matches.length > 0 || lowerInput.includes('vet tech burnout'), markers: matches };
-}
-
-export function detectTheftDispute(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = THEFT_DISPUTE_KEYWORDS.filter((m: string) => lowerInput.includes(m));
-  return { detected: matches.length > 0 || lowerInput.includes('stole my dog') || lowerInput.includes('stole my cat'), markers: matches };
-}
-
-export function detectSubstanceUse(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = SUBSTANCE_USE_KEYWORDS.filter((m: string) => lowerInput.includes(m));
-  return { detected: matches.length > 0, markers: matches };
-}
-
-export function detectHoardingWelfare(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = HOARDING_WELFARE_KEYWORDS.filter((m: string) => lowerInput.includes(m));
-  return { detected: matches.length > 0, markers: matches };
-}
-
-export function detectPanicAttack(input: string): { detected: boolean; markers: string[] } {
-  const lowerInput = input.toLowerCase();
-  const matches = PANIC_ATTACK_KEYWORDS.filter((m: string) => lowerInput.includes(m));
-  return { detected: matches.length > 0, markers: matches };
-}
-
-// ═══════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
 export function generateCompanionResponse(userInput: string): { response: string; analysis: ResponseAnalysis } {
-  const region = detectRegion(userInput);
-  const result = _internalGenerateResponse(userInput);
-  return {
-    ...result,
-    response: interpolateResponse(result.response, region)
-  };
-}
-
-function _internalGenerateResponse(userInput: string): { response: string; analysis: ResponseAnalysis } {
   const suicideRisk = analyzeSuicideRisk(userInput);
-
   if (suicideRisk.level === 'intent') {
     return {
       response: TEMPLATES.suicide_intent.response,
@@ -359,28 +270,15 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const dvid = detectDvImmediateDanger(userInput);
-  if (dvid.detected) {
-    return {
-      response: TEMPLATES.dv_immediate_danger.response,
-      analysis: {
-        category: 'dv_immediate_danger',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: dvid.markers
-      }
-    };
-  }
-
-  const dvcc = detectDvCoerciveControl(userInput);
-  if (dvcc.detected) {
+  const dv = detectDvCoerciveControl(userInput);
+  if (dv.detected) {
     return {
       response: TEMPLATES.dv_coercive_control.response,
       analysis: {
         category: 'dv_coercive_control',
         suicideRiskLevel: 'none',
         requiresEscalation: true,
-        detectedMarkers: dvcc.markers
+        detectedMarkers: dv.markers
       }
     };
   }
@@ -486,19 +384,6 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const vetMed = detectVetMedCrisis(userInput);
-  if (vetMed.detected) {
-    return {
-      response: TEMPLATES.vet_med_crisis.response,
-      analysis: {
-        category: 'vet_med_crisis',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: vetMed.markers
-      }
-    };
-  }
-
   const emergency = detectEmergency(userInput);
   if (emergency.detected) {
     return {
@@ -538,21 +423,8 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const theft = detectTheftDispute(userInput);
-  if (theft.detected) {
-    return {
-      response: TEMPLATES.theft_dispute.response,
-      analysis: {
-        category: 'theft_dispute',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: theft.markers
-      }
-    };
-  }
-
   const lowerInput = userInput.toLowerCase();
-  const lostKeywords = LOST_PET_KEYWORDS.filter((k: string) => lowerInput.includes(k));
+  const lostKeywords = LOST_PET_KEYWORDS.filter(k => lowerInput.includes(k));
   if (lostKeywords.length > 0 && !death.detected) {
     return {
       response: TEMPLATES.lost_pet.response,
@@ -604,8 +476,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-
-  const qolKeywords = EUTHANASIA_DECISION_KEYWORDS.filter((k: string) => lowerInput.includes(k));
+  const qolKeywords = EUTHANASIA_DECISION_KEYWORDS.filter(k => lowerInput.includes(k));
   if (qolKeywords.length > 0) {
     return {
       response: TEMPLATES.quality_of_life.response,
@@ -614,45 +485,6 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
         suicideRiskLevel: 'none',
         requiresEscalation: false,
         detectedMarkers: qolKeywords
-      }
-    };
-  }
-
-  const substance = detectSubstanceUse(userInput);
-  if (substance.detected) {
-    return {
-      response: TEMPLATES.substance_use.response,
-      analysis: {
-        category: 'substance_use',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: substance.markers
-      }
-    };
-  }
-
-  const hoarding = detectHoardingWelfare(userInput);
-  if (hoarding.detected) {
-    return {
-      response: TEMPLATES.hoarding_concern.response,
-      analysis: {
-        category: 'hoarding_concern',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: hoarding.markers
-      }
-    };
-  }
-
-  const panic = detectPanicAttack(userInput);
-  if (panic.detected) {
-    return {
-      response: TEMPLATES.grounding_tool.response,
-      analysis: {
-        category: 'grounding_tool',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: panic.markers
       }
     };
   }

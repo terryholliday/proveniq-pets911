@@ -1,9 +1,8 @@
 /**
- * Origins "Ori" Empathy Companion Integration
+ * Support Companion Empathy Service
  * 
- * Ori is an empathetic AI companion from the Origins app that provides
- * emotional support for pet parents during the difficult time of having
- * a missing pet.
+ * Provides emotional support and practical guidance for pet parents
+ * during pet crises (lost, found, or medical emergencies).
  * 
  * This service provides:
  * - Emotional check-ins
@@ -12,15 +11,15 @@
  * - Connection to resources
  */
 
-export interface OriMessage {
+export interface SupportMessage {
   id: string;
-  type: 'ori' | 'user' | 'action';
+  type: 'companion' | 'user' | 'action';
   content: string;
   timestamp: string;
-  actions?: OriAction[];
+  actions?: SupportAction[];
 }
 
-export interface OriAction {
+export interface SupportAction {
   id: string;
   label: string;
   emoji?: string;
@@ -28,24 +27,24 @@ export interface OriAction {
   payload?: string;
 }
 
-export interface OriSession {
+export interface SupportSession {
   sessionId: string;
   petName: string;
   petSpecies: string;
   daysMissing: number;
   lastCheckIn: string;
   mood: 'anxious' | 'hopeful' | 'sad' | 'determined' | 'unknown';
-  messages: OriMessage[];
+  messages: SupportMessage[];
 }
 
-// Ori's empathetic responses categorized by context
-const ORI_RESPONSES = {
+// Empathy responses categorized by context
+const SUPPORT_RESPONSES = {
   greeting: [
     "I'm so sorry {petName} is missing. 💜 This must be incredibly difficult.",
     "I can only imagine how worried you must be about {petName}. I'm here with you.",
     "Losing {petName} must feel overwhelming right now. You're not alone in this.",
   ],
-  
+
   searchTips: [
     "Many pets are found within a 3-5 block radius of where they went missing. Have you checked hiding spots nearby?",
     "Putting out items with your scent (worn clothes, their bed) near where {petName} was last seen can help guide them home.",
@@ -53,7 +52,7 @@ const ORI_RESPONSES = {
     "Local shelters should be checked in person - photos don't always do pets justice, especially if they're stressed.",
     "Social media groups for lost pets in your area can be incredibly helpful. Have you posted there?",
   ],
-  
+
   emotionalSupport: [
     "It's okay to feel overwhelmed. What you're feeling is completely valid.",
     "Remember to take care of yourself too. {petName} needs you to stay strong.",
@@ -61,13 +60,13 @@ const ORI_RESPONSES = {
     "You're doing everything you can. That matters.",
     "It's okay to take breaks. Exhausting yourself won't help {petName}.",
   ],
-  
+
   checkIn: [
     "Hey, just checking in. How are you holding up today?",
     "Thinking of you and {petName}. Any updates?",
     "I wanted to see how you're doing. Remember, I'm here if you need to talk.",
   ],
-  
+
   practicalHelp: [
     "Would you like me to help you create a lost pet flyer?",
     "I can help you draft a post for social media if you'd like.",
@@ -76,12 +75,12 @@ const ORI_RESPONSES = {
 };
 
 /**
- * Initialize an Ori session for a pet parent
+ * Initialize a Support Companion session for a pet parent
  */
-export function initOriSession(petName: string, petSpecies: string, daysMissing: number = 0): OriSession {
+export function initSupportSession(petName: string, petSpecies: string, daysMissing: number = 0): SupportSession {
   const sessionId = crypto.randomUUID();
   const greeting = getRandomResponse('greeting', petName);
-  
+
   return {
     sessionId,
     petName,
@@ -92,7 +91,7 @@ export function initOriSession(petName: string, petSpecies: string, daysMissing:
     messages: [
       {
         id: crypto.randomUUID(),
-        type: 'ori',
+        type: 'companion',
         content: greeting,
         timestamp: new Date().toISOString(),
         actions: getInitialActions(),
@@ -102,16 +101,16 @@ export function initOriSession(petName: string, petSpecies: string, daysMissing:
 }
 
 /**
- * Get a response from Ori based on user input
+ * Get a response from the Support Companion based on user input
  */
-export function getOriResponse(
-  session: OriSession, 
+export function getSupportResponse(
+  session: SupportSession,
   userMessage: string,
   context?: 'search_tips' | 'emotional' | 'practical' | 'check_in'
-): OriMessage {
-  let responseCategory: keyof typeof ORI_RESPONSES;
-  let actions: OriAction[] = [];
-  
+): SupportMessage {
+  let responseCategory: keyof typeof SUPPORT_RESPONSES;
+  let actions: SupportAction[] = [];
+
   // Determine response category based on context or message content
   if (context) {
     switch (context) {
@@ -148,12 +147,12 @@ export function getOriResponse(
       actions = getEmotionalSupportActions();
     }
   }
-  
+
   const content = getRandomResponse(responseCategory, session.petName);
-  
+
   return {
     id: crypto.randomUUID(),
-    type: 'ori',
+    type: 'companion',
     content,
     timestamp: new Date().toISOString(),
     actions,
@@ -163,12 +162,12 @@ export function getOriResponse(
 /**
  * Get scheduled check-in message
  */
-export function getCheckInMessage(session: OriSession): OriMessage {
+export function getCheckInMessage(session: SupportSession): SupportMessage {
   const content = getRandomResponse('checkIn', session.petName);
-  
+
   return {
     id: crypto.randomUUID(),
-    type: 'ori',
+    type: 'companion',
     content,
     timestamp: new Date().toISOString(),
     actions: getCheckInActions(),
@@ -176,13 +175,13 @@ export function getCheckInMessage(session: OriSession): OriMessage {
 }
 
 // Helper functions
-function getRandomResponse(category: keyof typeof ORI_RESPONSES, petName: string): string {
-  const responses = ORI_RESPONSES[category];
+function getRandomResponse(category: keyof typeof SUPPORT_RESPONSES, petName: string): string {
+  const responses = SUPPORT_RESPONSES[category];
   const randomIndex = Math.floor(Math.random() * responses.length);
   return responses[randomIndex].replace(/{petName}/g, petName);
 }
 
-function getInitialActions(): OriAction[] {
+function getInitialActions(): SupportAction[] {
   return [
     { id: '1', label: 'Give me search tips', emoji: '📍', actionType: 'response', payload: 'search_tips' },
     { id: '2', label: 'I just need to talk', emoji: '💭', actionType: 'response', payload: 'emotional' },
@@ -190,7 +189,7 @@ function getInitialActions(): OriAction[] {
   ];
 }
 
-function getSearchTipActions(): OriAction[] {
+function getSearchTipActions(): SupportAction[] {
   return [
     { id: '1', label: 'More tips', emoji: '💡', actionType: 'response', payload: 'search_tips' },
     { id: '2', label: 'I need emotional support', emoji: '💜', actionType: 'response', payload: 'emotional' },
@@ -198,7 +197,7 @@ function getSearchTipActions(): OriAction[] {
   ];
 }
 
-function getEmotionalSupportActions(): OriAction[] {
+function getEmotionalSupportActions(): SupportAction[] {
   return [
     { id: '1', label: 'That helps, thank you', emoji: '💜', actionType: 'response', payload: 'emotional' },
     { id: '2', label: 'Give me practical tips', emoji: '📍', actionType: 'response', payload: 'search_tips' },
@@ -206,7 +205,7 @@ function getEmotionalSupportActions(): OriAction[] {
   ];
 }
 
-function getPracticalHelpActions(): OriAction[] {
+function getPracticalHelpActions(): SupportAction[] {
   return [
     { id: '1', label: 'Create a flyer', emoji: '📄', actionType: 'link', payload: '/tools/flyer' },
     { id: '2', label: 'Find local shelters', emoji: '🏠', actionType: 'link', payload: '/resources/shelters' },
@@ -214,7 +213,7 @@ function getPracticalHelpActions(): OriAction[] {
   ];
 }
 
-function getCheckInActions(): OriAction[] {
+function getCheckInActions(): SupportAction[] {
   return [
     { id: '1', label: 'No updates yet', emoji: '😔', actionType: 'response', payload: 'emotional' },
     { id: '2', label: 'I have a lead!', emoji: '✨', actionType: 'response', payload: 'practical' },
@@ -223,19 +222,19 @@ function getCheckInActions(): OriAction[] {
 }
 
 /**
- * Ori API configuration for external Origins app integration
+ * Support Companion API configuration
  */
-export const ORI_API_CONFIG = {
-  // When integrating with the actual Origins app, these would be real endpoints
-  baseUrl: process.env.NEXT_PUBLIC_ORIGINS_API_URL || 'https://api.origins.app',
+export const SUPPORT_API_CONFIG = {
+  // Configured via internal environment variables
+  baseUrl: process.env.NEXT_PUBLIC_SUPPORT_API_URL || 'https://api.proveniq.org/support',
   endpoints: {
-    initSession: '/ori/sessions',
-    sendMessage: '/ori/sessions/{sessionId}/messages',
-    getCheckIn: '/ori/sessions/{sessionId}/check-in',
-    endSession: '/ori/sessions/{sessionId}/end',
+    initSession: '/sessions',
+    sendMessage: '/sessions/{sessionId}/messages',
+    getCheckIn: '/sessions/{sessionId}/check-in',
+    endSession: '/sessions/{sessionId}/end',
   },
   headers: {
-    'X-Origins-App': 'proveniq-pet-911',
-    'X-Origins-Character': 'empathy',
+    'X-Client-Tag': 'proveniq-pet-911',
+    'X-Companion-Type': 'empathy',
   },
 };

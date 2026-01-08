@@ -1,6 +1,6 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import type { 
-  CachedCountyPack, 
+import type {
+  CachedCountyPack,
   OfflineQueuedAction,
   County,
   PetGoBagProfile,
@@ -18,7 +18,7 @@ interface ProveniqPetsDB extends DBSchema {
   'offline-queue': {
     key: string;
     value: OfflineQueuedAction;
-    indexes: { 
+    indexes: {
       'by-status': string;
       'by-created': string;
     };
@@ -31,7 +31,7 @@ interface ProveniqPetsDB extends DBSchema {
   'sighting-reports': {
     key: string;
     value: SightingReportExtended;
-    indexes: { 
+    indexes: {
       'by-status': string;
       'by-priority': string;
       'by-created': string;
@@ -127,7 +127,7 @@ export async function saveSightingReport(report: Omit<SightingReportExtended, 'i
   const db = await getDB();
   const id = `sighting_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   const now = new Date().toISOString();
-  
+
   const fullReport: SightingReportExtended = {
     ...report,
     id,
@@ -135,7 +135,7 @@ export async function saveSightingReport(report: Omit<SightingReportExtended, 'i
     updated_at: now,
     notifications: [],
   };
-  
+
   await db.put('sighting-reports', fullReport);
   return id;
 }
@@ -146,7 +146,7 @@ export async function saveSightingReport(report: Omit<SightingReportExtended, 'i
 export async function getSightingReports(): Promise<SightingReportExtended[]> {
   const db = await getDB();
   const reports = await db.getAll('sighting-reports');
-  
+
   // Sort by priority (HIGH first) then by creation date (newest first)
   const priorityOrder = { 'HIGH': 0, 'MEDIUM': 1, 'LOW': 2 };
   return reports.sort((a, b) => {
@@ -168,22 +168,22 @@ export async function getSightingReport(id: string): Promise<SightingReportExten
  * Update a sighting report status and/or add a notification
  */
 export async function updateSightingReport(
-  id: string, 
+  id: string,
   updates: Partial<Pick<SightingReportExtended, 'status'>>,
   notification?: Omit<SightingNotification, 'id' | 'timestamp' | 'read'>
 ): Promise<void> {
   const db = await getDB();
   const tx = db.transaction('sighting-reports', 'readwrite');
-  
+
   const report = await tx.store.get(id);
   if (!report) throw new Error(`Sighting report ${id} not found`);
-  
+
   const updatedReport = {
     ...report,
     ...updates,
     updated_at: new Date().toISOString(),
   };
-  
+
   if (notification) {
     const newNotification: SightingNotification = {
       ...notification,
@@ -191,9 +191,9 @@ export async function updateSightingReport(
       timestamp: new Date().toISOString(),
       read: false,
     };
-    updatedReport.notifications = [...report.notifications, newNotification];
+    updatedReport.notifications = [...(report.notifications || []), newNotification];
   }
-  
+
   await tx.store.put(updatedReport);
   await tx.done;
 }
@@ -205,14 +205,14 @@ export async function markNotificationsRead(sightingId: string, notificationIds?
   const db = await getDB();
   const report = await db.get('sighting-reports', sightingId);
   if (!report) return;
-  
-  const updatedNotifications = report.notifications.map(notif => {
+
+  const updatedNotifications = (report.notifications || []).map(notif => {
     if (!notificationIds || notificationIds.includes(notif.id)) {
       return { ...notif, read: true };
     }
     return notif;
   });
-  
+
   await db.put('sighting-reports', {
     ...report,
     notifications: updatedNotifications,

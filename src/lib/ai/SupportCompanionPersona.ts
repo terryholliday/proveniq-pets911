@@ -25,7 +25,7 @@
 // USER ARCHETYPES (Clinical Profiling)
 // ═══════════════════════════════════════════════════════════════════
 
-export type UserArchetype = 
+export type UserArchetype =
   | 'if_only'           // Guilt-dominant, counterfactual thinking
   | 'anticipatory'      // Terminal illness, euthanasia decision
   | 'traumatic'         // Sudden/violent death, acute shock
@@ -35,14 +35,14 @@ export type UserArchetype =
   | 'reunion'           // Positive outcome
   | 'general';          // Undetermined
 
-export type SpiritualFramework = 
+export type SpiritualFramework =
   | 'religious'         // Heaven, afterlife beliefs
   | 'rainbow_bridge'    // Metaphysical/hopeful
   | 'secular'           // Science-based, energy/nature
   | 'agnostic'          // Memory/legacy focused
   | 'unknown';          // Not yet determined
 
-export type SuicideRiskLevel = 
+export type SuicideRiskLevel =
   | 'none'
   | 'passive_ideation'  // "I wish I hadn't woken up"
   | 'active_ideation'   // "I want to join them"
@@ -328,7 +328,7 @@ export const CLINICAL_TEMPLATES = {
     wrong: "I understand why you feel you deserve to suffer.",
     correct: "I see you are suffering. But you do not deserve to suffer.",
   },
-  
+
   // Stages of Grief - Modern Understanding
   grief_stages_correction: `The "five stages of grief" (denial, anger, bargaining, depression, acceptance) are often misunderstood. Elisabeth Kübler-Ross developed them for people facing their OWN death, not bereavement. Modern grief research shows:
 
@@ -344,21 +344,8 @@ export const CLINICAL_TEMPLATES = {
 If it helps you to talk to your pet, keep their photo, visit their grave, or include them in your thoughts - that's not "stuck in grief." That's a continuing bond, and research shows it can be healthy.`,
 };
 
-export const SUPPORT_COMPANION_OPENINGS = [
-  "I'm here to help. Whether you've lost a pet, found one, or just need support during a difficult time - I'm listening. What's going on?",
-  "Hi there. I know pet emergencies can be overwhelming. I'm here to help you through this, one step at a time. What's happening?",
-  "I'm your support companion. Tell me what's going on with your pet, and let's figure out the best next steps together.",
-];
+import companionConfig from '../config/companion-config.json';
 
-export const SUPPORT_COMPANION_CONFIG = {
-  typingSpeed: 25,
-  thinkingDelay: 800,
-  maxResponseLength: 300,
-};
-
-export const CRISIS_QUICK_ACTIONS = [
-  { label: "My pet is lost", type: "lost_pet" as const },
-  { label: "I found a pet", type: "found_pet" as const },
-  { label: "Pet emergency", type: "emergency" as const },
-  { label: "Just need support", type: "general" as const },
-];
+export const SUPPORT_COMPANION_OPENINGS = companionConfig.OPENINGS;
+export const SUPPORT_COMPANION_CONFIG = companionConfig.CONFIG;
+export const CRISIS_QUICK_ACTIONS = companionConfig.QUICK_ACTIONS as any;

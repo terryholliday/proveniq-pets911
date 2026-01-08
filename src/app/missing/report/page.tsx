@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
-  ChevronLeft, 
+import {
+  ChevronLeft,
   ChevronRight,
   Upload,
   MapPin,
@@ -65,7 +65,7 @@ const SIZE_OPTIONS = [
 export default function ReportMissingPet() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
-  const [showOriSupport, setShowOriSupport] = useState(false);
+  const [showSupportCompanion, setShowSupportCompanion] = useState(false);
   const [report, setReport] = useState<PetReport>({
     name: '',
     species: '',
@@ -122,21 +122,20 @@ export default function ReportMissingPet() {
               Step {currentStep + 1} of {STEPS.length}
             </span>
           </div>
-          
+
           {/* Progress */}
           <div className="flex gap-2">
             {STEPS.map((step, index) => (
               <div
                 key={step.id}
-                className={`flex-1 h-1 rounded-full transition-colors ${
-                  index <= currentStep ? 'bg-blue-500' : 'bg-slate-700'
-                }`}
+                className={`flex-1 h-1 rounded-full transition-colors ${index <= currentStep ? 'bg-blue-500' : 'bg-slate-700'
+                  }`}
               />
             ))}
           </div>
         </div>
       </header>
-      
+
       {/* Content */}
       <div className="max-w-2xl mx-auto px-4 py-8">
         {currentStep === 0 && (
@@ -152,23 +151,23 @@ export default function ReportMissingPet() {
           <ReviewStep report={report} onSubmit={handleSubmit} onBack={handleBack} />
         )}
       </div>
-      
-      {/* Ori Support Widget */}
-      <OriSupportWidget 
-        isOpen={showOriSupport} 
-        onToggle={() => setShowOriSupport(!showOriSupport)}
+
+      {/* Support Companion Widget */}
+      <SupportCompanionWidget
+        isOpen={showSupportCompanion}
+        onToggle={() => setShowSupportCompanion(!showSupportCompanion)}
         petName={report.name}
       />
     </main>
   );
 }
 
-function PetDetailsStep({ 
-  report, 
-  updateReport, 
-  onNext 
-}: { 
-  report: PetReport; 
+function PetDetailsStep({
+  report,
+  updateReport,
+  onNext
+}: {
+  report: PetReport;
   updateReport: (updates: Partial<PetReport>) => void;
   onNext: () => void;
 }) {
@@ -180,7 +179,7 @@ function PetDetailsStep({
         <h1 className="text-3xl font-bold text-white mb-2">Tell us about your pet</h1>
         <p className="text-slate-400 text-lg">The more details, the better chance of finding them</p>
       </div>
-      
+
       {/* Photo Upload */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">Photo</label>
@@ -190,7 +189,7 @@ function PetDetailsStep({
           <p className="text-slate-500 text-sm">Clear, recent photos help the most</p>
         </div>
       </div>
-      
+
       {/* Pet Name */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Pet&apos;s Name *</label>
@@ -202,7 +201,7 @@ function PetDetailsStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white text-lg placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Species */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">Species *</label>
@@ -211,11 +210,10 @@ function PetDetailsStep({
             <button
               key={id}
               onClick={() => updateReport({ species: id as Species })}
-              className={`p-4 rounded-xl border-2 transition-all ${
-                report.species === id
-                  ? 'border-blue-500 bg-blue-500/10'
-                  : 'border-slate-700 hover:border-slate-600'
-              }`}
+              className={`p-4 rounded-xl border-2 transition-all ${report.species === id
+                ? 'border-blue-500 bg-blue-500/10'
+                : 'border-slate-700 hover:border-slate-600'
+                }`}
             >
               <Icon className={`w-8 h-8 mx-auto mb-2 ${report.species === id ? 'text-blue-400' : 'text-slate-400'}`} />
               <span className={`text-sm ${report.species === id ? 'text-blue-400' : 'text-slate-400'}`}>{label}</span>
@@ -223,7 +221,7 @@ function PetDetailsStep({
           ))}
         </div>
       </div>
-      
+
       {/* Breed */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Breed</label>
@@ -235,7 +233,7 @@ function PetDetailsStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Color */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Color/Markings *</label>
@@ -247,7 +245,7 @@ function PetDetailsStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Size */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">Size</label>
@@ -256,11 +254,10 @@ function PetDetailsStep({
             <button
               key={id}
               onClick={() => updateReport({ size: id as Size })}
-              className={`p-4 rounded-xl border-2 transition-all text-left ${
-                report.size === id
-                  ? 'border-blue-500 bg-blue-500/10'
-                  : 'border-slate-700 hover:border-slate-600'
-              }`}
+              className={`p-4 rounded-xl border-2 transition-all text-left ${report.size === id
+                ? 'border-blue-500 bg-blue-500/10'
+                : 'border-slate-700 hover:border-slate-600'
+                }`}
             >
               <span className={`block font-medium ${report.size === id ? 'text-blue-400' : 'text-slate-300'}`}>{label}</span>
               <span className="text-sm text-slate-500">{description}</span>
@@ -268,7 +265,7 @@ function PetDetailsStep({
           ))}
         </div>
       </div>
-      
+
       {/* Distinctive Features */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Distinctive Features</label>
@@ -280,7 +277,7 @@ function PetDetailsStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
         />
       </div>
-      
+
       {/* Microchip & Collar */}
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -290,11 +287,10 @@ function PetDetailsStep({
               <button
                 key={String(opt.value)}
                 onClick={() => updateReport({ isChipped: opt.value })}
-                className={`flex-1 py-3 rounded-xl border-2 transition-all ${
-                  report.isChipped === opt.value
-                    ? 'border-blue-500 bg-blue-500/10 text-blue-400'
-                    : 'border-slate-700 text-slate-400 hover:border-slate-600'
-                }`}
+                className={`flex-1 py-3 rounded-xl border-2 transition-all ${report.isChipped === opt.value
+                  ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                  : 'border-slate-700 text-slate-400 hover:border-slate-600'
+                  }`}
               >
                 {opt.label}
               </button>
@@ -312,7 +308,7 @@ function PetDetailsStep({
           />
         </div>
       </div>
-      
+
       <Button
         size="lg"
         className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg"
@@ -345,7 +341,7 @@ function LocationStep({
         <h1 className="text-3xl font-bold text-white mb-2">Where was {report.name || 'your pet'} last seen?</h1>
         <p className="text-slate-400 text-lg">This helps us focus the search area</p>
       </div>
-      
+
       {/* Date */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -359,7 +355,7 @@ function LocationStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Time */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Approximate Time</label>
@@ -370,7 +366,7 @@ function LocationStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Location */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -389,7 +385,7 @@ function LocationStep({
           Use Current Location
         </Button>
       </div>
-      
+
       {/* Circumstances */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">What happened?</label>
@@ -401,7 +397,7 @@ function LocationStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
         />
       </div>
-      
+
       <div className="flex gap-3">
         <Button
           variant="outline"
@@ -445,7 +441,7 @@ function ContactStep({
         <h1 className="text-3xl font-bold text-white mb-2">Your Contact Information</h1>
         <p className="text-slate-400 text-lg">So people can reach you if they find {report.name || 'your pet'}</p>
       </div>
-      
+
       <Card className="bg-amber-900/30 border-amber-700/50">
         <CardContent className="p-4">
           <p className="text-amber-200 text-sm">
@@ -453,7 +449,7 @@ function ContactStep({
           </p>
         </CardContent>
       </Card>
-      
+
       {/* Name */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Your Name *</label>
@@ -465,7 +461,7 @@ function ContactStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Phone */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number *</label>
@@ -477,7 +473,7 @@ function ContactStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       {/* Email */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">Email (optional)</label>
@@ -489,7 +485,7 @@ function ContactStep({
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
       </div>
-      
+
       <div className="flex gap-3">
         <Button
           variant="outline"
@@ -529,7 +525,7 @@ function ReviewStep({
         <h1 className="text-3xl font-bold text-white mb-2">Review Your Report</h1>
         <p className="text-slate-400 text-lg">Make sure everything looks correct</p>
       </div>
-      
+
       <Card className="bg-slate-800 border-slate-700">
         <CardContent className="p-6 space-y-6">
           <div>
@@ -543,7 +539,7 @@ function ReviewStep({
               {report.distinctiveFeatures && <p className="text-white"><strong>Features:</strong> {report.distinctiveFeatures}</p>}
             </div>
           </div>
-          
+
           <div className="border-t border-slate-700 pt-6">
             <h3 className="text-sm text-slate-400 uppercase tracking-wide mb-2">Last Seen</h3>
             <div className="space-y-2">
@@ -553,7 +549,7 @@ function ReviewStep({
               {report.description && <p className="text-white"><strong>Details:</strong> {report.description}</p>}
             </div>
           </div>
-          
+
           <div className="border-t border-slate-700 pt-6">
             <h3 className="text-sm text-slate-400 uppercase tracking-wide mb-2">Contact</h3>
             <div className="space-y-2">
@@ -564,7 +560,7 @@ function ReviewStep({
           </div>
         </CardContent>
       </Card>
-      
+
       <div className="flex gap-3">
         <Button
           variant="outline"
@@ -587,12 +583,12 @@ function ReviewStep({
   );
 }
 
-function OriSupportWidget({ 
-  isOpen, 
+function SupportCompanionWidget({
+  isOpen,
   onToggle,
-  petName 
-}: { 
-  isOpen: boolean; 
+  petName
+}: {
+  isOpen: boolean;
   onToggle: () => void;
   petName: string;
 }) {
@@ -601,9 +597,8 @@ function OriSupportWidget({
       {/* Floating Button */}
       <button
         onClick={onToggle}
-        className={`fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center ${
-          isOpen ? 'bg-slate-700' : 'bg-gradient-to-br from-purple-500 to-pink-500 hover:scale-110'
-        }`}
+        className={`fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center ${isOpen ? 'bg-slate-700' : 'bg-gradient-to-br from-purple-500 to-pink-500 hover:scale-110'
+          }`}
       >
         {isOpen ? (
           <span className="text-white text-2xl">×</span>
@@ -611,7 +606,7 @@ function OriSupportWidget({
           <Sparkles className="w-7 h-7 text-white" />
         )}
       </button>
-      
+
       {/* Chat Panel */}
       {isOpen && (
         <div className="fixed bottom-24 right-6 w-80 bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl z-50 overflow-hidden">
@@ -622,12 +617,12 @@ function OriSupportWidget({
                 <Heart className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-white">Ori</h3>
+                <h3 className="font-bold text-white">Support Companion</h3>
                 <p className="text-purple-100 text-sm">Empathy Companion</p>
               </div>
             </div>
           </div>
-          
+
           {/* Messages */}
           <div className="p-4 h-64 overflow-y-auto">
             <div className="bg-slate-700 rounded-2xl rounded-tl-sm p-4 mb-3">
@@ -640,7 +635,7 @@ function OriSupportWidget({
                 I&apos;m here to support you through this. Would you like some search tips, or would you rather just talk?
               </p>
             </div>
-            
+
             <div className="space-y-2 mt-4">
               <button className="w-full text-left p-3 bg-purple-600/20 border border-purple-500/30 rounded-xl text-purple-300 text-sm hover:bg-purple-600/30 transition-colors">
                 📍 Give me search tips
@@ -653,7 +648,7 @@ function OriSupportWidget({
               </button>
             </div>
           </div>
-          
+
           {/* Input */}
           <div className="p-3 border-t border-slate-700">
             <div className="flex gap-2">

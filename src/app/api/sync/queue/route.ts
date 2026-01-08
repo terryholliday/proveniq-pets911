@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Sync queue error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,

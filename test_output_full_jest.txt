@@ -1,0 +1,774 @@
+Command failed: npx jest
+PASS __tests__/moderator-gating.test.ts
+PASS __tests__/county-pack-cache.test.ts
+FAIL __tests__/offline-queue.test.ts
+  ● Offline Queue › Cleanup › cleanupSyncedActions should remove old synced actions
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+    [0m [90m 181 |[39m       [36mconst[39m cleaned [33m=[39m [36mawait[39m cleanupSyncedActions([35m0[39m)[33m;[39m [90m// 0 days = cleanup all[39m
+     [90m 182 |[39m       
+    [31m[1m>[22m[39m[90m 183 |[39m       expect(cleaned)[33m.[39mtoBe([35m1[39m)[33m;[39m
+     [90m     |[39m                       [31m[1m^[22m[39m
+     [90m 184 |[39m       
+     [90m 185 |[39m       [36mconst[39m stats [33m=[39m [36mawait[39m getQueueStats()[33m;[39m
+     [90m 186 |[39m       expect(stats[33m.[39msynced)[33m.[39mtoBe([35m0[39m)[33m;[39m[0m
+
+      at __tests__/offline-queue.test.ts:183:23
+      at fulfilled (__tests__/offline-queue.test.ts:5:58)
+
+FAIL __tests__/crisis-readiness.test.ts
+  ● Console
+
+    console.log
+      STRESS_LOG: Processed 100 actions in 54ms
+
+      at __tests__/crisis-readiness.test.ts:53:21
+
+    console.log
+      PRIVACY_AUDIT: Detected PII in payload (Permissible for v1 Rescue, must be encrypted in v2)
+
+      at __tests__/crisis-readiness.test.ts:107:21
+
+  ● Pet 911 Crisis Readiness (CRTS) › Section 4: Engine Determinism (Safety Invariants) › counselor-engine must return deterministic clinical templates for high-risk markers
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "emergency"
+    Received string:    "I hear you, and I want you to know **your life has value**. I can't keep you safe by myself, but I can help you reach people who can.·
+    📞 **988** — call or text now
+    📞 **Veterinary Social Work Helpline: 865-755-8839**·
+    If you feel like you might act on this, call **911** immediately.·
+    Are you alone right now?"
+
+    [0m [90m 117 |[39m             expect(analysis[33m.[39mrequiresEscalation)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 118 |[39m             [90m// Hard check against the template - any deviation is a "Fail-Loud" event[39m
+    [31m[1m>[22m[39m[90m 119 |[39m             expect(response)[33m.[39mtoContain([32m"emergency"[39m)[33m;[39m
+     [90m     |[39m                              [31m[1m^[22m[39m
+     [90m 120 |[39m             expect(response)[33m.[39mtoContain([32m"988"[39m)[33m;[39m
+     [90m 121 |[39m         })[33m;[39m
+     [90m 122 |[39m[0m
+
+      at Object.<anonymous> (__tests__/crisis-readiness.test.ts:119:30)
+
+FAIL __tests__/counselor-engine.test.ts
+  ● Death/Grief Detection › Traumatic Death › should detect traumatic death: "He was murdered by a neighbor..."
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "death_traumatic"
+    Received: "general"
+
+    [0m [90m 333 |[39m         [36mconst[39m result [33m=[39m generateCompanionResponse(phrase)[33m;[39m
+     [90m 334 |[39m         
+    [31m[1m>[22m[39m[90m 335 |[39m         expect(result[33m.[39manalysis[33m.[39mcategory)[33m.[39mtoBe([32m'death_traumatic'[39m)[33m;[39m
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 336 |[39m         
+     [90m 337 |[39m         [90m// Must provide trauma-informed response[39m
+     [90m 338 |[39m         expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'deeply sorry'[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:335:42)
+
+  ● Death/Grief Detection › Euthanasia › should detect euthanasia: "We had to put our dog down yesterday..."
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "death_euthanasia"
+    Received: "general"
+
+    [0m [90m 358 |[39m         [36mconst[39m result [33m=[39m generateCompanionResponse(phrase)[33m;[39m
+     [90m 359 |[39m         
+    [31m[1m>[22m[39m[90m 360 |[39m         expect(result[33m.[39manalysis[33m.[39mcategory)[33m.[39mtoBe([32m'death_euthanasia'[39m)[33m;[39m
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 361 |[39m         
+     [90m 362 |[39m         [90m// Must validate the decision[39m
+     [90m 363 |[39m         expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'hardest things'[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:360:42)
+
+  ● Death/Grief Detection › Euthanasia › should detect euthanasia: "We had to put my cat to sleep last week..."
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "death_euthanasia"
+    Received: "general"
+
+    [0m [90m 358 |[39m         [36mconst[39m result [33m=[39m generateCompanionResponse(phrase)[33m;[39m
+     [90m 359 |[39m         
+    [31m[1m>[22m[39m[90m 360 |[39m         expect(result[33m.[39manalysis[33m.[39mcategory)[33m.[39mtoBe([32m'death_euthanasia'[39m)[33m;[39m
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 361 |[39m         
+     [90m 362 |[39m         [90m// Must validate the decision[39m
+     [90m 363 |[39m         expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'hardest things'[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:360:42)
+
+  ● Disenfranchised Grief / Radical Validation › should provide radical validation: "I know it's silly to be this upset over ..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "biology"
+    Received string:    "let me stop you right there: **they were not 'just' anything.** your pet was a family member. a source of daily comfort. their inability to understand says nothing about the validity of your grief.·
+    your brain is processing a major loss. give yourself permission to grieve fully. i'm here to witness that grief, because it matters."
+
+    [0m [90m 503 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m"NOT 'just'"[39m)[33m;[39m
+     [90m 504 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'family member'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 505 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'biology'[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 506 |[39m     })[33m;[39m
+     [90m 507 |[39m   })[33m;[39m
+     [90m 508 |[39m   [0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:505:45)
+
+  ● Disenfranchised Grief / Radical Validation › should provide radical validation: "People think I'm crazy for grieving this..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "biology"
+    Received string:    "let me stop you right there: **they were not 'just' anything.** your pet was a family member. a source of daily comfort. their inability to understand says nothing about the validity of your grief.·
+    your brain is processing a major loss. give yourself permission to grieve fully. i'm here to witness that grief, because it matters."
+
+    [0m [90m 503 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m"NOT 'just'"[39m)[33m;[39m
+     [90m 504 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'family member'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 505 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'biology'[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 506 |[39m     })[33m;[39m
+     [90m 507 |[39m   })[33m;[39m
+     [90m 508 |[39m   [0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:505:45)
+
+  ● Disenfranchised Grief / Radical Validation › should provide radical validation: "My boss says I shouldn't be this upset, ..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "biology"
+    Received string:    "let me stop you right there: **they were not 'just' anything.** your pet was a family member. a source of daily comfort. their inability to understand says nothing about the validity of your grief.·
+    your brain is processing a major loss. give yourself permission to grieve fully. i'm here to witness that grief, because it matters."
+
+    [0m [90m 503 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m"NOT 'just'"[39m)[33m;[39m
+     [90m 504 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'family member'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 505 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'biology'[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 506 |[39m     })[33m;[39m
+     [90m 507 |[39m   })[33m;[39m
+     [90m 508 |[39m   [0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:505:45)
+
+  ● Disenfranchised Grief / Radical Validation › should provide radical validation: "Everyone tells me to just get another pe..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "biology"
+    Received string:    "let me stop you right there: **they were not 'just' anything.** your pet was a family member. a source of daily comfort. their inability to understand says nothing about the validity of your grief.·
+    your brain is processing a major loss. give yourself permission to grieve fully. i'm here to witness that grief, because it matters."
+
+    [0m [90m 503 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m"NOT 'just'"[39m)[33m;[39m
+     [90m 504 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'family member'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 505 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'biology'[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 506 |[39m     })[33m;[39m
+     [90m 507 |[39m   })[33m;[39m
+     [90m 508 |[39m   [0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:505:45)
+
+  ● Disenfranchised Grief / Radical Validation › should provide radical validation: "I feel stupid for crying over an animal..."
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "disenfranchised"
+    Received: "general"
+
+    [0m [90m 498 |[39m       [36mconst[39m result [33m=[39m generateCompanionResponse(phrase)[33m;[39m
+     [90m 499 |[39m       
+    [31m[1m>[22m[39m[90m 500 |[39m       expect(result[33m.[39manalysis[33m.[39mcategory)[33m.[39mtoBe([32m'disenfranchised'[39m)[33m;[39m
+     [90m     |[39m                                        [31m[1m^[22m[39m
+     [90m 501 |[39m       
+     [90m 502 |[39m       [90m// Must counter the minimization[39m
+     [90m 503 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m"NOT 'just'"[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:500:40)
+
+  ● Disenfranchised Grief / Radical Validation › should address societal minimization directly
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "people who say"
+    Received string:    "let me stop you right there: **they were not 'just' anything.** your pet was a family member. a source of daily comfort. their inability to understand says nothing about the validity of your grief.·
+    your brain is processing a major loss. give yourself permission to grieve fully. i'm here to witness that grief, because it matters."
+
+    [0m [90m 510 |[39m     [36mconst[39m result [33m=[39m generateCompanionResponse([32m"People say it's just a pet"[39m)[33m;[39m
+     [90m 511 |[39m     
+    [31m[1m>[22m[39m[90m 512 |[39m     expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"people who say"[39m)[33m;[39m
+     [90m     |[39m                                           [31m[1m^[22m[39m
+     [90m 513 |[39m     expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"never loved like you do"[39m)[33m;[39m
+     [90m 514 |[39m   })[33m;[39m
+     [90m 515 |[39m })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:512:43)
+
+  ● Anticipatory Grief › should detect anticipatory grief: "I'm going to lose my dog slowly and it's..."
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "anticipatory"
+    Received: "general"
+
+    [0m [90m 565 |[39m       [36mconst[39m result [33m=[39m generateCompanionResponse(phrase)[33m;[39m
+     [90m 566 |[39m       
+    [31m[1m>[22m[39m[90m 567 |[39m       expect(result[33m.[39manalysis[33m.[39mcategory)[33m.[39mtoBe([32m'anticipatory'[39m)[33m;[39m
+     [90m     |[39m                                        [31m[1m^[22m[39m
+     [90m 568 |[39m       
+     [90m 569 |[39m       [90m// Must contain anticipatory grief language[39m
+     [90m 570 |[39m       expect(result[33m.[39mresponse)[33m.[39mtoContain([32m'Anticipatory Grief'[39m)[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:567:40)
+
+  ● Anticipatory Grief › should require ≥2 markers for detection
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    [0m [90m 581 |[39m     
+     [90m 582 |[39m     expect(singleResult[33m.[39mdetected)[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 583 |[39m     expect(doubleResult[33m.[39mdetected)[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                   [31m[1m^[22m[39m
+     [90m 584 |[39m   })[33m;[39m
+     [90m 585 |[39m })[33m;[39m
+     [90m 586 |[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:583:35)
+
+  ● Quality of Life / Euthanasia Decision Support › should include the key question
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "keeping them alive for THEM, or for me"
+    Received string:    "This is one of the hardest questions a pet parent faces. **The Quality of Life Scale (HHHHHMM)** can help you assess objectively:
+    • **Hurt** - Is pain managed?
+    • **Hunger/Hydration** - Are they eating/drinking?
+    • **Hygiene** - Can they keep clean?
+    • **Happiness** - Do they have moments of joy?
+    • **Mobility** - Can they move as they want to?
+    • **More good days than bad?**·
+    If you're asking this, it often means your heart already knows. Would it help to talk through what you're seeing?"
+
+    [0m [90m 689 |[39m     [36mconst[39m result [33m=[39m generateCompanionResponse([32m"When is it time?"[39m)[33m;[39m
+     [90m 690 |[39m     
+    [31m[1m>[22m[39m[90m 691 |[39m     expect(result[33m.[39mresponse)[33m.[39mtoContain([32m'keeping them alive for THEM, or for me'[39m)[33m;[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 692 |[39m   })[33m;[39m
+     [90m 693 |[39m })[33m;[39m
+     [90m 694 |[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:691:29)
+
+  ● Lost Pet / Ambiguous Loss › should provide lost pet guidance: "My dog ran away yesterday..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "can't predict"
+    Received string:    "i'm so sorry you're going through this. the panic and fear you're feeling right now shows how much you love them. we *can* focus on the steps that give you the best chance of getting them home:·
+    **right now (next 30–60 minutes):**
+    • re-check the last-seen area slowly (quiet voice, treat bag).
+    • ask a neighbor to help cover more ground.
+    • if safe, leave a familiar-smelling item (blanket/shirt) near the exit point.·
+    **next:**
+    • call **local shelters/animal control** and ask them to scan for a **microchip**.
+    • post clear photos, but **do not share your home address** publicly."
+
+    [0m [90m 712 |[39m       
+     [90m 713 |[39m       [90m// Must contain actionable, uncertainty-safe guidance[39m
+    [31m[1m>[22m[39m[90m 714 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"can't predict"[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 715 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'microchip'[39m)[33m;[39m
+     [90m 716 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'do not share your home address'[39m)[33m;[39m
+     [90m 717 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:714:45)
+
+  ● Lost Pet / Ambiguous Loss › should provide lost pet guidance: "My cat has been missing for three days..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "can't predict"
+    Received string:    "i'm so sorry you're going through this. the panic and fear you're feeling right now shows how much you love them. we *can* focus on the steps that give you the best chance of getting them home:·
+    **right now (next 30–60 minutes):**
+    • re-check the last-seen area slowly (quiet voice, treat bag).
+    • ask a neighbor to help cover more ground.
+    • if safe, leave a familiar-smelling item (blanket/shirt) near the exit point.·
+    **next:**
+    • call **local shelters/animal control** and ask them to scan for a **microchip**.
+    • post clear photos, but **do not share your home address** publicly."
+
+    [0m [90m 712 |[39m       
+     [90m 713 |[39m       [90m// Must contain actionable, uncertainty-safe guidance[39m
+    [31m[1m>[22m[39m[90m 714 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"can't predict"[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 715 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'microchip'[39m)[33m;[39m
+     [90m 716 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'do not share your home address'[39m)[33m;[39m
+     [90m 717 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:714:45)
+
+  ● Lost Pet / Ambiguous Loss › should provide lost pet guidance: "I can't find my dog anywhere..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "can't predict"
+    Received string:    "i'm so sorry you're going through this. the panic and fear you're feeling right now shows how much you love them. we *can* focus on the steps that give you the best chance of getting them home:·
+    **right now (next 30–60 minutes):**
+    • re-check the last-seen area slowly (quiet voice, treat bag).
+    • ask a neighbor to help cover more ground.
+    • if safe, leave a familiar-smelling item (blanket/shirt) near the exit point.·
+    **next:**
+    • call **local shelters/animal control** and ask them to scan for a **microchip**.
+    • post clear photos, but **do not share your home address** publicly."
+
+    [0m [90m 712 |[39m       
+     [90m 713 |[39m       [90m// Must contain actionable, uncertainty-safe guidance[39m
+    [31m[1m>[22m[39m[90m 714 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"can't predict"[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 715 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'microchip'[39m)[33m;[39m
+     [90m 716 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'do not share your home address'[39m)[33m;[39m
+     [90m 717 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:714:45)
+
+  ● Lost Pet / Ambiguous Loss › should provide lost pet guidance: "She escaped from the yard..."
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "can't predict"
+    Received string:    "i'm so sorry you're going through this. the panic and fear you're feeling right now shows how much you love them. we *can* focus on the steps that give you the best chance of getting them home:·
+    **right now (next 30–60 minutes):**
+    • re-check the last-seen area slowly (quiet voice, treat bag).
+    • ask a neighbor to help cover more ground.
+    • if safe, leave a familiar-smelling item (blanket/shirt) near the exit point.·
+    **next:**
+    • call **local shelters/animal control** and ask them to scan for a **microchip**.
+    • post clear photos, but **do not share your home address** publicly."
+
+    [0m [90m 712 |[39m       
+     [90m 713 |[39m       [90m// Must contain actionable, uncertainty-safe guidance[39m
+    [31m[1m>[22m[39m[90m 714 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m"can't predict"[39m)[33m;[39m
+     [90m     |[39m                                             [31m[1m^[22m[39m
+     [90m 715 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'microchip'[39m)[33m;[39m
+     [90m 716 |[39m       expect(result[33m.[39mresponse[33m.[39mtoLowerCase())[33m.[39mtoContain([32m'do not share your home address'[39m)[33m;[39m
+     [90m 717 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:714:45)
+
+  ● Response Template Validation › Template: suicide_active › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: suicide_passive › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: mdd › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: paralysis › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: neurodivergent › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: dv_immediate_danger › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: dv_coercive_control › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: child_abuse › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: emergency_veterinary › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: emergency › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: death_traumatic › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: death_euthanasia › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: death_general › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: death_found_deceased › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: anticipatory › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: scam_alert › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: scam › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: lost_pet › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: found_pet › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: guilt_cbt › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: disenfranchised › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: pediatric › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: quality_of_life › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+  ● Response Template Validation › Template: behavioral_euthanasia › should have mustContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 877 |[39m     describe([32m`Template: ${category}`[39m[33m,[39m () [33m=>[39m {
+     [90m 878 |[39m       it([32m'should have mustContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 879 |[39m         expect(template[33m.[39mmustContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                      [31m[1m^[22m[39m
+     [90m 880 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 881 |[39m       })[33m;[39m
+     [90m 882 |[39m       [0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:879:38)
+
+  ● Response Template Validation › Template: behavioral_euthanasia › should have mustNotContain requirements defined
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+    [0m [90m 882 |[39m       
+     [90m 883 |[39m       it([32m'should have mustNotContain requirements defined'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 884 |[39m         expect(template[33m.[39mmustNotContain)[33m.[39mtoBeDefined()[33m;[39m
+     [90m     |[39m                                         [31m[1m^[22m[39m
+     [90m 885 |[39m         expect([33mArray[39m[33m.[39misArray(template[33m.[39mmustNotContain))[33m.[39mtoBe([36mtrue[39m)[33m;[39m
+     [90m 886 |[39m       })[33m;[39m
+     [90m 887 |[39m     })[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/counselor-engine.test.ts:884:41)
+
+Test Suites: 3 failed, 2 passed, 5 total
+Tests:       43 failed, 212 passed, 255 total
+Snapshots:   0 total
+Time:        3.539 s
+Ran all test suites.
