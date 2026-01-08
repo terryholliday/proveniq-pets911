@@ -13,7 +13,8 @@ import {
   Lock,
   Building,
   Eye,
-  Camera
+  Camera,
+  XCircle
 } from 'lucide-react';
 import type { MissingPetCase, FoundAnimalCase, CaseStatus } from '@/lib/types';
 
@@ -24,13 +25,14 @@ interface TriageListProps {
   onSelectCase: (caseItem: CaseItem) => void;
   onLockCase: (caseId: string, caseType: 'missing' | 'found') => void;
   onEscalate: (caseId: string, caseType: 'missing' | 'found') => void;
+  onCloseCase: (caseId: string, caseType: 'missing' | 'found') => void;
 }
 
 /**
  * Triage list for PigPig moderators
  * Per task spec: lock case, escalate to shelter
  */
-export function TriageList({ cases, onSelectCase, onLockCase, onEscalate }: TriageListProps) {
+export function TriageList({ cases, onSelectCase, onLockCase, onEscalate, onCloseCase }: TriageListProps) {
   const [filter, setFilter] = useState<'all' | 'missing' | 'found'>('all');
   const router = useRouter();
 
@@ -92,6 +94,7 @@ export function TriageList({ cases, onSelectCase, onLockCase, onEscalate }: Tria
               onSelect={() => router.push(`/case/${caseItem.id}`)}
               onLock={() => onLockCase(caseItem.id, caseItem.type)}
               onEscalate={() => onEscalate(caseItem.id, caseItem.type)}
+              onCloseCase={() => onCloseCase(caseItem.id, caseItem.type)}
             />
           ))}
         </div>
@@ -105,11 +108,13 @@ function CaseCard({
   onSelect,
   onLock,
   onEscalate,
+  onCloseCase,
 }: {
   caseItem: CaseItem;
   onSelect: () => void;
   onLock: () => void;
   onEscalate: () => void;
+  onCloseCase: () => void;
 }) {
   const isFound = caseItem.type === 'found';
   const foundCase = isFound ? (caseItem as FoundAnimalCase) : null;
@@ -185,6 +190,13 @@ function CaseCard({
               <Button variant="ghost" size="sm" onClick={onEscalate}>
                 <Building className="h-4 w-4 mr-1" />
                 Shelter
+              </Button>
+            )}
+            {caseItem.status !== 'LOCKED' && caseItem.status !== 'ESCALATED_TO_SHELTER' && 
+             !caseItem.status.startsWith('CLOSED_') && (
+              <Button variant="ghost" size="sm" onClick={onCloseCase}>
+                <XCircle className="h-4 w-4 mr-1" />
+                Close
               </Button>
             )}
           </div>

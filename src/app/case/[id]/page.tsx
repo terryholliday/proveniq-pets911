@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertEscalation } from '@/components/moderator/alert-escalation';
 import { 
   ArrowLeft, 
   MapPin, 
@@ -445,6 +446,15 @@ export default function CaseDetailPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Alert Escalation */}
+            <AlertEscalation
+              caseId={caseItem.id}
+              caseType={isMissing ? 'missing' : 'found'}
+              createdAt={caseItem.created_at}
+              lastLocation={(caseItem as any).location_description}
+              species={caseItem.species}
+            />
 
             {/* Timestamps */}
             <Card>

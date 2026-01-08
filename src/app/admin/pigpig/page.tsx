@@ -125,6 +125,53 @@ export default function PigPigDashboard() {
     }
   };
 
+  const handleCloseCase = async (caseId: string, caseType: 'missing' | 'found') => {
+    // Show closure reason dialog
+    const reasons = [
+      'CLOSED_REUNITED - Pet reunited with owner',
+      'CLOSED_ADOPTED - Pet was adopted',
+      'CLOSED_DECEASED - Pet was found deceased',
+      'CLOSED_EXPIRED - Case expired (30 days)',
+      'CLOSED_DUPLICATE - Duplicate case'
+    ];
+    
+    const reason = prompt(
+      'Select a closure reason:\n\n' +
+      reasons.join('\n') +
+      '\n\nEnter the reason code (e.g., CLOSED_REUNITED):'
+    );
+
+    if (!reason || !reasons.some(r => r.startsWith(reason))) {
+      if (reason) alert('Invalid reason code. Please try again.');
+      return;
+    }
+
+    const idempotencyKey = generateIdempotencyKey();
+    
+    try {
+      if (queueAction) {
+        await queueAction('UPDATE_CASE', {
+          case_id: caseId,
+          case_type: caseType,
+          action: 'CLOSE_CASE',
+          closure_reason: reason,
+        });
+      }
+      
+      // Update local state to reflect closure
+      setCases(prev => prev.map(c => 
+        c.id === caseId ? { ...c, status: reason as CaseStatus } : c
+      ));
+      
+      // Show success message
+      alert(`Case has been closed: ${reason}`);
+      
+    } catch (err) {
+      console.error('Failed to close case:', err);
+      alert('Failed to close case. Please try again.');
+    }
+  };
+
   const handleConfirmMatch = async (matchId: string, notes: string) => {
     const idempotencyKey = generateIdempotencyKey();
     
@@ -240,6 +287,7 @@ export default function PigPigDashboard() {
             onSelectCase={handleSelectCase}
             onLockCase={handleLockCase}
             onEscalate={handleEscalate}
+            onCloseCase={handleCloseCase}
           />
         ) : (
           <div className="space-y-4">
