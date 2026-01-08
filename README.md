@@ -118,9 +118,7 @@ npm test -- --testPathPattern=moderator-gating
 
 ## Pilot Counties
 
-- Greenbrier County (Lewisburg, White Sulphur Springs)
-- Kanawha County (Charleston)
-
+- Greenbrier & Kanawha Counties
 ## API Stubs
 
 Backend endpoints are stubbed with fail-closed behavior (503 responses) per task requirements. 

@@ -35,9 +35,11 @@ export default function EmergencyPage() {
     await queueAction('REQUEST_ER_VET_NOTIFY', {
       contact_id: contact.id,
       emergency_summary: `Emergency notification from finder. Condition: ${condition}`,
-      callback_number: '', // TODO: Get from user profile
+      callback_number: '+1-304-555-0123', // TODO: Get from user profile
+      county: selectedCounty,
+      finder_location: location?.text || 'Location unavailable',
     });
-  }, [condition, queueAction]);
+  }, [condition, queueAction, selectedCounty, location]);
 
   const handleLogOutcome = useCallback(async (outcome: MunicipalOutcome, contactId: string) => {
     // Queue the municipal call log (works offline)

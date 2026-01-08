@@ -18,35 +18,51 @@ import { clearAllData } from '../src/lib/db/indexed-db';
 import type { EmergencyContact, MunicipalCallScript } from '../src/lib/types';
 
 const mockERVet: EmergencyContact = {
-  id: 'vet-1',
+  id: 'vet-greenbrier-1',
   county_pack_id: 'greenbrier-v1',
   contact_type: 'ER_VET',
-  name: 'Greenbrier Emergency Vet',
-  phone_primary: '+1-304-555-0100',
-  phone_secondary: null,
-  email: 'emergency@gvet.com',
-  address: '123 Main St, Lewisburg, WV',
+  name: 'Greenbrier Veterinary Emergency Clinic',
+  phone_primary: '+1-304-645-7800',
+  phone_secondary: '+1-304-645-7801',
+  email: 'emergency@greenbriervet.com',
+  address: '300 Maplewood Ave, Lewisburg, WV 24901',
   is_24_hour: true,
   accepts_emergency: true,
   accepts_wildlife: false,
   accepts_livestock: false,
-  hours: { monday: '24h', tuesday: '24h' },
+  hours: {
+    monday: '24 hours',
+    tuesday: '24 hours',
+    wednesday: '24 hours',
+    thursday: '24 hours',
+    friday: '24 hours',
+    saturday: '24 hours',
+    sunday: '24 hours'
+  },
 };
 
 const mockACO: EmergencyContact = {
-  id: 'aco-1',
+  id: 'aco-greenbrier-1',
   county_pack_id: 'greenbrier-v1',
   contact_type: 'ANIMAL_CONTROL',
-  name: 'Greenbrier Animal Control',
-  phone_primary: '+1-304-555-0200',
-  phone_secondary: null,
-  email: null,
-  address: '456 County Rd, Lewisburg, WV',
+  name: 'Greenbrier County Humane Society',
+  phone_primary: '+1-304-645-4772',
+  phone_secondary: '+1-304-645-6425',
+  email: 'greenbrierhumanesociety@gmail.com',
+  address: '255 C&O Drive, Lewisburg, WV 24901',
   is_24_hour: false,
   accepts_emergency: true,
   accepts_wildlife: true,
   accepts_livestock: true,
-  hours: { monday: '8am-5pm', tuesday: '8am-5pm' },
+  hours: {
+    monday: '11am-4pm',
+    tuesday: '11am-4pm',
+    wednesday: '11am-4pm',
+    thursday: '11am-4pm',
+    friday: '11am-4pm',
+    saturday: '11am-4pm',
+    sunday: 'Closed'
+  },
 };
 
 const mockCallScript: MunicipalCallScript = {
@@ -121,7 +137,7 @@ describe('County Pack Cache', () => {
 
       expect(vets.length).toEqual(1);
       expect(vets[0].contact_type).toEqual('ER_VET');
-      expect(vets[0].name).toEqual('Greenbrier Emergency Vet');
+      expect(vets[0].name).toEqual('Greenbrier Veterinary Emergency Clinic');
     });
 
     test('getCachedAnimalControl should return only ACO contacts', async () => {

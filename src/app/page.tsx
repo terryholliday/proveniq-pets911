@@ -292,7 +292,7 @@ export default function HomePage() {
             />
             <FAQItem
               question="What counties do you serve?"
-              answer="Currently we're piloting in Greenbrier County (Lewisburg, White Sulphur Springs) and Kanawha County (Charleston) in West Virginia. We plan to expand based on pilot results."
+              answer="Currently we're piloting in Greenbrier & Kanawha Counties We plan to expand based on pilot results."
             />
           </div>
 
