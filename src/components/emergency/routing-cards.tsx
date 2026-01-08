@@ -326,25 +326,38 @@ function InjuredRoutingCard({
             <p className="text-sm text-green-700 mb-3">
               Take the animal to the nearest vet clinic:
             </p>
-            {erVets[0] ? (
-              <Button
-                variant="default"
-                size="lg"
-                className="w-full bg-green-600 hover:bg-green-700"
-                onClick={() => window.location.href = `tel:${erVets[0].phone_primary}`}
-              >
-                <Phone className="h-5 w-5 mr-2" />
-                Call {erVets[0].name}
-              </Button>
+            {erVets.length > 0 ? (
+              <div className="space-y-2">
+                <p className="text-xs text-green-700 mb-2">
+                  We'll call vets on your behalf to find one that can accept the animal:
+                </p>
+                {erVets.slice(0, 3).map((vet) => (
+                  <Button
+                    key={vet.id}
+                    variant="default"
+                    size="lg"
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    onClick={() => onNotifyVet?.(vet)}
+                  >
+                    <Phone className="h-5 w-5 mr-2" />
+                    Notify {vet.name}
+                  </Button>
+                ))}
+                {erVets.length > 3 && (
+                  <p className="text-xs text-green-600 text-center">
+                    +{erVets.length - 3} more clinics available
+                  </p>
+                )}
+              </div>
             ) : (
               <Button
                 variant="default"
                 size="lg"
                 className="w-full bg-green-600 hover:bg-green-700"
-                onClick={() => window.open('https://www.google.com/maps/search/emergency+vet+near+me', '_blank')}
+                onClick={() => window.location.href = 'tel:911'}
               >
-                <Navigation className="h-5 w-5 mr-2" />
-                Find Nearest Vet Clinic
+                <Phone className="h-5 w-5 mr-2" />
+                Call 911 for Emergency Assistance
               </Button>
             )}
           </div>
