@@ -82,6 +82,7 @@ export function RoutingCards({
         location={location}
         isStale={isStale}
         county={county}
+        onNotifyVet={onNotifyVet}
         onLogOutcome={onLogOutcome}
       />
     );
@@ -281,6 +282,7 @@ function InjuredRoutingCard({
   location,
   isStale,
   county,
+  onNotifyVet,
   onLogOutcome,
 }: {
   erVets: EmergencyContact[];
@@ -288,6 +290,7 @@ function InjuredRoutingCard({
   location: { lat: number; lng: number; text: string } | null;
   isStale: boolean;
   county: County;
+  onNotifyVet?: (contact: EmergencyContact) => void;
   onLogOutcome?: (outcome: MunicipalOutcome, contactId: string) => void;
 }) {
   const { user } = useAuth();
