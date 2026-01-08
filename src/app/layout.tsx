@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { NotificationProvider } from '@/contexts/NotificationContext';
+import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
   title: 'PROVENIQ Pets (WV)',
@@ -24,7 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
         <NotificationProvider>
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
         </NotificationProvider>
       </body>
     </html>

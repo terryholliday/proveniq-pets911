@@ -13,7 +13,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Heart className="w-6 h-6 text-red-500" />
-              <span className="font-bold text-white">PROVENIQ Pets 911</span>
+              <span className="font-bold text-white">PROVENIQ Pet911</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
@@ -38,7 +38,7 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto w-full text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white/90 text-sm font-medium mb-6">
               <Heart className="w-4 h-4" />
-              PROVENIQ Pets 911 • West Virginia
+              PROVENIQ Pet911 • West Virginia
             </div>
 
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
@@ -253,7 +253,7 @@ export default function HomePage() {
             />
             <FAQItem
               question="Is this service free?"
-              answer="Yes. PROVENIQ Pets 911 is free for all users. We're a pilot program serving Greenbrier and Kanawha counties in West Virginia."
+              answer="Yes. PROVENIQ Pet911 is free for all users. We're a pilot program serving Greenbrier and Kanawha counties in West Virginia."
             />
             <FAQItem
               question="What is the Support Companion and how can it help me?"
@@ -292,7 +292,7 @@ export default function HomePage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="w-5 h-5 text-red-500" />
-                <span className="font-bold text-white">PROVENIQ Pets 911</span>
+                <span className="font-bold text-white">PROVENIQ Pet911</span>
               </div>
               <p className="text-slate-400 text-sm">
                 Emergency coordination for lost and found pets in West Virginia.
