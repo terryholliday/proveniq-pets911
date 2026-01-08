@@ -65,7 +65,7 @@ export default function HomePage() {
 
       {/* What brings you here? */}
       <section className="px-6 py-12 bg-slate-900">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-3">
             What brings you here?
           </h2>
@@ -73,83 +73,83 @@ export default function HomePage() {
             Choose the option that best describes your situation
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* Lost My Pet */}
             <Link href="/missing/report" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Search className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-blue-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Search className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">I Lost My Pet</h3>
-                    <p className="text-slate-400">Report a missing pet and get help searching</p>
+                    <h3 className="text-lg font-bold text-white mb-1">I Lost My Pet</h3>
+                    <p className="text-slate-400 text-sm">Report a missing pet and get help searching</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-blue-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-blue-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Spotted a Lost Pet */}
             <Link href="/sighting/report" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-emerald-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Eye className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-emerald-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Eye className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">I Spotted a Lost Pet</h3>
-                    <p className="text-slate-400">Report a sighting to help reunite families</p>
+                    <h3 className="text-lg font-bold text-white mb-1">I Spotted a Lost Pet</h3>
+                    <p className="text-slate-400 text-sm">Report a sighting to help reunite families</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-emerald-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-emerald-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Browse Missing Pets */}
             <Link href="/missing" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <ClipboardList className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <ClipboardList className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Missing Pets Board</h3>
-                    <p className="text-slate-400">Browse pets reported missing in your area</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Missing Pets Board</h3>
+                    <p className="text-slate-400 text-sm">Browse pets reported missing in your area</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-amber-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-amber-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Register My Pet */}
             <Link href="/register" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-purple-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Users className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-purple-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Users className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Register My Pet</h3>
-                    <p className="text-slate-400">Helps reunification if your pet is ever lost</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Register My Pet</h3>
+                    <p className="text-slate-400 text-sm">Helps reunification if your pet is ever lost</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-purple-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-purple-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
 
             {/* Support Companion */}
             <Link href="/support" className="block group">
-              <div className="bg-slate-800 border-2 border-slate-700 hover:border-teal-500 rounded-2xl p-6 transition-all hover:bg-slate-800/80">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-2xl bg-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <MessageCircleHeart className="w-8 h-8 text-white" />
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-teal-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <MessageCircleHeart className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-1">Support Companion</h3>
-                    <p className="text-slate-400">Get empathetic support during a difficult time</p>
+                    <h3 className="text-lg font-bold text-white mb-1">Support Companion</h3>
+                    <p className="text-slate-400 text-sm">Get empathetic support during a difficult time</p>
                   </div>
-                  <span className="text-slate-500 text-2xl group-hover:text-teal-400 transition-colors">→</span>
+                  <span className="text-slate-500 text-xl group-hover:text-teal-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
