@@ -154,7 +154,9 @@ export interface SightingReportExtended {
       display_name: string;
     };
   };
-  notifications?: SightingNotification[];
+
+  // Notifications for this sighting
+  notifications: SightingNotification[];
 }
 
 export interface SightingNotification {

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-import { SyncStatus } from '@/lib/types';
+import { get, set, cleanupExpired } from '@/lib/sync/idempotency-store';
 
 /**
  * POST /api/sync/queue
@@ -11,9 +10,14 @@ import { SyncStatus } from '@/lib/types';
  * 
  * TODO: Connect to Supabase backend
  * FAIL-CLOSED: Returns 503 if backend unavailable
+ * 
+ * Current implementation uses in-memory idempotency store for demo/E2E.
  */
 export async function POST(request: NextRequest) {
   try {
+    // Cleanup expired entries on each request (simple strategy)
+    cleanupExpired();
+
     const body = await request.json();
     const { device_id, actions } = body;
 
@@ -34,32 +38,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Implement actual batch processing
-    // For now, simulate processing each action
-
+    // Process actions in FIFO order; check idempotency deterministically
     const results = actions.map((action: {
       idempotency_key: string;
       action_type: string;
       payload: Record<string, unknown>;
       created_at: string;
-    }): { idempotency_key: string; status: SyncStatus; error?: string; resolved_entity_id?: string } => {
-      // Simulate checking for duplicate idempotency key
-      // In production, this would query the database
-      const isDuplicate = false; // Math.random() < 0.1; // 10% chance of being a duplicate
-
-      if (isDuplicate) {
+    }) => {
+      const existing = get(action.idempotency_key);
+      if (existing) {
+        // Idempotency conflict: return stored result
         return {
           idempotency_key: action.idempotency_key,
-          status: 'CONFLICT' as const,
-          error: 'Action already processed',
+          status: existing.status,
+          error: existing.error,
+          resolved_entity_id: existing.resolved_entity_id,
         };
       }
 
-      // Simulate successful processing
+      // Simulate successful processing and record idempotency
+      const resolved_entity_id = crypto.randomUUID();
+      const record = {
+        idempotency_key: action.idempotency_key,
+        status: 'SYNCED' as const,
+        resolved_entity_id,
+        created_at: new Date().toISOString(),
+      };
+      set(record);
+
       return {
         idempotency_key: action.idempotency_key,
         status: 'SYNCED' as const,
-        resolved_entity_id: crypto.randomUUID(),
+        resolved_entity_id,
       };
     });
 
