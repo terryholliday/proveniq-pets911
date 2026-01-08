@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -119,12 +120,11 @@ export default function HelperSignupPage() {
               Please sign in to register as an emergency helper.
             </AlertDescription>
           </Alert>
-          <Button 
-            className="mt-4 w-full" 
-            onClick={() => router.push('/login')}
-          >
-            Sign In
-          </Button>
+          <Link href="/login" className="mt-4 block">
+            <Button className="w-full">
+              Sign In
+            </Button>
+          </Link>
         </div>
       </div>
     );
