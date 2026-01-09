@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import {
   MapPin, 
   ChevronRight,
   Lock,
+  Unlock,
   Building,
   Eye,
   Camera,
@@ -27,6 +28,7 @@ interface TriageListProps {
   cases: CaseItem[];
   onSelectCase: (caseItem: CaseItem) => void;
   onLockCase: (caseId: string, caseType: 'missing' | 'found') => void;
+  onUnlockCase: (caseId: string, caseType: 'missing' | 'found') => void;
   onEscalate: (caseId: string, caseType: 'missing' | 'found') => void;
   onCloseCase: (caseId: string, caseType: 'missing' | 'found') => void;
 }
@@ -35,7 +37,7 @@ interface TriageListProps {
  * Triage list for PigPig moderators
  * Per task spec: lock case, escalate to shelter
  */
-export function TriageList({ cases, onSelectCase, onLockCase, onEscalate, onCloseCase }: TriageListProps) {
+export function TriageList({ cases, onSelectCase, onLockCase, onUnlockCase, onEscalate, onCloseCase }: TriageListProps) {
   const [filter, setFilter] = useState<'all' | 'missing' | 'found'>('all');
   const router = useRouter();
 
@@ -96,6 +98,7 @@ export function TriageList({ cases, onSelectCase, onLockCase, onEscalate, onClos
               caseItem={caseItem}
               onSelect={() => router.push(`/case/${caseItem.id}`)}
               onLock={() => onLockCase(caseItem.id, caseItem.type)}
+              onUnlock={() => onUnlockCase(caseItem.id, caseItem.type)}
               onEscalate={() => onEscalate(caseItem.id, caseItem.type)}
               onCloseCase={() => onCloseCase(caseItem.id, caseItem.type)}
             />
@@ -110,12 +113,14 @@ function CaseCard({
   caseItem,
   onSelect,
   onLock,
+  onUnlock,
   onEscalate,
   onCloseCase,
 }: {
   caseItem: CaseItem;
   onSelect: () => void;
   onLock: () => void;
+  onUnlock: () => void;
   onEscalate: () => void;
   onCloseCase: () => void;
 }) {
@@ -140,7 +145,7 @@ function CaseCard({
     return [typeLabel, nameLine, county, features].filter(Boolean).join('\n');
   };
 
-  const shareFacebook = (e: React.MouseEvent) => {
+  const shareFacebook = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const url = getShareUrl();
@@ -149,7 +154,7 @@ function CaseCard({
     setShareOpen(false);
   };
 
-  const shareEmail = (e: React.MouseEvent) => {
+  const shareEmail = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const url = getShareUrl();
@@ -159,7 +164,7 @@ function CaseCard({
     setShareOpen(false);
   };
 
-  const shareInstagram = async (e: React.MouseEvent) => {
+  const shareInstagram = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const url = getShareUrl();
@@ -175,18 +180,18 @@ function CaseCard({
 
   return (
     <Card className={isUrgent ? 'border-red-300 bg-red-50' : ''}>
-      <CardContent className="p-4">
-        <div className="flex items-start gap-4">
+      <CardContent className="p-3">
+        <div className="flex items-start gap-3">
           {/* Photo Thumbnail */}
           <div className="flex-shrink-0">
             {caseItem.photo_urls && caseItem.photo_urls.length > 0 ? (
               <img
                 src={caseItem.photo_urls[0]}
                 alt={missingCase?.pet_name || caseItem.species}
-                className="w-16 h-16 rounded-lg object-cover bg-gray-100"
+                className="w-14 h-14 rounded-lg object-cover bg-gray-100"
               />
             ) : (
-              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
+              <div className="w-14 h-14 rounded-lg bg-gray-100 flex items-center justify-center">
                 <Camera className="h-6 w-6 text-gray-400" />
               </div>
             )}
@@ -210,7 +215,7 @@ function CaseCard({
               {missingCase?.pet_name || `${caseItem.species} - ${caseItem.case_reference}`}
             </h3>
 
-            <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
+            <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
               <span className="flex items-center gap-1">
                 <MapPin className="h-3 w-3" />
                 {caseItem.county}
@@ -222,47 +227,103 @@ function CaseCard({
             </div>
 
             {foundCase?.condition_notes && (
-              <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+              <p className="mt-1 text-sm text-gray-600 line-clamp-1">
                 {foundCase.condition_notes}
               </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-2 ml-4">
-            <Button variant="ghost" size="sm" onClick={onSelect}>
-              <Eye className="h-4 w-4 mr-1" />
-              View
+          <div className="flex items-center gap-1 ml-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              title="View"
+              aria-label="View"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onSelect();
+              }}
+            >
+              <Eye className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="sm" onClick={onLock}>
-              <Lock className="h-4 w-4 mr-1" />
-              Lock
-            </Button>
-            {isFound && caseItem.status !== 'ESCALATED_TO_SHELTER' && caseItem.status !== 'LOCKED' && (
-              <Button variant="ghost" size="sm" onClick={onEscalate}>
-                <Building className="h-4 w-4 mr-1" />
-                Shelter
+
+            {caseItem.status === 'LOCKED' ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Unlock"
+                aria-label="Unlock"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onUnlock();
+                }}
+              >
+                <Unlock className="h-4 w-4" />
+              </Button>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Lock"
+                aria-label="Lock"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onLock();
+                }}
+              >
+                <Lock className="h-4 w-4" />
               </Button>
             )}
+
+            {isFound && caseItem.status !== 'ESCALATED_TO_SHELTER' && caseItem.status !== 'LOCKED' && (
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Shelter"
+                aria-label="Shelter"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEscalate();
+                }}
+              >
+                <Building className="h-4 w-4" />
+              </Button>
+            )}
+
             {caseItem.status !== 'LOCKED' && caseItem.status !== 'ESCALATED_TO_SHELTER' && 
              !caseItem.status.startsWith('CLOSED_') && (
-              <Button variant="ghost" size="sm" onClick={onCloseCase}>
-                <XCircle className="h-4 w-4 mr-1" />
-                Close
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Close"
+                aria-label="Close"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onCloseCase();
+                }}
+              >
+                <XCircle className="h-4 w-4" />
               </Button>
             )}
 
             <div className="relative">
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
+                title="Share"
+                aria-label="Share"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShareOpen(v => !v);
                 }}
               >
-                <Share2 className="h-4 w-4 mr-1" />
-                Share
+                <Share2 className="h-4 w-4" />
               </Button>
 
               {shareOpen && (

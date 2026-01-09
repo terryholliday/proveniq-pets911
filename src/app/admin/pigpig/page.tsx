@@ -130,6 +130,68 @@ export default function PigPigDashboard() {
     ));
   };
 
+  const handleUnlockCase = async (caseId: string, caseType: 'missing' | 'found') => {
+    const reason = prompt('Unlock reason (required):');
+    if (!reason || !reason.trim()) return;
+
+    const idempotencyKey = generateIdempotencyKey();
+
+    let queueOk = false;
+    try {
+      if (queueAction) {
+        await queueAction('UPDATE_CASE', {
+          case_id: caseId,
+          case_type: caseType,
+          action: 'UNLOCK_CASE',
+          unlock_reason: reason.trim(),
+        });
+        queueOk = true;
+      }
+    } catch (err) {
+      console.error('Failed to queue unlock action:', err);
+    }
+
+    try {
+      if (networkState !== 'OFFLINE') {
+        await recordModeratorAction(
+          {
+            action_type: 'UNLOCK_CASE',
+            case_id: caseId,
+            case_type: caseType,
+            notes: reason.trim(),
+          },
+          idempotencyKey
+        );
+      }
+    } catch (err) {
+      console.error('Failed to record moderator action:', err);
+    }
+
+    // Update local state
+    setCases(prev => prev.map(c => (c.id === caseId ? { ...c, status: 'ACTIVE' as const } : c)));
+
+    if (!queueAction) {
+      setActionBanner({
+        variant: 'info',
+        message: 'Unlock applied locally. Offline queue is unavailable; sync will occur when backend wiring is in place.',
+      });
+      return;
+    }
+
+    if (!queueOk) {
+      setActionBanner({
+        variant: 'warning',
+        message: 'Unlock applied locally, but could not be queued for sync. Retry when network/queue is available.',
+      });
+      return;
+    }
+
+    setActionBanner({
+      variant: 'success',
+      message: 'Unlock queued for sync.',
+    });
+  };
+
   const handleEscalate = async (caseId: string, caseType: 'missing' | 'found') => {
     setEscalateModal({ caseId, caseType });
     setEscalateConfirmText('');
@@ -526,6 +588,7 @@ export default function PigPigDashboard() {
             cases={cases}
             onSelectCase={handleSelectCase}
             onLockCase={handleLockCase}
+            onUnlockCase={handleUnlockCase}
             onEscalate={handleEscalate}
             onCloseCase={handleCloseCase}
           />

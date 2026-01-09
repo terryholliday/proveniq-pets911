@@ -74,7 +74,6 @@ export default function CaseDetailPage() {
           last_seen_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           last_seen_lat: 37.7749,
           last_seen_lng: -122.4194,
-          location_description: 'Near the park on Main Street',
           county: 'GREENBRIER',
           contact_name: 'John Smith',
           contact_phone: '+1-304-555-0101',
@@ -106,11 +105,9 @@ export default function CaseDetailPage() {
           found_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           found_lat: 38.3498,
           found_lng: -81.6326,
-          location_description: 'Under a porch on Oak Avenue',
           county: 'KANAWHA',
           condition_notes: 'Seems healthy but scared',
           needs_immediate_vet: false,
-          holding_location: 'Currently in garage with food and water',
           contact_name: 'Jane Doe',
           contact_phone: '+1-304-555-0102',
           contact_email: 'jane.doe@email.com',
@@ -145,11 +142,9 @@ export default function CaseDetailPage() {
           found_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           found_lat: 37.7954,
           found_lng: -80.4462,
-          location_description: 'Side of the road on Route 60',
           county: 'GREENBRIER',
           condition_notes: 'Visible injury on front leg, bleeding',
           needs_immediate_vet: true,
-          holding_location: 'In carrier in my car',
           contact_name: 'Mike Johnson',
           contact_phone: '+1-304-555-0103',
           contact_email: null,
@@ -351,13 +346,6 @@ export default function CaseDetailPage() {
                   </div>
                 )}
 
-                {(foundCase as FoundAnimalCase)?.holding_location && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Holding Location</label>
-                    <p className="mt-1 text-gray-700">{(foundCase as FoundAnimalCase).holding_location}</p>
-                  </div>
-                )}
-
                 {missingCase?.microchip_id && (
                   <div>
                     <label className="text-sm font-medium text-gray-500">Microchip ID</label>
@@ -402,7 +390,6 @@ export default function CaseDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700">{(caseItem as any).location_description}</p>
                 <p className="text-sm text-gray-500 mt-2">
                   {isMissing ? `Last seen: ${new Date(missingCase?.last_seen_at || '').toLocaleDateString()}` : `Found: ${new Date(foundCase?.found_at || '').toLocaleDateString()}`}
                 </p>
