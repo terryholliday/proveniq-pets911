@@ -234,6 +234,10 @@ export default function LostPetGuidePage() {
                       <li><strong>"Pay first"</strong> demands (gift cards, transfers) before “returning” your pet.</li>
                       <li>Refuses to describe identifying features or provide a photo.</li>
                       <li>Pressures you to <strong>meet alone</strong> or in a secluded location.</li>
+                      <li>Asks for a <strong>verification code</strong> “to prove you’re real” (never share any codes).</li>
+                      <li>Claims they’re “out of town” and want you to <strong>ship</strong> or send money for transport.</li>
+                      <li>Sends links to “microchip lookup”, “delivery tracking”, or “fee payment” pages (phishing).</li>
+                      <li>Uses urgency: “I have your dog but I’m leaving in 10 minutes” to force bad decisions.</li>
                     </ul>
                   </CardContent>
                 </Card>
@@ -249,6 +253,41 @@ export default function LostPetGuidePage() {
                       <li>Bring a friend. Keep proof of ownership (photos, vet records, microchip info).</li>
                       <li>Ask <strong>them</strong> to tell you a unique detail before you share one.</li>
                       <li>If there's a microchip, verify at a vet/shelter.</li>
+                      <li>Do not hand over cash. If a reward was offered, pay only after confirmation.</li>
+                      <li>If possible, do the handoff at a vet clinic or shelter that can scan for a chip.</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardContent className="p-6 space-y-3">
+                    <div className="flex items-center gap-2 text-white font-semibold">
+                      <Shield className="w-5 h-5 text-purple-400" />
+                      Verification checklist (fast)
+                    </div>
+                    <ul className="text-slate-300 text-sm space-y-2">
+                      <li>Request a photo/video <strong>from the finder</strong> in the moment (not a reposted flyer photo).</li>
+                      <li>Ask for exact location + time + direction of travel (and whether they can stay put).</li>
+                      <li>Ask about a specific unique detail: collar type, tag color, scar, chipped ear, limp, etc.</li>
+                      <li>If possible, confirm using a microchip scan at a vet/shelter before final handoff.</li>
+                      <li>Ask them to include today’s date written on paper in a photo/video.</li>
+                      <li>If you receive an image, do a quick reverse-image search before acting on it.</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardContent className="p-6 space-y-3">
+                    <div className="flex items-center gap-2 text-white font-semibold">
+                      <Shield className="w-5 h-5 text-purple-400" />
+                      Protect your privacy
+                    </div>
+                    <ul className="text-slate-300 text-sm space-y-2">
+                      <li>Use a dedicated callback number/email when posting publicly if possible.</li>
+                      <li>Don’t share your home address; use a safe meetup point or vet clinic.</li>
+                      <li>Never share login codes or one-time passcodes sent to your phone/email.</li>
+                      <li>Don’t click unknown links; call back using a number you already trust.</li>
+                      <li>If someone becomes aggressive or threatening, end contact and meet with law enforcement present.</li>
                     </ul>
                   </CardContent>
                 </Card>
