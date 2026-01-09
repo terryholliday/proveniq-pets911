@@ -439,7 +439,6 @@ export default function CaseDetailPage() {
               caseId={caseItem.id}
               caseType={isMissing ? 'missing' : 'found'}
               createdAt={caseItem.created_at}
-              lastLocation={(caseItem as any).location_description}
               species={caseItem.species}
             />
 
