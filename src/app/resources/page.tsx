@@ -12,9 +12,9 @@ export default function ResourcesPage() {
     },
     {
       title: 'Lost Pet Guide',
-      description: 'View and search the Missing Pets Board for lost pets in your area',
+      description: 'Step-by-step guide to find your pet fast (first hour, first day, safety)',
       icon: BookOpen,
-      href: '/missing',
+      href: '/lost-pet-guide',
       color: 'bg-blue-500'
     },
     {
