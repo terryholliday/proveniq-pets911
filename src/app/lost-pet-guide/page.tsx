@@ -323,18 +323,18 @@ export default function LostPetGuidePage() {
                     <div>
                       <h3 className="text-xl font-semibold text-white">Need help organizing your search?</h3>
                       <p className="text-slate-400 text-sm">
-                        Use the Missing Pets Board and encourage the public to report sightings.
+                        Start by filing a Missing Pet report so your pet can be matched to incoming sightings.
                       </p>
                     </div>
                     <div className="flex gap-3">
-                      <Link href="/missing" className="block">
+                      <Link href="/emergency-contacts" className="block">
                         <Button variant="outline" className="border-slate-600 text-slate-200 hover:bg-slate-800">
-                          Missing Pets Board
+                          Emergency Contacts
                         </Button>
                       </Link>
-                      <Link href="/sighting/report" className="block">
-                        <Button className="bg-emerald-600 hover:bg-emerald-700">
-                          Report Sighting
+                      <Link href="/missing/report" className="block">
+                        <Button className="bg-blue-600 hover:bg-blue-700">
+                          Report Missing Pet
                         </Button>
                       </Link>
                     </div>
