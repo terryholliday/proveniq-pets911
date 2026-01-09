@@ -26,9 +26,9 @@ export default function ResourcesPage() {
     },
     {
       title: 'Community Support',
-      description: 'Connect with other pet owners and volunteers',
+      description: 'Connect with pet owners and volunteers (coming soon)',
       icon: Users,
-      href: '/support',
+      href: '/community',
       color: 'bg-purple-500'
     },
     {
