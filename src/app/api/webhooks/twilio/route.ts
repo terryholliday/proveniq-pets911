@@ -2,17 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { handleVolunteerResponse } from '@/lib/services/twilio-dispatch-service';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 /**
  * Twilio Webhook: Handle incoming SMS responses from volunteers
  * When volunteer replies Y/N to dispatch request
  */
 export async function POST(request: NextRequest) {
   try {
+    // Create Supabase client inside the handler
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
     const formData = await request.formData();
     
     const from = formData.get('From') as string;
