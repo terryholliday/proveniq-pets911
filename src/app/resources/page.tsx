@@ -5,9 +5,9 @@ export default function ResourcesPage() {
   const resources = [
     {
       title: 'Emergency Contacts',
-      description: '24/7 emergency vets and animal control in West Virginia',
+      description: '24/7 emergency vets, animal control, and 911',
       icon: Phone,
-      href: '/emergency',
+      href: '/emergency-contacts',
       color: 'bg-red-500'
     },
     {
