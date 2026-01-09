@@ -75,9 +75,8 @@ export default function CaseDetailPage() {
           last_seen_lat: 37.7749,
           last_seen_lng: -122.4194,
           county: 'GREENBRIER',
-          contact_name: 'John Smith',
-          contact_phone: '+1-304-555-0101',
-          contact_email: 'john.smith@email.com',
+          owner_id: 'owner-001',
+          assigned_moderator_id: null,
           created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
           updated_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
         },
@@ -106,11 +105,10 @@ export default function CaseDetailPage() {
           found_lat: 38.3498,
           found_lng: -81.6326,
           county: 'KANAWHA',
+          finder_id: 'finder-001',
+          assigned_moderator_id: null,
           condition_notes: 'Seems healthy but scared',
           needs_immediate_vet: false,
-          contact_name: 'Jane Doe',
-          contact_phone: '+1-304-555-0102',
-          contact_email: 'jane.doe@email.com',
           created_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
           updated_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
         },
@@ -143,11 +141,10 @@ export default function CaseDetailPage() {
           found_lat: 37.7954,
           found_lng: -80.4462,
           county: 'GREENBRIER',
+          finder_id: 'finder-002',
+          assigned_moderator_id: null,
           condition_notes: 'Visible injury on front leg, bleeding',
           needs_immediate_vet: true,
-          contact_name: 'Mike Johnson',
-          contact_phone: '+1-304-555-0103',
-          contact_email: null,
           created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           updated_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
         },
@@ -399,38 +396,13 @@ export default function CaseDetailPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Contact Info */}
+            {/* Contact Info - TODO: Implement based on owner/finder lookup */}
             <Card>
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Name</label>
-                  <p className="flex items-center gap-2 mt-1">
-                    <span>{(caseItem as any).contact_name}</span>
-                  </p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Phone</label>
-                  <p className="flex items-center gap-2 mt-1">
-                    <Phone className="h-4 w-4" />
-                    <a href={`tel:${(caseItem as any).contact_phone}`} className="text-blue-600 hover:underline">
-                      {(caseItem as any).contact_phone}
-                    </a>
-                  </p>
-                </div>
-                {(caseItem as any).contact_email && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Email</label>
-                    <p className="flex items-center gap-2 mt-1">
-                      <Mail className="h-4 w-4" />
-                      <a href={`mailto:${(caseItem as any).contact_email}`} className="text-blue-600 hover:underline">
-                        {(caseItem as any).contact_email}
-                      </a>
-                    </p>
-                  </div>
-                )}
+                <p className="text-gray-500 text-sm">Contact information available after owner/finder lookup</p>
               </CardContent>
             </Card>
 
