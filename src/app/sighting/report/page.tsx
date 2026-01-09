@@ -120,38 +120,43 @@ export default function ReportSighting() {
     
     // Submit to backend API
     try {
+      const payload = {
+        reporter_name: report.reporterName,
+        reporter_phone: report.reporterPhone,
+        reporter_email: report.reporterEmail,
+        sighting_address: report.location,
+        description: report.description,
+        species: report.species,
+        breed: report.breed,
+        color: report.color,
+        size: report.size,
+        condition: report.condition,
+        can_stay_with_animal: report.canStayWithAnimal,
+        photo_url: photoUrl,
+        county: 'GREENBRIER', // TODO: Get from user profile
+        sighting_at: new Date().toISOString(),
+      };
+      
+      console.log('Sending payload:', payload);
+      
       const response = await fetch('/api/sightings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          reporter_name: report.reporterName,
-          reporter_phone: report.reporterPhone,
-          reporter_email: report.reporterEmail,
-          sighting_address: report.location,
-          description: report.description,
-          species: report.species,
-          breed: report.breed,
-          color: report.color,
-          size: report.size,
-          condition: report.condition,
-          can_stay_with_animal: report.canStayWithAnimal,
-          photo_url: photoUrl,
-          county: 'GREENBRIER', // TODO: Get from user profile
-          sighting_at: new Date().toISOString(),
-        }),
+        body: JSON.stringify(payload),
       });
       
+      const responseData = await response.json();
+      console.log('API response:', responseData);
+      
       if (!response.ok) {
-        const error = await response.json();
-        console.error('Failed to submit sighting:', error);
-        alert('Failed to submit sighting. Please try again.');
+        console.error('Failed to submit sighting:', responseData);
+        alert(`Failed to submit sighting: ${responseData.error || 'Unknown error'}`);
         return;
       }
       
-      const result = await response.json();
-      console.log('Sighting submitted successfully:', result);
+      console.log('Sighting submitted successfully:', responseData);
       
       // Navigate to success page
       router.push('/sighting/report/success');
