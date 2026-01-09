@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { useSelectedCounty, useCountyPack } from '@/lib/hooks/use-county-pack';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -137,13 +137,11 @@ export function CountySelector({ onSelect, showCacheStatus = true }: CountySelec
 export function CountySelectorCompact({ onSelect }: { onSelect?: (county: County) => void }) {
   const [selectedCounty, setSelectedCounty] = useSelectedCounty();
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const county = e.target.value as County;
     setSelectedCounty(county);
     onSelect?.(county);
   };
-
-  const selectedName = COUNTIES.find(c => c.id === selectedCounty)?.name || 'Select County';
 
   return (
     <div className="relative">
