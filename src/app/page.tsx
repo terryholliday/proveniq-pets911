@@ -85,7 +85,7 @@ export default function Pet911Home() {
           <div className="flex items-center gap-4">
             {showHiddenLinks && (
               <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                <Link href="/admin/pigpig">Mod Console</Link>
+                <a href="https://lostpets911.org/admin/mods" target="_blank" rel="noreferrer noopener">Mod Console</a>
               </Button>
             )}
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
