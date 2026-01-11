@@ -78,6 +78,7 @@ export default function Pet911Home() {
             <a href="#crisis" className="hover:text-primary transition-colors">The Crisis</a>
             <a href="#protocol" className="hover:text-primary transition-colors">The Protocol</a>
             <a href="#features" className="hover:text-primary transition-colors">Capabilities</a>
+            <a href="#preregister" className="hover:text-primary transition-colors">Pre-Register</a>
             <a href="#ecosystem" className="hover:text-primary transition-colors">Ecosystem</a>
             <a href="#compliance" className="hover:text-primary transition-colors">Trust</a>
           </nav>
@@ -87,6 +88,11 @@ export default function Pet911Home() {
                 <Link href="/admin/pigpig">Mod Console</Link>
               </Button>
             )}
+            <Button variant="outline" size="sm" asChild className="hidden sm:flex">
+              <a href="https://lostpets911.org">
+                <Smartphone className="mr-2 h-4 w-4" /> Download App
+              </a>
+            </Button>
             <Button size="sm" className="gradient-amber text-zinc-900 font-bold border-none hover:opacity-90 transition-opacity" asChild>
               <Link href="https://lostpets911.org">Launch App</Link>
             </Button>
@@ -131,6 +137,12 @@ export default function Pet911Home() {
                   className="inline-flex items-center justify-center h-14 px-8 bg-red-600 text-white font-bold text-lg rounded-md transition-all hover:bg-red-700 shadow-[0_0_20px_rgba(220,38,38,0.4)]"
                 >
                   <AlertTriangle className="mr-2 h-5 w-5" /> Report Emergency
+                </a>
+                <a
+                  href="https://lostpets911.org"
+                  className="inline-flex items-center justify-center h-14 px-8 bg-teal text-zinc-900 font-bold text-lg rounded-md transition-all hover:bg-teal/90 shadow-[0_0_20px_rgba(45,212,191,0.3)]"
+                >
+                  <Smartphone className="mr-2 h-5 w-5" /> Download App
                 </a>
                 <a
                   href="#protocol"
@@ -262,66 +274,253 @@ export default function Pet911Home() {
           </div>
         </section>
 
-        {/* Tiered Escalation */}
+        {/* Tiered Escalation - Matching Decision Matrix Spec */}
         <section className="py-24 bg-zinc-950 text-white border-y border-zinc-800" id="escalation">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <Badge variant="outline" className="mb-4 border-yellow-500/50 text-yellow-500">Rapid Response Grid</Badge>
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                  Tiered Escalation
-                </h2>
-                <p className="text-xl text-zinc-400 mb-8">
-                  Not every missing pet is an emergency, but some are life-or-death.
-                  Our system automatically escalates incidents based on risk factors (weather, injury, traffic).
-                </p>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <Badge variant="outline" className="mb-4 border-yellow-500/50 text-yellow-500">Alert Decision Matrix</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                6-Tier Escalation Protocol
+              </h2>
+              <p className="text-xl text-zinc-400">
+                Not every missing pet is an emergency, but some are life-or-death.
+                Our system uses <span className="text-white font-semibold">deterministic rules</span>—not emotion—to decide who gets alerted, by what channel, at what radius, and when.
+              </p>
+            </div>
 
-                <div className="space-y-6 relative">
-                  <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-zinc-800"></div>
-
-                  {/* Tier 1 */}
-                  <div className="relative pl-16">
-                    <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center font-bold text-zinc-500">1</div>
-                    <h3 className="text-lg font-bold text-white mb-1">Tier 1: Neighborhood Watch</h3>
-                    <p className="text-sm text-zinc-500">
-                      Routine sightings. Safe location.
-                      <span className="block mt-1 text-zinc-400">→ Alerts nearby app users (10mi radius).</span>
-                    </p>
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
+              {/* Left Column - Tiers 0-2 */}
+              <div className="space-y-4">
+                {/* T0: Draft */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-zinc-500 text-sm shrink-0">T0</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-zinc-400 mb-1">Draft</h3>
+                      <p className="text-sm text-zinc-500 mb-2">Case created but incomplete. No alerts sent.</p>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        <span className="px-2 py-1 bg-zinc-800 rounded">Channels: None</span>
+                        <span className="px-2 py-1 bg-zinc-800 rounded">Gate: Data completeness required</span>
+                      </div>
+                    </div>
                   </div>
+                </div>
 
-                  {/* Tier 2 */}
-                  <div className="relative pl-16">
-                    <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-yellow-900/20 border border-yellow-500/30 flex items-center justify-center font-bold text-yellow-500">2</div>
-                    <h3 className="text-lg font-bold text-white mb-1">Tier 2: Tactical Alert</h3>
-                    <p className="text-sm text-zinc-500">
-                      Confirmed match or vulnerable animal.
-                      <span className="block mt-1 text-yellow-500/90">→ Notifies Animal Control & Local Vets directly.</span>
-                    </p>
+                {/* T1: Local */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-blue-500/30 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-900/30 border border-blue-500/50 flex items-center justify-center font-bold text-blue-400 text-sm shrink-0">T1</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-blue-400 mb-1">Local Alert</h3>
+                      <p className="text-sm text-zinc-500 mb-2">Last Known Location + photo + consent confirmed. Dynamic local radius based on species.</p>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        <span className="px-2 py-1 bg-blue-900/30 rounded text-blue-300">Push</span>
+                        <span className="px-2 py-1 bg-blue-900/30 rounded text-blue-300">Shelter Console</span>
+                        <span className="px-2 py-1 bg-blue-900/30 rounded text-blue-300">Email</span>
+                        <span className="px-2 py-1 bg-zinc-800 rounded">TTL: 2-6 hrs</span>
+                      </div>
+                    </div>
                   </div>
+                </div>
 
-                  {/* Tier 3 */}
-                  <div className="relative pl-16">
-                    <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-red-900/20 border border-red-500 flex items-center justify-center font-bold text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.3)]">3</div>
-                    <h3 className="text-lg font-bold text-red-500 mb-1">Tier 3: Emergency Broadcast</h3>
-                    <p className="text-sm text-zinc-500">
-                      Severe injury, traffic hazard, or extreme weather.
-                      <span className="block mt-1 text-red-400 font-medium">→ Full Grid Activation: Police, Fire, ER Vets, & All Users.</span>
-                    </p>
+                {/* T2: Expanded */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-teal/30 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-teal/20 border border-teal/50 flex items-center justify-center font-bold text-teal text-sm shrink-0">T2</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-teal mb-1">Expanded Search</h3>
+                      <p className="text-sm text-zinc-500 mb-2">Evidence strength improves OR time threshold reached. Radius expands. SMS unlocked for verified cases.</p>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        <span className="px-2 py-1 bg-teal/20 rounded text-teal">Push</span>
+                        <span className="px-2 py-1 bg-teal/20 rounded text-teal">Shelter Console</span>
+                        <span className="px-2 py-1 bg-teal/20 rounded text-teal">SMS (opt)</span>
+                        <span className="px-2 py-1 bg-zinc-800 rounded">TTL: 4-12 hrs</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="h-full flex items-center justify-center">
-                {/* Visual of concentric circles or radar expanding */}
-                <div className="relative w-full aspect-square max-w-md">
-                  <div className="absolute inset-0 bg-red-500/5 rounded-full animate-pulse"></div>
-                  <div className="absolute inset-4 bg-red-500/10 rounded-full animate-pulse delay-75"></div>
-                  <div className="absolute inset-8 bg-red-500/15 rounded-full animate-pulse delay-150"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <Signal className="h-16 w-16 text-red-500 mx-auto mb-4" />
-                      <div className="bg-zinc-900/90 border border-red-500/50 px-4 py-2 rounded text-red-500 font-mono text-sm shadow-[0_0_20px_rgba(220,38,38,0.2)]">
-                        ALERT_LEVEL: CRITICAL
+              {/* Right Column - Tiers 3-5 */}
+              <div className="space-y-4">
+                {/* T3: Responder */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-yellow-500/30 hover:border-yellow-500/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-yellow-900/30 border border-yellow-500/50 flex items-center justify-center font-bold text-yellow-400 text-sm shrink-0">T3</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-yellow-400 mb-1">Responder Network</h3>
+                      <p className="text-sm text-zinc-500 mb-2">Verified case OR shelter-confirmed. Route-based geofence activates professional responders.</p>
+                      <div className="flex flex-wrap gap-2 text-xs mb-2">
+                        <span className="px-2 py-1 bg-yellow-900/30 rounded text-yellow-300">USPS</span>
+                        <span className="px-2 py-1 bg-yellow-900/30 rounded text-yellow-300">UPS/FedEx</span>
+                        <span className="px-2 py-1 bg-yellow-900/30 rounded text-yellow-300">Amazon Flex</span>
+                        <span className="px-2 py-1 bg-yellow-900/30 rounded text-yellow-300">Uber/Lyft</span>
+                        <span className="px-2 py-1 bg-yellow-900/30 rounded text-yellow-300">Municipal Staff</span>
+                      </div>
+                      <span className="px-2 py-1 bg-zinc-800 rounded text-xs">TTL: 2-8 hrs</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* T4: Public Display */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-orange-500/30 hover:border-orange-500/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-orange-900/30 border border-orange-500/50 flex items-center justify-center font-bold text-orange-400 text-sm shrink-0">T4</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-orange-400 mb-1">Public Display Network</h3>
+                      <p className="text-sm text-zinc-500 mb-2">High confidence OR crisis scenario. Human review or shelter confirmation required before broadcast.</p>
+                      <div className="flex flex-wrap gap-2 text-xs mb-2">
+                        <span className="px-2 py-1 bg-orange-900/30 rounded text-orange-300">Gas Station Screens</span>
+                        <span className="px-2 py-1 bg-orange-900/30 rounded text-orange-300">Community Kiosks</span>
+                        <span className="px-2 py-1 bg-orange-900/30 rounded text-orange-300">Digital Billboards</span>
+                        <span className="px-2 py-1 bg-orange-900/30 rounded text-orange-300">Ring/IoT</span>
+                      </div>
+                      <span className="px-2 py-1 bg-zinc-800 rounded text-xs">TTL: 2-12 hrs</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* T5: Regional Crisis */}
+                <div className="p-5 rounded-xl bg-zinc-900/50 border border-red-500/50 shadow-[0_0_20px_rgba(220,38,38,0.15)]">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-red-900/40 border border-red-500 flex items-center justify-center font-bold text-red-400 text-sm shrink-0 animate-pulse">T5</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-red-400 mb-1">Regional Crisis</h3>
+                      <p className="text-sm text-zinc-500 mb-2">Declared disaster, evacuation, or mass displacement. Foundation ops approval required.</p>
+                      <div className="flex flex-wrap gap-2 text-xs mb-2">
+                        <span className="px-2 py-1 bg-red-900/30 rounded text-red-300">All Channels Active</span>
+                        <span className="px-2 py-1 bg-red-900/30 rounded text-red-300">Regional Zones</span>
+                        <span className="px-2 py-1 bg-red-900/30 rounded text-red-300">Emergency Services</span>
+                      </div>
+                      <span className="px-2 py-1 bg-zinc-800 rounded text-xs">TTL: Time-bounded by incident</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Decision Inputs */}
+            <div className="mt-16 p-8 rounded-2xl bg-zinc-900/30 border border-zinc-800">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">What Drives Each Decision?</h3>
+              <div className="grid md:grid-cols-3 gap-6 text-sm">
+                <div>
+                  <h4 className="font-semibold text-zinc-300 mb-3 flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-blue-400" /> Location & Time
+                  </h4>
+                  <ul className="space-y-2 text-zinc-500">
+                    <li>• <span className="text-zinc-400">Last Known Location</span> (lat/long, accuracy radius)</li>
+                    <li>• <span className="text-zinc-400">Time Since Lost</span> (drives tier escalation)</li>
+                    <li>• <span className="text-zinc-400">Population/Road Density</span> (urban vs rural)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-zinc-300 mb-3 flex items-center gap-2">
+                    <Heart className="h-4 w-4 text-red-400" /> Pet Profile
+                  </h4>
+                  <ul className="space-y-2 text-zinc-500">
+                    <li>• <span className="text-zinc-400">Species</span> (dogs expand faster, cats slower)</li>
+                    <li>• <span className="text-zinc-400">Behavior</span> (indoor-only, flight risk, bite history)</li>
+                    <li>• <span className="text-zinc-400">Risk Profile</span> (age, medical needs, meds required)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-zinc-300 mb-3 flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-teal" /> Evidence & Trust
+                  </h4>
+                  <ul className="space-y-2 text-zinc-500">
+                    <li>• <span className="text-zinc-400">Evidence Strength</span> (photos, microchip, distinctive marks)</li>
+                    <li>• <span className="text-zinc-400">Sighting Signals</span> (count, clustering, recency)</li>
+                    <li>• <span className="text-zinc-400">Fraud Detection</span> (account age, device reputation)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Known Before Lost - Pre-Registration */}
+        <section className="py-24 bg-muted/30 border-y border-border" id="preregister">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <Badge variant="outline" className="mb-4 border-green-500/50 text-green-500">Preparation, Not Panic</Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                  Known Before Lost
+                </h2>
+                <p className="text-xl text-muted-foreground mb-8">
+                  The best time to register your pet is <span className="text-foreground font-semibold">before</span> they go missing.
+                  Our 9-step pre-registration flow captures everything needed for rapid recovery.
+                </p>
+
+                <div className="grid grid-cols-3 gap-4 mb-8">
+                  {[
+                    { step: "1-2", label: "Owner Info", desc: "Contact, location, county" },
+                    { step: "3-4", label: "Pet Identity", desc: "Species, breed, size, sex" },
+                    { step: "5-6", label: "Visual Profile", desc: "3 photos + distinctive marks" },
+                    { step: "7", label: "Behavior Flags", desc: "Flight risk, collar, recall" },
+                    { step: "8", label: "Microchip", desc: "Registry linkage" },
+                    { step: "9", label: "Identity Graph", desc: "Anchored & ready" },
+                  ].map((item, idx) => (
+                    <div key={idx} className="p-3 rounded-lg bg-background border border-border text-center">
+                      <div className="text-xs text-muted-foreground mb-1">Step {item.step}</div>
+                      <div className="font-semibold text-sm text-foreground">{item.label}</div>
+                      <div className="text-xs text-muted-foreground">{item.desc}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    <span className="text-muted-foreground"><strong className="text-foreground">3 Required Photos:</strong> Full body, face close-up, unique feature</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    <span className="text-muted-foreground"><strong className="text-foreground">Behavior Flags:</strong> "May bolt if chased," "Friendly to strangers"</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    <span className="text-muted-foreground"><strong className="text-foreground">Save-As-You-Go:</strong> Progress persists automatically</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6 shadow-2xl">
+                  <div className="flex items-center gap-2 mb-4 pb-4 border-b border-zinc-800">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="ml-2 text-xs text-zinc-500">Pet Pre-Registration</span>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                      <div className="h-full w-3/4 bg-gradient-to-r from-green-500 to-teal rounded-full"></div>
+                    </div>
+                    <p className="text-xs text-zinc-500 text-center">Step 6 of 9: Behavior & Collar</p>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="aspect-square rounded-lg bg-zinc-800 flex items-center justify-center">
+                        <Check className="h-6 w-6 text-green-500" />
+                      </div>
+                      <div className="aspect-square rounded-lg bg-zinc-800 flex items-center justify-center">
+                        <Check className="h-6 w-6 text-green-500" />
+                      </div>
+                      <div className="aspect-square rounded-lg bg-zinc-800 flex items-center justify-center">
+                        <Check className="h-6 w-6 text-green-500" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 p-2 rounded bg-zinc-800">
+                        <div className="w-4 h-4 rounded border-2 border-teal bg-teal/20"></div>
+                        <span className="text-sm text-zinc-300">May bolt if chased</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 rounded bg-zinc-800">
+                        <div className="w-4 h-4 rounded border-2 border-zinc-600"></div>
+                        <span className="text-sm text-zinc-400">Comes when called</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 rounded bg-zinc-800">
+                        <div className="w-4 h-4 rounded border-2 border-teal bg-teal/20"></div>
+                        <span className="text-sm text-zinc-300">Wears collar with tags</span>
                       </div>
                     </div>
                   </div>
@@ -331,7 +530,7 @@ export default function Pet911Home() {
           </div>
         </section>
 
-        {/* Features Matrix */}
+        {/* Features Matrix - Expanded */}
         <section className="py-24 bg-zinc-950 text-white" id="features">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
@@ -339,7 +538,7 @@ export default function Pet911Home() {
               <p className="text-zinc-400">Why emergency services trust Pet911.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
               <div className="p-8 rounded-xl border border-zinc-800 bg-zinc-900/50 hover:border-red-500/50 hover:bg-zinc-900 transition-all duration-300 group">
                 <WifiOff className="h-12 w-12 text-red-500 mb-6 group-hover:scale-110 transition-transform" />
                 <h3 className="font-bold text-xl mb-3 text-white">Offline-First</h3>
@@ -362,6 +561,134 @@ export default function Pet911Home() {
                 </p>
               </div>
             </div>
+
+            {/* Geofence Computation */}
+            <div className="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 mb-12">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <Map className="h-6 w-6 text-teal" /> Dynamic Geofence Computation
+              </h3>
+              <p className="text-zinc-400 mb-6">
+                Radius is computed as a function of time, species, environment, and sighting clustering. It expands over time but contracts around fresh sightings.
+              </p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700">
+                  <h4 className="font-semibold text-white mb-2">Dog Model</h4>
+                  <p className="text-sm text-zinc-500">Faster expansion. Considers road density and travel corridors.</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700">
+                  <h4 className="font-semibold text-white mb-2">Cat Model</h4>
+                  <p className="text-sm text-zinc-500">Slower expansion. Prioritizes near-home search initially.</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700">
+                  <h4 className="font-semibold text-white mb-2">Indoor-Only</h4>
+                  <p className="text-sm text-zinc-500">Reduced early radius. Requires strong evidence for public escalation.</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700">
+                  <h4 className="font-semibold text-white mb-2">Severe Weather</h4>
+                  <p className="text-sm text-zinc-500">Increased urgency. Prefers responder networks over public spam.</p>
+                </div>
+              </div>
+              <div className="mt-6 p-4 rounded-lg bg-teal/10 border border-teal/30">
+                <p className="text-sm text-teal">
+                  <strong>Sighting-Driven Re-centering:</strong> When multiple sightings cluster around a location, the geofence re-centers on the cluster centroid. Single low-trust reports are ignored. Both original and active geofences persist for auditability.
+                </p>
+              </div>
+            </div>
+
+            {/* 7 Alert Channels */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">7 Alert Channels</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { name: "Mobile Push", desc: "Opt-in users, pet owners, community members", gate: "Consent + rate limits", color: "blue" },
+                  { name: "SMS", desc: "High-urgency verified cases only", gate: "Verified + strict TTL", color: "green" },
+                  { name: "Email", desc: "Low urgency summaries, follow-ups", gate: "Standard consent", color: "zinc" },
+                  { name: "Shelter Console", desc: "Operational inbox for shelter staff", gate: "Shelter affiliation", color: "amber" },
+                  { name: "Responder Network", desc: "USPS, UPS, FedEx, Uber, Lyft, municipal", gate: "Verified + partner contract", color: "yellow" },
+                  { name: "Public Displays", desc: "Gas stations, kiosks, digital billboards", gate: "Human review required", color: "orange" },
+                  { name: "Camera/IoT", desc: "Ring-style ecosystems, smart cameras", gate: "Partner permissioning", color: "purple" },
+                ].map((channel, idx) => (
+                  <div key={idx} className={`p-4 rounded-lg bg-zinc-900 border border-${channel.color}-500/30 hover:border-${channel.color}-500/50 transition-colors`}>
+                    <h4 className={`font-semibold text-${channel.color}-400 mb-1`}>{channel.name}</h4>
+                    <p className="text-xs text-zinc-500 mb-2">{channel.desc}</p>
+                    <span className="text-xs px-2 py-1 bg-zinc-800 rounded text-zinc-400">{channel.gate}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Safety Controls */}
+            <div className="p-8 rounded-2xl bg-red-950/20 border border-red-500/20">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <ShieldCheck className="h-6 w-6 text-red-400" /> Abuse, Fraud & Safety Controls
+              </h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Consent Required</span>
+                      <p className="text-xs text-zinc-500">No alerts without explicit opt-in</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Rate Limits</span>
+                      <p className="text-xs text-zinc-500">Per-case and per-recipient caps</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Verification Gates</span>
+                      <p className="text-xs text-zinc-500">Higher tiers require shelter/case verification</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Human Review</span>
+                      <p className="text-xs text-zinc-500">Required for public display escalation</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Evidence Requirements</span>
+                      <p className="text-xs text-zinc-500">Minimum photo + LKL + description</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Auditability</span>
+                      <p className="text-xs text-zinc-500">Every action logged immutably</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Fail Closed</span>
+                      <p className="text-xs text-zinc-500">Ambiguous consent/policy = no send</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <span className="font-semibold text-white text-sm">Anti-Spam</span>
+                      <p className="text-xs text-zinc-500">No "panic broadcast" UX</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -376,7 +703,7 @@ export default function Pet911Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               {/* Finder */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -388,7 +715,7 @@ export default function Pet911Home() {
                   <Search className="h-6 w-6 text-red-500" />
                 </div>
                 <h3 className="font-bold text-lg mb-2">Finder App</h3>
-                <p className="text-sm text-muted-foreground">Public PWA for rapid reporting, location tagging, and symptom checking.</p>
+                <p className="text-sm text-muted-foreground">Public PWA for rapid reporting, location tagging, and photo submission. Works offline.</p>
               </motion.div>
 
               {/* Owner */}
@@ -433,8 +760,99 @@ export default function Pet911Home() {
                   <HeartHandshake className="h-6 w-6 text-green-500" />
                 </div>
                 <h3 className="font-bold text-lg mb-2">Vet Network</h3>
-                <p className="text-sm text-muted-foreground">Emergency stabilization alerts. Microchip registry lookup. Medical hold status.</p>
+                <p className="text-sm text-muted-foreground">Trusted confirmation points. Microchip registry lookup. Medical hold status.</p>
               </motion.div>
+            </div>
+
+            {/* Detailed Vet Section */}
+            <div className="p-8 rounded-2xl bg-green-950/10 border border-green-500/20">
+              <div className="grid lg:grid-cols-2 gap-8 items-center">
+                <div>
+                  <Badge variant="outline" className="mb-4 border-green-500/50 text-green-500">Veterinary Partners</Badge>
+                  <h3 className="text-2xl font-bold mb-4">Why Vets Are Central to Pet911</h3>
+                  <p className="text-muted-foreground mb-6">
+                    Veterinarians are trusted confirmation points. Lost pets often arrive at clinics without context.
+                    Pet911 replaces fragmented social media chaos with one verified, structured case per lost pet.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <div>
+                        <span className="font-semibold">Lost pet cases visible</span>
+                        <span className="text-muted-foreground"> - See current local lost-pet cases (opt-in)</span>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <div>
+                        <span className="font-semibold">Faster resolution</span>
+                        <span className="text-muted-foreground"> - Confirm or resolve cases directly</span>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <div>
+                        <span className="font-semibold">Fewer frantic calls</span>
+                        <span className="text-muted-foreground"> - Owners stop calling every clinic individually</span>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <div>
+                        <span className="font-semibold">Minimal data sharing</span>
+                        <span className="text-muted-foreground"> - No medical records stored or requested</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 rounded-xl bg-background border border-border">
+                  <h4 className="font-bold mb-4 text-center">What Pet911 Does NOT Ask of Vets</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                      <X className="h-5 w-5 text-red-500 shrink-0" />
+                      <span className="text-sm">No requirement to treat animals differently</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                      <X className="h-5 w-5 text-red-500 shrink-0" />
+                      <span className="text-sm">No diagnostic responsibility</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                      <X className="h-5 w-5 text-red-500 shrink-0" />
+                      <span className="text-sm">No constant notifications</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                      <X className="h-5 w-5 text-red-500 shrink-0" />
+                      <span className="text-sm">No patient data sharing beyond what is appropriate</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground text-center mt-4">Participation is opt-in and limited.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* What Pet911 Is NOT */}
+            <div className="mt-12 p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
+              <h3 className="text-xl font-bold text-white mb-6 text-center">What Pet911 Is NOT</h3>
+              <p className="text-center text-zinc-400 mb-6">Pet911 is a lost-and-found and reunification system for pets. It is explicitly <strong className="text-white">NOT</strong>:</p>
+              <div className="grid md:grid-cols-4 gap-4">
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700 text-center">
+                  <X className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                  <p className="text-sm text-zinc-300">A veterinary triage or diagnosis system</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700 text-center">
+                  <X className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                  <p className="text-sm text-zinc-300">A replacement for emergency veterinary care</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700 text-center">
+                  <X className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                  <p className="text-sm text-zinc-300">A replacement for 911 or emergency dispatch</p>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700 text-center">
+                  <X className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                  <p className="text-sm text-zinc-300">A crowdsourced "panic alert" app</p>
+                </div>
+              </div>
+              <p className="text-center text-zinc-500 text-sm mt-6">Pet911 does not give medical advice, assess injuries, or direct treatment decisions.</p>
             </div>
           </div>
         </section>
