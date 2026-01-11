@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
-import { TRAINING_MODULES_PART2 } from '@/modules/operations/training/modules';
+import { TRAINING_MODULES } from '@/modules/operations/training/modules';
 import { clearTrainingProgress, getTrainingProgressStore } from '@/lib/training/local-progress';
 
 function getContentIcon(type: string) {
@@ -31,6 +31,8 @@ export default function HelperTrainingModulePage() {
   const [completedTick, setCompletedTick] = useState(0);
   const [completed, setCompleted] = useState(false);
 
+  const [launchUrl, setLaunchUrl] = useState<string | null>(null);
+
   useEffect(() => {
     if (!user) {
       router.push('/login');
@@ -40,8 +42,25 @@ export default function HelperTrainingModulePage() {
   const moduleId = String(params.moduleId);
 
   const module = useMemo(() => {
-    return (TRAINING_MODULES_PART2 as Record<string, any>)[moduleId] ?? null;
+    return (TRAINING_MODULES as Record<string, any>)[moduleId] ?? null;
   }, [moduleId]);
+
+  useEffect(() => {
+    if (!module) {
+      setLaunchUrl(null);
+      return;
+    }
+
+    const firstRequired = (module.lessons || [])
+      .flatMap((l: any) => l?.content || [])
+      .find((c: any) => c?.requiredForCompletion && typeof c?.contentUrl === 'string' && c.contentUrl.length > 0);
+
+    const firstAny = (module.lessons || [])
+      .flatMap((l: any) => l?.content || [])
+      .find((c: any) => typeof c?.contentUrl === 'string' && c.contentUrl.length > 0);
+
+    setLaunchUrl(firstRequired?.contentUrl ?? firstAny?.contentUrl ?? null);
+  }, [module]);
 
   useEffect(() => {
     if (!user) return;
@@ -143,6 +162,16 @@ export default function HelperTrainingModulePage() {
           <CardContent>
             <p className="text-slate-700 whitespace-pre-line">{module.fullDescription}</p>
 
+            {launchUrl && (
+              <div className="mt-4">
+                <a href={launchUrl} target="_blank" rel="noreferrer noopener">
+                  <Button>
+                    Open Training Content
+                  </Button>
+                </a>
+              </div>
+            )}
+
             <div className="mt-4 flex items-center justify-between">
               <div className="text-sm text-slate-600">Lessons: {module.lessons.length}</div>
               <Button
@@ -183,14 +212,22 @@ export default function HelperTrainingModulePage() {
               <CardContent className="pt-0">
                 <div className="space-y-2">
                   {(lesson.content || []).map((item: any) => (
-                    <div key={String(item.id)} className="flex items-start gap-2 text-sm">
-                      <div className="mt-0.5">{getContentIcon(item.type)}</div>
-                      <div className="flex-1">
-                        <p className="font-medium">{item.title}</p>
-                        <p className="text-slate-600">{item.description}</p>
+                    <a
+                      key={String(item.id)}
+                      href={item.contentUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="block rounded-md p-2 hover:bg-slate-50 transition-colors"
+                    >
+                      <div className="flex items-start gap-2 text-sm">
+                        <div className="mt-0.5">{getContentIcon(item.type)}</div>
+                        <div className="flex-1">
+                          <p className="font-medium">{item.title}</p>
+                          <p className="text-slate-600">{item.description}</p>
+                        </div>
+                        <div className="text-xs text-slate-500">{item.durationMinutes}m</div>
                       </div>
-                      <div className="text-xs text-slate-500">{item.durationMinutes}m</div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </CardContent>

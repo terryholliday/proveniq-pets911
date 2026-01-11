@@ -192,6 +192,11 @@ class TrainingProgressServiceImpl implements ITrainingProgressService {
     moduleId: string,
     score?: number
   ): Promise<TrainingModuleProgress> {
+    const existing = await this.getModuleProgress(supabase, userId, moduleId);
+    if (existing) {
+      return existing;
+    }
+
     const now = new Date().toISOString();
 
     const { error } = await supabase.from('training_module_completions').upsert(
@@ -201,7 +206,7 @@ class TrainingProgressServiceImpl implements ITrainingProgressService {
         completed_at: now,
         score: typeof score === 'number' ? score : null,
       },
-      { onConflict: 'user_id,module_id' }
+      { onConflict: 'user_id,module_id', ignoreDuplicates: true }
     );
 
     if (error) {
@@ -367,7 +372,7 @@ class TrainingProgressServiceImpl implements ITrainingProgressService {
 
     const { error } = await supabase
       .from('training_module_completions')
-      .upsert(rows, { onConflict: 'user_id,module_id' });
+      .upsert(rows, { onConflict: 'user_id,module_id', ignoreDuplicates: true });
 
     if (error) {
       throw new Error('Failed to sync training progress');

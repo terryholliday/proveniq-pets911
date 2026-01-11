@@ -15,16 +15,32 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Heart className="w-6 h-6 text-red-500" />
+              <img
+                src="/icon-pet-profiles.ico"
+                alt="Pet911"
+                className="w-6 h-6"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://lostpets911.org/icon-pet-profiles.ico';
+                }}
+              />
               <span className="font-bold text-white">PetNexus Pet911</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link
-                href="/sightings"
-                className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
-              >
-                Sightings
-              </Link>
+              {!loading && user ? (
+                <Link
+                  href="/helpers/dashboard"
+                  className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
+                >
+                  Volunteers
+                </Link>
+              ) : (
+                <Link
+                  href="/login?redirectTo=/helpers/dashboard"
+                  className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
+                >
+                  Volunteer Login
+                </Link>
+              )}
               {!loading && user ? (
                 <div className="flex items-center gap-3">
                   <span className="text-slate-300 text-sm">Hi, {user.user_metadata?.full_name || user.email}</span>

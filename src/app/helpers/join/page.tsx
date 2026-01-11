@@ -120,7 +120,7 @@ export default function HelperSignupPage() {
               Please sign in to register as an emergency helper.
             </AlertDescription>
           </Alert>
-          <Link href="/login" className="mt-4 block">
+          <Link href={'/login?redirectTo=' + encodeURIComponent('/helpers/join')} className="mt-4 block">
             <Button className="w-full">
               Sign In
             </Button>
@@ -265,6 +265,7 @@ export default function HelperSignupPage() {
                     { value: 'EMERGENCY_RESPONSE', label: 'Emergency response (immediate)', icon: AlertTriangle },
                     { value: 'VET_TRANSPORT', label: 'Vet transport only', icon: Car },
                     { value: 'SHELTER_TRANSPORT', label: 'Shelter transport only', icon: Car },
+                    { value: 'MODERATOR', label: 'Moderator (case triage and match verification)', icon: Shield },
                   ].map(({ value, label, icon: Icon }) => (
                     <label key={value} className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
                       <input

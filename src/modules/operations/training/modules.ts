@@ -9,6 +9,7 @@
 
 import type { TrainingModule, Assessment } from './types';
 import { MODULE_IDS } from './types';
+import type { RoleId } from '@/lib/roles/role-hierarchy';
 
 // ═══════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -470,6 +471,162 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
   nextReviewDue: '2027-01-01T00:00:00Z',
   tags: ['orientation', 'basics', 'required'],
   status: 'ACTIVE',
+};
+
+const MODERATOR_TARGET_ROLES: RoleId[] = ['junior_moderator', 'moderator', 'lead_moderator'];
+
+const MODERATOR_MODULE_COMMON: Pick<
+  TrainingModule,
+  | 'version'
+  | 'effectiveDate'
+  | 'category'
+  | 'difficulty'
+  | 'targetRoles'
+  | 'prerequisites'
+  | 'corequisites'
+  | 'estimatedDurationMinutes'
+  | 'completionDeadlineDays'
+  | 'grantsCertification'
+  | 'certificationId'
+  | 'certificationValidityMonths'
+  | 'ceCredits'
+  | 'ceCategory'
+  | 'author'
+  | 'reviewedBy'
+  | 'lastReviewedAt'
+  | 'nextReviewDue'
+  | 'tags'
+  | 'status'
+> = {
+  version: '1.0',
+  effectiveDate: '2026-01-01T00:00:00Z',
+  category: 'ROLE_SPECIFIC',
+  difficulty: 'INTERMEDIATE',
+  targetRoles: MODERATOR_TARGET_ROLES,
+  prerequisites: [MODULE_IDS.VOLUNTEER_ORIENTATION],
+  corequisites: [],
+  estimatedDurationMinutes: 60,
+  completionDeadlineDays: 14,
+  grantsCertification: false,
+  certificationId: undefined,
+  certificationValidityMonths: undefined,
+  ceCredits: 1,
+  ceCategory: 'ROLE_SPECIFIC',
+  author: 'Pet911 Governance',
+  reviewedBy: 'Lead Moderator',
+  lastReviewedAt: '2026-01-01T00:00:00Z',
+  nextReviewDue: '2027-01-01T00:00:00Z',
+  tags: ['moderator', 'required'],
+  status: 'ACTIVE',
+};
+
+export const MODULE_MODERATOR_BASICS: TrainingModule = {
+  id: MODULE_IDS.MODERATOR_BASICS,
+  code: 'MOD-101',
+  title: 'Moderator Basics',
+  shortDescription: 'Core rules, safety, privacy, and how to operate as a Pet911 moderator',
+  fullDescription: `
+    This module introduces the non-negotiable rules and operating principles for moderators.
+    Focus: privacy, evidence standards, documentation, and escalation.
+  `,
+  ...MODERATOR_MODULE_COMMON,
+  lessons: [
+    {
+      id: 'les_mod101_1',
+      moduleId: MODULE_IDS.MODERATOR_BASICS,
+      orderIndex: 1,
+      title: 'Rules of the Road (Court-Safe Operations)',
+      description: 'What you can and cannot do, and why the audit trail matters',
+      learningObjectives: [],
+      content: [
+        {
+          id: 'cnt_mod101_1',
+          type: 'READING',
+          title: 'Moderator Code of Conduct',
+          description: 'Read and internalize the code of conduct and enforcement outcomes',
+          durationMinutes: 20,
+          contentUrl: '/helpers/training',
+          downloadable: false,
+          requiredForCompletion: true,
+        },
+      ],
+      estimatedDurationMinutes: 20,
+      requiredForModuleCompletion: true,
+    },
+  ],
+  finalAssessment: createAssessment(MODULE_IDS.MODERATOR_BASICS, 'Moderator Basics', 10, 80, 20, false),
+};
+
+export const MODULE_CASE_TRIAGE: TrainingModule = {
+  id: MODULE_IDS.CASE_TRIAGE,
+  code: 'MOD-110',
+  title: 'Case Triage',
+  shortDescription: 'How to triage new cases quickly and safely using SOPs',
+  fullDescription: `
+    Learn the initial triage workflow: completeness checks, urgency signals, and escalation.
+  `,
+  ...MODERATOR_MODULE_COMMON,
+  lessons: [
+    {
+      id: 'les_mod110_1',
+      moduleId: MODULE_IDS.CASE_TRIAGE,
+      orderIndex: 1,
+      title: 'Triage Workflow',
+      description: 'Step-by-step triage checklist and documentation requirements',
+      learningObjectives: [],
+      content: [
+        {
+          id: 'cnt_mod110_1',
+          type: 'READING',
+          title: 'SOP: New Case Triage',
+          description: 'Follow the SOP and practice applying it consistently',
+          durationMinutes: 25,
+          contentUrl: '/helpers/training',
+          downloadable: false,
+          requiredForCompletion: true,
+        },
+      ],
+      estimatedDurationMinutes: 25,
+      requiredForModuleCompletion: true,
+    },
+  ],
+  finalAssessment: createAssessment(MODULE_IDS.CASE_TRIAGE, 'Case Triage', 10, 80, 20, false),
+};
+
+export const MODULE_MATCH_VERIFICATION: TrainingModule = {
+  id: MODULE_IDS.MATCH_VERIFICATION,
+  code: 'MOD-120',
+  title: 'Match Verification',
+  shortDescription: 'Verify matches before contact release—no false hope, no harm',
+  fullDescription: `
+    Learn evidence standards, photo checks, timing, and safe contact release.
+  `,
+  ...MODERATOR_MODULE_COMMON,
+  lessons: [
+    {
+      id: 'les_mod120_1',
+      moduleId: MODULE_IDS.MATCH_VERIFICATION,
+      orderIndex: 1,
+      title: 'Verification Standards',
+      description: 'Evidence thresholds and escalation conditions',
+      learningObjectives: [],
+      content: [
+        {
+          id: 'cnt_mod120_1',
+          type: 'READING',
+          title: 'SOP: Match Verification',
+          description: 'Apply the verification SOP and document the decision path',
+          durationMinutes: 25,
+          contentUrl: '/helpers/training',
+          downloadable: false,
+          requiredForCompletion: true,
+        },
+      ],
+      estimatedDurationMinutes: 25,
+      requiredForModuleCompletion: true,
+    },
+  ],
+  finalAssessment: createAssessment(MODULE_IDS.MATCH_VERIFICATION, 'Match Verification', 10, 80, 20, false),
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1232,4 +1389,11 @@ export const TRAINING_MODULES_PART2 = {
   [MODULE_IDS.VOLUNTEER_ORIENTATION]: MODULE_VOLUNTEER_ORIENTATION,
   [MODULE_IDS.TRANSPORT_BASICS]: MODULE_TRANSPORT_BASICS,
   [MODULE_IDS.FOSTER_BASICS]: MODULE_FOSTER_BASICS,
+} as const;
+
+export const TRAINING_MODULES = {
+  ...TRAINING_MODULES_PART2,
+  [MODULE_IDS.MODERATOR_BASICS]: MODULE_MODERATOR_BASICS,
+  [MODULE_IDS.CASE_TRIAGE]: MODULE_CASE_TRIAGE,
+  [MODULE_IDS.MATCH_VERIFICATION]: MODULE_MATCH_VERIFICATION,
 } as const;

@@ -11,7 +11,8 @@ export type VolunteerCapability =
   | 'FOSTER_LONG_TERM'   // Weeks/months
   | 'EMERGENCY_RESPONSE'
   | 'VET_TRANSPORT'
-  | 'SHELTER_TRANSPORT';
+  | 'SHELTER_TRANSPORT'
+  | 'MODERATOR';
 
 export type VolunteerStatus = 
   | 'ACTIVE'
