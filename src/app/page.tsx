@@ -27,21 +27,6 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-4">
               {!loading && user ? (
-                <Link
-                  href="/helpers/dashboard"
-                  className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
-                >
-                  Volunteers
-                </Link>
-              ) : (
-                <Link
-                  href="/login?redirectTo=/helpers/dashboard"
-                  className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
-                >
-                  Volunteer Login
-                </Link>
-              )}
-              {!loading && user ? (
                 <div className="flex items-center gap-3">
                   <span className="text-slate-300 text-sm">Hi, {user.user_metadata?.full_name || user.email}</span>
                   <button
@@ -346,6 +331,13 @@ export default function HomePage() {
                 <li><Link href="/support" className="text-slate-400 hover:text-white transition-colors">Support Companion</Link></li>
                 <li><Link href="/help/safety" className="text-slate-400 hover:text-white transition-colors">Help &amp; Safety</Link></li>
                 <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors">About</Link></li>
+                <li>
+                  {!loading && user ? (
+                    <Link href="/helpers/dashboard" className="text-slate-400 hover:text-white transition-colors">Volunteers</Link>
+                  ) : (
+                    <Link href="/login?redirectTo=/helpers/dashboard" className="text-slate-400 hover:text-white transition-colors">Volunteer Login</Link>
+                  )}
+                </li>
               </ul>
             </div>
             <div>
@@ -353,7 +345,7 @@ export default function HomePage() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/privacy" className="text-slate-400 hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="text-slate-400 hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href={process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001/admin/mods'} className="text-slate-400 hover:text-white transition-colors">Moderator Access</Link></li>
+                <li><Link href="/admin/mods" className="text-slate-400 hover:text-white transition-colors">Moderator Access</Link></li>
               </ul>
             </div>
           </div>

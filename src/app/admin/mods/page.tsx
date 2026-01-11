@@ -11,7 +11,7 @@ export default async function ModeratorConsolePage() {
     }
 
     if (gate.reason === 'NO_APPLICATION' || gate.reason === 'CAPABILITY_NOT_REQUESTED') {
-      redirect('/helpers/join');
+      redirect('/unauthorized?reason=moderator_required');
     }
 
     if (gate.reason === 'NOT_APPROVED') {
