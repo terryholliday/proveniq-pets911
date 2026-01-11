@@ -656,78 +656,113 @@ export default function Pet911Home() {
               </div>
             </div>
 
-            {/* Safety Controls */}
-            <div className="p-8 rounded-2xl bg-red-950/20 border border-red-500/20">
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <ShieldCheck className="h-6 w-6 text-red-400" /> Abuse, Fraud & Safety Controls
-              </h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Consent Required</span>
-                      <p className="text-xs text-zinc-500">No alerts without explicit opt-in</p>
+            {/* The Anti-Fraud Locker */}
+            <section className="py-24 bg-red-950/10 border-y border-red-900/20" id="safety">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                  <div className="order-2 lg:order-1">
+                    <Badge variant="destructive" className="mb-4 bg-red-600/20 text-red-400 border-red-500/50 hover:bg-red-600/30">Zero Tolerance</Badge>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight text-white">
+                      Ending the<br />
+                      <span className="text-red-500">Desperation Economy.</span>
+                    </h2>
+                    <p className="text-xl text-zinc-300 mb-8 leading-relaxed">
+                      Scammers prey on people in their worst moments. They scrape phone numbers from posters, demand ransoms, and sell false hope.
+                    </p>
+                    <p className="text-lg text-zinc-400 mb-8">
+                      Pet911 destroys this business model by removing the <em className="text-white not-italic">opportunity</em> to scam.
+                    </p>
+
+                    <div className="space-y-6">
+                      <div className="flex gap-4">
+                        <div className="w-12 h-12 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                          <ShieldCheck className="h-6 w-6 text-red-500" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-white mb-1">Identity-Verified Communication</h4>
+                          <p className="text-zinc-400 text-sm">
+                            No anonymous texts. All communication flows through our secure, monitored relay. If they can't verify their identity, they can't message you.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-4">
+                        <div className="w-12 h-12 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                          <UserCircle className="h-6 w-6 text-red-500" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-white mb-1">The "Proof of Life" Protocol</h4>
+                          <p className="text-zinc-400 text-sm">
+                            Our system demands metadata-verified photos (time + location stamped) before a "Found" claim can be submitted. No stock photos. No vague threats.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-4">
+                        <div className="w-12 h-12 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                          <AlertTriangle className="h-6 w-6 text-red-500" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-white mb-1">Ransomware Detection</h4>
+                          <p className="text-zinc-400 text-sm">
+                            AI analysis flags common scam scripts ("I have your dog, send money via Zelle") and auto-bans the actor instantly across the entire network.
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Rate Limits</span>
-                      <p className="text-xs text-zinc-500">Per-case and per-recipient caps</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Verification Gates</span>
-                      <p className="text-xs text-zinc-500">Higher tiers require shelter/case verification</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Human Review</span>
-                      <p className="text-xs text-zinc-500">Required for public display escalation</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Evidence Requirements</span>
-                      <p className="text-xs text-zinc-500">Minimum photo + LKL + description</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Auditability</span>
-                      <p className="text-xs text-zinc-500">Every action logged immutably</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Fail Closed</span>
-                      <p className="text-xs text-zinc-500">Ambiguous consent/policy = no send</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                    <div>
-                      <span className="font-semibold text-white text-sm">Anti-Spam</span>
-                      <p className="text-xs text-zinc-500">No "panic broadcast" UX</p>
+
+                  <div className="order-1 lg:order-2 relative">
+                    {/* Visual: The Locker */}
+                    <div className="relative rounded-2xl border border-red-900/50 bg-black/50 overflow-hidden shadow-[0_0_50px_rgba(220,38,38,0.1)]">
+                      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay" />
+
+                      <div className="relative p-8">
+                        <div className="flex items-center justify-between border-b border-red-900/30 pb-4 mb-6">
+                          <div className="flex items-center gap-2 text-red-500 font-mono text-sm">
+                            <Shield className="h-4 w-4" />
+                            <span>ANTI_FRAUD_LOCKER_V2</span>
+                          </div>
+                          <div className="flex gap-1">
+                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                            <div className="w-2 h-2 bg-red-900 rounded-full" />
+                          </div>
+                        </div>
+
+                        <div className="space-y-4 font-mono text-xs md:text-sm">
+                          {/* Simulated System Log */}
+                          <div className="p-3 bg-red-950/20 border border-red-900/30 rounded text-red-400">
+                            <span className="opacity-50">[10:42:15]</span> INCOMING_MSG_BLOCKED<br />
+                            <span className="text-white">Reason:</span> Suspicious Pattern Match (Cash Demand)<br />
+                            <span className="text-white">Action:</span> USER_BAN + IP_BLACKLIST
+                          </div>
+
+                          <div className="p-3 bg-zinc-900/50 border border-zinc-800 rounded text-zinc-400">
+                            <span className="opacity-50">[10:42:16]</span> AUDIT_LOG_ENTRY<br />
+                            Report #88219 preserved. Owner notified of blocked attempt.
+                          </div>
+
+                          <div className="p-3 bg-green-950/20 border border-green-900/30 rounded text-green-400">
+                            <span className="opacity-50">[10:45:00]</span> VERIFIED_MATCH<br />
+                            <span className="text-white">Source:</span> Shelter Partner (Kanawha)<br />
+                            <span className="text-white">Metadata:</span> GPS_MATCH + CHIP_SCAN<br />
+                            <span className="text-white">Status:</span> <strong>REUNITE_PENDING</strong>
+                          </div>
+                        </div>
+
+                        <div className="mt-8 pt-6 border-t border-red-900/30 text-center">
+                          <p className="text-zinc-500 text-xs mb-2">PROTECTION LEVEL</p>
+                          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500 text-white font-bold text-sm shadow-[0_0_15px_rgba(220,38,38,0.4)]">
+                            <ShieldCheck className="h-4 w-4" />
+                            MILITARY-GRADE
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </section>
 
