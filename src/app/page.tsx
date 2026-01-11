@@ -999,7 +999,7 @@ export default function Pet911Home() {
         {/* Footer */}
         <footer className="py-12 bg-zinc-950 border-t border-zinc-900 text-center text-sm text-zinc-500">
           <div className="max-w-7xl mx-auto px-4">
-            <p className="mb-4">© 2026 PROVENIQ Foundation. All rights reserved.</p>
+            <p className="mb-4">© 2026 PROVENIQ Foundation. All rights reserved. <span className="text-zinc-700 ml-2">v0.1.1 (Build Jan 10)</span></p>
             <div className="flex justify-center gap-8">
               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
