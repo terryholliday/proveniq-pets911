@@ -607,13 +607,52 @@ export default function Pet911Home() {
                   { name: "Responder Network", desc: "USPS, UPS, FedEx, Uber, Lyft, municipal", gate: "Verified + partner contract", color: "yellow" },
                   { name: "Public Displays", desc: "Gas stations, kiosks, digital billboards", gate: "Human review required", color: "orange" },
                   { name: "Camera/IoT", desc: "Ring-style ecosystems, smart cameras", gate: "Partner permissioning", color: "purple" },
-                ].map((channel, idx) => (
-                  <div key={idx} className={`p-4 rounded-lg bg-zinc-900 border border-${channel.color}-500/30 hover:border-${channel.color}-500/50 transition-colors`}>
-                    <h4 className={`font-semibold text-${channel.color}-400 mb-1`}>{channel.name}</h4>
-                    <p className="text-xs text-zinc-500 mb-2">{channel.desc}</p>
-                    <span className="text-xs px-2 py-1 bg-zinc-800 rounded text-zinc-400">{channel.gate}</span>
-                  </div>
-                ))}
+                ].map((channel, idx) => {
+                  let borderColorClass = "";
+                  let textColorClass = "";
+
+                  switch (channel.color) {
+                    case "blue":
+                      borderColorClass = "border-blue-500/30 hover:border-blue-500/50";
+                      textColorClass = "text-blue-400";
+                      break;
+                    case "green":
+                      borderColorClass = "border-green-500/30 hover:border-green-500/50";
+                      textColorClass = "text-green-400";
+                      break;
+                    case "zinc":
+                      borderColorClass = "border-zinc-500/30 hover:border-zinc-500/50";
+                      textColorClass = "text-zinc-400";
+                      break;
+                    case "amber":
+                      borderColorClass = "border-amber-500/30 hover:border-amber-500/50";
+                      textColorClass = "text-amber-400";
+                      break;
+                    case "yellow":
+                      borderColorClass = "border-yellow-500/30 hover:border-yellow-500/50";
+                      textColorClass = "text-yellow-400";
+                      break;
+                    case "orange":
+                      borderColorClass = "border-orange-500/30 hover:border-orange-500/50";
+                      textColorClass = "text-orange-400";
+                      break;
+                    case "purple":
+                      borderColorClass = "border-purple-500/30 hover:border-purple-500/50";
+                      textColorClass = "text-purple-400";
+                      break;
+                    default:
+                      borderColorClass = "border-zinc-800";
+                      textColorClass = "text-foreground";
+                  }
+
+                  return (
+                    <div key={idx} className={`p-4 rounded-lg bg-zinc-900 border transition-colors ${borderColorClass}`}>
+                      <h4 className={`font-semibold mb-1 ${textColorClass}`}>{channel.name}</h4>
+                      <p className="text-xs text-zinc-500 mb-2">{channel.desc}</p>
+                      <span className="text-xs px-2 py-1 bg-zinc-800 rounded text-zinc-400">{channel.gate}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
