@@ -67,9 +67,11 @@ export default function Pet911Home() {
       <header className="fixed top-0 w-full z-50 glass border-b border-border">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2" onClick={handleEasterEggClick}>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-              <Siren className="h-5 w-5 text-white" />
-            </div>
+            <img
+              src="/icon-pet-profiles.ico"
+              alt="Pet911 Logo"
+              className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
+            />
             <span className="text-xl font-bold tracking-tight">Pet911</span>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
@@ -125,7 +127,7 @@ export default function Pet911Home() {
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
-                  href="#crisis"
+                  href="https://lostpets911.org"
                   className="inline-flex items-center justify-center h-14 px-8 bg-red-600 text-white font-bold text-lg rounded-md transition-all hover:bg-red-700 shadow-[0_0_20px_rgba(220,38,38,0.4)]"
                 >
                   <AlertTriangle className="mr-2 h-5 w-5" /> Report Emergency
