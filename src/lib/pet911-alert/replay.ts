@@ -50,6 +50,25 @@ export function replay(events: MemoryEvent[]): AlertProjection {
         break;
       case 'pet911.alert.evaluate_requested':
         break;
+      // ANTI_FRAUD_LOCKER_V2 events
+      case 'pet911.antifraud.message_blocked':
+        p.fraudSignal = true;
+        break;
+      case 'pet911.antifraud.user_banned':
+        p.bannedUser = true;
+        p.fraudSignal = true;
+        break;
+      case 'pet911.antifraud.proof_of_life_submitted':
+        p.proofOfLifeVerified = e.verification_status === 'VERIFIED';
+        break;
+      case 'pet911.antifraud.identity_verified':
+        p.identityVerified = true;
+        p.identityTrustScore = e.trust_score;
+        break;
+      case 'pet911.antifraud.verified_match':
+        p.proofOfLifeVerified = true;
+        p.identityVerified = true;
+        break;
       default: {
         const _exhaustive: never = e;
         return _exhaustive;

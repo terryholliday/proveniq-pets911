@@ -112,6 +112,43 @@ export type MemoryEvent =
       requested_channels?: string[];
       audience_segment?: string;
       at: string;
+    }
+  | {
+      type: 'pet911.antifraud.message_blocked';
+      sender_id: string;
+      report_id: string;
+      pattern_type: string;
+      action: 'USER_BAN' | 'IP_BLACKLIST' | 'MESSAGE_BLOCKED';
+      at: string;
+    }
+  | {
+      type: 'pet911.antifraud.user_banned';
+      user_id: string;
+      ip_address?: string;
+      reason: string;
+      at: string;
+    }
+  | {
+      type: 'pet911.antifraud.proof_of_life_submitted';
+      report_id: string;
+      submitter_id: string;
+      verification_status: 'VERIFIED' | 'FAILED_NO_METADATA' | 'FAILED_TIMESTAMP_MISMATCH' | 'FAILED_LOCATION_MISMATCH' | 'FAILED_STOCK_PHOTO';
+      at: string;
+    }
+  | {
+      type: 'pet911.antifraud.identity_verified';
+      user_id: string;
+      method: 'PHONE_OTP' | 'EMAIL_LINK' | 'SHELTER_PARTNER' | 'VET_PARTNER' | 'CHIP_REGISTRY';
+      trust_score: number;
+      at: string;
+    }
+  | {
+      type: 'pet911.antifraud.verified_match';
+      report_id: string;
+      finder_id: string;
+      claimant_id: string;
+      verification_method: 'GPS_MATCH' | 'CHIP_SCAN' | 'GPS_MATCH + CHIP_SCAN';
+      at: string;
     };
 
 export interface AlertProjection {
@@ -125,4 +162,10 @@ export interface AlertProjection {
   escalationProofAttached: boolean;
   humanReviewRequired: boolean;
   humanReviewChannels: string[] | null;
+  // ANTI_FRAUD_LOCKER_V2 extensions
+  identityVerified?: boolean;
+  identityTrustScore?: number;
+  proofOfLifeVerified?: boolean;
+  bannedUser?: boolean;
+  blacklistedIp?: boolean;
 }

@@ -153,6 +153,13 @@ export async function processQueue(): Promise<{
 
   // Process in order (FIFO)
   for (const action of pendingActions) {
+    // Dependency gating (OFFLINE_PROTOCOL.md): if unresolved, keep pending and move on
+    const canSync = await canSyncAction(action);
+    if (!canSync) {
+      pending++;
+      continue;
+    }
+
     // Check if max retries exceeded
     if (action.sync_attempts >= RETRY_CONFIG.max_attempts) {
       await markAsFailed(action.id, 'Max retry attempts exceeded');

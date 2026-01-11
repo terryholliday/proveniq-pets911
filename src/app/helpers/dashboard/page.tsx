@@ -137,14 +137,24 @@ export default function HelperDashboardPage() {
             <h1 className="text-3xl font-bold text-white mb-2">Emergency Helper Dashboard</h1>
             <p className="text-slate-300">Welcome back, {profile.display_name}</p>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => router.push('/helpers/settings')}
-            className="text-white hover:text-white border-slate-600 hover:bg-slate-700"
-          >
-            <Settings className="h-4 w-4 mr-2" />
-            Settings
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => router.push('/helpers/training')}
+              className="text-white hover:text-white border-slate-600 hover:bg-slate-700"
+            >
+              <Award className="h-4 w-4 mr-2" />
+              Training
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.push('/helpers/settings')}
+              className="text-white hover:text-white border-slate-600 hover:bg-slate-700"
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </div>
         </div>
 
         {error && (
