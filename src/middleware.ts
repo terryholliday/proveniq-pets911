@@ -131,7 +131,7 @@ const DOMAIN_CONFIG = {
       '/manifest.json',
       '/icon-(.*).png',
     ],
-    redirectTo: '/admin/pigpig',
+    redirectTo: '/admin/mods',
     label: 'ProveniqPets911 Admin',
   },
 } as const;

@@ -17,3 +17,4 @@ export * from './infrastructure';
 export * from './application.service';
 export * from './safety.service';
 export * from './verification.service';
+export * from './training-progress.service';

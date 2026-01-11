@@ -191,20 +191,26 @@ export default function CaseDetailPage() {
 
   if (error || !caseItem) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
-          <Alert variant="destructive">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription>{error || 'Case not found'}</AlertDescription>
-          </Alert>
-          <div className="mt-4">
-            <Link href="/admin/pigpig">
-              <Button>
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Dashboard
-              </Button>
-            </Link>
-          </div>
+      <div className="min-h-screen bg-slate-900 text-slate-100">
+        <div className="max-w-5xl mx-auto px-4 py-6">
+          {error ? (
+            <>
+              <Alert variant="destructive">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>{error || 'Case not found'}</AlertDescription>
+              </Alert>
+              <div className="mt-4">
+                <Link href="/admin/mods">
+                  <Button>
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Back to Dashboard
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     );
@@ -219,7 +225,7 @@ export default function CaseDetailPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-6">
-          <Link href="/admin/pigpig">
+          <Link href="/admin/mods">
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Dashboard

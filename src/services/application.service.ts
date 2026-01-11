@@ -556,13 +556,13 @@ class ApplicationServiceImpl implements IApplicationService {
       eventType: 'BACKGROUND_CHECK_INITIATED',
       actor,
       correlationId: app.correlationId,
-      details: { vendorId: updated.backgroundCheck.vendorId },
+      details: { vendorId: updated.backgroundCheck!.vendorId },
     });
 
     eventBus.publish(createServiceEvent('APPLICATION_BACKGROUND_CHECK_INITIATED', {
       applicationId: appId,
       userId: app.userId,
-      vendorId: updated.backgroundCheck.vendorId,
+      vendorId: updated.backgroundCheck!.vendorId,
     }, actor, { correlationId: app.correlationId }));
 
     return updated;

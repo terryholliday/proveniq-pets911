@@ -77,7 +77,7 @@ export default function ApplicationsPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/admin/pigpig" className="text-muted-foreground hover:text-foreground">
+              <Link href="/admin/mods" className="text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <div>

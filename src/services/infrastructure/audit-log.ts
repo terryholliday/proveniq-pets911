@@ -109,7 +109,7 @@ class AuditLogStore {
     // Emit to event bus for subscribers
     eventBus.publish(createServiceEvent(
       `AUDIT_${entry.eventType}`,
-      entry,
+      { ...entry } as Record<string, unknown>,
       entry.actor,
       { correlationId: entry.correlationId }
     ));

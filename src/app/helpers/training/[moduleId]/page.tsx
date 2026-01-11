@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { TRAINING_MODULES_PART2 } from '@/modules/operations/training/modules';
-import { isModuleCompleted, markModuleCompleted } from '@/lib/training/local-progress';
+import { clearTrainingProgress, getTrainingProgressStore } from '@/lib/training/local-progress';
 
 function getContentIcon(type: string) {
   switch (type) {
@@ -29,6 +29,7 @@ export default function HelperTrainingModulePage() {
   const { user } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [completedTick, setCompletedTick] = useState(0);
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -42,9 +43,47 @@ export default function HelperTrainingModulePage() {
     return (TRAINING_MODULES_PART2 as Record<string, any>)[moduleId] ?? null;
   }, [moduleId]);
 
-  const completed = useMemo(() => {
-    return isModuleCompleted(moduleId);
-  }, [moduleId, completedTick]);
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    const run = async () => {
+      setError(null);
+      try {
+        const local = getTrainingProgressStore();
+        if (Object.keys(local.modules).length > 0) {
+          await fetch('/api/training/progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'sync', localData: local.modules }),
+          });
+          clearTrainingProgress();
+        }
+
+        const res = await fetch(`/api/training/progress?moduleId=${encodeURIComponent(moduleId)}`);
+        const data = (await res.json()) as any;
+        if (!res.ok) {
+          throw new Error(data?.error ?? 'Failed to load module progress');
+        }
+
+        const isCompleted = data?.progress?.status === 'completed';
+        if (!cancelled) {
+          setCompleted(Boolean(isCompleted));
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : 'Failed to load module progress');
+        }
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, moduleId, completedTick]);
 
   if (!user) return null;
 
@@ -108,13 +147,23 @@ export default function HelperTrainingModulePage() {
               <div className="text-sm text-slate-600">Lessons: {module.lessons.length}</div>
               <Button
                 onClick={() => {
-                  try {
-                    setError(null);
-                    markModuleCompleted(moduleId);
-                    setCompletedTick(t => t + 1);
-                  } catch (e) {
-                    setError(e instanceof Error ? e.message : 'Failed to mark completed');
-                  }
+                  setError(null);
+                  fetch('/api/training/progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'complete', moduleId }),
+                  })
+                    .then(async res => {
+                      const data = (await res.json()) as any;
+                      if (!res.ok) {
+                        throw new Error(data?.error ?? 'Failed to mark completed');
+                      }
+                      setCompleted(true);
+                      setCompletedTick(t => t + 1);
+                    })
+                    .catch(e => {
+                      setError(e instanceof Error ? e.message : 'Failed to mark completed');
+                    });
                 }}
                 variant={completed ? 'outline' : 'default'}
               >

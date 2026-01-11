@@ -10,13 +10,14 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { TRAINING_MODULES_PART2 } from '@/modules/operations/training/modules';
-import { isModuleCompleted } from '@/lib/training/local-progress';
+import { clearTrainingProgress, getTrainingProgressStore } from '@/lib/training/local-progress';
 
 export default function HelperTrainingPage() {
   const router = useRouter();
   const { user } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
+  const [completedModuleIds, setCompletedModuleIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (!user) {
@@ -24,14 +25,64 @@ export default function HelperTrainingPage() {
     }
   }, [router, user]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    const run = async () => {
+      setError(null);
+
+      try {
+        const local = getTrainingProgressStore();
+        if (Object.keys(local.modules).length > 0) {
+          await fetch('/api/training/progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'sync', localData: local.modules }),
+          });
+          clearTrainingProgress();
+        }
+
+        const res = await fetch('/api/training/progress', { method: 'GET' });
+        const data = (await res.json()) as any;
+
+        if (!res.ok) {
+          throw new Error(data?.error ?? 'Failed to load training progress');
+        }
+
+        const completed = new Set<string>(
+          (data?.summary?.moduleProgress ?? [])
+            .filter((p: any) => p?.status === 'completed')
+            .map((p: any) => String(p?.moduleId))
+        );
+
+        if (!cancelled) {
+          setCompletedModuleIds(completed);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : 'Failed to load training progress');
+        }
+      } finally {
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, tick]);
+
   const modules = useMemo(() => {
     const values = Object.values(TRAINING_MODULES_PART2);
     return values.sort((a, b) => a.code.localeCompare(b.code));
   }, []);
 
   const completedCount = useMemo(() => {
-    return modules.filter(m => isModuleCompleted(String(m.id))).length;
-  }, [modules, tick]);
+    return modules.filter(m => completedModuleIds.has(String(m.id))).length;
+  }, [modules, completedModuleIds]);
 
   if (!user) return null;
 
@@ -70,7 +121,7 @@ export default function HelperTrainingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {modules.map(module => {
-            const completed = isModuleCompleted(String(module.id));
+            const completed = completedModuleIds.has(String(module.id));
             return (
               <Card key={String(module.id)} className={completed ? 'border-green-600/50' : ''}>
                 <CardHeader className="pb-2">

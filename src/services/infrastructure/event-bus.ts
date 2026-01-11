@@ -16,7 +16,7 @@ import type { UserId } from '@/modules/operations/types';
 // EVENT TYPES
 // ═══════════════════════════════════════════════════════════════════
 
-export interface ServiceEvent<T extends string = string, P = Record<string, unknown>> {
+export interface ServiceEvent<T extends string = string, P extends Record<string, unknown> = Record<string, unknown>> {
   readonly id: string;
   readonly type: T;
   readonly occurredAt: string;
@@ -42,7 +42,7 @@ export type EventFilter = (event: ServiceEvent) => boolean;
 // ═══════════════════════════════════════════════════════════════════
 
 export interface IEventBus {
-  publish<T extends string, P>(event: ServiceEvent<T, P>): void;
+  publish<T extends string, P extends Record<string, unknown>>(event: ServiceEvent<T, P>): void;
   subscribe<T extends ServiceEvent>(eventType: string, handler: EventHandler<T>): () => void;
   subscribeAll(handler: EventHandler, filter?: EventFilter): () => void;
   getRecentEvents(limit?: number): ServiceEvent[];
@@ -59,9 +59,9 @@ class EventBusImpl implements IEventBus {
   private eventLog: ServiceEvent[] = [];
   private readonly maxLogSize = 10000;
 
-  publish<T extends string, P>(event: ServiceEvent<T, P>): void {
+  publish<T extends string, P extends Record<string, unknown>>(event: ServiceEvent<T, P>): void {
     // Append to immutable log
-    this.eventLog.push(event as ServiceEvent);
+    this.eventLog.push(event as unknown as ServiceEvent);
     if (this.eventLog.length > this.maxLogSize) {
       this.eventLog = this.eventLog.slice(-this.maxLogSize);
     }
@@ -70,14 +70,14 @@ class EventBusImpl implements IEventBus {
     const typeHandlers = this.handlers.get(event.type);
     if (typeHandlers) {
       for (const handler of Array.from(typeHandlers)) {
-        this.safeInvoke(handler, event);
+        this.safeInvoke(handler, event as unknown as ServiceEvent);
       }
     }
 
     // Notify global handlers
     for (const { handler, filter } of Array.from(this.globalHandlers)) {
-      if (!filter || filter(event as ServiceEvent)) {
-        this.safeInvoke(handler, event);
+      if (!filter || filter(event as unknown as ServiceEvent)) {
+        this.safeInvoke(handler, event as unknown as ServiceEvent);
       }
     }
   }
@@ -136,7 +136,7 @@ export const eventBus: IEventBus = new EventBusImpl();
 
 let correlationCounter = 0;
 
-export function createServiceEvent<T extends string, P>(
+export function createServiceEvent<T extends string, P extends Record<string, unknown>>(
   type: T,
   payload: P,
   actor: UserId | 'SYSTEM',
