@@ -86,6 +86,23 @@ export async function POST(request: NextRequest) {
         .eq('dispatch_request_id', dispatchId)
         .eq('volunteer_id', volunteer.id);
 
+      // Append-only audit ledger entry
+      try {
+        await supabase.from('dispatch_assignments').insert({
+          dispatch_request_id: dispatchId,
+          volunteer_id: volunteer.id,
+          action: 'ACCEPTED',
+          note: 'Accepted via SMS',
+          meta: {
+            source: 'twilio',
+            from,
+            message_sid: messageSid,
+            body,
+          },
+        } as any);
+      } catch {
+      }
+
       // Update volunteer stats
       const { data: currentVolunteer } = await supabase
         .from('volunteers')
@@ -132,6 +149,23 @@ export async function POST(request: NextRequest) {
         })
         .eq('dispatch_request_id', dispatchId)
         .eq('volunteer_id', volunteer.id);
+
+      // Append-only audit ledger entry
+      try {
+        await supabase.from('dispatch_assignments').insert({
+          dispatch_request_id: dispatchId,
+          volunteer_id: volunteer.id,
+          action: 'DECLINED',
+          note: 'Declined via SMS',
+          meta: {
+            source: 'twilio',
+            from,
+            message_sid: messageSid,
+            body,
+          },
+        } as any);
+      } catch {
+      }
 
       // Update volunteer stats
       const { data: currentVolunteer } = await supabase

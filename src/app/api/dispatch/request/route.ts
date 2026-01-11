@@ -278,6 +278,24 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
+    // Append-only audit ledger entry (best-effort)
+    try {
+      const action = String(status).toUpperCase();
+      const allowed = new Set(['ACCEPTED', 'DECLINED', 'EN_ROUTE', 'ARRIVED', 'COMPLETED', 'CANCELLED', 'EXPIRED']);
+      if (allowed.has(action)) {
+        await supabase.from('dispatch_assignments').insert({
+          dispatch_request_id: dispatch_id,
+          volunteer_id: dispatchRequest?.volunteer_id || volunteer_id || null,
+          action,
+          note: action === 'COMPLETED' ? (outcome_notes || null) : null,
+          meta: {
+            source: 'app_api',
+          },
+        } as any);
+      }
+    } catch {
+    }
+
     return NextResponse.json({
       success: true,
       data: dispatchRequest,
