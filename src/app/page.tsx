@@ -89,6 +89,9 @@ export default function Pet911Home() {
               </Button>
             )}
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
+              <Link href="/volunteer/apply">Volunteer Login</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild className="hidden sm:flex">
               <a href="https://lostpets911.org">
                 <Smartphone className="mr-2 h-4 w-4" /> Download App
               </a>
