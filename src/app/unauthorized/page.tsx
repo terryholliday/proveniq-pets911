@@ -21,6 +21,15 @@ export default function UnauthorizedPage() {
             href: '/helpers/join',
           },
         };
+      case 'sysop_required':
+        return {
+          title: 'SYSOP Access Required',
+          description: 'You need the SYSOP capability to access this system administrator dashboard.',
+          action: {
+            text: 'Go Home',
+            href: '/',
+          },
+        };
       default:
         return {
           title: 'Access Denied',

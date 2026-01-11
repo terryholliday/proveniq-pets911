@@ -346,6 +346,7 @@ export default function HomePage() {
                 <li><Link href="/privacy" className="text-slate-400 hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="text-slate-400 hover:text-white transition-colors">Terms of Service</Link></li>
                 <li><Link href="/admin/mods" className="text-slate-400 hover:text-white transition-colors">Moderator Access</Link></li>
+                <li><Link href="/admin/sysop" className="text-slate-400 hover:text-white transition-colors">SYSOP Admin</Link></li>
               </ul>
             </div>
           </div>

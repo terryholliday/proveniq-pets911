@@ -12,7 +12,8 @@ export type VolunteerCapability =
   | 'EMERGENCY_RESPONSE'
   | 'VET_TRANSPORT'
   | 'SHELTER_TRANSPORT'
-  | 'MODERATOR';
+  | 'MODERATOR'
+  | 'SYSOP';
 
 export type VolunteerStatus = 
   | 'ACTIVE'

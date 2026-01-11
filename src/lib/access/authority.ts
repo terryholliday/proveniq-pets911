@@ -10,7 +10,8 @@ export type VolunteerAuthorityCapability =
   | 'FOSTER'
   | 'EMERGENCY_FOSTER'
   | 'TRAP'
-  | 'MODERATOR';
+  | 'MODERATOR'
+  | 'SYSOP';
 
 type VolunteerRow = {
   status: 'ACTIVE' | 'INACTIVE' | 'TEMPORARILY_UNAVAILABLE' | 'SUSPENDED';
@@ -31,6 +32,10 @@ function capabilityToRoleId(capability: VolunteerAuthorityCapability): RoleId {
       return 'trapper';
     case 'MODERATOR':
       return 'moderator';
+    case 'SYSOP':
+      return 'sysop';
+    default:
+      return 'community_volunteer';
   }
 }
 

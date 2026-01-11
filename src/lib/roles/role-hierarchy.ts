@@ -21,6 +21,7 @@ export type RoleId =
   // Staff Roles
   | 'foundation_admin'      // Full system access
   | 'regional_coordinator'  // Multi-county oversight
+  | 'sysop'                 // System operator: superuser access
   // Moderator Roles
   | 'lead_moderator'        // Can approve moderators, escalate to staff
   | 'moderator'             // Case triage, match verification, volunteer coordination
@@ -73,6 +74,7 @@ export type PermissionId =
   | 'system.config_edit'
   | 'system.user_ban'
   | 'system.ip_blacklist'
+  | 'system.sysop_access'
   // Sensitive Data
   | 'data.pii_view'
   | 'data.address_view'
@@ -123,6 +125,29 @@ export const ROLE_DEFINITIONS: Record<RoleId, RoleDefinition> = {
     requiresBackgroundCheck: true,
     requiresTraining: true,
     trainingModules: ['foundation_ops', 'crisis_management', 'legal_compliance'],
+    minAgeYears: 21,
+  },
+
+  sysop: {
+    id: 'sysop',
+    name: 'System Operator (SYSOP)',
+    description: 'Superuser access. Supersedes all volunteer and moderator roles.',
+    level: 95,
+    category: 'staff',
+    permissions: [
+      'case.view', 'case.create', 'case.edit', 'case.close', 'case.escalate', 'case.assign', 'case.delete',
+      'match.view', 'match.verify', 'match.reject', 'match.notify_owner',
+      'volunteer.view', 'volunteer.approve', 'volunteer.suspend', 'volunteer.dispatch', 'volunteer.mentor',
+      'moderator.view', 'moderator.approve', 'moderator.suspend', 'moderator.assign_cases',
+      'alert.view', 'alert.trigger_t1', 'alert.trigger_t2', 'alert.trigger_t3', 'alert.trigger_t4', 'alert.trigger_t5',
+      'system.audit_view', 'system.config_edit', 'system.user_ban', 'system.ip_blacklist', 'system.sysop_access',
+      'data.pii_view', 'data.address_view', 'data.contact_view', 'data.export',
+    ],
+    canApprove: ['regional_coordinator', 'lead_moderator', 'moderator', 'junior_moderator', 'senior_transporter', 'transporter', 'emergency_foster', 'foster', 'trapper', 'community_volunteer'],
+    reportsTo: 'foundation_admin',
+    requiresBackgroundCheck: true,
+    requiresTraining: true,
+    trainingModules: ['sysop_training'],
     minAgeYears: 21,
   },
 

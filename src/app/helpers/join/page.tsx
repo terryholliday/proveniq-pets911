@@ -3,22 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Heart, 
-  Car, 
-  Home, 
-  Clock, 
-  CheckCircle, 
-  AlertTriangle,
-  Phone,
-  Mail,
-  MapPin,
-  Shield
-} from 'lucide-react';
+import { Phone, Heart, Car, Clock, AlertTriangle, Users, Settings, Shield } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import type { County, Species, VolunteerCapability } from '@/lib/types';
 
@@ -59,6 +48,63 @@ export default function HelperSignupPage() {
     emergency_contact_name: '',
     emergency_contact_phone: '',
   });
+
+  const getCapabilityIcon = (value: string) => {
+    switch (value) {
+      case 'TRANSPORT': return Car;
+      case 'FOSTER_SHORT_TERM':
+      case 'FOSTER_LONG_TERM': return Heart;
+      case 'EMERGENCY_RESPONSE': return AlertTriangle;
+      case 'VET_TRANSPORT':
+      case 'SHELTER_TRANSPORT': return Car;
+      case 'MODERATOR': return Shield;
+      case 'SYSOP': return Settings;
+      default: return Users;
+    }
+  };
+
+  const CAPABILITY_OPTIONS: Array<{ value: VolunteerCapability; label: string; description: string }> = [
+    {
+      value: 'TRANSPORT',
+      label: 'Animal Transport',
+      description: 'Transport animals to and from shelters, vet clinics, and foster homes',
+    },
+    {
+      value: 'FOSTER_SHORT_TERM',
+      label: 'Short-Term Fostering',
+      description: 'Provide temporary care for animals in need',
+    },
+    {
+      value: 'FOSTER_LONG_TERM',
+      label: 'Long-Term Fostering',
+      description: 'Provide extended care for animals in need',
+    },
+    {
+      value: 'EMERGENCY_RESPONSE',
+      label: 'Emergency Response',
+      description: 'Respond to emergency situations, such as natural disasters or animal cruelty cases',
+    },
+    {
+      value: 'VET_TRANSPORT',
+      label: 'Vet Transport',
+      description: 'Transport animals to and from vet clinics',
+    },
+    {
+      value: 'SHELTER_TRANSPORT',
+      label: 'Shelter Transport',
+      description: 'Transport animals to and from shelters',
+    },
+    {
+      value: 'MODERATOR',
+      label: 'Moderator',
+      description: 'Help moderate online communities and forums',
+    },
+    {
+      value: 'SYSOP',
+      label: 'SysOp',
+      description: 'Help manage and maintain our systems and infrastructure',
+    },
+  ];
 
   const handleCapabilityToggle = (capability: VolunteerCapability) => {
     setFormData(prev => ({
@@ -259,25 +305,64 @@ export default function HelperSignupPage() {
                 <p className="text-sm font-medium mb-3">Select all that apply:</p>
                 <div className="space-y-2">
                   {[
-                    { value: 'TRANSPORT', label: 'Transport animals to vet/shelter', icon: Car },
-                    { value: 'FOSTER_SHORT_TERM', label: 'Foster (24-72 hours)', icon: Home },
-                    { value: 'FOSTER_LONG_TERM', label: 'Foster (weeks/months)', icon: Home },
-                    { value: 'EMERGENCY_RESPONSE', label: 'Emergency response (immediate)', icon: AlertTriangle },
-                    { value: 'VET_TRANSPORT', label: 'Vet transport only', icon: Car },
-                    { value: 'SHELTER_TRANSPORT', label: 'Shelter transport only', icon: Car },
-                    { value: 'MODERATOR', label: 'Moderator (case triage and match verification)', icon: Shield },
-                  ].map(({ value, label, icon: Icon }) => (
-                    <label key={value} className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
-                      <input
-                        type="checkbox"
-                        checked={formData.capabilities.includes(value as VolunteerCapability)}
-                        onChange={() => handleCapabilityToggle(value as VolunteerCapability)}
-                        className="w-4 h-4"
-                      />
-                      <Icon className="h-5 w-5 text-slate-600" />
-                      <span>{label}</span>
-                    </label>
-                  ))}
+                    {
+                      value: 'TRANSPORT',
+                      label: 'Animal Transport',
+                      description: 'Transport pets from shelters to fosters/adopters',
+                    },
+                    {
+                      value: 'FOSTER_SHORT_TERM',
+                      label: 'Emergency Foster (24-72 hours)',
+                      description: 'Short-term emergency fostering for urgent cases',
+                    },
+                    {
+                      value: 'FOSTER_LONG_TERM',
+                      label: 'Long-term Foster',
+                      description: 'Extended foster care until adoption',
+                    },
+                    {
+                      value: 'EMERGENCY_RESPONSE',
+                      label: 'Emergency Response',
+                      description: 'Respond to T1/T2 emergency alerts',
+                    },
+                    {
+                      value: 'VET_TRANSPORT',
+                      label: 'Veterinary Transport',
+                      description: 'Transport pets to/from veterinary appointments',
+                    },
+                    {
+                      value: 'SHELTER_TRANSPORT',
+                      label: 'Shelter Transport',
+                      description: 'Transport pets between shelters/rescues',
+                    },
+                    {
+                      value: 'MODERATOR',
+                      label: 'Moderator',
+                      description: 'Review cases, verify matches, coordinate volunteers',
+                    },
+                    {
+                      value: 'SYSOP',
+                      label: 'System Operator (SYSOP)',
+                      description: 'System administrator: superuser access (approval required)',
+                    },
+                  ].map(({ value, label, description }) => {
+                    const Icon = getCapabilityIcon(value);
+                    return (
+                      <label key={value} className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input
+                          type="checkbox"
+                          checked={formData.capabilities.includes(value as VolunteerCapability)}
+                          onChange={() => handleCapabilityToggle(value as VolunteerCapability)}
+                          className="w-4 h-4"
+                        />
+                        <Icon className="h-5 w-5 text-slate-600" />
+                        <div>
+                          <span className="font-medium">{label}</span>
+                          <p className="text-sm text-slate-500">{description}</p>
+                        </div>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
               <div>
