@@ -68,9 +68,17 @@ export function MatchReviewCard({ match, onConfirm, onReject }: MatchReviewCardP
 
       <CardContent className="space-y-4">
         {/* AI Advisory - Required per AI_GUARDRAILS.md */}
-        <Alert variant="info" className="bg-blue-50 border-blue-200">
+        <Alert variant="info" className="bg-orange-50 border-orange-200">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription className="text-orange-800 font-medium">
+            ⚠️ SAFETY FIRST: This is an AI-suggested match that has NOT been verified.
+            Human review is REQUIRED before any contact with pet owners to prevent false hope.
+          </AlertDescription>
+        </Alert>
+        
+        <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
           <Info className="h-4 w-4" />
-          <AlertDescription className="text-blue-800">
+          <AlertDescription className="text-yellow-800">
             {match.ai_advisory || 'AI-suggested match. Moderator verification required.'}
           </AlertDescription>
         </Alert>
@@ -192,14 +200,15 @@ export function MatchReviewCard({ match, onConfirm, onReject }: MatchReviewCardP
           variant="success"
           className="flex-1"
           onClick={handleConfirm}
-          disabled={isProcessing}
+          disabled={isProcessing || confidencePercent < 70}
+          title={confidencePercent < 70 ? 'Low confidence matches should be rejected for safety' : ''}
         >
           {isProcessing && action === 'confirm' ? (
             'Processing...'
           ) : (
             <>
               <CheckCircle className="h-4 w-4 mr-2" />
-              Confirm Match
+              Confirm Match {confidencePercent < 70 ? '(Low Confidence)' : ''}
             </>
           )}
         </Button>
@@ -214,7 +223,7 @@ export function MatchReviewCard({ match, onConfirm, onReject }: MatchReviewCardP
           ) : (
             <>
               <XCircle className="h-4 w-4 mr-2" />
-              Reject
+              Reject for Safety
             </>
           )}
         </Button>

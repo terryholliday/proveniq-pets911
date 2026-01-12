@@ -10,8 +10,10 @@ export const dynamic = 'force-dynamic';
  * Returns pending match suggestions for moderator review
  * 
  * Per CANONICAL_LAW.md: Match suggestions visible ONLY to moderators until confirmed
+ * Per SAFETY_FIRST_POLICY.md: 50/50 human-AI moderation with mandatory human review for all matches
  * Per AI_GUARDRAILS.md: Must include disclosure "AI-suggested match. Moderator verification required."
  * 
+ * UPDATED: All matches require human verification to prevent false hope and emotional tragedies
  * TODO: Connect to Supabase backend + ML matching service
  * FAIL-CLOSED: Returns 503 if backend unavailable
  */
@@ -83,7 +85,7 @@ export async function GET(request: NextRequest) {
         },
         status: 'PENDING',
         created_at: new Date().toISOString(),
-        ai_advisory: 'AI-suggested match based on species, breed, color, and location proximity. Moderator verification required. Visual comparison recommended before confirmation.',
+        ai_advisory: '⚠️ SAFETY NOTICE: AI-suggested match requiring human verification. This match has NOT been confirmed and may cause false hope if shared with pet owners before moderator review. Visual comparison of photos and verification of all details is REQUIRED before any owner contact.',
       },
     ];
 
