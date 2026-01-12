@@ -66,18 +66,15 @@ export async function GET(
     if (module.requires_shadowing) {
       const { data: records } = await supabase
         .from('shadowing_records')
-        .select(`
-          *,
-          mentor:auth.users!mentor_id(raw_user_meta_data)
-        `)
+        .select('*')
         .eq('user_id', user.id)
         .eq('module_id', module.id)
         .order('session_date', { ascending: false });
 
-      shadowingRecords = records?.map((r: { session_date: string; hours: number; mentor?: { raw_user_meta_data?: { full_name?: string } }; verified: boolean }) => ({
+      shadowingRecords = (records as { session_date: string; hours: number; mentor_name?: string; verified: boolean }[] | null)?.map(r => ({
         date: new Date(r.session_date),
         hours: r.hours,
-        mentorName: r.mentor?.raw_user_meta_data?.full_name || 'Unknown',
+        mentorName: r.mentor_name || 'Unknown',
         verified: r.verified,
       })) || [];
     }
