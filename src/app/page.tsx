@@ -1079,7 +1079,6 @@ export default function Pet911Home() {
             <div className="flex justify-center gap-8 mb-4">
               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-              <a href="#" className="hover:text-white transition-colors">Canonical Law</a>
             </div>
             <div className="flex justify-center gap-8 border-t border-zinc-800 pt-4">
               <Link href="/advocacy" className="hover:text-amber-400 transition-colors">🐕 B.A.R.K. Act</Link>
