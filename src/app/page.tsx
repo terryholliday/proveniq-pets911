@@ -89,7 +89,10 @@ export default function Pet911Home() {
               </Button>
             )}
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
-              <Link href="/volunteer/apply">Volunteer Login</Link>
+              <Link href="/login?redirectTo=/admin/sysop">Staff Login</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild className="hidden sm:flex">
+              <Link href="/volunteer/apply">Volunteer Apply</Link>
             </Button>
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
               <a href="https://lostpets911.org">

@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/client';
+import { createClient } from '@supabase/supabase-js';
 
 export default async function SysopPage() {
   const cookieStore = await cookies();
@@ -14,11 +15,17 @@ export default async function SysopPage() {
     redirect('/login?redirectTo=' + encodeURIComponent('/admin/sysop'));
   }
 
-  const { data: volunteer } = await supabase
+  // Use service role to bypass RLS for admin check
+  const adminDb = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const { data: volunteer } = await adminDb
     .from('volunteers')
     .select('capabilities, status, display_name')
     .eq('user_id', session.user.id)
-    .single();
+    .maybeSingle();
 
   const capabilities = (volunteer?.capabilities as unknown as string[]) || [];
   const isSysop = volunteer?.status === 'ACTIVE' && capabilities.includes('SYSOP');
@@ -27,7 +34,7 @@ export default async function SysopPage() {
     redirect('/unauthorized?reason=sysop_required');
   }
 
-  const { count: pendingCount } = await supabase
+  const { count: pendingCount } = await adminDb
     .from('volunteers')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'INACTIVE');
