@@ -21,3 +21,6 @@ export * from './certification-tracks';
 
 // --- Training Modules ---
 export * from './training-modules';
+
+// --- Training System (Claude's Implementation) ---
+export * from './training-system';
