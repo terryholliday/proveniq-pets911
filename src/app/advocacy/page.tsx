@@ -185,11 +185,11 @@ const COUNTY_TO_ZIP_PREFIX: Record<string, string[]> = {
 
 const EMAIL_TEMPLATE = `Dear [LEGISLATOR_NAME],
 
-I am writing to urge your support for the Breeder Accountability and Regulation for Kindness Act (BARK Act), proposed legislation that would comprehensively reform canine welfare in West Virginia.
+I am writing to urge your support for the Breeder Accountability and Regulation for Kindness Act (B.A.R.K. Act), proposed legislation that would comprehensively reform canine welfare in West Virginia.
 
 As your constituent, I believe this bill addresses critical gaps in our current animal welfare system:
 
-**Why the BARK Act Matters:**
+**Why the B.A.R.K. Act Matters:**
 • Establishes a 14-day "finder immunity" period protecting Good Samaritans who help stray animals
 • Requires 24-hour digital posting of impounded animals—modernizing our 1951-era notification laws
 • Creates regional animal control authorities to help underserved rural counties pool resources
@@ -202,10 +202,10 @@ As your constituent, I believe this bill addresses critical gaps in our current 
 • Supports responsible breeders while cracking down on bad actors
 • Mandatory microchip scanning at intake to reunite lost pets with owners faster
 
-West Virginia has 55 counties with vastly different animal welfare resources. The BARK Act provides the framework to ensure every community—urban and rural—can protect animals humanely.
+West Virginia has 55 counties with vastly different animal welfare resources. The B.A.R.K. Act provides the framework to ensure every community—urban and rural—can protect animals humanely.
 
 I respectfully ask that you:
-1. Co-sponsor the BARK Act when introduced
+1. Co-sponsor the B.A.R.K. Act when introduced
 2. Support its passage through committee
 3. Vote YES on the floor
 
@@ -219,7 +219,7 @@ Sincerely,
 
 const PHONE_SCRIPT = `Hello, my name is [YOUR NAME] and I'm a constituent from [CITY/TOWN].
 
-I'm calling to ask [SENATOR/DELEGATE NAME] to support the BARK Act—the Breeder Accountability and Regulation for Kindness Act.
+I'm calling to ask [SENATOR/DELEGATE NAME] to support the B.A.R.K. Act—the Breeder Accountability and Regulation for Kindness Act.
 
 This bill would:
 • Protect Good Samaritans who help stray animals with a 14-day finder immunity period
@@ -243,7 +243,7 @@ This bill would:
 ✅ License breeders with humane standards
 
 Contact your WV legislator today! #WVpol #AnimalWelfare`,
-  facebook: `🐾 West Virginia needs the BARK Act! 🐾
+  facebook: `🐾 West Virginia needs the B.A.R.K. Act! 🐾
 
 The Breeder Accountability and Regulation for Kindness Act would transform animal welfare in our state:
 
@@ -255,7 +255,7 @@ The Breeder Accountability and Regulation for Kindness Act would transform anima
 
 This is comprehensive, self-funding reform that protects animals WITHOUT burdening taxpayers.
 
-Contact your state legislators and ask them to support the BARK Act!
+Contact your state legislators and ask them to support the B.A.R.K. Act!
 
 #BARKAct #WestVirginia #AnimalWelfare #EndPuppyMills`,
 };
@@ -287,7 +287,7 @@ export default function AdvocacyPage() {
         <div className="max-w-5xl mx-auto px-6 py-12">
           <Link href="/" className="text-amber-400 text-sm hover:underline">← Back to Pet911</Link>
           <h1 className="text-4xl font-bold mt-4">🐕 Advocacy Center</h1>
-          <p className="text-xl text-zinc-300 mt-2">Support the BARK Act for West Virginia</p>
+          <p className="text-xl text-zinc-300 mt-2">Support the B.A.R.K. Act for West Virginia</p>
           <p className="text-sm text-zinc-400 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
           
           {/* Call to Action - no fake stats */}
@@ -309,7 +309,7 @@ export default function AdvocacyPage() {
             <div className="text-2xl mb-2">📱</div>
             <div className="font-semibold text-blue-300">Resistbot</div>
             <p className="text-xs text-zinc-400 mt-1">
-              Third-party service. Text RESIST to 50409, then compose your own message about the BARK Act using our template below.
+              Third-party service. Text RESIST to 50409, then compose your own message about the B.A.R.K. Act using our template below.
             </p>
           </a>
           
@@ -378,7 +378,7 @@ export default function AdvocacyPage() {
                     </div>
                     <div className="mt-3 flex gap-2 flex-wrap">
                       <a 
-                        href={`mailto:${leg.email}?subject=Please Support the BARK Act`}
+                        href={`mailto:${leg.email}?subject=Please Support the B.A.R.K. Act`}
                         className="text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
                       >
                         ✉️ Email
@@ -501,9 +501,9 @@ export default function AdvocacyPage() {
           </div>
         </div>
 
-        {/* BARK Act Summary */}
+        {/* B.A.R.K. Act Summary */}
         <div className="bg-gradient-to-r from-amber-900/20 to-green-900/20 border border-amber-800/50 rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">📋 BARK Act Quick Facts</h2>
+          <h2 className="text-xl font-bold mb-4">📋 B.A.R.K. Act Quick Facts</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div>
               <h3 className="font-semibold text-amber-300 mb-2">What It Does</h3>
@@ -530,7 +530,7 @@ export default function AdvocacyPage() {
           </div>
           <div className="mt-4 pt-4 border-t border-zinc-700">
             <Link href="/admin/sysop/compliance" className="text-amber-400 hover:underline text-sm">
-              View full BARK Act summary in Compliance & Resources →
+              View full B.A.R.K. Act summary in Compliance & Resources →
             </Link>
           </div>
         </div>
@@ -545,7 +545,7 @@ export default function AdvocacyPage() {
             </div>
             <div>
               <h4 className="text-zinc-300 font-medium">Be Specific</h4>
-              <p className="text-xs mt-1">Ask for a specific action: "Will you co-sponsor the BARK Act?"</p>
+              <p className="text-xs mt-1">Ask for a specific action: "Will you co-sponsor the B.A.R.K. Act?"</p>
             </div>
             <div>
               <h4 className="text-zinc-300 font-medium">Be Respectful</h4>

@@ -894,12 +894,12 @@ export default function CompliancePage() {
 
         {activeTab === 'reform' && (
           <div className="space-y-6">
-            {/* BARK Act Hero */}
+            {/* B.A.R.K. Act Hero */}
             <div className="bg-gradient-to-r from-amber-900/30 to-green-900/30 border border-amber-700 rounded-lg p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="text-xs text-amber-400 font-medium uppercase tracking-wide">Proposed Legislation</div>
-                  <h2 className="text-2xl font-bold text-white mt-1">🐕 The BARK Act</h2>
+                  <h2 className="text-2xl font-bold text-white mt-1">🐕 The B.A.R.K. Act</h2>
                   <p className="text-zinc-300 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
                   <p className="text-sm text-zinc-400 mt-2">WV Code Chapter 19, Article 36 • 55 Sections • Effective July 1, 2026</p>
                 </div>
@@ -1025,7 +1025,7 @@ export default function CompliancePage() {
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5">
               <h3 className="text-lg font-semibold text-zinc-200 mb-3">🤝 Regional Animal Control Authorities</h3>
               <p className="text-sm text-zinc-400 mb-3">
-                The BARK Act authorizes counties to form joint authorities for consolidated sheltering and enforcement—a direct solution for Dead Zone counties.
+                The B.A.R.K. Act authorizes counties to form joint authorities for consolidated sheltering and enforcement—a direct solution for Dead Zone counties.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div className="bg-zinc-800/50 rounded p-3">
@@ -1077,7 +1077,7 @@ export default function CompliancePage() {
             <div className="bg-amber-900/20 border border-amber-800 rounded-lg p-5">
               <h3 className="font-semibold text-amber-300">🚨 Pet911 Alignment</h3>
               <p className="text-sm text-zinc-300 mt-2">
-                The BARK Act's digital transparency requirements mirror Pet911's existing infrastructure:
+                The B.A.R.K. Act's digital transparency requirements mirror Pet911's existing infrastructure:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-xs">
                 <div className="bg-zinc-900/50 rounded p-3">
@@ -1094,7 +1094,7 @@ export default function CompliancePage() {
                 </div>
               </div>
               <p className="text-sm text-zinc-400 mt-4">
-                Shelters using Pet911 will automatically meet BARK Act digital compliance requirements.
+                Shelters using Pet911 will automatically meet B.A.R.K. Act digital compliance requirements.
               </p>
             </div>
 
