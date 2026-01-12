@@ -65,6 +65,39 @@ export async function getAction(id: string): Promise<OfflineQueuedAction | undef
 }
 
 /**
+ * Resolve queued dependencies for a case once the case has synced.
+ * Currently supports resolving `missing_case_id` in CREATE_SIGHTING actions.
+ */
+export async function resolveCaseDependencies(
+  clientCaseId: string,
+  resolvedCaseId: string
+): Promise<number> {
+  const db = await getDB();
+  const all = await db.getAll('offline-queue');
+
+  let updated = 0;
+
+  for (const action of all) {
+    if (action.sync_status !== 'PENDING') continue;
+    if (action.action_type !== 'CREATE_SIGHTING') continue;
+
+    const payload = action.payload as Record<string, unknown>;
+    if (payload.missing_case_id !== clientCaseId) continue;
+
+    const nextPayload: Record<string, unknown> = { ...payload, case_id: resolvedCaseId };
+    delete (nextPayload as any).missing_case_id;
+
+    await db.put('offline-queue', {
+      ...action,
+      payload: nextPayload,
+    });
+    updated++;
+  }
+
+  return updated;
+}
+
+/**
  * Get action by idempotency key
  */
 export async function getActionByIdempotencyKey(

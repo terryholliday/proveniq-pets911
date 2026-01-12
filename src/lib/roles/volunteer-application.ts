@@ -285,6 +285,17 @@ export const APPLICATION_REQUIREMENTS: Record<RoleId, ApplicationRequirements> =
     requiredTraining: ['foundation_ops', 'crisis_management', 'legal_compliance'],
     estimatedProcessingDays: 30,
   },
+  sysop: {
+    roleId: 'sysop',
+    minimumAge: 21,
+    requiresBackgroundCheck: true,
+    requiresInterview: true,
+    requiresReferences: true,
+    minimumReferences: 3,
+    requiredDocuments: ['government_id', 'proof_of_address'],
+    requiredTraining: ['sysop_training'],
+    estimatedProcessingDays: 21,
+  },
   regional_coordinator: {
     roleId: 'regional_coordinator',
     minimumAge: 21,

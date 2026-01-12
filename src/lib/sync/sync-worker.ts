@@ -5,7 +5,7 @@ import {
   markAsFailed,
   markAsConflict,
   incrementRetry,
-  getAction
+  resolveCaseDependencies
 } from '@/lib/db/offline-queue-store';
 import { getEndpointForAction } from '@/lib/api/client';
 import type { OfflineQueuedAction, SyncStatus } from '@/lib/types';
@@ -137,6 +137,7 @@ export async function processQueue(): Promise<{
   pending: number;
 }> {
   const pendingActions = await getPendingActions();
+  const caseResolutions: Array<{ clientCaseId: string; resolvedCaseId: string }> = [];
 
   if (pendingActions.length === 0) {
     return { synced: 0, failed: 0, pending: 0 };
@@ -187,6 +188,18 @@ export async function processQueue(): Promise<{
           data?.data?.log_id ||
           'unknown';
         await markAsSynced(action.id, String(entityId));
+
+        // Defer dependency resolution until after this run to avoid syncing dependent actions
+        // in the same processing pass (OFFLINE_PROTOCOL compliance + deterministic tests).
+        const actionType = action.action_type as unknown as string;
+        if (actionType === 'CREATE_CASE' || actionType === 'CREATE_MISSING_CASE' || actionType === 'CREATE_FOUND_CASE') {
+          const payload = action.payload as Record<string, unknown>;
+          const clientCaseId = payload.case_id;
+          if (typeof clientCaseId === 'string') {
+            caseResolutions.push({ clientCaseId, resolvedCaseId: String(entityId) });
+          }
+        }
+
         synced++;
         emitSyncEvent({ type: 'action_synced', actionId: action.id });
         break;
@@ -226,6 +239,11 @@ export async function processQueue(): Promise<{
     failed,
     total: pendingActions.length
   });
+
+  // Apply any deferred dependency resolutions (e.g., replace missing_case_id with case_id).
+  for (const resolution of caseResolutions) {
+    await resolveCaseDependencies(resolution.clientCaseId, resolution.resolvedCaseId);
+  }
 
   return { synced, failed, pending };
 }
@@ -276,17 +294,12 @@ export async function triggerSync(): Promise<{
  * Per OFFLINE_PROTOCOL.md: If action A depends on action B, B must sync first
  */
 export async function canSyncAction(action: OfflineQueuedAction): Promise<boolean> {
-  // Check if this action depends on a local case ID that hasn't synced yet
+  // If a payload contains unresolved dependency markers, do not sync it.
+  // Dependencies are resolved after successful upstream syncs.
   const payload = action.payload as Record<string, unknown>;
 
   if (action.action_type === 'CREATE_SIGHTING' && payload.missing_case_id) {
-    // Check if the case ID is a local ID (not synced yet)
-    const caseId = payload.missing_case_id as string;
-    const dependentAction = await getAction(caseId);
-
-    if (dependentAction && dependentAction.sync_status !== 'SYNCED') {
-      return false;
-    }
+    return false;
   }
 
   return true;

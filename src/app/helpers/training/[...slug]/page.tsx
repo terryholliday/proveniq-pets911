@@ -44,7 +44,8 @@ const CONTENT_DESCRIPTIONS: Record<string, string> = {
 export default function TrainingContentPage() {
   const params = useParams();
   const router = useRouter();
-  const contentPath = Array.isArray(params.slug) ? params.slug.join('/') : (params.slug as string);
+  const rawSlug = (params as unknown as { slug?: string | string[] })?.slug;
+  const contentPath = Array.isArray(rawSlug) ? rawSlug.join('/') : (typeof rawSlug === 'string' ? rawSlug : '');
 
   const description = CONTENT_DESCRIPTIONS[contentPath] || 'Training content for this module.';
   const Icon = CONTENT_ICONS['READING'] as any; // Default to reading icon
@@ -61,7 +62,7 @@ export default function TrainingContentPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Icon className="w-6 h-6 text-blue-600" />
-                {contentPath.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Training Content'}
+                {contentPath.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()) || 'Training Content'}
               </CardTitle>
               <Badge variant="secondary" className="w-fit">
                 <Clock className="w-3 h-3 mr-1" />

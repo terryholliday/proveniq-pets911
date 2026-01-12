@@ -11,6 +11,8 @@
     "test": "jest",
     "test:pet911-alert-compliance": "jest --testPathPattern=pet911-alert-compliance",
     "test:watch": "jest --watch",
+    "e2e:install": "playwright install",
+    "e2e": "playwright test",
     "governance": "node scripts/canon-governance.js",
     "pre-commit": "npm run governance && npm run test:pet911-alert-compliance"
   },
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.57.0",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^30.0.0",

@@ -1275,6 +1275,7 @@
             "cancer",
             "tumor",
             "doesn't have long",
+            "not long",
             "last days",
             "saying goodbye",
             "preparing to",
@@ -1284,7 +1285,9 @@
             "worsening",
             "anticipatory grief",
             "not much time left",
-            "end stage"
+            "end stage",
+            "lose my",
+            "slowly"
         ],
         "EMERGENCY": [
             "emergency",
@@ -1808,7 +1811,7 @@
     },
     "TEMPLATES": {
         "suicide_intent": {
-            "response": "I need you to know: your life matters. If you are in immediate danger of acting on these thoughts, please contact help right now.\n\n**Call or text {HOTLINES.{REGION}.crisis_988} (24/7). If you are in immediate danger, contact local emergency services now.**\n\nI can't keep you safe alone, but I can stay with you while you reach out.",
+            "response": "I need you to know: Your life matters. If you are in immediate danger of acting on these thoughts, please contact help right now.\n\n**Call or text {HOTLINES.{REGION}.crisis_988} (24/7). If you are in immediate danger, contact local emergency services now.**\n\nIf you can, also reach a human supporter:\n• Vet Social Work Support Line: {HOTLINES.US.ut_vet_social_work}\n\nI can't keep you safe alone, but I can stay with you while you reach out.",
             "consentCheck": {
                 "prompt": "Is it okay if we keep talking about this together for a bit?",
                 "ifDeclined": "I understand. Please save this number: {HOTLINES.{REGION}.crisis_988}. If things get worse, call or text them. You deserve support."
@@ -1821,7 +1824,7 @@
             "followUp": "Is there someone you trust who can be with you right now?",
             "escalation": "CRITICAL",
             "mustContain": [
-                "your life matters"
+                "Your life matters"
             ],
             "mustNotContain": [
                 "get another pet",
@@ -1831,7 +1834,7 @@
             "visualAid": false
         },
         "suicide_active": {
-            "response": "I'm really glad you told me. You don't have to carry this alone.\n\n**Please contact help now: call or text {HOTLINES.{REGION}.crisis_988}. If you are in immediate danger, contact local emergency services right now.**\n\nAre you in immediate danger at this moment?",
+            "response": "I'm really glad you told me. You don't have to carry this alone, and your life has value.\n\n**Please contact help now: call or text {HOTLINES.{REGION}.crisis_988}. If you are in immediate danger, contact local emergency services right now.**\n\nVet Social Work Support Line: {HOTLINES.US.ut_vet_social_work}\n\nAre you in immediate danger at this moment?",
             "consentCheck": {
                 "prompt": "Is it okay if we keep talking while you reach out for support?",
                 "ifDeclined": "I understand. Please save {HOTLINES.{REGION}.crisis_988}. If things escalate, call or text them immediately."
@@ -1842,7 +1845,7 @@
             "mustNotContain": []
         },
         "suicide_passive": {
-            "response": "I'm really sorry you're hurting like this. The pain can feel endless, but it can change.\n\n**If these thoughts are getting stronger or you feel unsafe, call or text {HOTLINES.{REGION}.crisis_988}.**\n\nAre you feeling safe right now?",
+            "response": "I'm really sorry you're hurting like this. The pain can feel endless, but it can change.\n\n**If these thoughts are getting stronger or you feel unsafe, call or text {HOTLINES.{REGION}.crisis_988}.**\n\nASPCA Pet Loss Hotline: {HOTLINES.US.aspca_pet_loss}\n\nAre you feeling safe right now?",
             "escalation": "HIGH",
             "requiresHumanHandoff": true,
             "mustContain": [],
@@ -1964,13 +1967,13 @@
             "mustNotContain": []
         },
         "death_traumatic": {
-            "response": "I am so sorry. This was a **traumatic** and sudden loss. Your brain may be trying to process the shock.\n\nYou are safe now. Take a slow breath. It was not your fault.",
+            "response": "I am **deeply sorry**. What happened is **devastating**, and your mind and body may be in shock.\n\nYour **grief is valid**. After a traumatic loss, it can help to take one slow breath and focus on the next safe step.\n\nAre you somewhere safe right now?",
             "escalation": "HIGH",
             "mustContain": [],
             "mustNotContain": []
         },
         "death_euthanasia": {
-            "response": "Making the decision for **euthanasia** is the hardest part of loving a pet. Ideally, it is a peaceful release from suffering.\n\nYou gave them the gift of a gentle passing. You took their pain and made it your own.",
+            "response": "Making the decision for **euthanasia** is one of the **hardest things** we do out of **profound love**.\n\nYou gave them the **gift of a peaceful passing**. You took their pain and made it your own.",
             "escalation": "HIGH",
             "mustContain": [],
             "mustNotContain": []
@@ -1993,7 +1996,7 @@
             "mustNotContain": []
         },
         "dv_coercive_control": {
-            "response": "What you're describing sounds like coercive control. You deserve safety and support.\n\n**Tech Safety:**\n• Avoid shared devices\n• Consider whether your phone may be monitored\n• Be careful with location sharing\n• Use private/incognito browsing\n\n**If you need to exit quickly, type /exit.**\n\n**US DV Resources:**\n• Call: {HOTLINES.US.dv_hotline}\n• Text: {HOTLINES.US.dv_text}\n• Chat: {HOTLINES.US.dv_chat}\n\nWould you like a safety plan checklist that doesn't require you to share your location?",
+            "response": "What you're describing sounds like coercive control. You deserve safety and support.\n\n**Tech Safety (privacy first):**\n• Avoid shared devices\n• Consider whether your phone may be monitored\n• Be careful with location sharing — do not share your exact location\n• Use private/incognito browsing\n\n**If you need to exit quickly, type /exit.**\n\n**National Domestic Violence Hotline (US):**\n• Call: {HOTLINES.US.dv_hotline}\n• Text: {HOTLINES.US.dv_text}\n• Chat: {HOTLINES.US.dv_chat}\n\nWould you like a safety plan checklist that doesn't require you to share your location?",
             "escalation": "HIGH",
             "requiresHumanHandoff": true,
             "mustContain": [],
@@ -2013,14 +2016,20 @@
             "mustNotContain": []
         },
         "mdd": {
-            "response": "I hear how much pain you're in. Those thoughts—feeling worthless, broken—are symptoms of depression, not truths about who you are.\n\nYou deserve support. If these feelings are overwhelming, please reach out:\n• {HOTLINES.{REGION}.crisis_988}\n• {HOTLINES.{REGION}.samhsa}\n\nWould you like to talk about what's contributing to these feelings?",
+            "response": "I hear how much pain you're in. Thoughts of **worthlessness** and self-blame can be symptoms of depression, not truths about who you are.\n\nYou deserve support. If these feelings are overwhelming, please reach out:\n• 988: {HOTLINES.{REGION}.crisis_988}\n• **SAMHSA** National Helpline: {HOTLINES.{REGION}.samhsa}\n\nWould you like to talk about what's contributing to these feelings?",
             "escalation": "HIGH",
             "mustContain": [],
             "mustNotContain": []
         },
         "paralysis": {
-            "response": "It sounds like you're in shutdown mode. Sometimes when grief or stress is too much, our bodies just stop.\n\nYou don't have to force yourself to function right now. But if you can do one tiny thing—drink water, open a window—that's enough.\n\nAre you safe where you are right now?",
+            "response": "It sounds like your body is in **grief shock**—shutdown and frozen. That can happen when the pain is too much.\n\nA DBT skill called **Opposite Action** means doing one tiny, safe action even when everything in you wants to stop.\n\nTry one of these (pick just one):\n• Put your **feet on the floor** for 10 seconds\n• Take **one bite** of food or one sip of water\n• Open a window and take one slow breath\n\nAre you safe where you are right now?",
             "escalation": "HIGH",
+            "mustContain": [],
+            "mustNotContain": []
+        },
+        "neurodivergent": {
+            "response": "It makes sense that this hits so hard. Neurodivergent bonds can be wired **differently**—and that is **valid**.\n\nIf they were your **anchor** and your safe place, losing them can disrupt routines, regulation, and **masking**.\n\nIf you're able, pick one stabilizing thing right now (water, a blanket, a text to a trusted person). I'm here with you.",
+            "escalation": "MEDIUM",
             "mustContain": [],
             "mustNotContain": []
         },

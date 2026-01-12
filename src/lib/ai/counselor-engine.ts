@@ -216,6 +216,9 @@ export function detectDeathGrief(input: string): {
     lowerInput.includes('put to sleep') ||
     lowerInput.includes('euthaniz') ||
     lowerInput.includes('had to put') ||
+    lowerInput.includes('putting her down') ||
+    lowerInput.includes('putting him down') ||
+    lowerInput.includes('putting them down') ||
     (lowerInput.includes('put') && lowerInput.includes('down') &&
       (lowerInput.includes('dog') || lowerInput.includes('cat') || lowerInput.includes('pet'))) ||
     (lowerInput.includes('put') && lowerInput.includes('sleep') &&
@@ -385,8 +388,18 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
+  const death = detectDeathGrief(userInput);
+
   const mdd = detectMDD(userInput);
   if (mdd.detected) {
+    // Avoid misclassifying euthanasia self-judgment as MDD when it is better handled as grief support.
+    const euthanasiaSelfJudgmentOnly = death.isEuthanasia &&
+      mdd.markers.length === 1 &&
+      mdd.markers[0] === "i'm a terrible person";
+
+    if (euthanasiaSelfJudgmentOnly) {
+      // Fall through to death/euthanasia routing.
+    } else {
     return {
       response: TEMPLATES.mdd.response,
       analysis: {
@@ -396,6 +409,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
         detectedMarkers: mdd.markers
       }
     };
+    }
   }
 
   const paralysis = detectGriefParalysis(userInput);
@@ -424,7 +438,6 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const death = detectDeathGrief(userInput);
   if (death.detected) {
     if (death.isTraumatic) {
       return {
@@ -502,7 +515,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const emergency = detectEmergency(userInput);
   if (emergency.detected) {
     return {
-      response: TEMPLATES.emergency.response,
+      response: TEMPLATES.emergency_veterinary.response,
       analysis: {
         category: 'emergency',
         suicideRiskLevel: 'none',
@@ -515,7 +528,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const scam = detectScam(userInput);
   if (scam.detected) {
     return {
-      response: TEMPLATES.scam.response,
+      response: TEMPLATES.scam_alert.response,
       analysis: {
         category: 'scam',
         suicideRiskLevel: 'none',

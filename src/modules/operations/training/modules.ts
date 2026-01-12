@@ -9,7 +9,7 @@
 
 import type { TrainingModule, Assessment } from './types';
 import { MODULE_IDS } from './types';
-import type { RoleId } from '@/lib/roles/role-hierarchy';
+import type { RoleId } from '../roles';
 
 // ═══════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS

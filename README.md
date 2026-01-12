@@ -116,6 +116,16 @@ npm test -- --testPathPattern=county-pack
 npm test -- --testPathPattern=moderator-gating
 ```
 
+### E2E (Playwright)
+
+```bash
+# One-time browser install
+npm run e2e:install
+
+# Run E2E smoke suite
+npm run e2e
+```
+
 ## Pilot Counties
 
 - Greenbrier & Kanawha Counties
