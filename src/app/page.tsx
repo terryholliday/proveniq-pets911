@@ -81,6 +81,7 @@ export default function Pet911Home() {
             <a href="#preregister" className="hover:text-primary transition-colors">Pre-Register</a>
             <a href="#ecosystem" className="hover:text-primary transition-colors">Ecosystem</a>
             <a href="#compliance" className="hover:text-primary transition-colors">Trust</a>
+            <Link href="/advocacy" className="hover:text-amber-500 transition-colors text-amber-400">BARK Act</Link>
           </nav>
           <div className="flex items-center gap-4">
             {showHiddenLinks && (
@@ -93,11 +94,6 @@ export default function Pet911Home() {
             </Button>
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
               <Link href="/volunteer/apply">Volunteer Apply</Link>
-            </Button>
-            <Button variant="outline" size="sm" asChild className="hidden sm:flex">
-              <a href="https://lostpets911.org">
-                <Smartphone className="mr-2 h-4 w-4" /> Download App
-              </a>
             </Button>
             <Button size="sm" className="gradient-amber text-zinc-900 font-bold border-none hover:opacity-90 transition-opacity" asChild>
               <Link href="https://lostpets911.org">Launch App</Link>
