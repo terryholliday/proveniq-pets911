@@ -467,12 +467,3 @@ export interface UserProfile {
 
 // --- Volunteer/Helper Network ---
 export * from './volunteer';
-
-// --- Triage System (EMS-Aligned) ---
-export * from './triage';
-
-// --- Certification Tracks (pet911 Academy) ---
-export * from './certification-tracks';
-
-// --- Training Modules ---
-export * from './training-modules';
