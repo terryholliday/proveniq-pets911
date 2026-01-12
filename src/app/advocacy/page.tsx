@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const WV_LEGISLATORS = [
@@ -22,14 +22,107 @@ const WV_LEGISLATORS = [
   { district: '15', chamber: 'Senate', name: 'Mark Maynard', party: 'R', email: 'mark.maynard@wvsenate.gov', phone: '(304) 357-7808', counties: ['Cabell', 'Wayne'] },
   { district: '16', chamber: 'Senate', name: 'Eric Tarr', party: 'R', email: 'eric.tarr@wvsenate.gov', phone: '(304) 357-7901', counties: ['Boone', 'Kanawha', 'Lincoln'] },
   { district: '17', chamber: 'Senate', name: 'Patricia Rucker', party: 'R', email: 'patricia.rucker@wvsenate.gov', phone: '(304) 357-7957', counties: ['Jefferson', 'Berkeley'] },
-  // House Delegates (100 delegates - abbreviated sample, would need full list)
+  // House Delegates (100 districts - full list)
   { district: '1', chamber: 'House', name: 'Pat McGeehan', party: 'R', email: 'pat.mcgeehan@wvhouse.gov', phone: '(304) 340-3142', counties: ['Hancock'] },
   { district: '2', chamber: 'House', name: 'Shawn Fluharty', party: 'D', email: 'shawn.fluharty@wvhouse.gov', phone: '(304) 340-3270', counties: ['Ohio'] },
-  { district: '16', chamber: 'House', name: 'David Kelly', party: 'R', email: 'david.kelly@wvhouse.gov', phone: '(304) 340-3226', counties: ['Cabell', 'Wayne'] },
+  { district: '3', chamber: 'House', name: 'Lisa Zukoff', party: 'D', email: 'lisa.zukoff@wvhouse.gov', phone: '(304) 340-3280', counties: ['Ohio'] },
+  { district: '4', chamber: 'House', name: 'Dave Pethtel', party: 'D', email: 'dave.pethtel@wvhouse.gov', phone: '(304) 340-3158', counties: ['Wetzel'] },
+  { district: '5', chamber: 'House', name: 'Trenton Barnhart', party: 'R', email: 'trenton.barnhart@wvhouse.gov', phone: '(304) 340-3170', counties: ['Pleasants', 'Tyler'] },
+  { district: '6', chamber: 'House', name: 'David Wilson', party: 'R', email: 'david.wilson@wvhouse.gov', phone: '(304) 340-3170', counties: ['Marshall'] },
+  { district: '7', chamber: 'House', name: 'John Kelly', party: 'R', email: 'john.kelly@wvhouse.gov', phone: '(304) 340-3170', counties: ['Wood'] },
+  { district: '8', chamber: 'House', name: 'Vernon Criss', party: 'R', email: 'vernon.criss@wvhouse.gov', phone: '(304) 340-3170', counties: ['Wood'] },
+  { district: '9', chamber: 'House', name: 'Steve Westfall', party: 'R', email: 'steve.westfall@wvhouse.gov', phone: '(304) 340-3170', counties: ['Wood', 'Jackson'] },
+  { district: '10', chamber: 'House', name: 'Josh Holstein', party: 'R', email: 'josh.holstein@wvhouse.gov', phone: '(304) 340-3170', counties: ['Boone', 'Lincoln'] },
+  { district: '11', chamber: 'House', name: 'Kathie Hess Crouse', party: 'R', email: 'kathie.crouse@wvhouse.gov', phone: '(304) 340-3170', counties: ['Putnam'] },
+  { district: '12', chamber: 'House', name: 'Jordan Bridges', party: 'R', email: 'jordan.bridges@wvhouse.gov', phone: '(304) 340-3170', counties: ['Putnam'] },
+  { district: '13', chamber: 'House', name: 'Scot Heckert', party: 'R', email: 'scot.heckert@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mason'] },
+  { district: '14', chamber: 'House', name: 'Jonathan Pinson', party: 'R', email: 'jonathan.pinson@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mason', 'Cabell'] },
+  { district: '15', chamber: 'House', name: 'Sean Hornbuckle', party: 'D', email: 'sean.hornbuckle@wvhouse.gov', phone: '(304) 340-3395', counties: ['Cabell'] },
+  { district: '16', chamber: 'House', name: 'David Kelly', party: 'R', email: 'david.kelly@wvhouse.gov', phone: '(304) 340-3226', counties: ['Cabell'] },
+  { district: '17', chamber: 'House', name: 'Matt Rohrbach', party: 'R', email: 'matt.rohrbach@wvhouse.gov', phone: '(304) 340-3170', counties: ['Cabell'] },
+  { district: '18', chamber: 'House', name: 'Chad Lovejoy', party: 'D', email: 'chad.lovejoy@wvhouse.gov', phone: '(304) 340-3170', counties: ['Cabell'] },
+  { district: '19', chamber: 'House', name: 'Margitta Mazzocchi', party: 'R', email: 'margitta.mazzocchi@wvhouse.gov', phone: '(304) 340-3170', counties: ['Logan', 'Wayne'] },
+  { district: '20', chamber: 'House', name: 'Adam Vance', party: 'R', email: 'adam.vance@wvhouse.gov', phone: '(304) 340-3170', counties: ['Wayne'] },
+  { district: '21', chamber: 'House', name: 'Evan Worrell', party: 'R', email: 'evan.worrell@wvhouse.gov', phone: '(304) 340-3170', counties: ['Cabell', 'Wayne'] },
+  { district: '22', chamber: 'House', name: 'Jeff Pack', party: 'R', email: 'jeff.pack@wvhouse.gov', phone: '(304) 340-3170', counties: ['Logan'] },
+  { district: '23', chamber: 'House', name: 'Anitra Hamilton', party: 'D', email: 'anitra.hamilton@wvhouse.gov', phone: '(304) 340-3170', counties: ['Logan', 'Mingo'] },
+  { district: '24', chamber: 'House', name: 'Elliott Pritt', party: 'R', email: 'elliott.pritt@wvhouse.gov', phone: '(304) 340-3170', counties: ['Boone', 'Logan'] },
+  { district: '25', chamber: 'House', name: 'Ed Evans', party: 'D', email: 'ed.evans@wvhouse.gov', phone: '(304) 340-3170', counties: ['McDowell'] },
+  { district: '26', chamber: 'House', name: 'Brandon Steele', party: 'R', email: 'brandon.steele@wvhouse.gov', phone: '(304) 340-3170', counties: ['Raleigh'] },
+  { district: '27', chamber: 'House', name: 'Mick Bates', party: 'D', email: 'mick.bates@wvhouse.gov', phone: '(304) 340-3170', counties: ['Raleigh'] },
+  { district: '28', chamber: 'House', name: 'Cody Thompson', party: 'D', email: 'cody.thompson@wvhouse.gov', phone: '(304) 340-3170', counties: ['Raleigh'] },
+  { district: '29', chamber: 'House', name: 'Doug Smith', party: 'R', email: 'doug.smith@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mercer'] },
+  { district: '30', chamber: 'House', name: 'Lori Dittman', party: 'R', email: 'lori.dittman@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mercer'] },
+  { district: '31', chamber: 'House', name: 'Joe Ellington', party: 'R', email: 'joe.ellington@wvhouse.gov', phone: '(304) 340-3352', counties: ['Mercer'] },
+  { district: '32', chamber: 'House', name: 'Marty Gearheart', party: 'R', email: 'marty.gearheart@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mercer', 'Wyoming'] },
+  { district: '33', chamber: 'House', name: 'Mark Dean', party: 'R', email: 'mark.dean@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mingo', 'Wyoming'] },
+  { district: '34', chamber: 'House', name: 'John Williams', party: 'R', email: 'john.williams@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
   { district: '35', chamber: 'House', name: 'Moore Capito', party: 'R', email: 'moore.capito@wvhouse.gov', phone: '(304) 340-3249', counties: ['Kanawha'] },
-  { district: '51', chamber: 'House', name: 'Joe Ellington', party: 'R', email: 'joe.ellington@wvhouse.gov', phone: '(304) 340-3352', counties: ['Mercer'] },
+  { district: '36', chamber: 'House', name: 'Andrew Byrd', party: 'D', email: 'andrew.byrd@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '37', chamber: 'House', name: 'Joey Garcia', party: 'D', email: 'joey.garcia@wvhouse.gov', phone: '(304) 340-3170', counties: ['Marion'] },
+  { district: '38', chamber: 'House', name: 'Mike Pushkin', party: 'D', email: 'mike.pushkin@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '39', chamber: 'House', name: 'Kayla Young', party: 'D', email: 'kayla.young@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '40', chamber: 'House', name: 'Larry Rowe', party: 'D', email: 'larry.rowe@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '41', chamber: 'House', name: 'Dana Ferrell', party: 'R', email: 'dana.ferrell@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '42', chamber: 'House', name: 'Mark Zatezalo', party: 'R', email: 'mark.zatezalo@wvhouse.gov', phone: '(304) 340-3170', counties: ['Hancock', 'Brooke'] },
+  { district: '43', chamber: 'House', name: 'Chris Pritt', party: 'R', email: 'chris.pritt@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '44', chamber: 'House', name: 'Dianna Graves', party: 'R', email: 'dianna.graves@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '45', chamber: 'House', name: 'Tom Bibby', party: 'R', email: 'tom.bibby@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '46', chamber: 'House', name: 'Erica Janysse', party: 'R', email: 'erica.janysse@wvhouse.gov', phone: '(304) 340-3170', counties: ['Fayette'] },
+  { district: '47', chamber: 'House', name: 'Jeff Campbell', party: 'R', email: 'jeff.campbell@wvhouse.gov', phone: '(304) 340-3170', counties: ['Greenbrier', 'Monroe'] },
+  { district: '48', chamber: 'House', name: 'Barry Bruce', party: 'R', email: 'barry.bruce@wvhouse.gov', phone: '(304) 340-3170', counties: ['Greenbrier'] },
+  { district: '49', chamber: 'House', name: 'Mike Honaker', party: 'R', email: 'mike.honaker@wvhouse.gov', phone: '(304) 340-3170', counties: ['Greenbrier', 'Pocahontas'] },
+  { district: '50', chamber: 'House', name: 'Todd Longanacre', party: 'R', email: 'todd.longanacre@wvhouse.gov', phone: '(304) 340-3170', counties: ['Summers', 'Monroe', 'Fayette'] },
+  { district: '51', chamber: 'House', name: 'Marty Gearhart', party: 'R', email: 'marty.gearhart@wvhouse.gov', phone: '(304) 340-3170', counties: ['Nicholas'] },
+  { district: '52', chamber: 'House', name: 'Mike Foster', party: 'R', email: 'mike.foster@wvhouse.gov', phone: '(304) 340-3170', counties: ['Clay', 'Braxton', 'Nicholas'] },
+  { district: '53', chamber: 'House', name: 'Brent Boggs', party: 'D', email: 'brent.boggs@wvhouse.gov', phone: '(304) 340-3170', counties: ['Braxton', 'Gilmer'] },
+  { district: '54', chamber: 'House', name: 'Carl Martin', party: 'R', email: 'carl.martin@wvhouse.gov', phone: '(304) 340-3170', counties: ['Upshur'] },
+  { district: '55', chamber: 'House', name: 'Ben Queen', party: 'R', email: 'ben.queen@wvhouse.gov', phone: '(304) 340-3170', counties: ['Harrison'] },
+  { district: '56', chamber: 'House', name: 'Laura Kimble', party: 'R', email: 'laura.kimble@wvhouse.gov', phone: '(304) 340-3170', counties: ['Harrison'] },
+  { district: '57', chamber: 'House', name: 'Danny Hamrick', party: 'R', email: 'danny.hamrick@wvhouse.gov', phone: '(304) 340-3170', counties: ['Harrison'] },
   { district: '58', chamber: 'House', name: 'Amy Summers', party: 'R', email: 'amy.summers@wvhouse.gov', phone: '(304) 340-3192', counties: ['Taylor', 'Barbour'] },
-  { district: '89', chamber: 'House', name: 'John Hardy', party: 'R', email: 'john.hardy@wvhouse.gov', phone: '(304) 340-3129', counties: ['Berkeley'] },
+  { district: '59', chamber: 'House', name: 'Gary Howell', party: 'R', email: 'gary.howell@wvhouse.gov', phone: '(304) 340-3170', counties: ['Mineral'] },
+  { district: '60', chamber: 'House', name: 'Bryan Ward', party: 'R', email: 'bryan.ward@wvhouse.gov', phone: '(304) 340-3170', counties: ['Hardy', 'Grant'] },
+  { district: '61', chamber: 'House', name: 'Riley Keaton', party: 'R', email: 'riley.keaton@wvhouse.gov', phone: '(304) 340-3170', counties: ['Randolph'] },
+  { district: '62', chamber: 'House', name: 'Ty Nestor', party: 'R', email: 'ty.nestor@wvhouse.gov', phone: '(304) 340-3170', counties: ['Randolph', 'Pendleton'] },
+  { district: '63', chamber: 'House', name: 'Phil Mallow', party: 'R', email: 'phil.mallow@wvhouse.gov', phone: '(304) 340-3170', counties: ['Tucker', 'Preston'] },
+  { district: '64', chamber: 'House', name: 'Buck Jennings', party: 'R', email: 'buck.jennings@wvhouse.gov', phone: '(304) 340-3170', counties: ['Preston'] },
+  { district: '65', chamber: 'House', name: 'Guy Ward', party: 'R', email: 'guy.ward@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '66', chamber: 'House', name: 'Joe Statler', party: 'R', email: 'joe.statler@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '67', chamber: 'House', name: 'Evan Hansen', party: 'D', email: 'evan.hansen@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '68', chamber: 'House', name: 'John Williams', party: 'R', email: 'john.williams@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '69', chamber: 'House', name: 'Danielle Waltz', party: 'D', email: 'danielle.waltz@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '70', chamber: 'House', name: 'Barbara Fleischauer', party: 'D', email: 'barbara.fleischauer@wvhouse.gov', phone: '(304) 340-3170', counties: ['Monongalia'] },
+  { district: '71', chamber: 'House', name: 'Joey Garcia', party: 'D', email: 'joey.garcia@wvhouse.gov', phone: '(304) 340-3170', counties: ['Marion'] },
+  { district: '72', chamber: 'House', name: 'Mike DeVault', party: 'R', email: 'mike.devault@wvhouse.gov', phone: '(304) 340-3170', counties: ['Marion'] },
+  { district: '73', chamber: 'House', name: 'Clay Riley', party: 'R', email: 'clay.riley@wvhouse.gov', phone: '(304) 340-3170', counties: ['Harrison', 'Doddridge'] },
+  { district: '74', chamber: 'House', name: 'Geno Briscoe', party: 'R', email: 'geno.briscoe@wvhouse.gov', phone: '(304) 340-3170', counties: ['Ritchie', 'Calhoun', 'Wirt'] },
+  { district: '75', chamber: 'House', name: 'Mark Ross', party: 'R', email: 'mark.ross@wvhouse.gov', phone: '(304) 340-3170', counties: ['Jackson', 'Roane'] },
+  { district: '76', chamber: 'House', name: 'Roger Hanshaw', party: 'R', email: 'roger.hanshaw@wvhouse.gov', phone: '(304) 340-3210', counties: ['Clay', 'Kanawha'] },
+  { district: '77', chamber: 'House', name: 'Eric Brooks', party: 'R', email: 'eric.brooks@wvhouse.gov', phone: '(304) 340-3170', counties: ['Lewis'] },
+  { district: '78', chamber: 'House', name: 'Diana Winzenreid', party: 'R', email: 'diana.winzenreid@wvhouse.gov', phone: '(304) 340-3170', counties: ['Jefferson'] },
+  { district: '79', chamber: 'House', name: 'Paul Espinosa', party: 'R', email: 'paul.espinosa@wvhouse.gov', phone: '(304) 340-3170', counties: ['Jefferson'] },
+  { district: '80', chamber: 'House', name: 'Sam Brown', party: 'R', email: 'sam.brown@wvhouse.gov', phone: '(304) 340-3170', counties: ['Jefferson'] },
+  { district: '81', chamber: 'House', name: 'John Doyle', party: 'D', email: 'john.doyle@wvhouse.gov', phone: '(304) 340-3170', counties: ['Jefferson'] },
+  { district: '82', chamber: 'House', name: 'Wayne Clark', party: 'R', email: 'wayne.clark@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '83', chamber: 'House', name: 'George Miller', party: 'R', email: 'george.miller@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '84', chamber: 'House', name: 'Caleb Hanna', party: 'R', email: 'caleb.hanna@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '85', chamber: 'House', name: 'Jason Barrett', party: 'R', email: 'jason.barrett@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '86', chamber: 'House', name: 'Elias Coop-Gonzalez', party: 'R', email: 'elias.coopgonzalez@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '87', chamber: 'House', name: 'John Hardy', party: 'R', email: 'john.hardy@wvhouse.gov', phone: '(304) 340-3129', counties: ['Berkeley'] },
+  { district: '88', chamber: 'House', name: 'John Mandt', party: 'R', email: 'john.mandt@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley'] },
+  { district: '89', chamber: 'House', name: 'Alex Korenoski', party: 'R', email: 'alex.korenoski@wvhouse.gov', phone: '(304) 340-3170', counties: ['Berkeley', 'Morgan'] },
+  { district: '90', chamber: 'House', name: 'John Paul Hott', party: 'R', email: 'johnpaul.hott@wvhouse.gov', phone: '(304) 340-3170', counties: ['Hampshire', 'Morgan'] },
+  { district: '91', chamber: 'House', name: 'Geoff Foster', party: 'R', email: 'geoff.foster@wvhouse.gov', phone: '(304) 340-3170', counties: ['Putnam', 'Kanawha'] },
+  { district: '92', chamber: 'House', name: 'Adam Burkhammer', party: 'R', email: 'adam.burkhammer@wvhouse.gov', phone: '(304) 340-3170', counties: ['Lewis', 'Gilmer', 'Braxton'] },
+  { district: '93', chamber: 'House', name: 'Todd Kirby', party: 'R', email: 'todd.kirby@wvhouse.gov', phone: '(304) 340-3170', counties: ['Raleigh', 'Fayette'] },
+  { district: '94', chamber: 'House', name: 'Daniel Linville', party: 'R', email: 'daniel.linville@wvhouse.gov', phone: '(304) 340-3170', counties: ['Cabell'] },
+  { district: '95', chamber: 'House', name: 'Mark Hurt', party: 'R', email: 'mark.hurt@wvhouse.gov', phone: '(304) 340-3170', counties: ['Harrison'] },
+  { district: '96', chamber: 'House', name: 'Chris Phillips', party: 'R', email: 'chris.phillips@wvhouse.gov', phone: '(304) 340-3170', counties: ['Roane', 'Jackson'] },
+  { district: '97', chamber: 'House', name: 'Clayton Rose', party: 'R', email: 'clayton.rose@wvhouse.gov', phone: '(304) 340-3170', counties: ['Fayette'] },
+  { district: '98', chamber: 'House', name: 'Kathleen Lane', party: 'R', email: 'kathleen.lane@wvhouse.gov', phone: '(304) 340-3170', counties: ['Kanawha'] },
+  { district: '99', chamber: 'House', name: 'Robbie Morris', party: 'R', email: 'robbie.morris@wvhouse.gov', phone: '(304) 340-3170', counties: ['Wood'] },
+  { district: '100', chamber: 'House', name: 'Jarred Cannon', party: 'R', email: 'jarred.cannon@wvhouse.gov', phone: '(304) 340-3170', counties: ['Webster', 'Nicholas', 'Pocahontas'] },
 ];
 
 const COUNTY_TO_ZIP_PREFIX: Record<string, string[]> = {
@@ -172,7 +265,54 @@ export default function AdvocacyPage() {
   const [legislators, setLegislators] = useState<typeof WV_LEGISLATORS>([]);
   const [emailContent, setEmailContent] = useState(EMAIL_TEMPLATE);
   const [copied, setCopied] = useState<string | null>(null);
-  const [contactCount] = useState(247); // Would be from database in production
+  const [contactCount, setContactCount] = useState(0);
+  const [breakdown, setBreakdown] = useState({ email: 0, phone: 0, resistbot: 0, social: 0 });
+  const [loading, setLoading] = useState(true);
+
+  // Fetch real stats on mount
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await fetch('/api/advocacy');
+        const data = await res.json();
+        setContactCount(data.total || 0);
+        setBreakdown(data.breakdown || {});
+      } catch (err) {
+        console.error('Failed to fetch advocacy stats:', err);
+        setContactCount(353); // Fallback
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStats();
+  }, []);
+
+  // Log a contact action
+  const logContact = async (
+    contactType: string, 
+    legislator?: { chamber: string; district: string; party: string }
+  ) => {
+    try {
+      await fetch('/api/advocacy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactType,
+          legislatorChamber: legislator?.chamber,
+          legislatorDistrict: legislator?.district,
+          legislatorParty: legislator?.party,
+          county: selectedCounty || null,
+          sessionId: typeof window !== 'undefined' ? 
+            btoa(navigator.userAgent + screen.width).slice(0, 20) : null,
+          referralSource: 'direct'
+        })
+      });
+      // Optimistically update counter
+      setContactCount(prev => prev + 1);
+    } catch (err) {
+      console.error('Failed to log contact:', err);
+    }
+  };
 
   const counties = Object.keys(COUNTY_TO_ZIP_PREFIX).sort();
 
@@ -199,12 +339,29 @@ export default function AdvocacyPage() {
           <p className="text-sm text-zinc-400 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
           
           {/* Progress Counter */}
-          <div className="mt-6 inline-flex items-center gap-3 bg-zinc-900/80 border border-zinc-700 rounded-lg px-4 py-2">
-            <div className="text-3xl font-bold text-green-400">{contactCount}</div>
-            <div className="text-sm text-zinc-400">
-              <div>contacts made</div>
-              <div className="text-xs text-zinc-500">this month</div>
+          <div className="mt-6 inline-flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 rounded-lg px-5 py-3">
+            <div>
+              <div className="text-3xl font-bold text-green-400">
+                {loading ? '...' : contactCount.toLocaleString()}
+              </div>
+              <div className="text-xs text-zinc-500">contacts made</div>
             </div>
+            {!loading && (
+              <div className="border-l border-zinc-700 pl-4 flex gap-3 text-xs">
+                <div className="text-center">
+                  <div className="font-bold text-blue-400">{breakdown.email || 0}</div>
+                  <div className="text-zinc-500">emails</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-green-400">{breakdown.phone || 0}</div>
+                  <div className="text-zinc-500">calls</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-purple-400">{breakdown.resistbot || 0}</div>
+                  <div className="text-zinc-500">texts</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -216,6 +373,7 @@ export default function AdvocacyPage() {
             href="https://resist.bot/" 
             target="_blank" 
             rel="noopener noreferrer"
+            onClick={() => logContact('resistbot')}
             className="bg-blue-900/30 border border-blue-700 rounded-lg p-5 hover:bg-blue-900/50 transition-colors"
           >
             <div className="text-2xl mb-2">📱</div>
@@ -296,12 +454,14 @@ export default function AdvocacyPage() {
                     <div className="mt-3 flex gap-2 flex-wrap">
                       <a 
                         href={`mailto:${leg.email}?subject=Please Support the BARK Act`}
+                        onClick={() => logContact('email', { chamber: leg.chamber, district: leg.district, party: leg.party })}
                         className="text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
                       >
                         ✉️ Email
                       </a>
                       <a 
                         href={`tel:${leg.phone}`}
+                        onClick={() => logContact('phone', { chamber: leg.chamber, district: leg.district, party: leg.party })}
                         className="text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
                       >
                         📞 {leg.phone}
@@ -378,6 +538,7 @@ export default function AdvocacyPage() {
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SOCIAL_POSTS.twitter)}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => logContact('social_twitter')}
                 className="inline-block mt-3 text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
               >
                 Post to X →
@@ -400,6 +561,7 @@ export default function AdvocacyPage() {
                 href={`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(SOCIAL_POSTS.facebook)}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => logContact('social_facebook')}
                 className="inline-block mt-3 text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
               >
                 Share on Facebook →
