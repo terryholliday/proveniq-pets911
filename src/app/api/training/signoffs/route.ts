@@ -18,6 +18,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    type SupervisorSignoffRow = {
+      id: string;
+      user_id: string;
+      module_id: string;
+      status: string;
+      requested_at: string;
+      supervisor_id?: string | null;
+      reviewed_at?: string | null;
+      supervisor_notes?: string | null;
+      competency_rating?: number | null;
+    };
+
+    type TrainingModuleRow = {
+      id: string;
+      title?: string | null;
+      category?: string | null;
+      slug?: string | null;
+    };
+
     const { searchParams } = new URL(request.url);
     const role = searchParams.get('role');
     const moduleId = searchParams.get('moduleId');
@@ -42,52 +61,73 @@ export async function GET(request: NextRequest) {
       // Get pending signoffs
       const { data: pending } = await supabase
         .from('supervisor_signoffs')
-        .select(`
-          *,
-          user:auth.users!user_id(id, email, raw_user_meta_data),
-          module:training_modules!module_id(id, title, category)
-        `)
+        .select('*')
         .eq('status', 'pending')
         .order('requested_at', { ascending: true });
 
       // Get recently completed
       const { data: completed } = await supabase
         .from('supervisor_signoffs')
-        .select(`
-          *,
-          user:auth.users!user_id(id, email, raw_user_meta_data),
-          module:training_modules!module_id(id, title)
-        `)
+        .select('*')
         .eq('supervisor_id', userId)
         .neq('status', 'pending')
         .order('reviewed_at', { ascending: false })
         .limit(20);
 
-      const transformedPending = pending?.map(s => ({
-        id: s.id,
-        volunteerId: s.user_id,
-        volunteerName: s.user?.raw_user_meta_data?.name || s.user?.email || 'Unknown',
-        volunteerEmail: s.user?.email,
-        moduleId: s.module_id,
-        moduleTitle: s.module?.title || 'Unknown Module',
-        moduleCategory: s.module?.category || 'general',
-        quizScore: 0, // Fetch from progress
-        shadowingHours: 0, // Fetch from shadowing records
-        requestedAt: s.requested_at,
-        previousAttempts: 0,
-        notes: s.supervisor_notes,
-      })) || [];
+      const pendingRows = (pending as SupervisorSignoffRow[] | null) || [];
+      const completedRows = (completed as SupervisorSignoffRow[] | null) || [];
 
-      const transformedCompleted = completed?.map(s => ({
-        id: s.id,
-        volunteerId: s.user_id,
-        volunteerName: s.user?.raw_user_meta_data?.name || 'Unknown',
-        moduleTitle: s.module?.title || 'Unknown',
-        status: s.status,
-        competencyRating: s.competency_rating,
-        supervisorNotes: s.supervisor_notes,
-        reviewedAt: s.reviewed_at,
-      })) || [];
+      // Hydrate module titles/categories without using join syntax (avoids TS ParserError)
+      const moduleIds = Array.from(
+        new Set([
+          ...pendingRows.map((s) => s.module_id).filter(Boolean),
+          ...completedRows.map((s) => s.module_id).filter(Boolean),
+        ])
+      );
+
+      const moduleMap = new Map<string, TrainingModuleRow>();
+      if (moduleIds.length > 0) {
+        const { data: modules } = await supabase
+          .from('training_modules')
+          .select('id, title, category, slug')
+          .in('id', moduleIds);
+
+        (modules as TrainingModuleRow[] | null)?.forEach((m) => {
+          if (m?.id) moduleMap.set(m.id, m);
+        });
+      }
+
+      const transformedPending = pendingRows.map((s) => {
+        const m = moduleMap.get(s.module_id);
+        return {
+          id: s.id,
+          volunteerId: s.user_id,
+          volunteerName: 'Volunteer',
+          volunteerEmail: undefined as string | undefined,
+          moduleId: s.module_id,
+          moduleTitle: m?.title || 'Unknown Module',
+          moduleCategory: m?.category || 'general',
+          quizScore: 0,
+          shadowingHours: 0,
+          requestedAt: s.requested_at,
+          previousAttempts: 0,
+          notes: s.supervisor_notes,
+        };
+      });
+
+      const transformedCompleted = completedRows.map((s) => {
+        const m = moduleMap.get(s.module_id);
+        return {
+          id: s.id,
+          volunteerId: s.user_id,
+          volunteerName: 'Volunteer',
+          moduleTitle: m?.title || 'Unknown',
+          status: s.status,
+          competencyRating: s.competency_rating,
+          supervisorNotes: s.supervisor_notes,
+          reviewedAt: s.reviewed_at,
+        };
+      });
 
       return NextResponse.json({
         pending: transformedPending,
@@ -114,10 +154,7 @@ export async function GET(request: NextRequest) {
     // Get all user's signoffs
     const { data: signoffs } = await supabase
       .from('supervisor_signoffs')
-      .select(`
-        *,
-        module:training_modules!module_id(id, title, slug)
-      `)
+      .select('*')
       .eq('user_id', userId)
       .order('requested_at', { ascending: false });
 
