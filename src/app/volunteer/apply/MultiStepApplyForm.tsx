@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, ChevronLeft, ChevronRight, Loader2, Shield, Truck, Home, AlertTriangle } from "lucide-react";
+import { WV_COUNTIES, type WVCounty, ACTIVE_DISPATCH_COUNTIES, formatCountyName } from "@/lib/constants/counties";
+import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   userId: string;
   email: string | null;
 };
-
-type County = "GREENBRIER" | "KANAWHA";
 
 type RoleOption = {
   id: string;
@@ -55,7 +55,7 @@ type FormData = {
   selectedRole: string;
   displayName: string;
   phone: string;
-  primaryCounty: County | "";
+  primaryCounty: WVCounty | "";
   addressCity: string;
   addressZip: string;
   emergencyContactName: string;
@@ -114,6 +114,7 @@ const STEPS = [
 ];
 
 export default function MultiStepApplyForm({ userId, email }: Props) {
+  const supabase = useMemo(() => createClient(), []);
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
@@ -159,11 +160,19 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
     setError(null);
 
     try {
+      // Get the current session access token for authentication
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        throw new Error("Authentication required. Please sign in again.");
+      }
+
       const res = await fetch("/api/volunteer/apply", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
-          user_id: userId,
           email,
           display_name: form.displayName,
           phone: form.phone,
@@ -329,12 +338,19 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
                   <select
                     className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
                     value={form.primaryCounty}
-                    onChange={(e) => updateForm("primaryCounty", e.target.value as County)}
+                    onChange={(e) => updateForm("primaryCounty", e.target.value as WVCounty)}
                   >
                     <option value="">Select county…</option>
-                    <option value="GREENBRIER">Greenbrier County</option>
-                    <option value="KANAWHA">Kanawha County</option>
+                    {WV_COUNTIES.map((county) => (
+                      <option key={county} value={county}>
+                        {formatCountyName(county)} County
+                        {ACTIVE_DISPATCH_COUNTIES.includes(county) ? " ★" : ""}
+                      </option>
+                    ))}
                   </select>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    ★ = Active dispatch area
+                  </div>
                 </label>
 
                 <label className="space-y-1">

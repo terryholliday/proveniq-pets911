@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { WV_COUNTIES } from '@/lib/constants/counties';
 
 export const runtime = 'nodejs';
 
@@ -54,16 +55,28 @@ async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
 
 export async function POST(req: NextRequest) {
   try {
+    // SECURITY: Require authentication and derive user_id from token
+    const authenticatedUserId = await getUserIdFromRequest(req);
+    if (!authenticatedUserId) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
     const body = (await req.json()) as ApplicationPayload;
 
-    if (!body.user_id || !body.display_name || !body.phone || !body.primary_county) {
+    // SECURITY: Ignore client-provided user_id - use authenticated user_id instead
+    const user_id = authenticatedUserId;
+
+    if (!body.display_name || !body.phone || !body.primary_county) {
       return NextResponse.json(
         { success: false, error: { code: 'VALIDATION_ERROR', message: 'Missing required fields' } },
         { status: 400 }
       );
     }
 
-    if (!['GREENBRIER', 'KANAWHA'].includes(body.primary_county)) {
+    if (!WV_COUNTIES.includes(body.primary_county as typeof WV_COUNTIES[number])) {
       return NextResponse.json(
         { success: false, error: { code: 'VALIDATION_ERROR', message: 'Invalid county' } },
         { status: 400 }
@@ -78,7 +91,7 @@ export async function POST(req: NextRequest) {
     const { data: existing } = await adminDb
       .from('volunteers')
       .select('id, status')
-      .eq('user_id', body.user_id)
+      .eq('user_id', user_id)
       .maybeSingle();
 
     if (existing) {
@@ -105,7 +118,7 @@ export async function POST(req: NextRequest) {
           max_response_radius_miles: body.max_response_radius_miles ?? 15,
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', body.user_id);
+        .eq('user_id', user_id);
 
       if (updateError) {
         console.error('Volunteer update error:', updateError);
@@ -119,7 +132,7 @@ export async function POST(req: NextRequest) {
         volunteer_id: existing.id,
         action: 'APPLICATION_UPDATED',
         reason: 'Volunteer updated their application',
-        performed_by: body.user_id,
+        performed_by: user_id,
       });
 
       return NextResponse.json({ success: true, data: { id: existing.id, updated: true } });
@@ -128,7 +141,7 @@ export async function POST(req: NextRequest) {
     const { data: inserted, error: insertError } = await adminDb
       .from('volunteers')
       .insert({
-        user_id: body.user_id,
+        user_id: user_id,
         status: 'INACTIVE',
         display_name: body.display_name,
         phone: body.phone,
@@ -171,7 +184,7 @@ export async function POST(req: NextRequest) {
             motivation: body.application_meta.why_volunteer,
           })
         : 'New volunteer application submitted',
-      performed_by: body.user_id,
+      performed_by: user_id,
     });
 
     return NextResponse.json({ success: true, data: { id: inserted.id, created: true } });
