@@ -313,18 +313,13 @@ export default function AdvocacyPage() {
             </p>
           </a>
           
-          <a 
-            href="https://callyourrep.co/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-green-900/30 border border-green-700 rounded-lg p-5 hover:bg-green-900/50 transition-colors"
-          >
+          <div className="bg-green-900/30 border border-green-700 rounded-lg p-5">
             <div className="text-2xl mb-2">📞</div>
             <div className="font-semibold text-green-300">Call Your Rep</div>
             <p className="text-xs text-zinc-400 mt-1">
-              One-click calling to your legislators. Use our phone script below for talking points.
+              Find your legislator below, then use our phone script to call them directly.
             </p>
-          </a>
+          </div>
           
           <a 
             href="https://countable.us/" 
