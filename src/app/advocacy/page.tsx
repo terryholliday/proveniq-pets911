@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 const WV_LEGISLATORS = [
@@ -265,54 +265,6 @@ export default function AdvocacyPage() {
   const [legislators, setLegislators] = useState<typeof WV_LEGISLATORS>([]);
   const [emailContent, setEmailContent] = useState(EMAIL_TEMPLATE);
   const [copied, setCopied] = useState<string | null>(null);
-  const [contactCount, setContactCount] = useState(0);
-  const [breakdown, setBreakdown] = useState({ email: 0, phone: 0, resistbot: 0, social: 0 });
-  const [loading, setLoading] = useState(true);
-
-  // Fetch real stats on mount
-  useEffect(() => {
-    async function fetchStats() {
-      try {
-        const res = await fetch('/api/advocacy');
-        const data = await res.json();
-        setContactCount(data.total || 0);
-        setBreakdown(data.breakdown || {});
-      } catch (err) {
-        console.error('Failed to fetch advocacy stats:', err);
-        setContactCount(353); // Fallback
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchStats();
-  }, []);
-
-  // Log a contact action
-  const logContact = async (
-    contactType: string, 
-    legislator?: { chamber: string; district: string; party: string }
-  ) => {
-    try {
-      await fetch('/api/advocacy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contactType,
-          legislatorChamber: legislator?.chamber,
-          legislatorDistrict: legislator?.district,
-          legislatorParty: legislator?.party,
-          county: selectedCounty || null,
-          sessionId: typeof window !== 'undefined' ? 
-            btoa(navigator.userAgent + screen.width).slice(0, 20) : null,
-          referralSource: 'direct'
-        })
-      });
-      // Optimistically update counter
-      setContactCount(prev => prev + 1);
-    } catch (err) {
-      console.error('Failed to log contact:', err);
-    }
-  };
 
   const counties = Object.keys(COUNTY_TO_ZIP_PREFIX).sort();
 
@@ -338,30 +290,9 @@ export default function AdvocacyPage() {
           <p className="text-xl text-zinc-300 mt-2">Support the BARK Act for West Virginia</p>
           <p className="text-sm text-zinc-400 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
           
-          {/* Progress Counter */}
-          <div className="mt-6 inline-flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 rounded-lg px-5 py-3">
-            <div>
-              <div className="text-3xl font-bold text-green-400">
-                {loading ? '...' : contactCount.toLocaleString()}
-              </div>
-              <div className="text-xs text-zinc-500">contacts made</div>
-            </div>
-            {!loading && (
-              <div className="border-l border-zinc-700 pl-4 flex gap-3 text-xs">
-                <div className="text-center">
-                  <div className="font-bold text-blue-400">{breakdown.email || 0}</div>
-                  <div className="text-zinc-500">emails</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-bold text-green-400">{breakdown.phone || 0}</div>
-                  <div className="text-zinc-500">calls</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-bold text-purple-400">{breakdown.resistbot || 0}</div>
-                  <div className="text-zinc-500">texts</div>
-                </div>
-              </div>
-            )}
+          {/* Call to Action - no fake stats */}
+          <div className="mt-6 text-sm text-zinc-400">
+            <p>Your voice matters. Contact your legislators today.</p>
           </div>
         </div>
       </div>
@@ -373,13 +304,12 @@ export default function AdvocacyPage() {
             href="https://resist.bot/" 
             target="_blank" 
             rel="noopener noreferrer"
-            onClick={() => logContact('resistbot')}
             className="bg-blue-900/30 border border-blue-700 rounded-lg p-5 hover:bg-blue-900/50 transition-colors"
           >
             <div className="text-2xl mb-2">📱</div>
-            <div className="font-semibold text-blue-300">Text RESIST to 50409</div>
+            <div className="font-semibold text-blue-300">Resistbot</div>
             <p className="text-xs text-zinc-400 mt-1">
-              Resistbot will help you send a letter to your legislators via text message. Just text "BARK Act" after connecting.
+              Third-party service. Text RESIST to 50409, then compose your own message about the BARK Act using our template below.
             </p>
           </a>
           
@@ -454,14 +384,12 @@ export default function AdvocacyPage() {
                     <div className="mt-3 flex gap-2 flex-wrap">
                       <a 
                         href={`mailto:${leg.email}?subject=Please Support the BARK Act`}
-                        onClick={() => logContact('email', { chamber: leg.chamber, district: leg.district, party: leg.party })}
                         className="text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
                       >
                         ✉️ Email
                       </a>
                       <a 
                         href={`tel:${leg.phone}`}
-                        onClick={() => logContact('phone', { chamber: leg.chamber, district: leg.district, party: leg.party })}
                         className="text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
                       >
                         📞 {leg.phone}
@@ -538,7 +466,6 @@ export default function AdvocacyPage() {
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SOCIAL_POSTS.twitter)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => logContact('social_twitter')}
                 className="inline-block mt-3 text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
               >
                 Post to X →
@@ -561,7 +488,6 @@ export default function AdvocacyPage() {
                 href={`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(SOCIAL_POSTS.facebook)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => logContact('social_facebook')}
                 className="inline-block mt-3 text-xs bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded"
               >
                 Share on Facebook →
