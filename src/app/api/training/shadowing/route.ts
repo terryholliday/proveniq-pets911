@@ -24,11 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('shadowing_records')
-      .select(`
-        *,
-        mentor:auth.users!mentor_id(id, raw_user_meta_data),
-        module:training_modules!module_id(id, title, slug)
-      `)
+      .select('*')
       .eq('user_id', userId)
       .order('session_date', { ascending: false });
 
@@ -42,14 +38,32 @@ export async function GET(request: NextRequest) {
       throw error;
     }
 
+    // Type for shadowing records
+    type ShadowingRecord = {
+      id: string;
+      module_id: string;
+      mentor_id?: string;
+      mentor_email?: string;
+      session_date: string;
+      hours: string;
+      activity_type?: string;
+      activity_description?: string;
+      location?: string;
+      verified: boolean;
+      verified_at?: string;
+      mentor_notes?: string;
+      mentor_rating?: number;
+      created_at: string;
+    };
+
     // Transform to match frontend types
-    const transformedRecords = records?.map(record => ({
+    const transformedRecords = (records as ShadowingRecord[] | null)?.map(record => ({
       id: record.id,
       moduleId: record.module_id,
-      moduleTitle: record.module?.title || 'Unknown Module',
+      moduleTitle: 'Training Module',
       mentorId: record.mentor_id,
-      mentorName: record.mentor?.raw_user_meta_data?.name || 'Unknown Mentor',
-      mentorEmail: record.mentor?.raw_user_meta_data?.email,
+      mentorName: record.mentor_email || 'Unknown Mentor',
+      mentorEmail: record.mentor_email,
       sessionDate: record.session_date,
       hours: parseFloat(record.hours),
       activityType: record.activity_type,
