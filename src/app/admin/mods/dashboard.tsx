@@ -341,6 +341,11 @@ export default function ModeratorConsoleDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/admin/sysop/compliance" target="_blank">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-purple-700">
+                📋 WV Laws
+              </Button>
+            </Link>
             <Badge variant="outline" className="text-white border-white">
               {networkState}
             </Badge>
