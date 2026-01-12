@@ -8,11 +8,11 @@ import { progressService } from '@/lib/training/progress-service';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const supabase = createRouteHandlerClient({ cookies });
-    const slug = params.slug;
+    const { slug } = await params;
 
     // Get authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser();

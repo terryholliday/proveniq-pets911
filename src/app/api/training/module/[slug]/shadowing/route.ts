@@ -13,7 +13,7 @@ const supabase = createClient(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const userId = request.headers.get('x-user-id');
@@ -21,7 +21,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { slug } = params;
+    const { slug } = await params;
 
     // Get module info
     const { data: module, error: moduleError } = await supabase

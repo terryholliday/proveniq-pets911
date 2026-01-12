@@ -6,10 +6,10 @@ import { certificateService } from '@/lib/training/certificate-service';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { hash: string } }
+  { params }: { params: Promise<{ hash: string }> }
 ) {
   try {
-    const hash = params.hash;
+    const { hash } = await params;
 
     if (!hash || hash.length < 16) {
       return NextResponse.json(
