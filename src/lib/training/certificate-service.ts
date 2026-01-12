@@ -28,10 +28,14 @@ export class CertificateService {
    * Generate a PDF certificate
    */
   async generateCertificatePDF(certificationId: string): Promise<Buffer> {
-    // 1. Get certification record
+    // 1. Get certification with related data
     const { data: cert, error } = await supabase
       .from('volunteer_certifications')
-      .select('*')
+      .select(`
+        *,
+        module:training_modules(*),
+        user:auth.users(raw_user_meta_data)
+      `)
       .eq('id', certificationId)
       .single();
 
@@ -39,53 +43,32 @@ export class CertificateService {
       throw new Error('Certification not found');
     }
 
-    type CertRow = {
-      id: string;
-      user_id: string;
-      module_id: string;
-      certificate_number: string;
-      title: string;
-      issued_at: string;
-      expires_at?: string | null;
-      final_score?: number | null;
-      verification_hash: string;
-    };
-
-    const certRow = cert as CertRow;
-
     // 2. Get user profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('full_name, email')
-      .eq('id', certRow.user_id)
+      .eq('id', cert.user_id)
       .single();
 
-    // 3. Get module info
-    const { data: module } = await supabase
-      .from('training_modules')
-      .select('track')
-      .eq('id', certRow.module_id)
-      .single();
+    const holderName = profile?.full_name || cert.user?.raw_user_meta_data?.full_name || 'Volunteer';
 
-    const holderName = profile?.full_name || 'Volunteer';
-
-    // 4. Prepare certificate data
+    // 3. Prepare certificate data
     const certData: CertificateData = {
-      certificateNumber: certRow.certificate_number,
+      certificateNumber: cert.certificate_number,
       holderName,
-      title: certRow.title,
-      track: (module as { track?: string } | null)?.track || 'all',
-      issuedAt: new Date(certRow.issued_at),
-      expiresAt: certRow.expires_at ? new Date(certRow.expires_at) : undefined,
-      finalScore: certRow.final_score ?? undefined,
-      verificationHash: certRow.verification_hash,
+      title: cert.title,
+      track: cert.module?.track || 'all',
+      issuedAt: new Date(cert.issued_at),
+      expiresAt: cert.expires_at ? new Date(cert.expires_at) : undefined,
+      finalScore: cert.final_score,
+      verificationHash: cert.verification_hash,
     };
 
-    // 5. Generate PDF
+    // 4. Generate PDF
     const pdfBytes = await this.createPDF(certData);
 
-    // 6. Upload to storage and update record
-    const fileName = `certificates/${certRow.user_id}/${certRow.id}.pdf`;
+    // 5. Upload to storage and update record
+    const fileName = `certificates/${cert.user_id}/${cert.id}.pdf`;
     const { error: uploadError } = await supabase.storage
       .from('training')
       .upload(fileName, pdfBytes, {

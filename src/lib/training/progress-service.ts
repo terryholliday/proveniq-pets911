@@ -284,10 +284,7 @@ export class ProgressService {
   async getUserProgress(userId: string): Promise<UserProgress[]> {
     const { data, error } = await supabase
       .from('training_user_progress')
-      .select(`
-        *,
-        module:training_modules(*)
-      `)
+      .select('*')
       .eq('user_id', userId);
 
     if (error) {
@@ -311,8 +308,11 @@ export class ProgressService {
     // Get progress counts
     const { data: progress } = await supabase
       .from('training_user_progress')
-      .select('status, module:training_modules(estimated_minutes)')
+      .select('status, module_id')
       .eq('user_id', userId);
+
+    type ProgressRow = { status: string; module_id: string };
+    const progressRows = (progress as ProgressRow[] | null) || [];
 
     // Get certification counts
     const { data: certs } = await supabase
@@ -324,18 +324,28 @@ export class ProgressService {
     const thirtyDaysFromNow = new Date();
     thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
-    const completedProgress = progress?.filter(p => p.status === 'completed') || [];
-    const inProgressProgress = progress?.filter(p => 
+    const completedProgress = progressRows.filter(p => p.status === 'completed');
+    const inProgressProgress = progressRows.filter(p => 
       p.status === 'in_progress' || p.status === 'content_complete' || p.status === 'quiz_pending'
-    ) || [];
-
-    const totalMinutes = completedProgress.reduce(
-      (sum, p) => sum + (p.module?.estimated_minutes || 0), 
-      0
     );
 
+    // Fetch module durations for completed modules
+    const completedModuleIds = completedProgress.map(p => p.module_id).filter(Boolean);
+    let totalMinutes = 0;
+    if (completedModuleIds.length > 0) {
+      const { data: modules } = await supabase
+        .from('training_modules')
+        .select('estimated_minutes')
+        .in('id', completedModuleIds);
+      
+      totalMinutes = (modules as { estimated_minutes?: number }[] | null)?.reduce(
+        (sum, m) => sum + (m.estimated_minutes || 0),
+        0
+      ) || 0;
+    }
+
     return {
-      totalModules: progress?.length || 0,
+      totalModules: progressRows.length,
       completedModules: completedProgress.length,
       inProgressModules: inProgressProgress.length,
       totalHours: Math.round(totalMinutes / 60 * 10) / 10,
