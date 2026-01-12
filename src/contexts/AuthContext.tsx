@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 
@@ -17,28 +17,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      const session = data.session;
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    let subscription: { unsubscribe: () => void } | null = null;
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    try {
+      const supabase = createClient();
+      supabaseRef.current = supabase;
 
-    return () => subscription.unsubscribe();
+      supabase.auth.getSession().then(({ data }) => {
+        const session = data.session;
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
+
+      const {
+        data: { subscription: sub },
+      } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      });
+
+      subscription = sub;
+    } catch {
+      // If Supabase env vars are missing (e.g., misconfigured deployment), fail "logged out"
+      setSession(null);
+      setUser(null);
+      setLoading(false);
+    }
+
+    return () => subscription?.unsubscribe();
   }, []);
 
   const signOut = async () => {
+    const supabase = supabaseRef.current;
+    if (!supabase) return;
     await supabase.auth.signOut();
   };
 

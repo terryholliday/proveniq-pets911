@@ -1,16 +1,26 @@
 import { createBrowserClient, createServerClient as createSupabaseServerClient } from '@supabase/ssr';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+function getSupabaseEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !anonKey) {
+    throw new Error('@supabase/ssr: Your project\'s URL and API key are required to create a Supabase client!');
+  }
+
+  return { url, anonKey };
+}
 
 export const createClient = () => {
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  const { url, anonKey } = getSupabaseEnv();
+  return createBrowserClient(url, anonKey);
 };
 
 export const createServerClient = (cookieStore: any) => {
+  const { url, anonKey } = getSupabaseEnv();
   return createSupabaseServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
+    url,
+    anonKey,
     {
       cookies: {
         get(name: string) {
@@ -34,5 +44,6 @@ export const createServerClient = (cookieStore: any) => {
 };
 
 export const createClientForAPI = () => {
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  const { url, anonKey } = getSupabaseEnv();
+  return createBrowserClient(url, anonKey);
 };

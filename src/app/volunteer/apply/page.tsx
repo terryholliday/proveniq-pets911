@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/client';
-import ApplyForm from './ApplyForm';
+import MultiStepApplyForm from './MultiStepApplyForm';
 
 export default async function VolunteerApplyPage() {
   const cookieStore = await cookies();
@@ -11,25 +11,29 @@ export default async function VolunteerApplyPage() {
   const session = data.session;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl rounded-xl border border-border bg-card p-6">
-        <h1 className="text-2xl font-bold">Volunteer Application</h1>
+    <div className="min-h-screen py-12 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold">Volunteer Application</h1>
+          <p className="text-muted-foreground mt-2">
+            Join Pet911 and help save lives in your community
+          </p>
+        </div>
+
         {!session ? (
-          <div className="mt-6 space-y-3">
+          <div className="max-w-md mx-auto rounded-xl border border-border bg-card p-6 text-center space-y-4">
             <p className="text-sm text-muted-foreground">
               Sign in to start or continue your volunteer application.
             </p>
             <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground"
               href={'/login?redirectTo=' + encodeURIComponent('/volunteer/apply')}
             >
-              Sign in
+              Sign in to Apply
             </Link>
           </div>
         ) : (
-          <div className="mt-6">
-            <ApplyForm userId={session.user.id} email={session.user.email ?? null} />
-          </div>
+          <MultiStepApplyForm userId={session.user.id} email={session.user.email ?? null} />
         )}
       </div>
     </div>

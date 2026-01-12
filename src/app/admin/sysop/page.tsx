@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/client';
 
 export default async function SysopPage() {
@@ -26,14 +27,47 @@ export default async function SysopPage() {
     redirect('/unauthorized?reason=sysop_required');
   }
 
+  const { count: pendingCount } = await supabase
+    .from('volunteers')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'INACTIVE');
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 p-6">
-      <div className="max-w-4xl mx-auto space-y-4">
-        <h1 className="text-2xl font-semibold">SYSOP</h1>
-        <p className="text-zinc-400 text-sm">Signed in as {volunteer?.display_name || session.user.email}</p>
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold">SYSOP Dashboard</h1>
+          <p className="text-zinc-400 text-sm">Signed in as {volunteer?.display_name || session.user.email}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Link
+            href="/admin/sysop/applications"
+            className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-zinc-700 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-medium">Volunteer Applications</div>
+              {(pendingCount ?? 0) > 0 && (
+                <span className="bg-yellow-600 text-yellow-100 text-xs font-medium px-2 py-0.5 rounded-full">
+                  {pendingCount} pending
+                </span>
+              )}
+            </div>
+            <div className="text-sm text-zinc-400 mt-1">Review and approve new volunteer applications</div>
+          </Link>
+
+          <Link
+            href="/admin/mods/dispatch"
+            className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-zinc-700 transition-colors"
+          >
+            <div className="text-sm font-medium">Dispatch Queue</div>
+            <div className="text-sm text-zinc-400 mt-1">Manage active dispatch requests</div>
+          </Link>
+        </div>
+
         <div className="border border-zinc-800 rounded-lg bg-zinc-900/30 p-4">
-          <div className="text-sm font-medium mb-2">Admin hub</div>
-          <div className="text-sm text-zinc-400">This dashboard is intentionally minimal for now.</div>
+          <div className="text-sm font-medium mb-2">System Status</div>
+          <div className="text-sm text-zinc-400">All systems operational</div>
         </div>
       </div>
     </div>

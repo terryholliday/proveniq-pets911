@@ -28,6 +28,8 @@ npm run e2e:install
 npm run e2e
 ```
 
+See `docs/testing/TESTING_STRATEGY.md` for moderator/sysop dispatch testing and stress testing guidance.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
