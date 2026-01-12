@@ -74,14 +74,13 @@ export default function Pet911Home() {
             />
             <span className="text-xl font-bold tracking-tight">Pet911</span>
           </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
             <a href="#crisis" className="hover:text-primary transition-colors">The Crisis</a>
             <a href="#protocol" className="hover:text-primary transition-colors">The Protocol</a>
             <a href="#features" className="hover:text-primary transition-colors">Capabilities</a>
             <a href="#preregister" className="hover:text-primary transition-colors">Pre-Register</a>
             <a href="#ecosystem" className="hover:text-primary transition-colors">Ecosystem</a>
             <a href="#compliance" className="hover:text-primary transition-colors">Trust</a>
-            <Link href="/advocacy" className="hover:text-amber-500 transition-colors text-amber-400">🐕 BARK Act</Link>
           </nav>
           <div className="flex items-center gap-4">
             {showHiddenLinks && (
@@ -1087,6 +1086,7 @@ export default function Pet911Home() {
               <a href="#" className="hover:text-white transition-colors">Canonical Law</a>
             </div>
             <div className="flex justify-center gap-8 border-t border-zinc-800 pt-4">
+              <Link href="/advocacy" className="hover:text-amber-400 transition-colors">🐕 BARK Act</Link>
               <Link href="/training" className="hover:text-white transition-colors">Training Center</Link>
               <Link href="/admin/mods" className="hover:text-white transition-colors">Moderator Access</Link>
               <Link href="/admin/sysop" className="hover:text-white transition-colors">SYSOP Admin</Link>
