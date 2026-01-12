@@ -62,7 +62,7 @@ export async function GET(
     }
 
     // Get shadowing records if required
-    let shadowingRecords = [];
+    let shadowingRecords: { date: Date; hours: number; mentorName: string; verified: boolean }[] = [];
     if (module.requires_shadowing) {
       const { data: records } = await supabase
         .from('shadowing_records')
@@ -74,7 +74,7 @@ export async function GET(
         .eq('module_id', module.id)
         .order('session_date', { ascending: false });
 
-      shadowingRecords = records?.map(r => ({
+      shadowingRecords = records?.map((r: { session_date: string; hours: number; mentor?: { raw_user_meta_data?: { full_name?: string } }; verified: boolean }) => ({
         date: new Date(r.session_date),
         hours: r.hours,
         mentorName: r.mentor?.raw_user_meta_data?.full_name || 'Unknown',
