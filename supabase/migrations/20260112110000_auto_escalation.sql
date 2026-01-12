@@ -288,7 +288,8 @@ $$ LANGUAGE plpgsql;
 -- INDEXES FOR PERFORMANCE
 -- ============================================================================
 
-CREATE INDEX IF NOT EXISTS idx_dispatch_unassigned ON dispatch_requests(assigned_to, status, created_at) WHERE assigned_to IS NULL AND status = 'pending';
-CREATE INDEX IF NOT EXISTS idx_posts_image_hash ON posts(image_hash, created_at) WHERE image_hash IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_donations_pattern ON donations(donor_email, amount, created_at) WHERE amount > 1000;
+CREATE INDEX IF NOT EXISTS idx_dispatch_status_created ON dispatch_requests(status, created_at) WHERE status = 'pending';
+-- Note: posts and donations tables may not exist in this schema yet
+-- CREATE INDEX IF NOT EXISTS idx_posts_image_hash ON posts(image_hash, created_at) WHERE image_hash IS NOT NULL;
+-- CREATE INDEX IF NOT EXISTS idx_donations_pattern ON donations(donor_email, amount, created_at) WHERE amount > 1000;
 CREATE INDEX IF NOT EXISTS idx_metrics_response_time ON dispatch_metrics(response_time_seconds, created_at) WHERE response_time_seconds IS NOT NULL;
