@@ -20,7 +20,24 @@ export * from './triage';
 export * from './certification-tracks';
 
 // --- Training Modules ---
-export * from './training-modules';
+export type {
+  TrainingModule as AcademyTrainingModule,
+  TrainingLesson,
+  SimulationScenario,
+} from './training-modules';
+export {
+  MODERATOR_MODULES,
+  TRANSPORT_MODULES,
+  FOSTER_MODULES,
+  TRAPPER_MODULES,
+  SIMULATION_SCENARIOS,
+  ALL_TRAINING_MODULES,
+  getModulesByTrack,
+  getModulesByTier,
+  getModuleById,
+  getModuleByCode,
+  getPrerequisiteChain,
+} from './training-modules';
 
 // --- Training System (Claude's Implementation) ---
 export * from './training-system';
