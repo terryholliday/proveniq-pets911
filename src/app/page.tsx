@@ -81,6 +81,7 @@ export default function Pet911Home() {
             <a href="#preregister" className="hover:text-primary transition-colors">Pre-Register</a>
             <a href="#ecosystem" className="hover:text-primary transition-colors">Ecosystem</a>
             <a href="#compliance" className="hover:text-primary transition-colors">Trust</a>
+            <Link href="/advocacy" className="hover:text-amber-500 transition-colors text-amber-400">🐕 BARK Act</Link>
           </nav>
           <div className="flex items-center gap-4">
             {showHiddenLinks && (

@@ -219,6 +219,11 @@ export default async function SysopPage() {
         <div>
           <h2 className="text-lg font-semibold text-zinc-300 mb-3">⚙️ Configuration</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/admin/sysop/compliance" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">📋 Compliance & Resources</div>
+              <div className="text-xs text-zinc-500 mt-1">WV laws, shelters & rescue directory</div>
+            </Link>
+
             <Link href="/admin/sysop/counties" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
               <div className="text-sm font-medium">🏛️ Counties & Regions</div>
               <div className="text-xs text-zinc-500 mt-1">Manage service areas, shelter partners</div>
