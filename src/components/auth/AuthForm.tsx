@@ -7,6 +7,24 @@ import { Heart, Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 
+function getSafeRedirectPath(redirectTo: string | null): string {
+  if (!redirectTo) return '/register';
+  
+  // Only allow relative paths starting with /
+  // Reject absolute URLs, protocol-relative URLs, and javascript: URIs
+  const trimmed = redirectTo.trim();
+  if (
+    !trimmed.startsWith('/') ||
+    trimmed.startsWith('//') ||
+    trimmed.toLowerCase().startsWith('/\\') ||
+    /^\/[a-z]+:/i.test(trimmed)
+  ) {
+    return '/register';
+  }
+  
+  return trimmed;
+}
+
 export function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
@@ -18,9 +36,9 @@ export function AuthForm() {
   const router = useRouter();
   const supabase = createClient();
   
-  // Get redirectTo from URL params
+  // Get redirectTo from URL params - validated to prevent open redirect
   const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-  const redirectTo = searchParams?.get('redirectTo') || '/register';
+  const redirectTo = getSafeRedirectPath(searchParams?.get('redirectTo') ?? null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
