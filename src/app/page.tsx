@@ -1083,7 +1083,7 @@ export default function Pet911Home() {
             </div>
             <div className="flex justify-center gap-8 border-t border-zinc-800 pt-4">
               <Link href="/advocacy" className="hover:text-amber-400 transition-colors">🐕 B.A.R.K. Act</Link>
-              <Link href="/training" className="hover:text-white transition-colors">Training Center</Link>
+              <Link href="/volunteer/apply" className="hover:text-white transition-colors">Volunteer</Link>
               <Link href="/admin/mods" className="hover:text-white transition-colors">Moderator Access</Link>
               <Link href="/admin/sysop" className="hover:text-white transition-colors">SYSOP Admin</Link>
             </div>

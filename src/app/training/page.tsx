@@ -62,14 +62,19 @@ const ROLE_TRAINING_PATHS = {
 } as const;
 
 export default function SimpleTrainingPage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [userCapabilities, setUserCapabilities] = useState<VolunteerCapability[]>([]);
   const [completedModules, setCompletedModules] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [volunteerStatus, setVolunteerStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (authLoading) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const fetchUserData = async () => {
       try {
@@ -88,6 +93,20 @@ export default function SimpleTrainingPage() {
           return;
         }
 
+        // Check if volunteer exists and is approved
+        if (!volunteer) {
+          setVolunteerStatus('not_registered');
+          setLoading(false);
+          return;
+        }
+
+        if (volunteer.status !== 'ACTIVE' && volunteer.status !== 'APPROVED') {
+          setVolunteerStatus(volunteer.status || 'pending');
+          setLoading(false);
+          return;
+        }
+
+        setVolunteerStatus('approved');
         const capabilities = volunteer?.capabilities || [];
         setUserCapabilities(capabilities);
 
@@ -207,13 +226,77 @@ export default function SimpleTrainingPage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
-        <div className="max-w-4xl mx-auto">
-          <Alert>
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription>
-              Please sign in to access training modules.
-            </AlertDescription>
-          </Alert>
+        <div className="max-w-2xl mx-auto py-20">
+          <div className="text-center mb-8">
+            <Lock className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Training Center</h1>
+            <p className="text-slate-600">Training is available for approved volunteers and moderators only.</p>
+          </div>
+          <div className="bg-white border rounded-lg p-6 text-center">
+            <p className="text-slate-700 mb-4">To access training, you must:</p>
+            <ol className="text-left text-sm text-slate-600 mb-6 space-y-2 max-w-md mx-auto">
+              <li>1. Create an account or sign in</li>
+              <li>2. Apply to become a volunteer</li>
+              <li>3. Get approved by a moderator</li>
+            </ol>
+            <div className="flex gap-3 justify-center">
+              <Link href="/login?redirectTo=/training">
+                <Button variant="outline">Sign In</Button>
+              </Link>
+              <Link href="/volunteer/apply">
+                <Button>Apply to Volunteer</Button>
+              </Link>
+            </div>
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/" className="text-sm text-slate-500 hover:text-slate-700">← Back to Home</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show gate for users who haven't registered as volunteers
+  if (volunteerStatus === 'not_registered') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+        <div className="max-w-2xl mx-auto py-20">
+          <div className="text-center mb-8">
+            <Users className="w-16 h-16 text-blue-500 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Become a Volunteer</h1>
+            <p className="text-slate-600">Training is available after your volunteer application is approved.</p>
+          </div>
+          <div className="bg-white border rounded-lg p-6 text-center">
+            <p className="text-slate-700 mb-4">You&apos;re signed in, but haven&apos;t applied to volunteer yet.</p>
+            <Link href="/volunteer/apply">
+              <Button size="lg">Apply to Volunteer</Button>
+            </Link>
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/" className="text-sm text-slate-500 hover:text-slate-700">← Back to Home</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show pending status for users awaiting approval
+  if (volunteerStatus && volunteerStatus !== 'approved') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+        <div className="max-w-2xl mx-auto py-20">
+          <div className="text-center mb-8">
+            <Clock className="w-16 h-16 text-amber-500 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Pending</h1>
+            <p className="text-slate-600">Your volunteer application is being reviewed.</p>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 text-center">
+            <p className="text-amber-800 mb-2">Current status: <strong className="uppercase">{volunteerStatus}</strong></p>
+            <p className="text-sm text-amber-700">Training will be available once your application is approved by a moderator. This usually takes 24-48 hours.</p>
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/" className="text-sm text-slate-500 hover:text-slate-700">← Back to Home</Link>
+          </div>
         </div>
       </div>
     );
