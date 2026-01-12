@@ -203,9 +203,14 @@ export default async function SysopPage() {
               <div className="text-xs text-zinc-500 mt-1">Geographic volunteer distribution</div>
             </Link>
 
-            <Link href="/admin/sysop/autonomous" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
-              <div className="text-sm font-medium text-green-400">🤖 Autonomous Operations</div>
-              <div className="text-xs text-zinc-500 mt-1">99.9% automated system control</div>
+            <Link href="/admin/sysop/autonomous" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
+              <div className="text-sm font-medium text-blue-400">🤖 Autonomous Operations</div>
+              <div className="text-xs text-zinc-500 mt-1">50/50 human-AI system control</div>
+            </Link>
+
+            <Link href="/admin/sysop/moderation" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
+              <div className="text-sm font-medium text-blue-400">👥 Human-AI Moderation</div>
+              <div className="text-xs text-zinc-500 mt-1">50/50 safety-first content review</div>
             </Link>
           </div>
         </div>
