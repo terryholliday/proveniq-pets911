@@ -4,7 +4,7 @@ import { createServerClient } from '@/lib/supabase/client';
 import ApplyForm from './ApplyForm';
 
 export default async function VolunteerApplyPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
 
   const { data } = await supabase.auth.getSession();

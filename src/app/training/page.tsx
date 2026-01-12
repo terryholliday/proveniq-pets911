@@ -246,11 +246,11 @@ export default function SimpleTrainingPage() {
   }
 
   // Determine which training path to show
-  const userRole = userCapabilities.includes('SYSOP') ? 'SYSOP' :
+  const userRole: keyof typeof ROLE_TRAINING_PATHS = userCapabilities.includes('SYSOP') ? 'SYSOP' :
                    userCapabilities.includes('MODERATOR') ? 'MODERATOR' :
                    userCapabilities.includes('TRANSPORT') ? 'TRANSPORT' : 'COMMUNITY_VOLUNTEER';
-  
-  const requiredModules = getRequiredModulesForRole(userRole);
+
+  const requiredModules = ROLE_TRAINING_PATHS[userRole];
   const completedRequired = requiredModules.filter(id => completedModules.has(id)).length;
   const totalRequired = requiredModules.length;
   const progressPercentage = totalRequired > 0 ? (completedRequired / totalRequired) * 100 : 0;
