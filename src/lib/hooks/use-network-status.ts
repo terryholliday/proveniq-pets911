@@ -62,6 +62,21 @@ export function useNetworkStatus(): NetworkStatus & {
     return 'ONLINE';
   }, []);
 
+  // Hydration sync: when server-rendered, initial state defaults to OFFLINE (no navigator).
+  // Ensure we reconcile immediately on the client to avoid a false "Offline Mode" banner flash.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setStatus(prev => ({
+      ...prev,
+      state: calculateState(
+        navigator.onLine,
+        prev.lastSuccessfulCall,
+        prev.latency,
+        consecutiveFailures
+      ),
+    }));
+  }, [calculateState, consecutiveFailures]);
+
   // Update state on network events
   useEffect(() => {
     if (typeof window === 'undefined') return;

@@ -76,7 +76,29 @@ export function detectDvImmediateDanger(input: string): { detected: boolean; mar
 // RESPONSE TEMPLATES AND INTERPOLATION
 // ═══════════════════════════════════════════════════════════════════
 
-export const RESPONSE_TEMPLATES = TEMPLATES;
+export const RESPONSE_TEMPLATES = {
+  suicide_intent: { ...TEMPLATES.suicide_intent },
+  suicide_active: { ...TEMPLATES.suicide_active },
+  suicide_passive: { ...TEMPLATES.suicide_passive },
+  dv_coercive_control: { ...TEMPLATES.dv_coercive_control },
+  mdd: { ...TEMPLATES.mdd },
+  paralysis: { ...TEMPLATES.paralysis },
+  neurodivergent: { ...TEMPLATES.neurodivergent },
+  death_traumatic: { ...TEMPLATES.death_traumatic },
+  death_euthanasia: { ...TEMPLATES.death_euthanasia },
+  death_general: { ...TEMPLATES.death_general },
+  death_found_deceased: { ...TEMPLATES.death_found_deceased },
+  anticipatory: { ...TEMPLATES.anticipatory },
+  emergency: { ...TEMPLATES.emergency_veterinary },
+  scam: { ...TEMPLATES.scam_alert },
+  found_pet: { ...TEMPLATES.found_pet },
+  lost_pet: { ...TEMPLATES.lost_pet },
+  guilt_cbt: { ...TEMPLATES.guilt_cbt },
+  disenfranchised: { ...TEMPLATES.disenfranchised },
+  pediatric: { ...TEMPLATES.pediatric },
+  quality_of_life: { ...TEMPLATES.quality_of_life },
+  general: { ...TEMPLATES.general },
+};
 
 function detectRegion(input: string): string {
   const lower = input.toLowerCase();
@@ -328,7 +350,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
 
   if (suicideRisk.level === 'intent') {
     return {
-      response: TEMPLATES.suicide_intent.response,
+      response: RESPONSE_TEMPLATES.suicide_intent.response,
       analysis: {
         category: 'suicide_intent',
         suicideRiskLevel: 'intent',
@@ -340,7 +362,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
 
   if (suicideRisk.level === 'active') {
     return {
-      response: TEMPLATES.suicide_active.response,
+      response: RESPONSE_TEMPLATES.suicide_active.response,
       analysis: {
         category: 'suicide_active',
         suicideRiskLevel: 'active',
@@ -352,7 +374,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
 
   if (suicideRisk.level === 'passive') {
     return {
-      response: TEMPLATES.suicide_passive.response,
+      response: RESPONSE_TEMPLATES.suicide_passive.response,
       analysis: {
         category: 'suicide_passive',
         suicideRiskLevel: 'passive',
@@ -363,27 +385,16 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   }
 
   const dvid = detectDvImmediateDanger(userInput);
-  if (dvid.detected) {
-    return {
-      response: TEMPLATES.dv_immediate_danger.response,
-      analysis: {
-        category: 'dv_immediate_danger',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: dvid.markers
-      }
-    };
-  }
-
   const dvcc = detectDvCoerciveControl(userInput);
-  if (dvcc.detected) {
+  if (dvid.detected || dvcc.detected) {
+    const detectedMarkers = [...(dvid.markers || []), ...(dvcc.markers || [])];
     return {
-      response: TEMPLATES.dv_coercive_control.response,
+      response: RESPONSE_TEMPLATES.dv_coercive_control.response,
       analysis: {
         category: 'dv_coercive_control',
         suicideRiskLevel: 'none',
         requiresEscalation: true,
-        detectedMarkers: dvcc.markers
+        detectedMarkers
       }
     };
   }
@@ -400,22 +411,22 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     if (euthanasiaSelfJudgmentOnly) {
       // Fall through to death/euthanasia routing.
     } else {
-    return {
-      response: TEMPLATES.mdd.response,
-      analysis: {
-        category: 'mdd',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: mdd.markers
-      }
-    };
+      return {
+        response: RESPONSE_TEMPLATES.mdd.response,
+        analysis: {
+          category: 'mdd',
+          suicideRiskLevel: 'none',
+          requiresEscalation: true,
+          detectedMarkers: mdd.markers
+        }
+      };
     }
   }
 
   const paralysis = detectGriefParalysis(userInput);
   if (paralysis.detected) {
     return {
-      response: TEMPLATES.paralysis.response,
+      response: RESPONSE_TEMPLATES.paralysis.response,
       analysis: {
         category: 'paralysis',
         suicideRiskLevel: 'none',
@@ -428,7 +439,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const neuro = detectNeurodivergent(userInput);
   if (neuro.detected) {
     return {
-      response: TEMPLATES.neurodivergent.response,
+      response: RESPONSE_TEMPLATES.neurodivergent.response,
       analysis: {
         category: 'neurodivergent',
         suicideRiskLevel: 'none',
@@ -441,7 +452,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   if (death.detected) {
     if (death.isTraumatic) {
       return {
-        response: TEMPLATES.death_traumatic.response,
+        response: RESPONSE_TEMPLATES.death_traumatic.response,
         analysis: {
           category: 'death_traumatic',
           suicideRiskLevel: 'none',
@@ -453,7 +464,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
 
     if (death.isEuthanasia) {
       return {
-        response: TEMPLATES.death_euthanasia.response,
+        response: RESPONSE_TEMPLATES.death_euthanasia.response,
         analysis: {
           category: 'death_euthanasia',
           suicideRiskLevel: 'none',
@@ -465,7 +476,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
 
     if (!death.isFoundDeceased) {
       return {
-        response: TEMPLATES.death_general.response,
+        response: RESPONSE_TEMPLATES.death_general.response,
         analysis: {
           category: 'death_general',
           suicideRiskLevel: 'none',
@@ -476,7 +487,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     }
 
     return {
-      response: TEMPLATES.death_found_deceased.response,
+      response: RESPONSE_TEMPLATES.death_found_deceased.response,
       analysis: {
         category: 'death_found_deceased',
         suicideRiskLevel: 'none',
@@ -489,7 +500,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const anticipatory = detectAnticipatory(userInput);
   if (anticipatory.detected) {
     return {
-      response: TEMPLATES.anticipatory.response,
+      response: RESPONSE_TEMPLATES.anticipatory.response,
       analysis: {
         category: 'anticipatory',
         suicideRiskLevel: 'none',
@@ -499,23 +510,11 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const vetMed = detectVetMedCrisis(userInput);
-  if (vetMed.detected) {
-    return {
-      response: TEMPLATES.vet_med_crisis.response,
-      analysis: {
-        category: 'vet_med_crisis',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: vetMed.markers
-      }
-    };
-  }
-
   const emergency = detectEmergency(userInput);
+  const vetMed = detectVetMedCrisis(userInput);
   if (emergency.detected) {
     return {
-      response: TEMPLATES.emergency_veterinary.response,
+      response: RESPONSE_TEMPLATES.emergency.response,
       analysis: {
         category: 'emergency',
         suicideRiskLevel: 'none',
@@ -525,10 +524,22 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
+  if (vetMed.detected) {
+    return {
+      response: RESPONSE_TEMPLATES.emergency.response,
+      analysis: {
+        category: 'emergency',
+        suicideRiskLevel: 'none',
+        requiresEscalation: true,
+        detectedMarkers: vetMed.markers,
+      },
+    };
+  }
+
   const scam = detectScam(userInput);
   if (scam.detected) {
     return {
-      response: TEMPLATES.scam_alert.response,
+      response: RESPONSE_TEMPLATES.scam.response,
       analysis: {
         category: 'scam',
         suicideRiskLevel: 'none',
@@ -541,7 +552,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const foundPet = detectFoundPet(userInput);
   if (foundPet.detected) {
     return {
-      response: TEMPLATES.found_pet.response,
+      response: RESPONSE_TEMPLATES.found_pet.response,
       analysis: {
         category: 'found_pet',
         suicideRiskLevel: 'none',
@@ -551,24 +562,11 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const theft = detectTheftDispute(userInput);
-  if (theft.detected) {
-    return {
-      response: TEMPLATES.theft_dispute.response,
-      analysis: {
-        category: 'theft_dispute',
-        suicideRiskLevel: 'none',
-        requiresEscalation: true,
-        detectedMarkers: theft.markers
-      }
-    };
-  }
-
   const lowerInput = userInput.toLowerCase();
   const lostKeywords = LOST_PET_KEYWORDS.filter((k: string) => lowerInput.includes(k));
   if (lostKeywords.length > 0 && !death.detected) {
     return {
-      response: TEMPLATES.lost_pet.response,
+      response: RESPONSE_TEMPLATES.lost_pet.response,
       analysis: {
         category: 'lost_pet',
         suicideRiskLevel: 'none',
@@ -581,7 +579,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const guilt = detectGuilt(userInput);
   if (guilt.detected) {
     return {
-      response: TEMPLATES.guilt_cbt.response,
+      response: RESPONSE_TEMPLATES.guilt_cbt.response,
       analysis: {
         category: 'guilt_cbt',
         suicideRiskLevel: 'none',
@@ -594,7 +592,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const disenfranchised = detectDisenfranchised(userInput);
   if (disenfranchised.detected) {
     return {
-      response: TEMPLATES.disenfranchised.response,
+      response: RESPONSE_TEMPLATES.disenfranchised.response,
       analysis: {
         category: 'disenfranchised',
         suicideRiskLevel: 'none',
@@ -607,7 +605,7 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
   const pediatric = detectPediatric(userInput);
   if (pediatric.detected) {
     return {
-      response: TEMPLATES.pediatric.response,
+      response: RESPONSE_TEMPLATES.pediatric.response,
       analysis: {
         category: 'pediatric',
         suicideRiskLevel: 'none',
@@ -617,11 +615,10 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-
   const qolKeywords = EUTHANASIA_DECISION_KEYWORDS.filter((k: string) => lowerInput.includes(k));
   if (qolKeywords.length > 0) {
     return {
-      response: TEMPLATES.quality_of_life.response,
+      response: RESPONSE_TEMPLATES.quality_of_life.response,
       analysis: {
         category: 'quality_of_life',
         suicideRiskLevel: 'none',
@@ -631,47 +628,8 @@ function _internalGenerateResponse(userInput: string): { response: string; analy
     };
   }
 
-  const substance = detectSubstanceUse(userInput);
-  if (substance.detected) {
-    return {
-      response: TEMPLATES.substance_use.response,
-      analysis: {
-        category: 'substance_use',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: substance.markers
-      }
-    };
-  }
-
-  const hoarding = detectHoardingWelfare(userInput);
-  if (hoarding.detected) {
-    return {
-      response: TEMPLATES.hoarding_concern.response,
-      analysis: {
-        category: 'hoarding_concern',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: hoarding.markers
-      }
-    };
-  }
-
-  const panic = detectPanicAttack(userInput);
-  if (panic.detected) {
-    return {
-      response: TEMPLATES.grounding_tool.response,
-      analysis: {
-        category: 'grounding_tool',
-        suicideRiskLevel: 'none',
-        requiresEscalation: false,
-        detectedMarkers: panic.markers
-      }
-    };
-  }
-
   return {
-    response: TEMPLATES.general.response,
+    response: RESPONSE_TEMPLATES.general.response,
     analysis: {
       category: 'general',
       suicideRiskLevel: 'none',

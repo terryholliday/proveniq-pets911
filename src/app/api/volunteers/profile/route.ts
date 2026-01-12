@@ -1,34 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('user_id');
-
-    if (!userId) {
+    const { user } = await getSupabaseUser();
+    if (!user) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: { 
-            code: 'VALIDATION_ERROR', 
-            message: 'user_id is required' 
-          } 
-        },
-        { status: 400 }
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
       );
     }
+
+    const supabase = createServiceRoleClient();
 
     const { data: volunteer, error } = await supabase
       .from('volunteers')
       .select('*')
-      .eq('user_id', userId)
+      .eq('user_id', user.id)
       .single();
 
     if (error || !volunteer) {
@@ -70,35 +60,76 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
+    const supabase = createServiceRoleClient();
 
     const body = await request.json();
-    const { user_id, ...updates } = body;
 
-    if (!user_id) {
+    // Only allow safe self-service updates. All privileged fields (status approval,
+    // capabilities, background checks, moderation) must be changed by moderators/sysops.
+    const allowedKeys = new Set([
+      'status',
+      'available_weekdays',
+      'available_weekends',
+      'available_nights',
+      'available_immediately',
+      'last_active_at',
+    ]);
+
+    const requestedUpdates: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(body || {})) {
+      if (allowedKeys.has(key)) {
+        requestedUpdates[key] = value;
+      }
+    }
+
+    if (Object.keys(requestedUpdates).length === 0) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: { 
-            code: 'VALIDATION_ERROR', 
-            message: 'user_id is required' 
-          } 
-        },
+        { success: false, error: { code: 'VALIDATION_ERROR', message: 'No updatable fields provided' } },
         { status: 400 }
       );
+    }
+
+    const { data: existingVolunteer } = await supabase
+      .from('volunteers')
+      .select('status')
+      .eq('user_id', user.id)
+      .single<{ status: string }>();
+
+    if (requestedUpdates.status) {
+      const nextStatus = String(requestedUpdates.status);
+      const currentStatus = existingVolunteer?.status;
+
+      const canSelfToggle =
+        currentStatus === 'ACTIVE' || currentStatus === 'TEMPORARILY_UNAVAILABLE';
+
+      const allowedNext = nextStatus === 'ACTIVE' || nextStatus === 'TEMPORARILY_UNAVAILABLE';
+
+      if (!canSelfToggle || !allowedNext) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: { code: 'FORBIDDEN', message: 'Status changes require moderator approval' },
+          },
+          { status: 403 }
+        );
+      }
     }
 
     const { data: volunteer, error } = await supabase
       .from('volunteers')
       .update({
-        ...updates,
+        ...requestedUpdates,
         updated_at: new Date().toISOString(),
       })
-      .eq('user_id', user_id)
+      .eq('user_id', user.id)
       .select()
       .single();
 

@@ -1,13 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
+    const supabase = createServiceRoleClient();
+
+    // Authorization: only ACTIVE SYSOP/MODERATOR can approve volunteers
+    const { data: actorVolunteer } = await supabase
+      .from('volunteers')
+      .select('status, capabilities')
+      .eq('user_id', user.id)
+      .maybeSingle<{ status: string; capabilities: string[] }>();
+
+    const isPrivileged =
+      actorVolunteer?.status === 'ACTIVE' &&
+      Array.isArray(actorVolunteer.capabilities) &&
+      (actorVolunteer.capabilities.includes('SYSOP') || actorVolunteer.capabilities.includes('MODERATOR'));
+
+    if (!isPrivileged) {
+      return NextResponse.json(
+        { success: false, error: { code: 'FORBIDDEN', message: 'Insufficient privileges' } },
+        { status: 403 }
+      );
+    }
 
     const body = await request.json();
     const { volunteer_id } = body;
@@ -49,6 +74,18 @@ export async function POST(request: NextRequest) {
         },
         { status: 500 }
       );
+    }
+
+    // Log approval action (best-effort)
+    try {
+      await supabase.from('volunteer_moderation_log').insert({
+        volunteer_id,
+        action: 'APPROVED',
+        reason: 'Approved via admin console',
+        performed_by: user.id,
+        created_at: new Date().toISOString(),
+      });
+    } catch {
     }
 
     return NextResponse.json({

@@ -4,9 +4,22 @@ const path = require('path');
 
 // 1. Define Paths based on your screenshot
 // Use local admin path for development, Vercel path for production
-const MASTER_REPO_PATH = process.env.VERCEL 
-  ? path.resolve(__dirname, '../../ADMIN')
-  : path.resolve('C:/Users/Admin1/Desktop/AI Projects/PROVENIQ/poveniq-admin/proveniq-admin');
+const repoRoot = path.resolve(__dirname, '..');
+const workspaceRoot = path.resolve(repoRoot, '..');
+
+const masterRepoCandidates = process.env.MASTER_REPO_PATH
+  ? [process.env.MASTER_REPO_PATH]
+  : (process.env.VERCEL
+      ? [path.resolve(__dirname, '../../ADMIN')]
+      : [
+          path.resolve(workspaceRoot, 'ADMIN'),
+          path.resolve(workspaceRoot, 'proveniq-admin'),
+          path.resolve(workspaceRoot, 'proveniq-admin', 'proveniq-admin'),
+        ]);
+
+const MASTER_REPO_PATH = masterRepoCandidates.find((p) => fs.existsSync(path.join(p, '.env.master')))
+  || masterRepoCandidates[0];
+
 const MASTER_ENV_FILE = path.join(MASTER_REPO_PATH, '.env.master');
 const LOCAL_OVERRIDES_FILE = path.join(__dirname, '../.env.local');
 const DESTINATION_FILE = path.join(__dirname, '../.env');
@@ -31,7 +44,7 @@ try {
   // 3. Load Master Env (Shared Google Cloud, Auth Secrets)
   if (!fs.existsSync(MASTER_ENV_FILE) && !process.env.VERCEL) {
     console.warn(`⚠️  WARNING: Could not find Master ENV at: ${MASTER_ENV_FILE}`);
-    console.warn('   Ensure the "ADMIN" folder is a sibling to this project folder.');
+    console.warn('   Ensure the admin repo (e.g. "proveniq-admin") is a sibling to this project folder, or set MASTER_REPO_PATH.');
   }
 
   const masterContent = fs.existsSync(MASTER_ENV_FILE)

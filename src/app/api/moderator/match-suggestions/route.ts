@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import type { MatchSuggestion } from '@/lib/types';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,8 +17,32 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(request: NextRequest) {
   try {
-    // TODO: Verify moderator role from auth token
-    // const token = request.headers.get('Authorization');
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
+    const admin = createServiceRoleClient();
+    const { data: actorVolunteer } = await admin
+      .from('volunteers')
+      .select('status, capabilities')
+      .eq('user_id', user.id)
+      .maybeSingle<{ status: string; capabilities: string[] }>();
+
+    const isPrivileged =
+      actorVolunteer?.status === 'ACTIVE' &&
+      Array.isArray(actorVolunteer.capabilities) &&
+      (actorVolunteer.capabilities.includes('SYSOP') || actorVolunteer.capabilities.includes('MODERATOR'));
+
+    if (!isPrivileged) {
+      return NextResponse.json(
+        { success: false, error: { code: 'FORBIDDEN', message: 'Insufficient privileges' } },
+        { status: 403 }
+      );
+    }
 
     const searchParams = request.nextUrl.searchParams;
     const county = searchParams.get('county');

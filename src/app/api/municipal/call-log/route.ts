@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/municipal/call-log
@@ -13,6 +16,14 @@ import crypto from 'crypto';
  */
 export async function POST(request: NextRequest) {
   try {
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
     const idempotencyKey = request.headers.get('Idempotency-Key');
 
     if (!idempotencyKey) {

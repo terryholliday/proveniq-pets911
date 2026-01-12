@@ -3,6 +3,9 @@ import crypto from 'crypto';
 import { twilioService } from '@/lib/services/twilio-service';
 import { fetchEmergencyContacts } from '@/lib/api/client';
 import type { County } from '@/lib/types';
+import { getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/notifications/emergency-vet
@@ -13,6 +16,14 @@ import type { County } from '@/lib/types';
  */
 export async function POST(request: NextRequest) {
   try {
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
     const idempotencyKey = request.headers.get('Idempotency-Key');
 
     if (!idempotencyKey) {

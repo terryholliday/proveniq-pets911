@@ -126,6 +126,8 @@ npm run e2e:install
 npm run e2e
 ```
 
+See `docs/testing/TESTING_STRATEGY.md` for a full dispatch/moderation test plan and stress testing approach.
+
 ## Pilot Counties
 
 - Greenbrier & Kanawha Counties

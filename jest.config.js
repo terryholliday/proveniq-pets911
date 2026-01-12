@@ -6,7 +6,11 @@ const config = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  testMatch: [
+    '<rootDir>/__tests__/**/*.(test|spec).(ts|tsx|js)',
+    '<rootDir>/**/?(*.)+(test).(ts|tsx|js)',
+  ],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/e2e/'],
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
       tsconfig: 'tsconfig.json',

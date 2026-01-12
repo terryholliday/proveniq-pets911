@@ -1,20 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   Users, 
-  Phone, 
-  MapPin, 
-  Clock, 
   CheckCircle,
   AlertTriangle,
   Loader2
 } from 'lucide-react';
-import type { VolunteerMatch, County, Species } from '@/lib/types';
+import type { County, Species } from '@/lib/types';
 
 interface VolunteerDispatchCardProps {
   county: County;
@@ -42,10 +37,11 @@ export function VolunteerDispatchCard({
   onDispatchCreated,
 }: VolunteerDispatchCardProps) {
   const [isSearching, setIsSearching] = useState(false);
-  const [matches, setMatches] = useState<VolunteerMatch[]>([]);
   const [dispatchId, setDispatchId] = useState<string | null>(null);
+  const [totalMatches, setTotalMatches] = useState<number | null>(null);
+  const [notificationsAttempted, setNotificationsAttempted] = useState<number | null>(null);
+  const [notificationsSent, setNotificationsSent] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isDispatching, setIsDispatching] = useState(false);
 
   const handleFindHelpers = async () => {
     setIsSearching(true);
@@ -78,8 +74,10 @@ export function VolunteerDispatchCard({
       const data = await response.json();
       
       if (data.success) {
-        setMatches(data.data.matches || []);
         setDispatchId(data.data.dispatch_request?.id || null);
+        setTotalMatches(typeof data.data.total_matches === 'number' ? data.data.total_matches : null);
+        setNotificationsAttempted(typeof data.data.notifications_attempted === 'number' ? data.data.notifications_attempted : null);
+        setNotificationsSent(typeof data.data.notifications_sent === 'number' ? data.data.notifications_sent : null);
         onDispatchCreated?.(data.data.dispatch_request?.id);
       } else {
         throw new Error(data.error?.message || 'Failed to find helpers');
@@ -88,40 +86,6 @@ export function VolunteerDispatchCard({
       setError(err instanceof Error ? err.message : 'Failed to find helpers');
     } finally {
       setIsSearching(false);
-    }
-  };
-
-  const handleNotifyVolunteer = async (volunteerId: string) => {
-    if (!dispatchId) return;
-
-    setIsDispatching(true);
-    try {
-      const response = await fetch('/api/dispatch/request', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          dispatch_id: dispatchId,
-          volunteer_id: volunteerId,
-          status: 'ACCEPTED',
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to notify volunteer');
-      }
-
-      const data = await response.json();
-      if (data.success) {
-        setMatches(prev => prev.map(m => 
-          m.volunteer_id === volunteerId 
-            ? { ...m, is_available_now: false }
-            : m
-        ));
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to notify volunteer');
-    } finally {
-      setIsDispatching(false);
     }
   };
 
@@ -143,7 +107,7 @@ export function VolunteerDispatchCard({
         </Alert>
       )}
 
-      {!matches.length && !dispatchId && (
+      {!dispatchId && (
         <Button
           variant="default"
           size="lg"
@@ -165,75 +129,13 @@ export function VolunteerDispatchCard({
         </Button>
       )}
 
-      {matches.length > 0 && (
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-blue-800">
-              {matches.length} helper{matches.length !== 1 ? 's' : ''} found nearby
-            </p>
-            <Badge variant="success">{matches.length} Available</Badge>
-          </div>
-
-          {matches.map((match) => (
-            <Card key={match.volunteer_id} className="border-blue-200">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <p className="font-semibold">{match.volunteer_name}</p>
-                    <div className="flex items-center gap-3 text-sm text-gray-600 mt-1">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
-                        {match.distance_miles} mi away
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        ~{match.estimated_arrival_minutes} min
-                      </span>
-                    </div>
-                  </div>
-                  {match.is_available_now && (
-                    <Badge variant="success" className="text-xs">Available Now</Badge>
-                  )}
-                </div>
-
-                <div className="flex gap-2 mt-3">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="flex-1 bg-blue-600 hover:bg-blue-700"
-                    onClick={() => handleNotifyVolunteer(match.volunteer_id)}
-                    disabled={isDispatching}
-                  >
-                    {isDispatching ? (
-                      <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-                    ) : (
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                    )}
-                    Request This Helper
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => window.location.href = `tel:${match.volunteer_phone}`}
-                  >
-                    <Phone className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-
-          <p className="text-xs text-blue-600 text-center">
-            Helpers are notified via SMS and typically respond within 5-10 minutes
-          </p>
-        </div>
-      )}
-
-      {matches.length === 0 && dispatchId && (
+      {dispatchId && (
         <Alert>
-          <AlertTriangle className="h-4 w-4" />
+          <CheckCircle className="h-4 w-4" />
           <AlertDescription>
-            No helpers available in your area right now. Please contact Animal Control directly.
+            Request created. Notified {notificationsSent ?? 0}/{notificationsAttempted ?? 0} nearby helper
+            {(notificationsAttempted ?? 0) === 1 ? '' : 's'}. Please wait for a response (usually 5–10 minutes). If no one responds, contact Animal Control.
+            {typeof totalMatches === 'number' ? ` (${totalMatches} eligible helper${totalMatches === 1 ? '' : 's'} found)` : ''}
           </AlertDescription>
         </Alert>
       )}

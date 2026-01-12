@@ -1,9 +1,38 @@
-import { createServerClient } from '@/lib/supabase/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
+    const bootstrapHeader = request.headers.get('x-sysop-bootstrap-token') || '';
+    const bootstrapToken = process.env.SYSOP_BOOTSTRAP_TOKEN || '';
+
+    // Either: bootstrap token OR authenticated SYSOP.
+    if (!(bootstrapToken && bootstrapHeader === bootstrapToken)) {
+      const { user } = await getSupabaseUser();
+
+      if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const supabase = createServiceRoleClient();
+      const { data: actorVolunteer } = await supabase
+        .from('volunteers')
+        .select('status, capabilities')
+        .eq('user_id', user.id)
+        .maybeSingle<{ status: string; capabilities: string[] }>();
+
+      const isSysop =
+        actorVolunteer?.status === 'ACTIVE' &&
+        Array.isArray(actorVolunteer.capabilities) &&
+        actorVolunteer.capabilities.includes('SYSOP');
+
+      if (!isSysop) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      }
+    }
+
     const { email } = await request.json();
 
     if (!email) {
@@ -11,10 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Use service role key for admin operations
-    const supabase = createSupabaseClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const supabase = createServiceRoleClient();
 
     // Find the user by email
     const { data: user, error: userError } = await supabase.auth.admin.listUsers();

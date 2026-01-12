@@ -1,34 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
+import { createServerClient } from '@/lib/supabase/client';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const cookieStore = cookies();
+    const supabase = createServerClient(cookieStore);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    const { searchParams } = new URL(request.url);
-    const volunteerId = searchParams.get('volunteer_id');
-
-    if (!volunteerId) {
+    if (!user) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: { 
-            code: 'VALIDATION_ERROR', 
-            message: 'volunteer_id is required' 
-          } 
-        },
-        { status: 400 }
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
       );
     }
 
     const { data: dispatches, error } = await supabase
       .from('dispatch_requests')
       .select('*')
-      .eq('volunteer_id', volunteerId)
       .order('created_at', { ascending: false })
       .limit(50);
 

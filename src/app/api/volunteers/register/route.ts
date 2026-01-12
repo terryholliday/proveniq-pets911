@@ -1,19 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { geocodeVolunteerAddress } from '@/lib/services/geocoding-service';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      );
+    }
+
+    const supabase = createServiceRoleClient();
 
     const body = await request.json();
     
     const {
-      user_id,
       display_name,
       phone,
       email,
@@ -39,7 +44,7 @@ export async function POST(request: NextRequest) {
       emergency_contact_phone,
     } = body;
 
-    if (!user_id || !display_name || !phone || !primary_county || !address_city || !address_zip) {
+    if (!display_name || !phone || !primary_county || !address_city || !address_zip) {
       return NextResponse.json(
         { 
           success: false, 
@@ -81,7 +86,7 @@ export async function POST(request: NextRequest) {
     const { data: existingVolunteer } = await supabase
       .from('volunteers')
       .select('id')
-      .eq('user_id', user_id)
+      .eq('user_id', user.id)
       .single();
 
     if (existingVolunteer) {
@@ -109,8 +114,9 @@ export async function POST(request: NextRequest) {
     const { data: volunteer, error: insertError } = await supabase
       .from('volunteers')
       .insert({
-        user_id,
-        status: 'ACTIVE',
+        user_id: user.id,
+        // Start inactive until reviewed/approved by a moderator/sysop.
+        status: 'INACTIVE',
         display_name,
         phone,
         email: email || null,

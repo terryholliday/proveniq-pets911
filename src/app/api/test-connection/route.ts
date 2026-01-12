@@ -3,6 +3,10 @@ import { createClientForAPI } from '@/lib/supabase/client';
 
 export async function GET() {
   try {
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
     // Just test if we can create a Supabase client
     const supabase = createClientForAPI();
     

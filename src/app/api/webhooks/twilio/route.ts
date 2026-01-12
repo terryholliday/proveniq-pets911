@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { handleVolunteerResponse } from '@/lib/services/twilio-dispatch-service';
+import twilio from 'twilio';
+import { createServiceRoleClient } from '@/lib/api/server-auth';
+
+function getTwilioSignatureUrl(request: NextRequest): string {
+  const url = new URL(request.url);
+
+  const forwardedProto = request.headers.get('x-forwarded-proto');
+  const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host');
+
+  if (forwardedProto) {
+    url.protocol = `${forwardedProto}:`;
+  }
+
+  if (forwardedHost) {
+    url.host = forwardedHost;
+  }
+
+  return url.toString();
+}
 
 /**
  * Twilio Webhook: Handle incoming SMS responses from volunteers
@@ -8,13 +26,31 @@ import { handleVolunteerResponse } from '@/lib/services/twilio-dispatch-service'
  */
 export async function POST(request: NextRequest) {
   try {
-    // Create Supabase client inside the handler
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const supabase = createServiceRoleClient();
 
     const formData = await request.formData();
+
+    // Validate Twilio signature (fail-closed in production)
+    const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+    if (!twilioAuthToken) {
+      if (process.env.NODE_ENV === 'production') {
+        return new NextResponse('Twilio webhook not configured', { status: 500 });
+      }
+    } else {
+      const signature = request.headers.get('x-twilio-signature') || '';
+      const params: Record<string, string> = {};
+      formData.forEach((value, key) => {
+        if (typeof value === 'string') {
+          params[key] = value;
+        }
+      });
+
+      const url = getTwilioSignatureUrl(request);
+      const valid = twilio.validateRequest(twilioAuthToken, signature, url, params);
+      if (!valid) {
+        return new NextResponse('Unauthorized', { status: 401 });
+      }
+    }
     
     const from = formData.get('From') as string;
     const body = formData.get('Body') as string;
@@ -23,8 +59,6 @@ export async function POST(request: NextRequest) {
     if (!from || !body) {
       return new NextResponse('Missing required fields', { status: 400 });
     }
-
-    console.log('Twilio webhook received:', { from, body, messageSid });
 
     // Parse volunteer response
     const { dispatchId, action } = await handleVolunteerResponse(from, body);
