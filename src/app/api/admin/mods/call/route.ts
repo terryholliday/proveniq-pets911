@@ -4,7 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase/admin';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = getSupabaseAdmin() as any;
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
@@ -31,15 +31,19 @@ export async function POST(request: NextRequest) {
 
     if (!accountSid || !authToken || !twilioPhone) {
       // Log the call attempt even if Twilio isn't configured
-      await supabase.from('mod_call_logs').insert({
-        moderator_id: user.id,
-        volunteer_id,
-        volunteer_phone,
-        volunteer_name,
-        reason,
-        status: 'simulated',
-        created_at: new Date().toISOString(),
-      }).select().single();
+      await supabase
+        .from('mod_call_logs')
+        .insert({
+          moderator_id: user.id,
+          volunteer_id,
+          volunteer_phone,
+          volunteer_name,
+          reason,
+          status: 'simulated',
+          created_at: new Date().toISOString(),
+        } as any)
+        .select()
+        .single();
 
       return NextResponse.json({ 
         success: true, 
@@ -70,7 +74,7 @@ export async function POST(request: NextRequest) {
       // twilio_call_sid: call.sid,
       status: 'simulated',
       created_at: new Date().toISOString(),
-    });
+    } as any);
 
     return NextResponse.json({ 
       success: true, 
