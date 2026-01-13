@@ -118,15 +118,16 @@ export async function getPartnerGate(): Promise<
     .maybeSingle();
 
   const capabilities: VolunteerCapability[] = Array.isArray(volunteer?.capabilities) ? volunteer.capabilities : [];
-  
-  if (!capabilities.includes('PARTNER')) {
+
+  // SYSOP is a superset role and may access partner views.
+  if (!capabilities.includes('SYSOP') && !capabilities.includes('PARTNER')) {
     return { allowed: false, reason: 'NOT_A_PARTNER' };
   }
 
   // Get partner's organization
   const { data: partnerOrg } = await supabase
     .from('partner_users')
-    .select('organization_id, organizations(id, name)')
+    .select('organization_id, partner_organizations(id, name)')
     .eq('user_id', user.id)
     .maybeSingle();
 
@@ -138,6 +139,50 @@ export async function getPartnerGate(): Promise<
     allowed: true,
     userId: user.id,
     organizationId: partnerOrg.organization_id,
-    organizationName: (partnerOrg.organizations as any)?.name || 'Unknown Organization',
+    organizationName: (partnerOrg.partner_organizations as any)?.name || 'Unknown Organization',
   };
+}
+
+export async function getAdminGate(params: { required: 'SYSOP' | 'MODERATOR' }): Promise<
+  | { allowed: true; userId: string; capabilities: VolunteerCapability[] }
+  | { allowed: false; reason: 'UNAUTHENTICATED' | 'NO_VOLUNTEER_RECORD' | 'NOT_APPROVED' | 'FORBIDDEN' }
+> {
+  const cookieStore = await cookies();
+  const supabase = createServerClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { allowed: false, reason: 'UNAUTHENTICATED' };
+  }
+
+  const { data: volunteer, error } = await supabase
+    .from('volunteers')
+    .select('status, capabilities')
+    .eq('user_id', user.id)
+    .maybeSingle<{ status: VolunteerStatus; capabilities: VolunteerCapability[] }>();
+
+  if (error || !volunteer) {
+    return { allowed: false, reason: 'NO_VOLUNTEER_RECORD' };
+  }
+
+  if (volunteer.status !== 'ACTIVE') {
+    return { allowed: false, reason: 'NOT_APPROVED' };
+  }
+
+  const capabilities: VolunteerCapability[] = Array.isArray(volunteer.capabilities) ? volunteer.capabilities : [];
+
+  const isSysop = capabilities.includes('SYSOP');
+  const isModerator = capabilities.includes('MODERATOR');
+
+  // SYSOP is a superset role.
+  if (params.required === 'SYSOP') {
+    if (!isSysop) return { allowed: false, reason: 'FORBIDDEN' };
+  } else {
+    if (!(isSysop || isModerator)) return { allowed: false, reason: 'FORBIDDEN' };
+  }
+
+  return { allowed: true, userId: user.id, capabilities };
 }
