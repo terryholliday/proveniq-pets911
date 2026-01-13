@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -41,13 +41,10 @@ type Volunteer = {
   last_active: string;
 };
 
-const MOCK_VOLUNTEERS: Volunteer[] = [
+// Fallback mock data in case API fails
+const FALLBACK_VOLUNTEERS: Volunteer[] = [
   { id: 'VOL-001', name: 'John Mitchell', phone: '(304) 555-1234', county: 'KANAWHA', status: 'available', capabilities: ['TRANSPORT', 'EMERGENCY'], vehicle_type: 'SUV', can_transport_crate: true, foster_capacity: 0, completed_missions: 47, rating: 4.9, last_active: '2 min ago' },
   { id: 'VOL-002', name: 'Lisa Anderson', phone: '(304) 555-5678', county: 'CABELL', status: 'available', capabilities: ['FOSTER', 'TRANSPORT'], vehicle_type: 'Sedan', can_transport_crate: false, foster_capacity: 3, completed_missions: 23, rating: 4.7, last_active: '15 min ago' },
-  { id: 'VOL-003', name: 'Robert Davis', phone: '(304) 555-9012', county: 'GREENBRIER', status: 'busy', capabilities: ['TRANSPORT', 'FOSTER', 'EMERGENCY'], vehicle_type: 'Truck', can_transport_crate: true, foster_capacity: 2, completed_missions: 89, rating: 5.0, last_active: 'On mission' },
-  { id: 'VOL-004', name: 'Amy Thompson', phone: '(304) 555-3456', county: 'KANAWHA', status: 'available', capabilities: ['FOSTER'], vehicle_type: null, can_transport_crate: false, foster_capacity: 5, completed_missions: 15, rating: 4.8, last_active: '30 min ago' },
-  { id: 'VOL-005', name: 'Michael Chen', phone: '(304) 555-7890', county: 'BERKELEY', status: 'offline', capabilities: ['TRANSPORT'], vehicle_type: 'Van', can_transport_crate: true, foster_capacity: 0, completed_missions: 31, rating: 4.6, last_active: '2 days ago' },
-  { id: 'VOL-006', name: 'Sarah Williams', phone: '(304) 555-2345', county: 'MONONGALIA', status: 'available', capabilities: ['TRANSPORT', 'EMERGENCY'], vehicle_type: 'SUV', can_transport_crate: true, foster_capacity: 0, completed_missions: 56, rating: 4.9, last_active: '5 min ago' },
 ];
 
 const STATUS_CONFIG: Record<Status, { color: string; label: string }> = {
@@ -63,7 +60,9 @@ const CAPABILITY_CONFIG: Record<Capability, { icon: typeof Truck; color: string;
 };
 
 export default function ModeratorVolunteersPage() {
-  const [volunteers, setVolunteers] = useState<Volunteer[]>(MOCK_VOLUNTEERS);
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<Status | 'all'>('all');
   const [filterCapability, setFilterCapability] = useState<Capability | 'all'>('all');
@@ -90,6 +89,46 @@ export default function ModeratorVolunteersPage() {
     const { data } = await supabase.auth.getSession();
     return data.session?.access_token ?? null;
   };
+
+  // Fetch volunteers from API
+  const fetchVolunteers = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const token = await getAccessToken();
+      if (!token) {
+        setVolunteers(FALLBACK_VOLUNTEERS);
+        setError('Not authenticated - showing sample data');
+        return;
+      }
+
+      const res = await fetch('/api/admin/mods/volunteers', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch: ${res.status}`);
+      }
+
+      const data = await res.json();
+      if (data.success && data.volunteers) {
+        setVolunteers(data.volunteers);
+      } else {
+        setVolunteers(FALLBACK_VOLUNTEERS);
+        setError('No volunteers found - showing sample data');
+      }
+    } catch (err) {
+      console.error('Fetch volunteers error:', err);
+      setVolunteers(FALLBACK_VOLUNTEERS);
+      setError('Failed to load volunteers - showing sample data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchVolunteers();
+  }, [fetchVolunteers]);
 
   const handleCall = async (volunteer: Volunteer) => {
     setCalling(true);
@@ -124,8 +163,25 @@ export default function ModeratorVolunteersPage() {
     setEditStatus(null);
     
     try {
-      // In production, this would call an API to update the volunteer
-      // For now, update local state
+      const token = await getAccessToken();
+      if (!token) throw new Error('Not authenticated');
+
+      const res = await fetch(`/api/admin/mods/volunteers/${editModal.volunteer.id}`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify(editForm),
+      });
+
+      const data = await res.json();
+      
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to update');
+      }
+
+      // Update local state
       setVolunteers(prev => prev.map(v => 
         v.id === editModal.volunteer.id 
           ? { ...v, ...editForm } as Volunteer
@@ -234,6 +290,24 @@ export default function ModeratorVolunteersPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-6">
+        {/* Error Banner */}
+        {error && (
+          <div className="mb-4 p-3 bg-amber-900/30 border border-amber-800 rounded-lg text-amber-300 text-sm flex items-center justify-between">
+            <span>{error}</span>
+            <Button size="sm" variant="outline" onClick={fetchVolunteers} className="text-amber-300 border-amber-700">
+              <Loader2 className={`w-3 h-3 mr-1 ${loading ? 'animate-spin' : ''}`} />Retry
+            </Button>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && volunteers.length === 0 && (
+          <div className="text-center py-12">
+            <Loader2 className="w-8 h-8 mx-auto mb-3 animate-spin text-blue-400" />
+            <p className="text-zinc-400">Loading volunteers from database...</p>
+          </div>
+        )}
+
         {/* Filters */}
         <div className="flex items-center gap-4 mb-6 flex-wrap">
           <div className="relative flex-1 max-w-md">
