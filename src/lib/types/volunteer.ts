@@ -13,7 +13,8 @@ export type VolunteerCapability =
   | 'VET_TRANSPORT'
   | 'SHELTER_TRANSPORT'
   | 'MODERATOR'
-  | 'SYSOP';
+  | 'SYSOP'
+  | 'PARTNER';           // Shelter/rescue/NGO partner access
 
 export type VolunteerStatus = 
   | 'ACTIVE'

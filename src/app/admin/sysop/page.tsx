@@ -167,6 +167,11 @@ export default async function SysopPage() {
               <div className="text-xs text-zinc-500 mt-1">Auto-escalated unassigned cases</div>
             </Link>
 
+            <Link href="/admin/sysop/transport-relays" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-blue-600/50 hover:bg-blue-900/20 transition-all">
+              <div className="text-sm font-medium text-blue-400">🚚 Transport Relays</div>
+              <div className="text-xs text-zinc-500 mt-1">Multi-leg transport coordination</div>
+            </Link>
+
             <Link href="/admin/sysop/response-times" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
               <div className="text-sm font-medium">⏱️ Response Times</div>
               <div className="text-xs text-zinc-500 mt-1">Performance analytics by tier/county</div>
@@ -215,6 +220,27 @@ export default async function SysopPage() {
           </div>
         </div>
 
+        {/* Partners & Network */}
+        <div>
+          <h2 className="text-lg font-semibold text-zinc-300 mb-3">🤝 Partners & Network</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/admin/sysop/partners" className="block border border-amber-800/50 rounded-lg bg-amber-900/20 p-4 hover:border-amber-600/50 hover:bg-amber-900/30 transition-all">
+              <div className="text-sm font-medium text-amber-400">🏢 Partner Management</div>
+              <div className="text-xs text-zinc-500 mt-1">Approve applications, assign users to orgs</div>
+            </Link>
+
+            <Link href="/admin/sysop/hotspots" className="block border border-red-800/50 rounded-lg bg-red-900/20 p-4 hover:border-red-600/50 hover:bg-red-900/30 transition-all">
+              <div className="text-sm font-medium text-red-400">📍 Abandonment Hotspots</div>
+              <div className="text-xs text-zinc-500 mt-1">Track repeat abandonment locations</div>
+            </Link>
+
+            <Link href="/admin/sysop/counties" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
+              <div className="text-sm font-medium">🏛️ Counties & Regions</div>
+              <div className="text-xs text-zinc-500 mt-1">Manage service areas, shelter partners</div>
+            </Link>
+          </div>
+        </div>
+
         {/* Configuration */}
         <div>
           <h2 className="text-lg font-semibold text-zinc-300 mb-3">⚙️ Configuration</h2>
@@ -222,11 +248,6 @@ export default async function SysopPage() {
             <Link href="/admin/sysop/compliance" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
               <div className="text-sm font-medium text-green-400">📋 Compliance & Resources</div>
               <div className="text-xs text-zinc-500 mt-1">WV laws, shelters & rescue directory</div>
-            </Link>
-
-            <Link href="/admin/sysop/counties" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🏛️ Counties & Regions</div>
-              <div className="text-xs text-zinc-500 mt-1">Manage service areas, shelter partners</div>
             </Link>
 
             <Link href="/admin/sysop/content" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">

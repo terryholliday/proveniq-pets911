@@ -93,7 +93,10 @@ export default function Pet911Home() {
               <Link href="/login?redirectTo=/admin/sysop">Staff Login</Link>
             </Button>
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
-              <Link href="/volunteer/apply">Volunteer Apply</Link>
+              <Link href="/login?redirectTo=/partner/dashboard">Partner Login</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild className="hidden sm:flex">
+              <Link href="/volunteer/dashboard">Volunteer Portal</Link>
             </Button>
             <Button size="sm" className="gradient-amber text-zinc-900 font-bold border-none hover:opacity-90 transition-opacity" asChild>
               <Link href="https://lostpets911.org">Launch App</Link>
@@ -929,6 +932,25 @@ export default function Pet911Home() {
                 </div>
               </div>
               <p className="text-center text-zinc-500 text-sm mt-6">Pet911 does not give medical advice, assess injuries, or direct treatment decisions.</p>
+            </div>
+
+            {/* Partner CTA */}
+            <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-amber-950/30 to-amber-900/20 border border-amber-700/30">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h3 className="text-xl font-bold text-white mb-2">Are You a Shelter, Rescue, or Animal Welfare Organization?</h3>
+                  <p className="text-zinc-400">
+                    Join West Virginia&apos;s first unified animal emergency response network. Get real-time alerts, 
+                    access verified volunteers, and track your community impact.
+                  </p>
+                </div>
+                <Button size="lg" className="gradient-amber text-zinc-900 font-bold border-none hover:opacity-90 transition-opacity shrink-0" asChild>
+                  <Link href="/partners">
+                    <HeartHandshake className="h-5 w-5 mr-2" />
+                    Become a Partner
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
