@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { LoadingOverlay } from '@/components/ui/loading-spinner';
 import { 
   Trophy, Star, TrendingUp, Clock, Target, Award, Medal,
-  ChevronDown, Filter, Calendar
+  ChevronDown, Filter, Calendar, RefreshCw
 } from 'lucide-react';
 
 type Volunteer = {
@@ -28,17 +30,10 @@ type Volunteer = {
 
 type TimeRange = 'week' | 'month' | 'all-time';
 
-const MOCK_VOLUNTEERS: Volunteer[] = [
+// Fallback mock data
+const FALLBACK_VOLUNTEERS: Volunteer[] = [
   { id: 'V1', name: 'Emily Carter', county: 'Kanawha', missions_completed: 156, missions_this_week: 8, missions_this_month: 32, avg_response_time: 12, success_rate: 98, rating: 4.9, total_hours: 420, streak_days: 45, badges: ['TOP_RESPONDER', 'TRANSPORT_PRO', 'LIFESAVER_100'], rank_change: 0 },
   { id: 'V2', name: 'James Wilson', county: 'Cabell', missions_completed: 143, missions_this_week: 7, missions_this_month: 28, avg_response_time: 15, success_rate: 96, rating: 4.8, total_hours: 380, streak_days: 30, badges: ['TRANSPORT_PRO', 'RELIABLE'], rank_change: 1 },
-  { id: 'V3', name: 'Sarah Martinez', county: 'Greenbrier', missions_completed: 128, missions_this_week: 6, missions_this_month: 25, avg_response_time: 18, success_rate: 97, rating: 4.9, total_hours: 350, streak_days: 22, badges: ['FOSTER_HERO', 'LIFESAVER_100'], rank_change: -1 },
-  { id: 'V4', name: 'Michael Brown', county: 'Raleigh', missions_completed: 112, missions_this_week: 5, missions_this_month: 22, avg_response_time: 20, success_rate: 94, rating: 4.7, total_hours: 290, streak_days: 15, badges: ['EMERGENCY_RESPONDER'], rank_change: 2 },
-  { id: 'V5', name: 'Lisa Kim', county: 'Monongalia', missions_completed: 98, missions_this_week: 4, missions_this_month: 18, avg_response_time: 22, success_rate: 95, rating: 4.8, total_hours: 260, streak_days: 12, badges: ['RELIABLE', 'NIGHT_OWL'], rank_change: 0 },
-  { id: 'V6', name: 'Tom Roberts', county: 'Harrison', missions_completed: 87, missions_this_week: 6, missions_this_month: 20, avg_response_time: 14, success_rate: 93, rating: 4.6, total_hours: 230, streak_days: 8, badges: ['FAST_RESPONDER'], rank_change: 3 },
-  { id: 'V7', name: 'Anna Peterson', county: 'Marion', missions_completed: 76, missions_this_week: 3, missions_this_month: 15, avg_response_time: 25, success_rate: 92, rating: 4.5, total_hours: 200, streak_days: 5, badges: ['FOSTER_HERO'], rank_change: -2 },
-  { id: 'V8', name: 'David Lee', county: 'Wood', missions_completed: 65, missions_this_week: 4, missions_this_month: 14, avg_response_time: 19, success_rate: 91, rating: 4.4, total_hours: 175, streak_days: 10, badges: [], rank_change: 1 },
-  { id: 'V9', name: 'Jennifer Adams', county: 'Mercer', missions_completed: 54, missions_this_week: 2, missions_this_month: 10, avg_response_time: 28, success_rate: 90, rating: 4.3, total_hours: 145, streak_days: 3, badges: [], rank_change: -1 },
-  { id: 'V10', name: 'Chris Taylor', county: 'Putnam', missions_completed: 45, missions_this_week: 3, missions_this_month: 12, avg_response_time: 21, success_rate: 89, rating: 4.2, total_hours: 120, streak_days: 7, badges: ['NEWCOMER'], rank_change: 0 },
 ];
 
 const BADGE_INFO: Record<string, { icon: string; label: string; color: string }> = {
@@ -54,11 +49,80 @@ const BADGE_INFO: Record<string, { icon: string; label: string; color: string }>
 };
 
 export default function LeaderboardPage() {
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState<TimeRange>('month');
   const [sortBy, setSortBy] = useState<'missions' | 'rating' | 'response_time'>('missions');
 
+  // Fetch leaderboard data from API
+  const fetchLeaderboard = useCallback(async () => {
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+
+      if (!token) {
+        setVolunteers(FALLBACK_VOLUNTEERS);
+        setError('Not authenticated - showing sample data');
+        return;
+      }
+
+      const res = await fetch(`/api/admin/mods/leaderboard?period=${timeRange}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (data.success && data.data.leaderboard) {
+        const apiVolunteers: Volunteer[] = data.data.leaderboard.map((v: any) => ({
+          id: v.id,
+          name: v.name,
+          county: v.county,
+          missions_completed: v.stats.completedMissions || 0,
+          missions_this_week: Math.round((v.stats.completedMissions || 0) / 4),
+          missions_this_month: v.stats.completedMissions || 0,
+          avg_response_time: v.stats.avgResponseTime || 20,
+          success_rate: v.stats.successRate || 90,
+          rating: v.stats.rating || 4.5,
+          total_hours: (v.stats.completedMissions || 0) * 2,
+          streak_days: Math.min(v.stats.completedMissions || 0, 30),
+          badges: getBadges(v.stats),
+          rank_change: 0,
+        }));
+        setVolunteers(apiVolunteers.length > 0 ? apiVolunteers : FALLBACK_VOLUNTEERS);
+        setError(null);
+      } else {
+        setVolunteers(FALLBACK_VOLUNTEERS);
+      }
+    } catch (err) {
+      console.error('Leaderboard fetch error:', err);
+      setVolunteers(FALLBACK_VOLUNTEERS);
+      setError('Failed to load - showing sample data');
+    } finally {
+      setLoading(false);
+    }
+  }, [timeRange]);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
+
+  // Generate badges based on stats
+  function getBadges(stats: any): string[] {
+    const badges: string[] = [];
+    if (stats.completedMissions >= 100) badges.push('LIFESAVER_100');
+    if (stats.completedMissions >= 50) badges.push('TRANSPORT_PRO');
+    if (stats.avgResponseTime && stats.avgResponseTime < 15) badges.push('FAST_RESPONDER');
+    if (stats.successRate >= 95) badges.push('RELIABLE');
+    if (stats.completedMissions < 10) badges.push('NEWCOMER');
+    return badges;
+  }
+
   // Sort volunteers based on criteria
-  const sortedVolunteers = [...MOCK_VOLUNTEERS].sort((a, b) => {
+  const sortedVolunteers = [...volunteers].sort((a, b) => {
     if (sortBy === 'missions') {
       if (timeRange === 'week') return b.missions_this_week - a.missions_this_week;
       if (timeRange === 'month') return b.missions_this_month - a.missions_this_month;
@@ -70,10 +134,15 @@ export default function LeaderboardPage() {
   });
 
   const getMissionCount = (vol: Volunteer) => {
-    if (timeRange === 'week') return vol.missions_this_week;
-    if (timeRange === 'month') return vol.missions_this_month;
-    return vol.missions_completed;
+    if (!vol) return 0;
+    if (timeRange === 'week') return vol.missions_this_week || 0;
+    if (timeRange === 'month') return vol.missions_this_month || 0;
+    return vol.missions_completed || 0;
   };
+
+  if (loading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -93,6 +162,15 @@ export default function LeaderboardPage() {
               </h1>
               <p className="text-zinc-400 text-sm">Celebrating our top performers</p>
             </div>
+            <Button
+              onClick={fetchLeaderboard}
+              disabled={loading}
+              variant="outline"
+              className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700"
+            >
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
           </div>
         </div>
       </div>

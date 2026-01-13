@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { LoadingOverlay } from '@/components/ui/loading-spinner';
 import { 
   Calendar, ChevronLeft, ChevronRight, Clock, Users, Plus, 
-  AlertTriangle, CheckCircle, X, Edit, Trash2
+  AlertTriangle, CheckCircle, X, Edit, Trash2, RefreshCw
 } from 'lucide-react';
 
 type Shift = {
@@ -28,16 +30,10 @@ type DaySlot = {
   isCurrentMonth: boolean;
 };
 
-// Mock shifts data
-const MOCK_SHIFTS: Shift[] = [
+// Fallback mock shifts data
+const FALLBACK_SHIFTS: Shift[] = [
   { id: 'S1', volunteer_id: 'V1', volunteer_name: 'Emily Carter', date: '2026-01-13', start_time: '08:00', end_time: '16:00', type: 'regular', county: 'KANAWHA', status: 'confirmed' },
   { id: 'S2', volunteer_id: 'V2', volunteer_name: 'James Wilson', date: '2026-01-13', start_time: '16:00', end_time: '00:00', type: 'regular', county: 'CABELL', status: 'scheduled' },
-  { id: 'S3', volunteer_id: 'V3', volunteer_name: 'Sarah Martinez', date: '2026-01-13', start_time: '00:00', end_time: '08:00', type: 'on-call', county: 'GREENBRIER', status: 'confirmed' },
-  { id: 'S4', volunteer_id: 'V1', volunteer_name: 'Emily Carter', date: '2026-01-14', start_time: '08:00', end_time: '16:00', type: 'regular', county: 'KANAWHA', status: 'scheduled' },
-  { id: 'S5', volunteer_id: 'V4', volunteer_name: 'Michael Brown', date: '2026-01-14', start_time: '16:00', end_time: '00:00', type: 'backup', county: 'RALEIGH', status: 'scheduled' },
-  { id: 'S6', volunteer_id: 'V5', volunteer_name: 'Lisa Kim', date: '2026-01-15', start_time: '08:00', end_time: '16:00', type: 'regular', county: 'MONONGALIA', status: 'scheduled' },
-  { id: 'S7', volunteer_id: 'V6', volunteer_name: 'Tom Roberts', date: '2026-01-15', start_time: '16:00', end_time: '00:00', type: 'on-call', county: 'HARRISON', status: 'scheduled' },
-  { id: 'S8', volunteer_id: 'V2', volunteer_name: 'James Wilson', date: '2026-01-16', start_time: '08:00', end_time: '16:00', type: 'regular', county: 'CABELL', status: 'scheduled' },
 ];
 
 const TYPE_COLORS: Record<string, string> = {
@@ -54,11 +50,77 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function ShiftCalendarPage() {
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 13)); // Jan 13, 2026
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<'week' | 'month'>('week');
-  const [shifts, setShifts] = useState<Shift[]>(MOCK_SHIFTS);
+  const [shifts, setShifts] = useState<Shift[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  // Fetch shifts from API
+  const fetchShifts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+
+      if (!token) {
+        setShifts(FALLBACK_SHIFTS);
+        setError('Not authenticated - showing sample data');
+        return;
+      }
+
+      // Calculate date range based on view
+      const start = new Date(currentDate);
+      const end = new Date(currentDate);
+      if (view === 'week') {
+        start.setDate(start.getDate() - start.getDay());
+        end.setDate(start.getDate() + 7);
+      } else {
+        start.setDate(1);
+        end.setMonth(end.getMonth() + 1);
+        end.setDate(0);
+      }
+
+      const res = await fetch(
+        `/api/admin/mods/shifts?start=${start.toISOString().split('T')[0]}&end=${end.toISOString().split('T')[0]}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (data.success && data.data.shifts) {
+        const apiShifts: Shift[] = data.data.shifts.map((s: any) => ({
+          id: s.id,
+          volunteer_id: s.volunteerId,
+          volunteer_name: s.volunteerName || 'Unknown',
+          date: s.date,
+          start_time: s.startTime,
+          end_time: s.endTime,
+          type: s.type || 'regular',
+          county: s.county || 'Unknown',
+          status: s.status || 'scheduled',
+        }));
+        setShifts(apiShifts.length > 0 ? apiShifts : FALLBACK_SHIFTS);
+        setError(apiShifts.length === 0 ? 'No shifts scheduled - showing sample data' : null);
+      } else {
+        setShifts(FALLBACK_SHIFTS);
+      }
+    } catch (err) {
+      console.error('Shifts fetch error:', err);
+      setShifts(FALLBACK_SHIFTS);
+      setError('Failed to load - showing sample data');
+    } finally {
+      setLoading(false);
+    }
+  }, [currentDate, view]);
+
+  useEffect(() => {
+    fetchShifts();
+  }, [fetchShifts]);
 
   // Get week days
   const getWeekDays = (date: Date): DaySlot[] => {
@@ -156,6 +218,10 @@ export default function ShiftCalendarPage() {
   // Calculate coverage gaps
   const coverageGaps = days.filter(d => d.isCurrentMonth && d.shifts.length === 0);
 
+  if (loading) {
+    return <LoadingOverlay />;
+  }
+
   // Stats
   const stats = {
     totalShifts: shifts.length,
@@ -180,10 +246,26 @@ export default function ShiftCalendarPage() {
                 <Calendar className="w-6 h-6 text-blue-400" />
                 Shift Calendar
               </h1>
-              <p className="text-zinc-400 text-sm">Manage volunteer scheduling and coverage</p>
+              <p className="text-zinc-400 text-sm">Manage volunteer schedules</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>
+            <div className="flex gap-2">
+              <Button
+                onClick={fetchShifts}
+                disabled={loading}
+                variant="outline"
+                size="sm"
+              >
+                <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setView(view === 'week' ? 'month' : 'week')}
+              >
+                {view === 'week' ? 'Month View' : 'Week View'}
+              </Button>
+              <Button size="sm" onClick={() => setShowAddModal(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Add Shift
               </Button>

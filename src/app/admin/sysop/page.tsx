@@ -99,15 +99,15 @@ export default async function SysopPage() {
           </div>
         </div>
 
-        {/* Core Admin */}
+        {/* Volunteer Management - BLUE theme (people/users) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">👥 Volunteer Management</h2>
+          <h2 className="text-lg font-semibold text-blue-400 mb-3">👥 Volunteer Management</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/admin/sysop/applications" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
+            <Link href="/admin/sysop/applications" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
               <div className="flex items-center justify-between">
-                <div className="text-sm font-medium">📋 Applications</div>
+                <div className="text-sm font-medium text-blue-400">📋 Applications</div>
                 {(pendingApplications ?? 0) > 0 && (
-                  <span className="bg-yellow-600 text-yellow-100 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="bg-amber-600 text-amber-100 text-xs font-medium px-2 py-0.5 rounded-full">
                     {pendingApplications} pending
                   </span>
                 )}
@@ -115,16 +115,16 @@ export default async function SysopPage() {
               <div className="text-xs text-zinc-500 mt-1">Review and approve new volunteers</div>
             </Link>
 
-            <Link href="/admin/sysop/volunteers" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">👤 All Volunteers</div>
+            <Link href="/admin/sysop/volunteers" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
+              <div className="text-sm font-medium text-blue-400">👤 All Volunteers</div>
               <div className="text-xs text-zinc-500 mt-1">View, edit capabilities, activate/deactivate</div>
             </Link>
 
-            <Link href="/admin/sysop/background-checks" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
+            <Link href="/admin/sysop/background-checks" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
               <div className="flex items-center justify-between">
-                <div className="text-sm font-medium">🔍 Background Checks</div>
+                <div className="text-sm font-medium text-blue-400">🔍 Background Checks</div>
                 {(pendingBackgroundChecks ?? 0) > 0 && (
-                  <span className="bg-cyan-600 text-cyan-100 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="bg-amber-600 text-amber-100 text-xs font-medium px-2 py-0.5 rounded-full">
                     {pendingBackgroundChecks}
                   </span>
                 )}
@@ -134,25 +134,25 @@ export default async function SysopPage() {
           </div>
         </div>
 
-        {/* Training & Certification */}
+        {/* Training & Certification - PURPLE theme (learning/credentials) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">🎓 Training & Certification</h2>
+          <h2 className="text-lg font-semibold text-purple-400 mb-3">🎓 Training & Certification</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/training/dashboard" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">📚 Training Dashboard</div>
+            <Link href="/training/dashboard" className="block border border-purple-800/50 rounded-lg bg-purple-900/20 p-4 hover:border-purple-600/50 hover:bg-purple-900/30 transition-all">
+              <div className="text-sm font-medium text-purple-400">📚 Training Dashboard</div>
               <div className="text-xs text-zinc-500 mt-1">Monitor training progress across all tracks</div>
             </Link>
 
-            <Link href="/admin/sysop/certifications" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🏆 Certifications</div>
+            <Link href="/admin/sysop/certifications" className="block border border-purple-800/50 rounded-lg bg-purple-900/20 p-4 hover:border-purple-600/50 hover:bg-purple-900/30 transition-all">
+              <div className="text-sm font-medium text-purple-400">🏆 Certifications</div>
               <div className="text-xs text-zinc-500 mt-1">Issue/revoke certs, view expiring</div>
             </Link>
 
-            <Link href="/admin/sysop/cooldowns" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
+            <Link href="/admin/sysop/cooldowns" className="block border border-purple-800/50 rounded-lg bg-purple-900/20 p-4 hover:border-purple-600/50 hover:bg-purple-900/30 transition-all">
               <div className="flex items-center justify-between">
-                <div className="text-sm font-medium">⏸️ Cooldown Management</div>
+                <div className="text-sm font-medium text-purple-400">⏸️ Cooldown Management</div>
                 {(activeCooldowns ?? 0) > 0 && (
-                  <span className="bg-orange-600 text-orange-100 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="bg-amber-600 text-amber-100 text-xs font-medium px-2 py-0.5 rounded-full">
                     {activeCooldowns} active
                   </span>
                 )}
@@ -162,146 +162,148 @@ export default async function SysopPage() {
           </div>
         </div>
 
-        {/* Case Management */}
+        {/* Case Management - GREEN theme (active operations) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">📋 Case Management</h2>
+          <h2 className="text-lg font-semibold text-green-400 mb-3">📋 Case Management</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/admin/sysop/cases" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
-              <div className="text-sm font-medium text-blue-400">📂 Incident Cases</div>
+            <Link href="/admin/sysop/cases" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">📂 Incident Cases</div>
               <div className="text-xs text-zinc-500 mt-1">Manage multi-animal incidents</div>
             </Link>
 
-            <Link href="/admin/sysop/tnr" className="block border border-teal-800/50 rounded-lg bg-teal-900/20 p-4 hover:border-teal-600/50 hover:bg-teal-900/30 transition-all">
-              <div className="text-sm font-medium text-teal-400">🐱 TNR Colonies</div>
+            <Link href="/admin/sysop/tnr" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">🐱 TNR Colonies</div>
               <div className="text-xs text-zinc-500 mt-1">Trap-Neuter-Return tracking</div>
             </Link>
 
-            <Link href="/admin/sysop/capacity" className="block border border-orange-800/50 rounded-lg bg-orange-900/20 p-4 hover:border-orange-600/50 hover:bg-orange-900/30 transition-all">
-              <div className="text-sm font-medium text-orange-400">🏥 Capacity Alerts</div>
+            <Link href="/admin/sysop/capacity" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">🏥 Capacity Alerts</div>
               <div className="text-xs text-zinc-500 mt-1">Shelter capacity monitoring</div>
             </Link>
 
-            <Link href="/admin/sysop/equipment-match" className="block border border-yellow-800/50 rounded-lg bg-yellow-900/20 p-4 hover:border-yellow-600/50 hover:bg-yellow-900/30 transition-all">
-              <div className="text-sm font-medium text-yellow-400">🔧 Equipment Match</div>
+            <Link href="/admin/sysop/equipment-match" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">🔧 Equipment Match</div>
               <div className="text-xs text-zinc-500 mt-1">Technical rescue volunteer matching</div>
             </Link>
 
-            <Link href="/admin/sysop/outcomes" className="block border border-pink-800/50 rounded-lg bg-pink-900/20 p-4 hover:border-pink-600/50 hover:bg-pink-900/30 transition-all">
-              <div className="text-sm font-medium text-pink-400">💗 Outcomes</div>
+            <Link href="/admin/sysop/outcomes" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
+              <div className="text-sm font-medium text-green-400">💗 Outcomes</div>
               <div className="text-xs text-zinc-500 mt-1">Lives saved metrics & tracking</div>
             </Link>
           </div>
         </div>
 
-        {/* Operations */}
+        {/* Operations - CYAN theme (real-time dispatch) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">🚀 Operations</h2>
+          <h2 className="text-lg font-semibold text-cyan-400 mb-3">🚀 Operations</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/admin/mods/dispatch" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">📡 Dispatch Queue</div>
+            {/* Row 1: Cyan cards (routine operations) */}
+            <Link href="/admin/mods/dispatch" className="block border border-cyan-800/50 rounded-lg bg-cyan-900/20 p-4 hover:border-cyan-600/50 hover:bg-cyan-900/30 transition-all">
+              <div className="text-sm font-medium text-cyan-400">📡 Dispatch Queue</div>
               <div className="text-xs text-zinc-500 mt-1">Manage active dispatch requests</div>
             </Link>
 
-            <Link href="/admin/sysop/escalations" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🚨 Case Escalations</div>
-              <div className="text-xs text-zinc-500 mt-1">Auto-escalated unassigned cases</div>
-            </Link>
-
-            <Link href="/admin/sysop/transport-relays" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
-              <div className="text-sm font-medium text-blue-400">🚚 Transport Relays</div>
+            <Link href="/admin/sysop/transport-relays" className="block border border-cyan-800/50 rounded-lg bg-cyan-900/20 p-4 hover:border-cyan-600/50 hover:bg-cyan-900/30 transition-all">
+              <div className="text-sm font-medium text-cyan-400">🚚 Transport Relays</div>
               <div className="text-xs text-zinc-500 mt-1">Multi-leg transport coordination</div>
             </Link>
 
-            <Link href="/admin/sysop/response-times" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">⏱️ Response Times</div>
+            <Link href="/admin/sysop/response-times" className="block border border-cyan-800/50 rounded-lg bg-cyan-900/20 p-4 hover:border-cyan-600/50 hover:bg-cyan-900/30 transition-all">
+              <div className="text-sm font-medium text-cyan-400">⏱️ Response Times</div>
               <div className="text-xs text-zinc-500 mt-1">Performance analytics by tier/county</div>
             </Link>
 
-            <Link href="/admin/sysop/fraud-review" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🔍 Fraud Review</div>
+            {/* Row 2: Red cards (alerts/urgent) */}
+            <Link href="/admin/sysop/escalations" className="block border border-red-800/50 rounded-lg bg-red-900/20 p-4 hover:border-red-600/50 hover:bg-red-900/30 transition-all">
+              <div className="text-sm font-medium text-red-400">🚨 Case Escalations</div>
+              <div className="text-xs text-zinc-500 mt-1">Auto-escalated unassigned cases</div>
+            </Link>
+
+            <Link href="/admin/sysop/fraud-review" className="block border border-red-800/50 rounded-lg bg-red-900/20 p-4 hover:border-red-600/50 hover:bg-red-900/30 transition-all">
+              <div className="text-sm font-medium text-red-400">🔍 Fraud Review</div>
               <div className="text-xs text-zinc-500 mt-1">Flagged posts and donations</div>
             </Link>
 
-            <Link href="/admin/sysop/emergency-broadcast" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-red-600/50 hover:bg-red-900/20 transition-all border-red-900/30">
+            <Link href="/admin/sysop/emergency-broadcast" className="block border border-red-800/50 rounded-lg bg-red-900/20 p-4 hover:border-red-600/50 hover:bg-red-900/30 transition-all">
               <div className="text-sm font-medium text-red-400">📢 Emergency Broadcast</div>
               <div className="text-xs text-zinc-500 mt-1">Push notifications to all volunteers</div>
             </Link>
           </div>
         </div>
 
-        {/* Analytics & Automation */}
+        {/* Analytics & Automation - INDIGO theme (data/insights) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">📊 Analytics & Automation</h2>
+          <h2 className="text-lg font-semibold text-indigo-400 mb-3">📊 Analytics & Automation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/admin/sysop/alerts" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🔔 System Alerts</div>
+            <Link href="/admin/sysop/alerts" className="block border border-indigo-800/50 rounded-lg bg-indigo-900/20 p-4 hover:border-indigo-600/50 hover:bg-indigo-900/30 transition-all">
+              <div className="text-sm font-medium text-indigo-400">🔔 System Alerts</div>
               <div className="text-xs text-zinc-500 mt-1">Automated workflow notifications</div>
             </Link>
 
-            <Link href="/admin/sysop/analytics" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">📈 Analytics Dashboard</div>
+            <Link href="/admin/sysop/analytics" className="block border border-indigo-800/50 rounded-lg bg-indigo-900/20 p-4 hover:border-indigo-600/50 hover:bg-indigo-900/30 transition-all">
+              <div className="text-sm font-medium text-indigo-400">📈 Analytics Dashboard</div>
               <div className="text-xs text-zinc-500 mt-1">Metrics, funnels, outcomes</div>
             </Link>
 
-            <Link href="/admin/sysop/heatmap" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🗺️ Coverage Heatmap</div>
+            <Link href="/admin/sysop/heatmap" className="block border border-indigo-800/50 rounded-lg bg-indigo-900/20 p-4 hover:border-indigo-600/50 hover:bg-indigo-900/30 transition-all">
+              <div className="text-sm font-medium text-indigo-400">🗺️ Coverage Heatmap</div>
               <div className="text-xs text-zinc-500 mt-1">Geographic volunteer distribution</div>
             </Link>
 
-            <Link href="/admin/sysop/autonomous" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
-              <div className="text-sm font-medium text-blue-400">🤖 Autonomous Operations</div>
+            <Link href="/admin/sysop/autonomous" className="block border border-indigo-800/50 rounded-lg bg-indigo-900/20 p-4 hover:border-indigo-600/50 hover:bg-indigo-900/30 transition-all">
+              <div className="text-sm font-medium text-indigo-400">🤖 Autonomous Operations</div>
               <div className="text-xs text-zinc-500 mt-1">50/50 human-AI system control</div>
             </Link>
 
-            <Link href="/admin/sysop/moderation" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
-              <div className="text-sm font-medium text-blue-400">👥 Human-AI Moderation</div>
+            <Link href="/admin/sysop/moderation" className="block border border-indigo-800/50 rounded-lg bg-indigo-900/20 p-4 hover:border-indigo-600/50 hover:bg-indigo-900/30 transition-all">
+              <div className="text-sm font-medium text-indigo-400">👥 Human-AI Moderation</div>
               <div className="text-xs text-zinc-500 mt-1">50/50 safety-first content review</div>
             </Link>
           </div>
         </div>
 
-        {/* Partners & Network */}
+        {/* Partners & Network - AMBER theme (external orgs) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">🤝 Partners & Network</h2>
+          <h2 className="text-lg font-semibold text-amber-400 mb-3">🤝 Partners & Network</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Link href="/admin/sysop/partners" className="block border border-amber-800/50 rounded-lg bg-amber-900/20 p-4 hover:border-amber-600/50 hover:bg-amber-900/30 transition-all">
               <div className="text-sm font-medium text-amber-400">🏢 Partner Management</div>
               <div className="text-xs text-zinc-500 mt-1">Approve applications, assign users to orgs</div>
             </Link>
 
-            <Link href="/admin/sysop/hotspots" className="block border border-red-800/50 rounded-lg bg-red-900/20 p-4 hover:border-red-600/50 hover:bg-red-900/30 transition-all">
-              <div className="text-sm font-medium text-red-400">📍 Abandonment Hotspots</div>
+            <Link href="/admin/sysop/hotspots" className="block border border-amber-800/50 rounded-lg bg-amber-900/20 p-4 hover:border-amber-600/50 hover:bg-amber-900/30 transition-all">
+              <div className="text-sm font-medium text-amber-400">📍 Abandonment Hotspots</div>
               <div className="text-xs text-zinc-500 mt-1">Track repeat abandonment locations</div>
             </Link>
 
-            <Link href="/admin/sysop/counties" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">🏛️ Counties & Regions</div>
+            <Link href="/admin/sysop/counties" className="block border border-amber-800/50 rounded-lg bg-amber-900/20 p-4 hover:border-amber-600/50 hover:bg-amber-900/30 transition-all">
+              <div className="text-sm font-medium text-amber-400">🏛️ Counties & Regions</div>
               <div className="text-xs text-zinc-500 mt-1">Manage service areas, shelter partners</div>
             </Link>
           </div>
         </div>
 
-        {/* Configuration */}
+        {/* Configuration - ZINC theme (settings/neutral) */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-300 mb-3">⚙️ Configuration</h2>
+          <h2 className="text-lg font-semibold text-zinc-400 mb-3">⚙️ Configuration</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/admin/sysop/compliance" className="block border border-green-800/50 rounded-lg bg-green-900/20 p-4 hover:border-green-600/50 hover:bg-green-900/30 transition-all">
-              <div className="text-sm font-medium text-green-400">📋 Compliance & Resources</div>
+            <Link href="/admin/sysop/compliance" className="block border border-zinc-700 rounded-lg bg-zinc-800/30 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition-all">
+              <div className="text-sm font-medium text-zinc-300">📋 Compliance & Resources</div>
               <div className="text-xs text-zinc-500 mt-1">WV laws, shelters & rescue directory</div>
             </Link>
 
-            <Link href="/admin/sysop/content" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">📝 Content Management</div>
+            <Link href="/admin/sysop/content" className="block border border-zinc-700 rounded-lg bg-zinc-800/30 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition-all">
+              <div className="text-sm font-medium text-zinc-300">📝 Content Management</div>
               <div className="text-xs text-zinc-500 mt-1">Edit training module content</div>
             </Link>
 
-            <Link href="/admin/sysop/audit-log" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-amber-600/50 hover:bg-zinc-900/50 transition-all">
-              <div className="text-sm font-medium">📜 Audit Log</div>
+            <Link href="/admin/sysop/audit-log" className="block border border-zinc-700 rounded-lg bg-zinc-800/30 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition-all">
+              <div className="text-sm font-medium text-zinc-300">📜 Audit Log</div>
               <div className="text-xs text-zinc-500 mt-1">Track all admin actions</div>
             </Link>
 
-            <Link href="/admin/sysop/diagnostics" className="block border border-purple-800/50 rounded-lg bg-purple-900/20 p-4 hover:border-purple-600/50 hover:bg-purple-900/30 transition-all">
-              <div className="text-sm font-medium text-purple-400">🔬 Diagnostics</div>
+            <Link href="/admin/sysop/diagnostics" className="block border border-zinc-700 rounded-lg bg-zinc-800/30 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition-all">
+              <div className="text-sm font-medium text-zinc-300">🔬 Diagnostics</div>
               <div className="text-xs text-zinc-500 mt-1">Debug auth, capabilities, partner links</div>
             </Link>
           </div>

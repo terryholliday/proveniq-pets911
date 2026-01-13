@@ -6,8 +6,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { LoadingOverlay } from '@/components/ui/loading-spinner';
 import { 
-  MapPin, RefreshCcw, Truck, Home, Zap, Users, AlertTriangle, 
+  MapPin, RefreshCw, Truck, Home, Zap, Users, AlertTriangle, 
   ChevronRight, Eye, EyeOff, Layers, Filter
 } from 'lucide-react';
 
@@ -111,33 +112,65 @@ export default function LiveMapPage() {
   const [selectedCounty, setSelectedCounty] = useState<string | null>(null);
   const [filterPriority, setFilterPriority] = useState<string | null>(null);
 
-  // Mock data for demonstration
-  const MOCK_TICKETS: Ticket[] = [
-    { id: 'T1', request_type: 'TRANSPORT', priority: 'CRITICAL', county: 'KANAWHA', species: 'Dog', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T2', request_type: 'FOSTER', priority: 'HIGH', county: 'CABELL', species: 'Cat', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T3', request_type: 'EMERGENCY_ASSIST', priority: 'CRITICAL', county: 'RALEIGH', species: 'Dog', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T4', request_type: 'TRANSPORT', priority: 'MEDIUM', county: 'GREENBRIER', species: 'Cat', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T5', request_type: 'FOSTER', priority: 'LOW', county: 'MONONGALIA', species: 'Dog', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T6', request_type: 'TRANSPORT', priority: 'HIGH', county: 'WOOD', species: 'Dog', status: 'PENDING', requested_at: new Date().toISOString() },
-    { id: 'T7', request_type: 'EMERGENCY_ASSIST', priority: 'HIGH', county: 'MERCER', species: 'Cat', status: 'PENDING', requested_at: new Date().toISOString() },
-  ];
+  const [error, setError] = useState<string | null>(null);
 
-  const MOCK_VOLUNTEERS: Volunteer[] = [
-    { id: 'V1', name: 'Emily C.', county: 'KANAWHA', capabilities: ['TRANSPORT', 'FOSTER'], is_available: true },
-    { id: 'V2', name: 'James W.', county: 'CABELL', capabilities: ['TRANSPORT'], is_available: true },
-    { id: 'V3', name: 'Sarah M.', county: 'GREENBRIER', capabilities: ['FOSTER'], is_available: false },
-    { id: 'V4', name: 'Mike B.', county: 'RALEIGH', capabilities: ['TRANSPORT', 'EMERGENCY'], is_available: true },
-    { id: 'V5', name: 'Lisa K.', county: 'MONONGALIA', capabilities: ['TRANSPORT'], is_available: true },
-    { id: 'V6', name: 'Tom R.', county: 'HARRISON', capabilities: ['FOSTER', 'EMERGENCY'], is_available: true },
-    { id: 'V7', name: 'Anna P.', county: 'MARION', capabilities: ['TRANSPORT'], is_available: false },
-  ];
+  // Fetch map data from API
+  const fetchMapData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+
+      if (!token) {
+        setError('Not authenticated');
+        setLoading(false);
+        return;
+      }
+
+      const res = await fetch('/api/admin/mods/map-data', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (data.success) {
+        // Transform tickets from API format
+        const apiTickets: Ticket[] = (data.data.tickets || []).map((t: any) => ({
+          id: t.id,
+          request_type: t.type || 'TRANSPORT',
+          priority: t.priority || 'MEDIUM',
+          county: t.county || 'UNKNOWN',
+          species: t.description?.includes('cat') ? 'Cat' : 'Dog',
+          status: t.status || 'PENDING',
+          requested_at: t.created_at || new Date().toISOString(),
+        }));
+
+        // Transform volunteers from API format
+        const apiVolunteers: Volunteer[] = (data.data.volunteers || []).map((v: any) => ({
+          id: v.id,
+          name: v.name || 'Unknown',
+          county: v.county || 'UNKNOWN',
+          capabilities: v.capabilities || [],
+          is_available: v.is_available || false,
+        }));
+
+        setTickets(apiTickets);
+        setVolunteers(apiVolunteers);
+      }
+    } catch (err) {
+      console.error('Map data fetch error:', err);
+      setError('Failed to load map data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    // Simulate loading data
-    setTickets(MOCK_TICKETS);
-    setVolunteers(MOCK_VOLUNTEERS);
-    setLoading(false);
-  }, []);
+    fetchMapData();
+  }, [fetchMapData]);
 
   // Calculate map bounds for WV
   const mapBounds = {
@@ -251,6 +284,10 @@ export default function LiveMapPage() {
     );
   }
 
+  if (loading) {
+    return <LoadingOverlay />;
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Header */}
@@ -270,7 +307,7 @@ export default function LiveMapPage() {
               <p className="text-zinc-400 text-sm">Real-time view of tickets and volunteers across West Virginia</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => setLoading(true)}>
-              <RefreshCcw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
           </div>
@@ -311,17 +348,33 @@ export default function LiveMapPage() {
               <span className="text-red-400 font-medium">{coverageStats.deadZones}</span>
               <span className="text-zinc-500">Dead Zones</span>
             </div>
-          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Map Panel */}
-          <div className="lg:col-span-3 border border-zinc-800 rounded-lg bg-zinc-900/30 p-4">
-            {/* Map Controls */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
+      {/* Map Panel */}
+      <div className="lg:col-span-3 border border-zinc-800 rounded-lg bg-zinc-900/30 p-4">
+        {/* Map Controls */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Button
+              variant={showTickets ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setShowTickets(!showTickets)}
+              className={showTickets ? 'bg-amber-600 hover:bg-amber-700' : ''}
+            >
+              {showTickets ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
+              Tickets
+            </Button>
+            <Button
+              variant={showVolunteers ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setShowVolunteers(!showVolunteers)}
+              className={showVolunteers ? 'bg-green-600 hover:bg-green-700' : ''}
+            >
+              {showVolunteers ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
+              Volunteers
+            </Button>
                 <Button
                   variant={showTickets ? 'default' : 'outline'}
                   size="sm"
