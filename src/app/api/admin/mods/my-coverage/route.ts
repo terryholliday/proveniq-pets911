@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     let hasStatewide = false;
 
     if (!error && assignments && assignments.length > 0) {
-      assignments.forEach(a => {
+      assignments.forEach((a: any) => {
         const area = a.coverage_areas as any;
         if (area) {
           if (area.area_type === 'county' && area.county_name) {
