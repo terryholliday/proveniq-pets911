@@ -30,42 +30,48 @@ type Scenario =
 
 type Species = 'DOG' | 'CAT' | 'MIXED' | 'OTHER';
 
-const SCENARIO_OPTIONS: { value: Scenario; label: string; description: string; icon: React.ReactNode }[] = [
+const SCENARIO_OPTIONS: { value: Scenario; label: string; description: string; icon: React.ReactNode; emoji: string }[] = [
   { 
     value: 'LITTER', 
     label: 'Litter / Group', 
     description: 'Puppies, kittens, or animals found together',
-    icon: <Users className="h-6 w-6" />
+    icon: <Users className="h-6 w-6" />,
+    emoji: '🐾'
   },
   { 
     value: 'DECEASED_OWNER', 
     label: 'Deceased Owner', 
     description: 'Animals left after owner passed away',
-    icon: <Home className="h-6 w-6" />
+    icon: <Home className="h-6 w-6" />,
+    emoji: '🏠'
   },
   { 
     value: 'FERAL_COLONY', 
     label: 'Feral Cat Colony', 
     description: 'Report for TNR (Trap-Neuter-Return)',
-    icon: <Cat className="h-6 w-6" />
+    icon: <Cat className="h-6 w-6" />,
+    emoji: '🐱'
   },
   { 
     value: 'HOARDING', 
     label: 'Suspected Hoarding', 
     description: 'Multiple animals in poor conditions',
-    icon: <AlertTriangle className="h-6 w-6" />
+    icon: <AlertTriangle className="h-6 w-6" />,
+    emoji: '⚠️'
   },
   { 
     value: 'ABANDONMENT', 
     label: 'Mass Abandonment', 
     description: 'Multiple animals dumped/left behind',
-    icon: <Heart className="h-6 w-6" />
+    icon: <Heart className="h-6 w-6" />,
+    emoji: '💔'
   },
   { 
     value: 'OTHER', 
     label: 'Other Situation', 
     description: 'Describe your situation',
-    icon: <Plus className="h-6 w-6" />
+    icon: <Plus className="h-6 w-6" />,
+    emoji: '📝'
   },
 ];
 
@@ -170,19 +176,34 @@ export default function MultiAnimalReportPage() {
       <div className="max-w-lg mx-auto p-4">
         {/* Progress */}
         {!['submitting', 'success'].includes(step) && (
-          <div className="flex items-center gap-2 mb-6">
-            {['scenario', 'details', 'location', 'contact'].map((s, i) => (
-              <div key={s} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                  step === s ? 'bg-amber-600 text-white' :
-                  ['scenario', 'details', 'location', 'contact'].indexOf(step) > i ? 'bg-green-600 text-white' :
-                  'bg-zinc-800 text-zinc-500'
-                }`}>
-                  {['scenario', 'details', 'location', 'contact'].indexOf(step) > i ? '✓' : i + 1}
-                </div>
-                {i < 3 && <div className={`w-6 h-0.5 ${['scenario', 'details', 'location', 'contact'].indexOf(step) > i ? 'bg-green-600' : 'bg-zinc-800'}`} />}
-              </div>
-            ))}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              {['scenario', 'details', 'location', 'contact'].map((s, i) => {
+                const stepLabels = ['Situation', 'Details', 'Location', 'Contact'];
+                const isComplete = ['scenario', 'details', 'location', 'contact'].indexOf(step) > i;
+                const isCurrent = step === s;
+                return (
+                  <div key={s} className="flex flex-col items-center flex-1">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                      isCurrent ? 'bg-amber-600 text-white ring-4 ring-amber-600/30 scale-110' :
+                      isComplete ? 'bg-green-600 text-white' :
+                      'bg-zinc-800 text-zinc-500'
+                    }`}>
+                      {isComplete ? '✓' : i + 1}
+                    </div>
+                    <span className={`text-xs mt-1 ${isCurrent ? 'text-amber-400 font-medium' : 'text-zinc-500'}`}>
+                      {stepLabels[i]}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-amber-600 to-amber-500 transition-all duration-500 ease-out rounded-full"
+                style={{ width: `${(['scenario', 'details', 'location', 'contact'].indexOf(step) + 1) * 25}%` }}
+              />
+            </div>
           </div>
         )}
 
@@ -199,20 +220,25 @@ export default function MultiAnimalReportPage() {
                 <button
                   key={opt.value}
                   onClick={() => setScenario(opt.value)}
-                  className={`w-full p-4 rounded-lg border text-left transition-all ${
+                  className={`w-full p-4 rounded-xl border-2 text-left transition-all duration-200 ${
                     scenario === opt.value 
-                      ? 'border-amber-500 bg-amber-900/30' 
-                      : 'border-zinc-700 hover:border-zinc-600 bg-zinc-900/50'
+                      ? 'border-amber-500 bg-amber-900/30 shadow-lg shadow-amber-900/20 scale-[1.02]' 
+                      : 'border-zinc-800 hover:border-zinc-600 bg-zinc-900/50 hover:bg-zinc-900'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${scenario === opt.value ? 'bg-amber-600' : 'bg-zinc-800'}`}>
-                      {opt.icon}
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-all ${
+                      scenario === opt.value ? 'bg-amber-600 scale-110' : 'bg-zinc-800'
+                    }`}>
+                      {opt.emoji}
                     </div>
-                    <div>
-                      <div className="font-medium">{opt.label}</div>
-                      <div className="text-xs text-zinc-400">{opt.description}</div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-lg">{opt.label}</div>
+                      <div className="text-sm text-zinc-400">{opt.description}</div>
                     </div>
+                    {scenario === opt.value && (
+                      <CheckCircle className="h-6 w-6 text-amber-500" />
+                    )}
                   </div>
                 </button>
               ))}
@@ -242,21 +268,22 @@ export default function MultiAnimalReportPage() {
                 <label className="block text-sm text-zinc-400 mb-2">What type of animals?</label>
                 <div className="grid grid-cols-4 gap-2">
                   {[
-                    { value: 'DOG', label: 'Dogs' },
-                    { value: 'CAT', label: 'Cats' },
-                    { value: 'MIXED', label: 'Mixed' },
-                    { value: 'OTHER', label: 'Other' },
+                    { value: 'DOG', label: 'Dogs', emoji: '🐕' },
+                    { value: 'CAT', label: 'Cats', emoji: '🐈' },
+                    { value: 'MIXED', label: 'Mixed', emoji: '🐾' },
+                    { value: 'OTHER', label: 'Other', emoji: '❓' },
                   ].map(opt => (
                     <button
                       key={opt.value}
                       onClick={() => setSpecies(opt.value as Species)}
-                      className={`p-3 rounded-lg border text-center text-sm ${
+                      className={`p-3 rounded-xl border-2 text-center transition-all duration-200 ${
                         species === opt.value 
-                          ? 'border-amber-500 bg-amber-900/30' 
-                          : 'border-zinc-700 hover:border-zinc-600'
+                          ? 'border-amber-500 bg-amber-900/30 scale-105' 
+                          : 'border-zinc-800 hover:border-zinc-600 bg-zinc-900/50'
                       }`}
                     >
-                      {opt.label}
+                      <div className="text-2xl mb-1">{opt.emoji}</div>
+                      <div className="text-sm font-medium">{opt.label}</div>
                     </button>
                   ))}
                 </div>
@@ -280,19 +307,22 @@ export default function MultiAnimalReportPage() {
               </label>
               
               {!countUncertain && (
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex items-center justify-center gap-6 py-4">
                   <button
                     onClick={() => setCount(Math.max(2, count - 1))}
-                    className="w-12 h-12 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center"
+                    className="w-14 h-14 rounded-full bg-zinc-800 hover:bg-zinc-700 active:scale-95 flex items-center justify-center transition-all shadow-lg"
                   >
-                    <Minus className="h-5 w-5" />
+                    <Minus className="h-6 w-6" />
                   </button>
-                  <div className="text-4xl font-bold w-20 text-center">{count}</div>
+                  <div className="w-24 text-center">
+                    <div className="text-5xl font-black text-amber-400">{count}</div>
+                    <div className="text-xs text-zinc-500 mt-1">animals</div>
+                  </div>
                   <button
                     onClick={() => setCount(count + 1)}
-                    className="w-12 h-12 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center"
+                    className="w-14 h-14 rounded-full bg-amber-700 hover:bg-amber-600 active:scale-95 flex items-center justify-center transition-all shadow-lg"
                   >
-                    <Plus className="h-5 w-5" />
+                    <Plus className="h-6 w-6" />
                   </button>
                 </div>
               )}
@@ -349,19 +379,20 @@ export default function MultiAnimalReportPage() {
               <label className="block text-sm text-zinc-400 mb-2">How urgent is this?</label>
               <div className="grid grid-cols-4 gap-2">
                 {[
-                  { value: 'LOW', label: 'Low', color: 'border-blue-600 bg-blue-900/30' },
-                  { value: 'MEDIUM', label: 'Medium', color: 'border-yellow-600 bg-yellow-900/30' },
-                  { value: 'HIGH', label: 'High', color: 'border-orange-600 bg-orange-900/30' },
-                  { value: 'CRITICAL', label: 'Critical', color: 'border-red-600 bg-red-900/30' },
+                  { value: 'LOW', label: 'Low', color: 'border-blue-500 bg-blue-900/40 text-blue-300', dot: 'bg-blue-500' },
+                  { value: 'MEDIUM', label: 'Medium', color: 'border-yellow-500 bg-yellow-900/40 text-yellow-300', dot: 'bg-yellow-500' },
+                  { value: 'HIGH', label: 'High', color: 'border-orange-500 bg-orange-900/40 text-orange-300', dot: 'bg-orange-500' },
+                  { value: 'CRITICAL', label: 'Critical', color: 'border-red-500 bg-red-900/40 text-red-300 animate-pulse', dot: 'bg-red-500' },
                 ].map(opt => (
                   <button
                     key={opt.value}
                     onClick={() => setUrgency(opt.value as typeof urgency)}
-                    className={`p-2 rounded-lg border text-center text-xs ${
-                      urgency === opt.value ? opt.color : 'border-zinc-700'
+                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                      urgency === opt.value ? opt.color : 'border-zinc-800 bg-zinc-900/50'
                     }`}
                   >
-                    {opt.label}
+                    <div className={`w-3 h-3 rounded-full mx-auto mb-1 ${urgency === opt.value ? opt.dot : 'bg-zinc-600'}`} />
+                    <div className="text-xs font-medium">{opt.label}</div>
                   </button>
                 ))}
               </div>
@@ -520,8 +551,10 @@ export default function MultiAnimalReportPage() {
 
         {/* Success */}
         {step === 'success' && (
-          <div className="text-center py-12">
-            <CheckCircle className="h-16 w-16 mx-auto mb-4 text-green-500" />
+          <div className="text-center py-8">
+            <div className="w-20 h-20 mx-auto mb-4 bg-green-900/30 rounded-full flex items-center justify-center animate-bounce">
+              <CheckCircle className="h-12 w-12 text-green-500" />
+            </div>
             <h2 className="text-2xl font-bold mb-2">Report Submitted!</h2>
             <p className="text-zinc-400 mb-4">
               Case #{caseNumber} created
