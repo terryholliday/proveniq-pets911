@@ -155,125 +155,6 @@ export default function PetMaydayHome() {
           </div>
         </section>
 
-        {/* Why We're Different - Competitor Comparison */}
-        <section className="py-24 px-4 bg-zinc-900/50" id="compare">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <Badge variant="outline" className="mb-4 border-amber-500/50 text-amber-500 text-lg px-6 py-2">Why We're Different</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                Not Another Lost Pet App.
-              </h2>
-              <p className="text-xl text-zinc-400">
-                Most platforms are digital bulletin boards. PetMayday is an <span className="text-white font-semibold">operations command center</span> with real coordination infrastructure.
-              </p>
-            </div>
-
-            {/* Comparison Matrix */}
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b border-zinc-700">
-                    <th className="text-left py-4 px-4 text-zinc-400 font-medium">Capability</th>
-                    <th className="py-4 px-4 text-center">
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-amber-400 font-bold">PetMayday</span>
-                      </div>
-                    </th>
-                    <th className="py-4 px-4 text-center text-zinc-500">Lost Pet Apps</th>
-                    <th className="py-4 px-4 text-center text-zinc-500">Social Media</th>
-                    <th className="py-4 px-4 text-center text-zinc-500">Shelter Networks</th>
-                  </tr>
-                </thead>
-                <tbody className="text-base">
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Offline-First (No Signal Required)</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Trained Volunteer Dispatch</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Shelter & Vet Integration</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Some</span></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Medical Triage & ER Routing</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Transport Coordination</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Foster Network Management</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">AI + Human Match Verification</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Some</span></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Some</span></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Immutable Audit Trail</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Tiered Alert Escalation</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Basic</span></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="border-b border-zinc-800 hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">Volunteer Training & Certification</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                  </tr>
-                  <tr className="hover:bg-zinc-800/50">
-                    <td className="py-4 px-4 font-medium">100% Nonprofit / No Ads</td>
-                    <td className="py-4 px-4 text-center"><Check className="w-5 h-5 text-green-500 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Varies</span></td>
-                    <td className="py-4 px-4 text-center"><X className="w-5 h-5 text-zinc-600 mx-auto" /></td>
-                    <td className="py-4 px-4 text-center"><span className="text-zinc-500 text-xs">Some</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div className="mt-8 text-center">
-              <p className="text-sm text-zinc-500 max-w-2xl mx-auto">
-                PetMayday is an independent nonprofit. We are not affiliated with any other lost pet service or emergency hotline.
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* The Crisis: "The Panic Gap" */}
         <section className="py-24 bg-muted/30 border-y border-border" id="crisis">
           <div className="max-w-7xl mx-auto px-4">
@@ -326,6 +207,83 @@ export default function PetMaydayHome() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why We're Different - Competitor Comparison */}
+        <section className="py-24 px-4 bg-zinc-900/50" id="compare">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <Badge variant="outline" className="mb-4 border-amber-500/50 text-amber-500 text-lg px-6 py-2">Why We're Different</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                Not Another Lost Pet App.
+              </h2>
+              <p className="text-xl text-zinc-400">
+                Most platforms are digital bulletin boards. PetMayday is an <span className="text-white font-semibold">operations command center</span> with real coordination infrastructure.
+              </p>
+            </div>
+
+            {/* Comparison - Card Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { feature: "Offline-First", desc: "Works without cell signal in rural areas", exclusive: true },
+                { feature: "Trained Volunteer Dispatch", desc: "Certified responders, not random strangers", exclusive: true },
+                { feature: "Medical Triage & ER Routing", desc: "Injured animals go to vets, not Facebook", exclusive: true },
+                { feature: "Transport Coordination", desc: "Relay drivers moving pets to safety", exclusive: true },
+                { feature: "Foster Network Management", desc: "Capacity tracking across the region", exclusive: true },
+                { feature: "Immutable Audit Trail", desc: "Court-admissible chain of custody", exclusive: true },
+                { feature: "Tiered Alert Escalation", desc: "Right people, right time, right channel", exclusive: true },
+                { feature: "Volunteer Training & Certification", desc: "Academy-trained with verified skills", exclusive: true },
+                { feature: "AI + Human Match Verification", desc: "No false hope, no scam matches", exclusive: false },
+                { feature: "Shelter & Vet Integration", desc: "Direct data flow to partner facilities", exclusive: false },
+                { feature: "No Ads. No Upsells. Ever.", desc: "Free forever. No premium tiers.", exclusive: true },
+              ].map((item, idx) => (
+                <div 
+                  key={idx}
+                  className={`p-5 rounded-xl border-2 transition-all ${
+                    item.exclusive 
+                      ? 'bg-gradient-to-br from-green-900/40 to-amber-900/20 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.15)]' 
+                      : 'bg-zinc-900/50 border-zinc-700/50 opacity-60'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                      item.exclusive ? 'bg-green-500 shadow-lg shadow-green-500/30' : 'bg-zinc-700'
+                    }`}>
+                      <Check className={`w-6 h-6 ${item.exclusive ? 'text-white' : 'text-zinc-500'}`} />
+                    </div>
+                    <div>
+                      <h4 className={`font-bold text-lg ${item.exclusive ? 'text-white' : 'text-zinc-400'}`}>
+                        {item.feature}
+                      </h4>
+                      {item.exclusive && (
+                        <span className="inline-block mt-1 px-2 py-0.5 text-xs font-bold text-black bg-amber-400 rounded uppercase tracking-wider">Only Us</span>
+                      )}
+                      <p className={`text-sm mt-2 ${item.exclusive ? 'text-zinc-300' : 'text-zinc-500'}`}>{item.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* What Others Have */}
+            <div className="mt-10 p-8 rounded-xl bg-red-950/30 border-2 border-red-900/50">
+              <h4 className="text-red-300 font-bold text-lg mb-4 text-center">What Everyone Else Offers:</h4>
+              <div className="flex flex-wrap justify-center gap-3">
+                {["Post a flyer", "Share to feed", "Basic alerts", "Photo upload", "Comments"].map((item, idx) => (
+                  <span key={idx} className="px-4 py-2 bg-red-900/40 border border-red-700/50 rounded-full text-base text-red-200">
+                    {item}
+                  </span>
+                ))}
+              </div>
+              <p className="text-center text-red-400 font-semibold text-lg mt-6">That's it. Post and pray.</p>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm text-zinc-500 max-w-2xl mx-auto">
+                PetMayday is an independent nonprofit. We are not affiliated with any other lost pet service or emergency hotline.
+              </p>
             </div>
           </div>
         </section>
@@ -1109,7 +1067,6 @@ export default function PetMaydayHome() {
               </div>
 
               <div className="order-1 lg:order-2">
-                <Badge variant="outline" className="mb-4 border-indigo-500/50 text-indigo-400">Bishop Protocol Enabled</Badge>
                 <h2 className="text-3xl md:text-5xl font-bold mb-6">Emotional First Aid.</h2>
                 <p className="text-lg text-muted-foreground mb-8">
                   Losing a pet is a trauma. Our AI Support Counselor is trained in <strong>Pet Loss Grief</strong> and <strong>Crisis Intervention</strong>.

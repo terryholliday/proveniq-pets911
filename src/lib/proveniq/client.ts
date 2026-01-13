@@ -1,14 +1,14 @@
 /**
- * PetNexus Ecosystem API Client
+ * PROVENIQ Ecosystem API Client
  * 
- * Provides cross-system sync between PetMayday and the PetNexus ecosystem:
- * - VetOS: System of Record for clinics
- * - LifeLog: Immutable biological event log
- * - Teleport: Interoperability and data portability
- * - Pet360: Holistic pet management
+ * Provides cross-system sync between PROVENIQ PetMayday and the PROVENIQ ecosystem:
+ * - PROVENIQ VetOS: System of Record for clinics
+ * - PROVENIQ LifeLog: Immutable biological event log
+ * - PROVENIQ Teleport: Interoperability and data portability
+ * - PROVENIQ Pet360: Holistic pet management
  */
 
-export interface PetNexusConfig {
+export interface ProveniqConfig {
   baseUrl: string;
   apiKey: string;
   clientId: string;
@@ -80,16 +80,16 @@ export interface Pet360Profile {
   microchip_id?: string;
 }
 
-class PetNexusClient {
-  private config: PetNexusConfig;
+class ProveniqClient {
+  private config: ProveniqConfig;
   private initialized: boolean = false;
 
   constructor() {
     this.config = {
-      baseUrl: process.env.PETNEXUS_API_URL || 'https://api.petnexus.io',
-      apiKey: process.env.PETNEXUS_API_KEY || '',
-      clientId: process.env.PETNEXUS_CLIENT_ID || 'PetMayday-wv',
-      environment: (process.env.PETNEXUS_ENV as PetNexusConfig['environment']) || 'development',
+      baseUrl: process.env.PROVENIQ_API_URL || 'https://api.proveniq.org',
+      apiKey: process.env.PROVENIQ_API_KEY || '',
+      clientId: process.env.PROVENIQ_CLIENT_ID || 'PetMayday-wv',
+      environment: (process.env.PROVENIQ_ENV as ProveniqConfig['environment']) || 'development',
     };
   }
 
@@ -99,7 +99,7 @@ class PetNexusClient {
     body?: Record<string, any>
   ): Promise<{ success: boolean; data?: T; error?: string }> {
     if (!this.config.apiKey) {
-      console.warn('[PetNexus] API key not configured - running in mock mode');
+      console.warn('[PROVENIQ] API key not configured - running in mock mode');
       return { success: true, data: undefined };
     }
 
@@ -117,14 +117,14 @@ class PetNexusClient {
 
       if (!response.ok) {
         const error = await response.text();
-        console.error(`[PetNexus] API error: ${response.status} - ${error}`);
+        console.error(`[PROVENIQ] API error: ${response.status} - ${error}`);
         return { success: false, error: `API error: ${response.status}` };
       }
 
       const data = await response.json();
       return { success: true, data };
     } catch (error) {
-      console.error('[PetNexus] Request failed:', error);
+      console.error('[PROVENIQ] Request failed:', error);
       return { success: false, error: 'Network error' };
     }
   }
@@ -444,31 +444,34 @@ class PetNexusClient {
 }
 
 // Singleton instance
-export const petnexus = new PetNexusClient();
+export const proveniq = new ProveniqClient();
+
+// Legacy alias for backwards compatibility
+export const petnexus = proveniq;
 
 // Convenience exports
 export const lifelog = {
-  logEvent: petnexus.logEvent.bind(petnexus),
-  logRescue: petnexus.logRescue.bind(petnexus),
-  logReunification: petnexus.logReunification.bind(petnexus),
+  logEvent: proveniq.logEvent.bind(proveniq),
+  logRescue: proveniq.logRescue.bind(proveniq),
+  logReunification: proveniq.logReunification.bind(proveniq),
 };
 
 export const teleport = {
-  transferAnimalToVetOS: petnexus.transferAnimalToVetOS.bind(petnexus),
-  syncCaseOutcome: petnexus.syncCaseOutcome.bind(petnexus),
+  transferAnimalToVetOS: proveniq.transferAnimalToVetOS.bind(proveniq),
+  syncCaseOutcome: proveniq.syncCaseOutcome.bind(proveniq),
 };
 
 export const vetos = {
-  getPartnerFacilities: petnexus.getPartnerFacilities.bind(petnexus),
-  checkFacilityCapacity: petnexus.checkFacilityCapacity.bind(petnexus),
+  getPartnerFacilities: proveniq.getPartnerFacilities.bind(proveniq),
+  checkFacilityCapacity: proveniq.checkFacilityCapacity.bind(proveniq),
 };
 
 export const pet360 = {
-  reportFoundPet: petnexus.reportFoundPet.bind(petnexus),
-  searchLostPets: petnexus.searchLostPets.bind(petnexus),
+  reportFoundPet: proveniq.reportFoundPet.bind(proveniq),
+  searchLostPets: proveniq.searchLostPets.bind(proveniq),
 };
 
 export const metrics = {
-  recordOutcome: petnexus.recordOutcome.bind(petnexus),
-  getImpactMetrics: petnexus.getImpactMetrics.bind(petnexus),
+  recordOutcome: proveniq.recordOutcome.bind(proveniq),
+  getImpactMetrics: proveniq.getImpactMetrics.bind(proveniq),
 };
