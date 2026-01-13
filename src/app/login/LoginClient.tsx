@@ -26,11 +26,12 @@ export default function LoginClient() {
   const onEmailPassword = async () => {
     setBusy(true);
     setStatus(null);
-    console.log('[Auth] Attempting', mode, 'for', email);
+    const normalizedEmail = email.toLowerCase().trim();
+    console.log('[Auth] Attempting', mode, 'for', normalizedEmail);
     
     try {
       if (mode === 'signin') {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password });
         console.log('[Auth] Sign in response:', { data, error });
         
         if (error) {
@@ -82,7 +83,7 @@ export default function LoginClient() {
         }
       }
 
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({ email: normalizedEmail, password });
       console.log('[Auth] Sign up response:', { data, error });
       
       if (error) throw error;
@@ -107,12 +108,13 @@ export default function LoginClient() {
   const onMagicLink = async () => {
     setBusy(true);
     setStatus(null);
+    const normalizedEmail = email.toLowerCase().trim();
     try {
       const origin = window.location.origin;
       const emailRedirectTo = `${origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`;
 
       const { error } = await supabase.auth.signInWithOtp({
-        email,
+        email: normalizedEmail,
         options: { emailRedirectTo },
       });
       if (error) throw error;
@@ -261,12 +263,6 @@ export default function LoginClient() {
           <Link href="/terms" className="text-zinc-400 hover:text-white">Terms</Link>
           {' '}and{' '}
           <Link href="/privacy" className="text-zinc-400 hover:text-white">Privacy Policy</Link>.
-        </div>
-
-        {/* Debug info - remove in production */}
-        <div className="mt-4 p-3 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-500">
-          <strong>Troubleshooting:</strong> Open browser console (F12) to see auth debug logs.
-          If login fails, check that your email is confirmed in Supabase.
         </div>
       </div>
     </div>

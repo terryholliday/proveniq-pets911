@@ -81,8 +81,8 @@ export default function PartnerDashboard() {
             <span className="text-zinc-400 text-sm">Active Alerts</span>
             <Bell className="h-4 w-4 text-amber-500" />
           </div>
-          <div className="text-2xl font-bold">3</div>
-          <div className="text-xs text-amber-500">1 urgent</div>
+          <div className="text-2xl font-bold">{stats?.active_alerts ?? 0}</div>
+          <div className="text-xs text-amber-500">{stats?.urgent_count ?? 0} urgent</div>
         </div>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
@@ -90,8 +90,8 @@ export default function PartnerDashboard() {
             <span className="text-zinc-400 text-sm">Cases This Month</span>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <div className="text-2xl font-bold">24</div>
-          <div className="text-xs text-green-500">+12% from last month</div>
+          <div className="text-2xl font-bold">{stats?.cases_this_month ?? 0}</div>
+          <div className="text-xs text-green-500">Tracking progress</div>
         </div>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
@@ -99,8 +99,8 @@ export default function PartnerDashboard() {
             <span className="text-zinc-400 text-sm">Reunification Rate</span>
             <CheckCircle className="h-4 w-4 text-blue-500" />
           </div>
-          <div className="text-2xl font-bold">67%</div>
-          <div className="text-xs text-zinc-500">County avg: 42%</div>
+          <div className="text-2xl font-bold">{stats?.reunification_rate ?? 0}%</div>
+          <div className="text-xs text-blue-500">Goal: 90%</div>
         </div>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
@@ -108,8 +108,8 @@ export default function PartnerDashboard() {
             <span className="text-zinc-400 text-sm">Avg Response Time</span>
             <Clock className="h-4 w-4 text-purple-500" />
           </div>
-          <div className="text-2xl font-bold">2.3h</div>
-          <div className="text-xs text-zinc-500">Target: &lt;4h</div>
+          <div className="text-2xl font-bold">{stats?.avg_response_hours ?? 0}h</div>
+          <div className="text-xs text-purple-500">Target: &lt;3h</div>
         </div>
       </div>
 

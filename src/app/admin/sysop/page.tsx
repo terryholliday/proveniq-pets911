@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/client';
 import { createClient } from '@supabase/supabase-js';
+import { LogOut } from 'lucide-react';
 
 // Easter egg: No auth check - security through obscurity
 // Access via /admin/sysop (buried URL)
@@ -56,9 +57,17 @@ export default async function SysopPage() {
               Signed in as {volunteer?.display_name || session?.user?.email || 'Guest'}
             </p>
           </div>
-          <div className="text-right">
-            <div className="text-xs text-zinc-500">System Status</div>
-            <div className="text-green-400 text-sm font-medium">● All Systems Operational</div>
+          <div className="text-right flex items-center gap-4">
+            <div>
+              <div className="text-xs text-zinc-500">System Status</div>
+              <div className="text-green-400 text-sm font-medium">● All Systems Operational</div>
+            </div>
+            <form action="/auth/signout" method="post">
+              <button type="submit" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </button>
+            </form>
           </div>
         </div>
 
