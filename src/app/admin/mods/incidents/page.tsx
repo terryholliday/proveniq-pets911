@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { 
   AlertTriangle, Plus, Clock, CheckCircle, XCircle, Eye, 
-  MapPin, User, FileText, MessageSquare, Filter
+  MapPin, User, FileText, MessageSquare, Filter, X, UserPlus,
+  ArrowRight, Shield, Thermometer, CloudRain, Car
 } from 'lucide-react';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
@@ -24,14 +25,48 @@ type Incident = {
   reported_at: string;
   description: string;
   assigned_to?: string;
+  timeline?: { date: string; action: string; by: string }[];
+};
+
+type SafetyAlert = {
+  id: string;
+  type: 'dangerous_animal' | 'weather' | 'road_closure' | 'property_access';
+  county: string;
+  message: string;
+  expires_at: string;
+  active: boolean;
 };
 
 const MOCK_INCIDENTS: Incident[] = [
-  { id: 'INC-001', title: 'Aggressive dog at pickup location', type: 'Safety', severity: 'high', status: 'investigating', county: 'KANAWHA', reported_by: 'John Mitchell', reported_at: '2 hours ago', description: 'Volunteer reported aggressive dog at 123 Main St. Owner was not present.', assigned_to: 'Mod Team' },
+  { id: 'INC-001', title: 'Aggressive dog at pickup location', type: 'Safety', severity: 'high', status: 'investigating', county: 'KANAWHA', reported_by: 'John Mitchell', reported_at: '2 hours ago', description: 'Volunteer reported aggressive dog at 123 Main St. Owner was not present.', assigned_to: 'Mod Team', timeline: [
+    { date: '2026-01-13 10:30', action: 'Incident reported', by: 'John Mitchell' },
+    { date: '2026-01-13 10:45', action: 'Assigned to Mod Team', by: 'System' },
+    { date: '2026-01-13 11:00', action: 'Investigation started', by: 'Admin' },
+  ] },
   { id: 'INC-002', title: 'Vehicle breakdown during transport', type: 'Logistics', severity: 'medium', status: 'resolved', county: 'CABELL', reported_by: 'Lisa Anderson', reported_at: '1 day ago', description: 'Transport volunteer vehicle broke down. Animal safely transferred to backup volunteer.' },
   { id: 'INC-003', title: 'Property access denied', type: 'Access', severity: 'low', status: 'closed', county: 'GREENBRIER', reported_by: 'Robert Davis', reported_at: '3 days ago', description: 'Gate code provided was incorrect. Contact updated in system.' },
   { id: 'INC-004', title: 'Animal escape during transfer', type: 'Safety', severity: 'critical', status: 'open', county: 'BERKELEY', reported_by: 'Sarah Williams', reported_at: '30 min ago', description: 'Cat escaped carrier during transfer. Still searching in area.' },
 ];
+
+const SAFETY_ALERTS: SafetyAlert[] = [
+  { id: 'SA-001', type: 'dangerous_animal', county: 'KANAWHA', message: 'Aggressive dog reported at 123 Main St. Use caution.', expires_at: '2026-01-14', active: true },
+  { id: 'SA-002', type: 'weather', county: 'GREENBRIER', message: 'Winter storm warning - roads may be hazardous', expires_at: '2026-01-13', active: true },
+  { id: 'SA-003', type: 'road_closure', county: 'RALEIGH', message: 'Route 19 closed due to accident. Use alternate routes.', expires_at: '2026-01-13', active: true },
+];
+
+const ALERT_ICONS: Record<string, typeof Shield> = {
+  dangerous_animal: Shield,
+  weather: CloudRain,
+  road_closure: Car,
+  property_access: MapPin,
+};
+
+const ALERT_COLORS: Record<string, string> = {
+  dangerous_animal: 'bg-red-900/30 border-red-800 text-red-300',
+  weather: 'bg-blue-900/30 border-blue-800 text-blue-300',
+  road_closure: 'bg-amber-900/30 border-amber-800 text-amber-300',
+  property_access: 'bg-purple-900/30 border-purple-800 text-purple-300',
+};
 
 const SEVERITY_CONFIG: Record<Severity, { color: string; label: string }> = {
   critical: { color: 'bg-red-600 text-white', label: 'Critical' },
@@ -48,11 +83,31 @@ const STATUS_CONFIG: Record<Status, { color: string; label: string; icon: typeof
 };
 
 export default function ModeratorIncidentsPage() {
-  const [incidents] = useState<Incident[]>(MOCK_INCIDENTS);
+  const [incidents, setIncidents] = useState<Incident[]>(MOCK_INCIDENTS);
   const [filterStatus, setFilterStatus] = useState<Status | 'all'>('all');
   const [filterSeverity, setFilterSeverity] = useState<Severity | 'all'>('all');
   const [showNewForm, setShowNewForm] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState<string | null>(null);
+  const [showInvestigateModal, setShowInvestigateModal] = useState<string | null>(null);
+  const [safetyAlerts] = useState<SafetyAlert[]>(SAFETY_ALERTS);
+  const [showAlerts, setShowAlerts] = useState(true);
+
+  const handleStartInvestigation = (incidentId: string) => {
+    setIncidents(prev => prev.map(inc => 
+      inc.id === incidentId 
+        ? { ...inc, status: 'investigating' as Status, assigned_to: 'You' }
+        : inc
+    ));
+    setShowInvestigateModal(null);
+  };
+
+  const handleResolve = (incidentId: string) => {
+    setIncidents(prev => prev.map(inc => 
+      inc.id === incidentId 
+        ? { ...inc, status: 'resolved' as Status }
+        : inc
+    ));
+  };
 
   const filteredIncidents = incidents.filter(i => {
     const matchesStatus = filterStatus === 'all' || i.status === filterStatus;
@@ -96,6 +151,36 @@ export default function ModeratorIncidentsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
+        {/* Safety Alerts Banner */}
+        {showAlerts && safetyAlerts.filter(a => a.active).length > 0 && (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium flex items-center gap-2">
+                <Shield className="w-4 h-4 text-red-400" />
+                Active Safety Alerts
+              </h3>
+              <button onClick={() => setShowAlerts(false)} className="text-xs text-zinc-500 hover:text-zinc-300">Hide</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {safetyAlerts.filter(a => a.active).map(alert => {
+                const AlertIcon = ALERT_ICONS[alert.type];
+                return (
+                  <div key={alert.id} className={`p-3 rounded-lg border ${ALERT_COLORS[alert.type]}`}>
+                    <div className="flex items-start gap-2">
+                      <AlertIcon className="w-4 h-4 mt-0.5" />
+                      <div>
+                        <div className="text-xs font-medium uppercase">{alert.type.replace('_', ' ')}</div>
+                        <div className="text-sm mt-1">{alert.message}</div>
+                        <div className="text-xs opacity-70 mt-1">{alert.county} • Expires: {alert.expires_at}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* New Incident Form */}
         {showNewForm && (
           <Card className="bg-zinc-900/50 border-zinc-800 mb-6">
@@ -213,9 +298,35 @@ export default function ModeratorIncidentsPage() {
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline"><Eye className="w-3 h-3 mr-1" />View Details</Button>
                         <Button size="sm" variant="outline"><MessageSquare className="w-3 h-3 mr-1" />Add Note</Button>
-                        {incident.status === 'open' && <Button size="sm">Start Investigation</Button>}
-                        {incident.status === 'investigating' && <Button size="sm" className="bg-green-600 hover:bg-green-700">Mark Resolved</Button>}
+                        {incident.status === 'open' && (
+                          <Button size="sm" onClick={(e) => { e.stopPropagation(); handleStartInvestigation(incident.id); }}>
+                            <ArrowRight className="w-3 h-3 mr-1" />Start Investigation
+                          </Button>
+                        )}
+                        {incident.status === 'investigating' && (
+                          <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={(e) => { e.stopPropagation(); handleResolve(incident.id); }}>
+                            <CheckCircle className="w-3 h-3 mr-1" />Mark Resolved
+                          </Button>
+                        )}
                       </div>
+                      
+                      {/* Timeline for investigating incidents */}
+                      {incident.timeline && incident.timeline.length > 0 && (
+                        <div className="mt-4 pt-3 border-t border-zinc-800">
+                          <div className="text-xs font-medium text-zinc-400 mb-2">Investigation Timeline</div>
+                          <div className="space-y-2">
+                            {incident.timeline.map((entry, idx) => (
+                              <div key={idx} className="flex items-start gap-2 text-xs">
+                                <div className="w-2 h-2 rounded-full bg-blue-500 mt-1"></div>
+                                <div>
+                                  <span className="text-zinc-300">{entry.action}</span>
+                                  <span className="text-zinc-500 ml-2">by {entry.by} • {entry.date}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   BarChart3, TrendingUp, TrendingDown, Clock, CheckCircle, Users, 
-  MapPin, Truck, Home, Zap, Calendar, Download, Target
+  MapPin, Truck, Home, Zap, Calendar, Download, Target, FileText, FileSpreadsheet
 } from 'lucide-react';
 
 const DAILY_STATS = [
@@ -38,6 +38,46 @@ const TOP_VOLUNTEERS = [
 
 export default function ModeratorAnalyticsPage() {
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'year'>('week');
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+
+  const handleExportCSV = () => {
+    const headers = ['County', 'Missions', 'Volunteers', 'Avg Response (min)', 'Trend'];
+    const rows = COUNTY_STATS.map(c => [c.county, c.missions, c.volunteers, c.avgTime, c.trend]);
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pet911-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setShowExportMenu(false);
+  };
+
+  const handleExportJSON = () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      timeRange,
+      summary: stats,
+      dailyStats: DAILY_STATS,
+      countyStats: COUNTY_STATS,
+      topVolunteers: TOP_VOLUNTEERS,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pet911-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setShowExportMenu(false);
+  };
 
   const stats = {
     totalMissions: 89,
@@ -71,7 +111,21 @@ export default function ModeratorAnalyticsPage() {
                 <Button size="sm" variant={timeRange === 'month' ? 'default' : 'ghost'} onClick={() => setTimeRange('month')}>Month</Button>
                 <Button size="sm" variant={timeRange === 'year' ? 'default' : 'ghost'} onClick={() => setTimeRange('year')}>Year</Button>
               </div>
-              <Button variant="outline" size="sm"><Download className="w-4 h-4 mr-2" />Export</Button>
+              <div className="relative">
+                <Button variant="outline" size="sm" onClick={() => setShowExportMenu(!showExportMenu)}>
+                  <Download className="w-4 h-4 mr-2" />Export
+                </Button>
+                {showExportMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg z-10">
+                    <button onClick={handleExportCSV} className="w-full px-4 py-2 text-left text-sm hover:bg-zinc-800 flex items-center gap-2">
+                      <FileSpreadsheet className="w-4 h-4 text-green-400" /> Export as CSV
+                    </button>
+                    <button onClick={handleExportJSON} className="w-full px-4 py-2 text-left text-sm hover:bg-zinc-800 flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-blue-400" /> Export as JSON
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
