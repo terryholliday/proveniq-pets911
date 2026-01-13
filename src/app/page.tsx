@@ -130,6 +130,22 @@ export default function HomePage() {
               </div>
             </Link>
 
+            {/* Multiple Animals / Special Situations */}
+            <Link href="/sighting/multi" className="block group">
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-orange-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white mb-1">Multiple Animals / Special Situation</h3>
+                    <p className="text-slate-400 text-sm">Litters, feral colonies, deceased owner animals, hoarding</p>
+                  </div>
+                  <span className="text-slate-500 text-xl group-hover:text-orange-400 transition-colors">→</span>
+                </div>
+              </div>
+            </Link>
+
             {/* Browse Missing Pets */}
             <Link href="/missing" className="block group">
               <div className="bg-slate-800 border-2 border-slate-700 hover:border-amber-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">

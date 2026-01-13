@@ -5,7 +5,78 @@
 
 // --- Enumerations ---
 
-export type County = 'GREENBRIER' | 'KANAWHA';
+// All 55 West Virginia Counties
+// Source: "State of the Stray" Research Document (2026)
+export type County =
+  | 'BARBOUR'
+  | 'BERKELEY'
+  | 'BOONE'
+  | 'BRAXTON'
+  | 'BROOKE'
+  | 'CABELL'
+  | 'CALHOUN'
+  | 'CLAY'
+  | 'DODDRIDGE'
+  | 'FAYETTE'
+  | 'GILMER'
+  | 'GRANT'
+  | 'GREENBRIER'
+  | 'HAMPSHIRE'
+  | 'HANCOCK'
+  | 'HARDY'
+  | 'HARRISON'
+  | 'JACKSON'
+  | 'JEFFERSON'
+  | 'KANAWHA'
+  | 'LEWIS'
+  | 'LINCOLN'
+  | 'LOGAN'
+  | 'MARION'
+  | 'MARSHALL'
+  | 'MASON'
+  | 'MCDOWELL'
+  | 'MERCER'
+  | 'MINERAL'
+  | 'MINGO'
+  | 'MONONGALIA'
+  | 'MONROE'
+  | 'MORGAN'
+  | 'NICHOLAS'
+  | 'OHIO'
+  | 'PENDLETON'
+  | 'PLEASANTS'
+  | 'POCAHONTAS'
+  | 'PRESTON'
+  | 'PUTNAM'
+  | 'RALEIGH'
+  | 'RANDOLPH'
+  | 'RITCHIE'
+  | 'ROANE'
+  | 'SUMMERS'
+  | 'TAYLOR'
+  | 'TUCKER'
+  | 'TYLER'
+  | 'UPSHUR'
+  | 'WAYNE'
+  | 'WEBSTER'
+  | 'WETZEL'
+  | 'WIRT'
+  | 'WOOD'
+  | 'WYOMING';
+
+// Pilot counties (active deployment)
+export const PILOT_COUNTIES: County[] = ['GREENBRIER', 'KANAWHA'];
+
+// Pet911 Compliance Tiers based on research
+export type Pet911ComplianceTier = 'GOLD' | 'SILVER' | 'BRONZE' | 'NON_COMPLIANT';
+
+// Enforcement agency types
+export type EnforcementAgencyType =
+  | 'DEDICATED_ANIMAL_CONTROL'
+  | 'HUMANE_SOCIETY_CONTRACT'
+  | 'SHERIFF_WARDEN'
+  | 'JOINT_AUTHORITY'
+  | 'PRIVATIZED';
 
 export type Species =
   | 'DOG'
@@ -463,6 +534,97 @@ export interface UserProfile {
   push_enabled: boolean;
   email_enabled: boolean;
   primary_county: County | null;
+}
+
+// --- County Compliance Data (State of the Stray Research) ---
+
+export interface CountyComplianceData {
+  county: County;
+  display_name: string;
+  
+  // Enforcement Structure
+  enforcement_agency: EnforcementAgencyType;
+  enforcement_agency_name: string;
+  shelter_facility: string | null;
+  has_dedicated_shelter: boolean;
+  shared_facility_with?: County[];
+  
+  // Legal Framework
+  harboring_days: number; // 3, 15, or state default (5)
+  stray_hold_days: number; // State minimum is 5
+  has_anti_tethering: boolean;
+  has_mandatory_microchip: boolean;
+  has_spay_neuter_mandate: boolean;
+  has_tnr_program: boolean;
+  
+  // Pet911 Compliance Pillars
+  compliance_tier: Pet911ComplianceTier;
+  pillar_universal_scanning: boolean;
+  pillar_digital_transparency: boolean;
+  pillar_extended_holding: boolean;
+  pillar_finder_immunity: boolean;
+  
+  // Operational Notes
+  ordinance_notes: string | null;
+  special_programs: string[];
+  
+  // Contact Info
+  primary_phone: string | null;
+  website_url: string | null;
+  
+  // Metadata
+  last_verified_at: string;
+  data_source: string;
+}
+
+// --- Triage System (Pet Rescue Training Protocol) ---
+
+export type TriageTier = 'TIER_1_CRITICAL' | 'TIER_2_URGENT' | 'TIER_3_ROUTINE';
+
+export type TriageCode =
+  | 'ECHO'   // Tier 1: Imminent death
+  | 'DELTA'  // Tier 1: Critical, immediate intervention needed
+  | 'CHARLIE' // Tier 2: Serious but stable
+  | 'BRAVO'  // Tier 2: Urgent, 12-24 hour window
+  | 'ALPHA'  // Tier 3: Non-urgent
+  | 'OMEGA'; // Tier 3: Informational only
+
+export interface TriageAssessment {
+  tier: TriageTier;
+  code: TriageCode;
+  clinical_indicators: string[];
+  environmental_risk: 'HIGH' | 'MEDIUM' | 'LOW';
+  requires_immediate_dispatch: boolean;
+  estimated_intervention_window_hours: number;
+  assessed_by: string;
+  assessed_at: string;
+}
+
+// --- Volunteer Certification Badges ---
+
+export type BadgeTier = 'NOVICE' | 'APPRENTICE' | 'EXPERT';
+
+export type VolunteerBadge =
+  // Novice (Grey)
+  | 'WATCHER'
+  // Apprentice (Green)  
+  | 'TRANSPORT_LEG'
+  | 'KITTEN_NURSE'
+  | 'COLONY_CARETAKER'
+  // Expert (Gold)
+  | 'INCIDENT_COMMANDER'
+  | 'MASTER_TRAPPER'
+  | 'DISASTER_RESPONSE'
+  | 'BIOSECURITY_SPECIALIST';
+
+export interface VolunteerCertification {
+  badge: VolunteerBadge;
+  tier: BadgeTier;
+  earned_at: string;
+  expires_at: string | null;
+  verified_by: string | null;
+  training_hours: number;
+  field_hours: number;
 }
 
 // --- Volunteer/Helper Network ---
