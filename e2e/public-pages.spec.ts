@@ -17,7 +17,7 @@ test('resources page renders', async ({ page }) => {
 
 test('about page renders', async ({ page }) => {
   await page.goto('/about');
-  await expect(page.getByRole('heading', { name: 'About Pet911' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'About PetMayday' })).toBeVisible();
 });
 
 test('help & safety page renders', async ({ page }) => {

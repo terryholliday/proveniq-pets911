@@ -1,15 +1,15 @@
-# Pet911 ↔ Pet360 Teleport Integration
+# PetMayday ↔ Pet360 Teleport Integration
 
 ## Overview
 
-Pet360 shelters can integrate Pet911 emergency response data directly into their existing dashboard via the Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
+Pet360 shelters can integrate PetMayday emergency response data directly into their existing dashboard via the Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
 
 ## Architecture
 
 ```
 ┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
 │                 │         │                 │         │                 │
-│     Pet360      │ ←─────→ │    Teleport     │ ←─────→ │     Pet911      │
+│     Pet360      │ ←─────→ │    Teleport     │ ←─────→ │     PetMayday      │
 │  (Shelter OS)   │   API   │   (API Layer)   │         │ (Emergency Sys) │
 │                 │         │                 │         │                 │
 └─────────────────┘         └─────────────────┘         └─────────────────┘
@@ -37,7 +37,7 @@ API keys are issued during partner onboarding and can be rotated via the admin c
 
 ## Endpoints
 
-### GET /api/teleport/v1/pet911/alerts
+### GET /api/teleport/v1/PetMayday/alerts
 
 Fetch active alerts for your service area.
 
@@ -71,7 +71,7 @@ Fetch active alerts for your service area.
       "status": "ACTIVE",
       "actions": {
         "can_acknowledge": true,
-        "acknowledge_url": "/api/teleport/v1/pet911/alerts/ALT-2026-0001/acknowledge"
+        "acknowledge_url": "/api/teleport/v1/PetMayday/alerts/ALT-2026-0001/acknowledge"
       }
     }
   ]
@@ -82,7 +82,7 @@ Fetch active alerts for your service area.
 
 ---
 
-### POST /api/teleport/v1/pet911/alerts/:id/acknowledge
+### POST /api/teleport/v1/PetMayday/alerts/:id/acknowledge
 
 Acknowledge an alert and receive full details for pickup.
 
@@ -106,7 +106,7 @@ Acknowledge an alert and receive full details for pickup.
 
 ---
 
-### POST /api/teleport/v1/pet911/intake
+### POST /api/teleport/v1/PetMayday/intake
 
 Log animal intake after pickup.
 
@@ -124,7 +124,7 @@ Log animal intake after pickup.
   "intake": {
     "received_at": "2026-01-12T21:30:00Z",
     "received_by": "Staff: Mike Johnson",
-    "source": "PET911_ALERT",
+    "source": "PetMayday_ALERT",
     "condition_on_arrival": "Limping, otherwise stable"
   },
   "disposition": {
@@ -142,14 +142,14 @@ Log animal intake after pickup.
   "lifelog_event_id": "LL-1705093800000",
   "next_steps": {
     "stray_hold_expires": "2026-01-17T21:30:00Z",
-    "reunification_url": "/api/teleport/v1/pet911/reunification"
+    "reunification_url": "/api/teleport/v1/PetMayday/reunification"
   }
 }
 ```
 
 ---
 
-### POST /api/teleport/v1/pet911/reunification
+### POST /api/teleport/v1/PetMayday/reunification
 
 Log successful reunification with owner.
 
@@ -157,7 +157,7 @@ Log successful reunification with owner.
 ```json
 {
   "alert_id": "ALT-2026-0001",
-  "pet911_case_id": "CASE-2026-0001",
+  "PetMayday_case_id": "CASE-2026-0001",
   "organization_id": "org_abc123",
   "reunification": {
     "reunited_at": "2026-01-14T14:00:00Z",
@@ -175,7 +175,7 @@ Log successful reunification with owner.
 
 ---
 
-### GET /api/teleport/v1/pet911/metrics
+### GET /api/teleport/v1/PetMayday/metrics
 
 Fetch performance metrics for dashboard widget.
 
@@ -232,19 +232,19 @@ Pet360 can subscribe to real-time events:
 
 ## Pet360 Widget Integration
 
-Embed Pet911 data in Pet360 dashboard:
+Embed PetMayday data in Pet360 dashboard:
 
 ```jsx
 // Pet360 Dashboard Component
-import { usePet911Alerts, usePet911Metrics } from '@pet360/teleport-client';
+import { usePetMaydayAlerts, usePetMaydayMetrics } from '@pet360/teleport-client';
 
-function Pet911Widget() {
-  const { alerts, acknowledge } = usePet911Alerts();
-  const { metrics } = usePet911Metrics('MONTH');
+function PetMaydayWidget() {
+  const { alerts, acknowledge } = usePetMaydayAlerts();
+  const { metrics } = usePetMaydayMetrics('MONTH');
 
   return (
-    <div className="pet911-widget">
-      <h3>🚨 Pet911 Alerts ({alerts.length})</h3>
+    <div className="PetMayday-widget">
+      <h3>🚨 PetMayday Alerts ({alerts.length})</h3>
       {alerts.map(alert => (
         <AlertCard 
           key={alert.alert_id} 
@@ -263,7 +263,7 @@ function Pet911Widget() {
 ## Data Flow
 
 ```
-1. Stray reported via Pet911 app
+1. Stray reported via PetMayday app
    ↓
 2. Moderator triages → Alert broadcast to service area
    ↓
@@ -287,7 +287,7 @@ function Pet911Widget() {
 Organizations NOT using Pet360 can use the standalone Partner Portal at:
 
 ```
-https://pet911.proveniq.io/partner/dashboard
+https://PetMayday.proveniq.io/partner/dashboard
 ```
 
 This is recommended for:

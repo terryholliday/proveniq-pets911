@@ -1,8 +1,8 @@
-# Governance Reference — Pet911
+# Governance Reference — PetMayday
 
 ## Canonical Governance Authority
 
-This repository implements the **Pet911 Engine**, a product of the **PetNexus** platform.
+This repository implements the **PetMayday Engine**, a product of the **PetNexus** platform.
 
 All ownership, licensing, governance, naming, and usage rules for this project are
 defined externally and are **authoritative** in the `proveniq-foundation` repository.
@@ -37,7 +37,7 @@ It MAY:
 It MAY NOT:
 - Redefine ownership, licensing, or governance
 - Introduce monetization, advertising, or data resale
-- Modify naming conventions (PetNexus, Pet360, Pet911)
+- Modify naming conventions (PetNexus, Pet360, PetMayday)
 - Circumvent Ledger invariants or Trust restrictions
 
 Any changes that impact governance MUST be proposed and approved

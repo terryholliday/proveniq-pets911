@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('home page renders', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('header').getByText('PetNexus Pet911', { exact: true })).toBeVisible();
+  await expect(page.locator('header').getByText('PetNexus PetMayday', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /^EMERGENCY ASSIST$/ })).toBeVisible();
 });
 

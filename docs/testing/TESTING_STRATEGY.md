@@ -1,6 +1,6 @@
-# Pet911 Testing Strategy (App)
+# PetMayday Testing Strategy (App)
 
-This document describes how to test **PetNexus Pet911 (PWA app)** end-to-end, including **dispatch orders**, **volunteer workflows**, and **moderator/sysop procedures**, without risking production data.
+This document describes how to test **PetNexus PetMayday (PWA app)** end-to-end, including **dispatch orders**, **volunteer workflows**, and **moderator/sysop procedures**, without risking production data.
 
 ## Goals
 

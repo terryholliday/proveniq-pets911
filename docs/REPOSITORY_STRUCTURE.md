@@ -4,10 +4,10 @@
 
 PROVENIQ operates two main repositories to separate the emergency coordination application from nonprofit operations:
 
-1. **proveniq-Pet911** - Emergency pet coordination PWA
+1. **proveniq-PetMayday** - Emergency pet coordination PWA
 2. **proveniq-trust** - Nonprofit organization website and services
 
-## proveniq-Pet911 Repository
+## proveniq-PetMayday Repository
 
 ### Purpose
 Emergency coordination system for lost and found pets in West Virginia. This is a mission-critical, offline-first Progressive Web Application (PWA).
@@ -22,7 +22,7 @@ Emergency coordination system for lost and found pets in West Virginia. This is 
 
 ### Directory Structure
 ```
-proveniq-Pet911/
+proveniq-PetMayday/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── emergency/         # Emergency finder assist
@@ -128,14 +128,14 @@ proveniq-trust/
 - Unified branding guidelines
 
 ### API Integration
-- Trust site reads from Pet911 for impact metrics
+- Trust site reads from PetMayday for impact metrics
 - Shared webhook endpoints for notifications
 - Common database for user data
 
 ## Deployment Architecture
 
 ### Domains
-- **Pet911.proveniq.org** - Emergency application
+- **PetMayday.proveniq.org** - Emergency application
 - **proveniq.org** - Nonprofit website
 - **api.proveniq.org** - Shared API gateway
 
