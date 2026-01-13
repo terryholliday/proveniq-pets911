@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@/lib/supabase/client';
+import { getAdminGate } from '@/lib/access/authority';
 
 /**
  * POST /api/admin/partners/assign
@@ -9,26 +10,16 @@ import { createServerClient } from '@/lib/supabase/client';
  * Requires SYSOP or admin capability
  */
 export async function POST(request: NextRequest) {
+  const admin = await getAdminGate({ required: 'SYSOP' });
+  if (!admin.allowed) {
+    return NextResponse.json(
+      { error: admin.reason, allowed: false },
+      { status: admin.reason === 'UNAUTHENTICATED' ? 401 : 403 }
+    );
+  }
+
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
-
-  // Check admin auth
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  // Verify sysop/admin access
-  const { data: adminVolunteer } = await supabase
-    .from('volunteers')
-    .select('capabilities')
-    .eq('user_id', user.id)
-    .single();
-
-  const capabilities = adminVolunteer?.capabilities || [];
-  if (!capabilities.includes('SYSOP') && !capabilities.includes('MODERATOR')) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
 
   try {
     const body = await request.json();
