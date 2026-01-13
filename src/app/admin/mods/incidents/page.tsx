@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   AlertTriangle, Plus, Clock, CheckCircle, XCircle, Eye, 
   MapPin, User, FileText, MessageSquare, Filter, X, UserPlus,
-  ArrowRight, Shield, Thermometer, CloudRain, Car
+  ArrowRight, Shield, Thermometer, CloudRain, Car, ArrowUp, Bell
 } from 'lucide-react';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
@@ -24,9 +24,20 @@ type Incident = {
   county: string;
   reported_by: string;
   reported_at: string;
+  reported_timestamp?: number;
   description: string;
   assigned_to?: string;
+  escalated?: boolean;
+  escalation_reason?: string;
   timeline?: { date: string; action: string; by: string }[];
+};
+
+// Escalation thresholds (in minutes)
+const ESCALATION_THRESHOLDS: Record<Severity, number> = {
+  critical: 15,  // Escalate after 15 minutes
+  high: 60,      // Escalate after 1 hour
+  medium: 240,   // Escalate after 4 hours
+  low: 1440,     // Escalate after 24 hours
 };
 
 type SafetyAlert = {
@@ -94,6 +105,56 @@ export default function ModeratorIncidentsPage() {
   const [showAlerts, setShowAlerts] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showEscalationPanel, setShowEscalationPanel] = useState(false);
+
+  // Check if incident needs escalation
+  const needsEscalation = (incident: Incident): boolean => {
+    if (incident.status === 'resolved' || incident.status === 'closed') return false;
+    if (incident.escalated) return false;
+    
+    // Parse time from "X hours/min ago" format
+    const timeStr = incident.reported_at;
+    let minutesAgo = 0;
+    if (timeStr.includes('min')) {
+      minutesAgo = parseInt(timeStr) || 0;
+    } else if (timeStr.includes('hour')) {
+      minutesAgo = (parseInt(timeStr) || 0) * 60;
+    } else if (timeStr.includes('day')) {
+      minutesAgo = (parseInt(timeStr) || 0) * 1440;
+    }
+    
+    return minutesAgo >= ESCALATION_THRESHOLDS[incident.severity];
+  };
+
+  // Get escalation status
+  const getEscalationStatus = (incident: Incident): string => {
+    const threshold = ESCALATION_THRESHOLDS[incident.severity];
+    if (incident.severity === 'critical') return `Auto-escalates after ${threshold} min`;
+    if (incident.severity === 'high') return `Auto-escalates after 1 hour`;
+    if (incident.severity === 'medium') return `Auto-escalates after 4 hours`;
+    return `Auto-escalates after 24 hours`;
+  };
+
+  // Count incidents needing escalation
+  const escalationNeeded = incidents.filter(needsEscalation);
+
+  // Handle manual escalation
+  const handleEscalate = async (incidentId: string, reason: string) => {
+    setIncidents(prev => prev.map(inc => 
+      inc.id === incidentId 
+        ? { 
+            ...inc, 
+            escalated: true, 
+            escalation_reason: reason,
+            severity: inc.severity === 'low' ? 'medium' : inc.severity === 'medium' ? 'high' : 'critical',
+            timeline: [
+              ...(inc.timeline || []),
+              { date: new Date().toISOString().slice(0, 16).replace('T', ' '), action: `Escalated: ${reason}`, by: 'System' }
+            ]
+          } 
+        : inc
+    ));
+  };
 
   // Form state
   const [newIncident, setNewIncident] = useState({
@@ -269,7 +330,19 @@ export default function ModeratorIncidentsPage() {
               <h1 className="text-2xl font-bold">Incident Management</h1>
               <p className="text-zinc-400 text-sm">Track and resolve operational incidents</p>
             </div>
-            <Button onClick={() => setShowNewForm(!showNewForm)}><Plus className="w-4 h-4 mr-2" />Report Incident</Button>
+            <div className="flex gap-2">
+              {escalationNeeded.length > 0 && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowEscalationPanel(!showEscalationPanel)}
+                  className="border-orange-600 text-orange-400"
+                >
+                  <ArrowUp className="w-4 h-4 mr-2" />
+                  Escalations <Badge className="ml-1 bg-orange-600">{escalationNeeded.length}</Badge>
+                </Button>
+              )}
+              <Button onClick={() => setShowNewForm(!showNewForm)}><Plus className="w-4 h-4 mr-2" />Report Incident</Button>
+            </div>
           </div>
         </div>
       </div>
@@ -280,8 +353,79 @@ export default function ModeratorIncidentsPage() {
           <div className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-red-400" /><span className="text-red-400 font-medium">{stats.open}</span><span className="text-zinc-500">Open</span></div>
           <div className="flex items-center gap-2"><Eye className="w-4 h-4 text-amber-400" /><span className="text-amber-400 font-medium">{stats.investigating}</span><span className="text-zinc-500">Investigating</span></div>
           <div className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-red-600" /><span className="text-red-400 font-medium">{stats.critical}</span><span className="text-zinc-500">Critical</span></div>
+          {escalationNeeded.length > 0 && (
+            <div className="flex items-center gap-2 ml-4 pl-4 border-l border-zinc-700">
+              <ArrowUp className="w-4 h-4 text-orange-400" />
+              <span className="text-orange-400 font-medium">{escalationNeeded.length}</span>
+              <span className="text-zinc-500">Need Escalation</span>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Escalation Panel */}
+      {showEscalationPanel && (
+        <div className="fixed right-0 top-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-xl z-40 overflow-y-auto">
+          <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <ArrowUp className="w-5 h-5 text-orange-400" />
+              Escalation Queue
+            </h3>
+            <button onClick={() => setShowEscalationPanel(false)} className="text-zinc-400 hover:text-zinc-200">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="p-4 space-y-4">
+            <div className="text-xs text-zinc-500 bg-zinc-800/50 p-2 rounded">
+              Incidents are auto-escalated based on severity thresholds when not resolved in time.
+            </div>
+            {escalationNeeded.length === 0 ? (
+              <div className="text-center text-zinc-500 py-8">
+                <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                <p>No incidents need escalation</p>
+              </div>
+            ) : (
+              escalationNeeded.map(incident => (
+                <div key={incident.id} className="border border-orange-800/50 bg-orange-900/20 rounded-lg p-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <div className="font-medium text-sm">{incident.title}</div>
+                      <div className="text-xs text-zinc-500">
+                        {incident.county} • {incident.reported_at}
+                      </div>
+                    </div>
+                    <Badge className={SEVERITY_CONFIG[incident.severity].color}>
+                      {incident.severity}
+                    </Badge>
+                  </div>
+                  <div className="text-xs text-orange-400 mb-2">
+                    <Clock className="w-3 h-3 inline mr-1" />
+                    {getEscalationStatus(incident)}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      className="flex-1 text-xs bg-orange-600 hover:bg-orange-500" 
+                      onClick={() => handleEscalate(incident.id, 'Manual escalation - response time exceeded')}
+                    >
+                      <ArrowUp className="w-3 h-3 mr-1" />
+                      Escalate Now
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs"
+                      onClick={() => handleStartInvestigation(incident.id)}
+                    >
+                      Investigate
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto p-6">
         {/* Safety Alerts Banner */}

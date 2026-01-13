@@ -32,7 +32,7 @@ test('login page supports magic link mode', async ({ page }) => {
 
 test('home page exposes key CTAs', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('header').getByText('Pet911', { exact: true })).toBeVisible();
+  await expect(page.locator('header').getByText('PetMayday', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Volunteer Login' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Launch App' })).toBeVisible();
 });

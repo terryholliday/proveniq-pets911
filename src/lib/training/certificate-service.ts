@@ -1,4 +1,4 @@
-// Pet911 Certificate Generation Service
+// PetMayday Certificate Generation Service
 // Generates PDF certificates with QR codes for verification
 
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
@@ -152,7 +152,7 @@ export class CertificateService {
 
     // ===== HEADER =====
     // Logo placeholder (text for now)
-    page.drawText('PET911', {
+    page.drawText('PetMayday', {
       x: 50,
       y: height - 70,
       size: 24,

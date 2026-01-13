@@ -776,6 +776,92 @@ export default function ShiftCalendarPage() {
         </div>
       </div>
 
+      {/* Reminders Panel */}
+      {showRemindersPanel && (
+        <div className="fixed right-0 top-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-xl z-40 overflow-y-auto">
+          <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <Bell className="w-5 h-5 text-blue-400" />
+              Shift Reminders
+            </h3>
+            <button onClick={() => setShowRemindersPanel(false)} className="text-zinc-400 hover:text-zinc-200">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          
+          {/* Settings */}
+          <div className="p-4 border-b border-zinc-800 bg-zinc-900/50">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium">Auto-Reminders</span>
+              <button 
+                onClick={() => setEnableReminders(!enableReminders)}
+                className={`w-10 h-5 rounded-full transition-colors ${enableReminders ? 'bg-blue-600' : 'bg-zinc-700'}`}
+              >
+                <div className={`w-4 h-4 bg-white rounded-full transition-transform ${enableReminders ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-zinc-500">Channel:</span>
+              <select 
+                value={reminderChannel}
+                onChange={(e) => setReminderChannel(e.target.value as any)}
+                className="text-xs px-2 py-1 bg-zinc-800 border border-zinc-700 rounded"
+              >
+                <option value="sms">SMS</option>
+                <option value="email">Email</option>
+                <option value="all">All Channels</option>
+              </select>
+            </div>
+            <div className="text-xs text-zinc-500 mt-2">
+              Volunteers receive 24hr and 1hr reminders before shifts.
+            </div>
+          </div>
+
+          <div className="p-4 space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-zinc-400">Pending Reminders</span>
+              <Badge className="bg-blue-600">{pendingReminders.length}</Badge>
+            </div>
+            
+            {pendingReminders.length === 0 ? (
+              <div className="text-center text-zinc-500 py-8">
+                <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p>No pending reminders</p>
+              </div>
+            ) : (
+              pendingReminders.map(reminder => (
+                <div key={reminder.id} className="border border-blue-800/50 bg-blue-900/20 rounded-lg p-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <div className="font-medium text-sm">{reminder.volunteer_name}</div>
+                      <div className="text-xs text-zinc-500">
+                        {reminder.shift_date} • {reminder.shift_time}
+                      </div>
+                    </div>
+                    <Badge className={reminder.reminder_type === '24hr' ? 'bg-blue-700' : 'bg-purple-700'}>
+                      {reminder.reminder_type}
+                    </Badge>
+                  </div>
+                  <div className="text-xs text-zinc-400 mb-2">
+                    <BellRing className="w-3 h-3 inline mr-1" />
+                    Sends: {new Date(reminder.send_at).toLocaleString()}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1 text-xs" onClick={() => handleSendTestReminder(reminder.id)}>
+                      <Send className="w-3 h-3 mr-1" />
+                      Send Now
+                    </Button>
+                    <Button size="sm" variant="outline" className="text-xs text-red-400 border-red-800" onClick={() => handleCancelReminder(reminder.id)}>
+                      <XCircle className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Swap Requests Panel */}
       {showSwapsPanel && (
         <div className="fixed right-0 top-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-xl z-40 overflow-y-auto">

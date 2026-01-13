@@ -1,4 +1,4 @@
-// Pet911 Training System Types
+// PetMayday Training System Types
 // Based on ASPCA, Best Friends, FEMA CERT, CDC standards
 
 // ============================================================================

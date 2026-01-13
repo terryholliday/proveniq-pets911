@@ -334,5 +334,5 @@ function buildReminderMessage(
 ): string {
   const timeFrame = type === '24hr' ? 'tomorrow' : type === '1hr' ? 'in 1 hour' : 'soon';
   
-  return `Hi ${volunteerName}! 🐾 Reminder: Your Pet911 shift starts ${timeFrame} on ${shiftDate} at ${startTime} in ${county} County. Reply HELP for assistance or SWAP to request coverage. Thank you for saving lives!`;
+  return `Hi ${volunteerName}! 🐾 Reminder: Your PetMayday shift starts ${timeFrame} on ${shiftDate} at ${startTime} in ${county} County. Reply HELP for assistance or SWAP to request coverage. Thank you for saving lives!`;
 }

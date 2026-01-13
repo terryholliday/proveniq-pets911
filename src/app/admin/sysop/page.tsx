@@ -311,7 +311,7 @@ export default async function SysopPage() {
 
         {/* Footer */}
         <div className="text-center text-xs text-zinc-600 pt-4 border-t border-zinc-800">
-          PROVENIQ Pet911 SYSOP Command Center • Security through obscurity
+          PROVENIQ PetMayday SYSOP Command Center • Security through obscurity
         </div>
       </div>
     </div>

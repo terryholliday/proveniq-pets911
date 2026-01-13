@@ -1,4 +1,4 @@
-// Pet911 Training Progress Service
+// PetMayday Training Progress Service
 // Handles content progress tracking, status updates, and prerequisite checking
 
 import { createClient } from '@supabase/supabase-js';

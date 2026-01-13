@@ -1,7 +1,7 @@
 /**
  * PetNexus Ecosystem Integration
  * 
- * This module provides the integration layer between Pet911 and the 
+ * This module provides the integration layer between PetMayday and the 
  * broader PetNexus ecosystem (VetOS, LifeLog, Teleport, Pet360).
  * 
  * Usage:

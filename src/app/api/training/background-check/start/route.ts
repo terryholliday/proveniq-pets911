@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const userName = user.user.user_metadata?.name || userEmail;
 
     // Generate a unique check ID for tracking
-    const externalCheckId = `pet911-${crypto.randomBytes(8).toString('hex')}`;
+    const externalCheckId = `PetMayday-${crypto.randomBytes(8).toString('hex')}`;
 
     // Create background check record
     const { data: check, error } = await supabase
@@ -161,13 +161,13 @@ async function createExternalBackgroundCheck(params: {
   //     'Content-Type': 'application/json',
   //   },
   //   body: JSON.stringify({
-  //     package: 'pet911_volunteer_package',
+  //     package: 'PetMayday_volunteer_package',
   //     candidate: {
   //       email: params.email,
   //       first_name: params.name.split(' ')[0],
   //       last_name: params.name.split(' ').slice(1).join(' ') || 'Unknown',
   //     },
-  //     tags: ['pet911-volunteer'],
+  //     tags: ['PetMayday-volunteer'],
   //     custom_id: params.checkId,
   //   }),
   // });

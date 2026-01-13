@@ -4,61 +4,61 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const COUNTY_DATA = [
-  { county: 'Barbour', agency: 'Dog Warden', facility: 'Barbour County Animal Control', notes: 'Follows state code; 5-day hold', harboring: '5-day', pet911Score: 'C', phone: '(304) 823-1330', email: '', address: 'Philippi, WV 26416' },
-  { county: 'Berkeley', agency: 'Animal Control (County)', facility: 'Berkeley County Animal Shelter', notes: '3-day harboring rule; progressive TNR policy', harboring: '3-day', pet911Score: 'B', phone: '(304) 267-8889', email: 'animalcontrol@berkeleywv.org', address: '554 Dry Run Rd, Martinsburg, WV 25404' },
-  { county: 'Boone', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 369-9913', email: '', address: 'Madison, WV 25130' },
-  { county: 'Braxton', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 765-2335', email: '', address: 'Sutton, WV 26601' },
-  { county: 'Brooke', agency: 'Dog Warden', facility: 'Brooke County Animal Shelter', notes: 'Strict leash law; zero tolerance cruelty', harboring: '5-day', pet911Score: 'B', phone: '(304) 737-3660', email: 'brookeanimalshelter@gmail.com', address: '101 Shelter Rd, Wellsburg, WV 26070' },
-  { county: 'Cabell', agency: 'HCW Control Board', facility: 'Huntington Cabell Wayne Shelter', notes: 'Joint Authority; 5-day hold; $50 reclaim', harboring: '5-day', pet911Score: 'A', phone: '(304) 526-4455', email: 'hcwacs@gmail.com', address: '1901 James River Rd, Huntington, WV 25704' },
-  { county: 'Calhoun', agency: 'Sheriff Dept', facility: 'No dedicated shelter', notes: 'Transport to neighboring facilities required', harboring: '5-day', pet911Score: 'F', phone: '(304) 354-6118', email: '', address: 'Grantsville, WV 26147' },
-  { county: 'Clay', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 587-4260', email: '', address: 'Clay, WV 25043' },
-  { county: 'Doddridge', agency: 'Humane Officer', facility: 'County Contract', notes: 'Roles consolidated with law enforcement', harboring: '5-day', pet911Score: 'C', phone: '(304) 873-2631', email: '', address: 'West Union, WV 26456' },
-  { county: 'Fayette', agency: 'Animal Control', facility: 'County Shelter', notes: 'Oak Hill has 3-day "fed or sheltered" rule', harboring: '3-day', pet911Score: 'C', phone: '(304) 574-1200', email: '', address: 'Fayetteville, WV 25840' },
-  { county: 'Gilmer', agency: 'Sheriff / Warden', facility: 'No dedicated shelter', notes: 'Glenville has chaining/tying laws', harboring: '5-day', pet911Score: 'F', phone: '(304) 462-7454', email: '', address: 'Glenville, WV 26351' },
-  { county: 'Grant', agency: 'Assessor/Warden', facility: 'County Pound', notes: 'Strict license tax collection ($3/$6)', harboring: '5-day', pet911Score: 'C', phone: '(304) 257-4422', email: '', address: 'Petersburg, WV 26847' },
-  { county: 'Greenbrier', agency: 'Humane Society', facility: 'Greenbrier Humane Society', notes: 'Strong partnership with private humane society', harboring: '5-day', pet911Score: 'B', phone: '(304) 645-4775', email: 'ghs@greenbrierhumanesociety.com', address: '151 Holiday Lane, Lewisburg, WV 24901' },
-  { county: 'Hampshire', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 822-3114', email: '', address: 'Romney, WV 26757' },
-  { county: 'Hancock', agency: 'Dog Warden', facility: 'Hancock County Animal Shelter', notes: 'Emergency service; focus on cruelty/neglect', harboring: '5-day', pet911Score: 'B', phone: '(304) 564-3311', email: '', address: 'New Cumberland, WV 26047' },
-  { county: 'Hardy', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 530-0222', email: '', address: 'Moorefield, WV 26836' },
-  { county: 'Harrison', agency: 'Dog Warden', facility: 'Harrison County Animal Control', notes: 'MANDATORY MICROCHIPPING for reclaims', harboring: '5-day', pet911Score: 'A', phone: '(304) 423-7760', email: 'hcac@harrisoncountywv.com', address: '279 W Main St, Clarksburg, WV 26301' },
-  { county: 'Jackson', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 372-2290', email: '', address: 'Ripley, WV 25271' },
-  { county: 'Jefferson', agency: 'Animal Control', facility: 'Animal Welfare Society', notes: 'High compliance; strong licensing ($3/$6)', harboring: '5-day', pet911Score: 'A', phone: '(304) 725-0589', email: 'info@baacwv.org', address: '60 Eastwood Dr, Kearneysville, WV 25430' },
-  { county: 'Kanawha', agency: 'KCHA', facility: 'KCHA Shelter', notes: 'ANTI-TETHERING; adoption reservation system', harboring: '5-day', pet911Score: 'A+', phone: '(304) 342-1576', email: 'info@kchaonline.org', address: '1248 Greenbrier St, Charleston, WV 25311' },
-  { county: 'Lewis', agency: 'Sheriff / Warden', facility: 'Lewis-Upshur Facility', notes: 'Shared facility with Upshur', harboring: '5-day', pet911Score: 'C', phone: '(304) 269-8251', email: '', address: 'Weston, WV 26452' },
-  { county: 'Lincoln', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 824-3336', email: '', address: 'Hamlin, WV 25523' },
-  { county: 'Logan', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 792-8520', email: '', address: 'Logan, WV 25601' },
-  { county: 'Marion', agency: 'Humane Society', facility: 'Marion County Humane Society', notes: 'NO-KILL facility; strong adoption focus', harboring: '5-day', pet911Score: 'A', phone: '(304) 366-1098', email: 'mchumanesociety@gmail.com', address: '2731 Locust Ave, Fairmont, WV 26554' },
-  { county: 'Marshall', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 845-1600', email: '', address: 'Moundsville, WV 26041' },
-  { county: 'Mason', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 675-3838', email: '', address: 'Point Pleasant, WV 25550' },
-  { county: 'McDowell', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 436-8531', email: '', address: 'Welch, WV 24801' },
-  { county: 'Mercer', agency: 'Animal Control', facility: 'Mercer County Animal Shelter', notes: '15-DAY HARBORING (Gold Standard); Spay/Neuter ordinance', harboring: '15-day', pet911Score: 'A+', phone: '(304) 425-2838', email: 'mcas@mercercounty.wv.gov', address: '614 Glenwood Park Rd, Princeton, WV 24740' },
-  { county: 'Mineral', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 788-1314', email: '', address: 'Keyser, WV 26726' },
-  { county: 'Mingo', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 235-0360', email: '', address: 'Williamson, WV 25661' },
-  { county: 'Monongalia', agency: 'Canine Adoption Ctr', facility: 'Canine Adoption Center', notes: '3-day harboring; strict weather tethering bans', harboring: '3-day', pet911Score: 'B', phone: '(304) 291-7267', email: 'mccac@monongaliacounty.gov', address: '351 S Pierpont St, Morgantown, WV 26501' },
-  { county: 'Monroe', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 772-3018', email: '', address: 'Union, WV 24983' },
-  { county: 'Morgan', agency: 'Animal Control', facility: 'County Shelter', notes: 'Focus on outdoor enclosure standards', harboring: '5-day', pet911Score: 'C', phone: '(304) 258-8546', email: '', address: 'Berkeley Springs, WV 25411' },
-  { county: 'Nicholas', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 872-7850', email: '', address: 'Summersville, WV 26651' },
-  { county: 'Ohio', agency: 'SPCA / Warden', facility: 'Ohio County SPCA', notes: 'Vicious dog and noise ordinances', harboring: '5-day', pet911Score: 'B', phone: '(304) 232-1922', email: 'ohiocountyspca@gmail.com', address: '3 Orchard Rd, Wheeling, WV 26003' },
-  { county: 'Pendleton', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 358-2214', email: '', address: 'Franklin, WV 26707' },
-  { county: 'Pleasants', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 684-2234', email: '', address: 'St Marys, WV 26170' },
-  { county: 'Pocahontas', agency: 'Sheriff (Designee)', facility: 'Pocahontas County Animal Shelter', notes: 'Sheriff designates wardens; focus on leash laws', harboring: '5-day', pet911Score: 'C', phone: '(304) 799-4445', email: '', address: 'Marlinton, WV 24954' },
-  { county: 'Preston', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 329-0070', email: '', address: 'Kingwood, WV 26537' },
-  { county: 'Putnam', agency: 'Animal Services', facility: 'Putnam County Animal Shelter', notes: '"Adopt a Kennel" program; sustainable care', harboring: '5-day', pet911Score: 'B', phone: '(304) 586-0249', email: 'putnamcountyanimalshelter@gmail.com', address: '1 Armory Dr, Eleanor, WV 25070' },
-  { county: 'Raleigh', agency: 'Sheriff / Warden', facility: 'Raleigh County Humane Society', notes: '"One dog at large per 12hr" rule', harboring: '5-day', pet911Score: 'B', phone: '(304) 253-8921', email: '', address: '325 Gray Flats Rd, Beckley, WV 25801' },
-  { county: 'Randolph', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 636-2100', email: '', address: 'Elkins, WV 26241' },
-  { county: 'Ritchie', agency: 'Humane Society', facility: 'Ritchie County Humane Society', notes: 'Contracted shelter services', harboring: '5-day', pet911Score: 'C', phone: '(304) 643-4721', email: '', address: 'Harrisville, WV 26362' },
-  { county: 'Roane', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 927-2860', email: '', address: 'Spencer, WV 25276' },
-  { county: 'Summers', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 466-3155', email: '', address: 'Hinton, WV 25951' },
-  { county: 'Taylor', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 265-3365', email: '', address: 'Grafton, WV 26554' },
-  { county: 'Tucker', agency: 'Dog Warden', facility: 'Tucker County Dog Pound', notes: 'Basic pound services; limited hours', harboring: '5-day', pet911Score: 'D', phone: '(304) 478-2913', email: '', address: 'Parsons, WV 26287' },
-  { county: 'Tyler', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', pet911Score: 'D', phone: '(304) 758-2141', email: '', address: 'Middlebourne, WV 26149' },
-  { county: 'Upshur', agency: 'Warden', facility: 'Lewis-Upshur Facility', notes: 'Shared facility with Lewis', harboring: '5-day', pet911Score: 'C', phone: '(304) 472-1180', email: '', address: 'Buckhannon, WV 26201' },
-  { county: 'Wayne', agency: 'HCW Control Board', facility: 'Huntington Cabell Wayne Shelter', notes: 'Joint Authority with Cabell', harboring: '5-day', pet911Score: 'A', phone: '(304) 526-4455', email: 'hcwacs@gmail.com', address: '1901 James River Rd, Huntington, WV 25704' },
-  { county: 'Webster', agency: 'City Control', facility: 'City of Webster Control', notes: 'City-level control; 3-day harboring implied', harboring: '3-day', pet911Score: 'C', phone: '(304) 847-2423', email: '', address: 'Webster Springs, WV 26288' },
-  { county: 'Wetzel', agency: 'Animal Shelter', facility: 'Wetzel County Animal Shelter', notes: 'Basic shelter operations', harboring: '5-day', pet911Score: 'C', phone: '(304) 455-2510', email: '', address: 'New Martinsville, WV 26155' },
-  { county: 'Wirt', agency: 'Sheriff / Warden', facility: 'No dedicated shelter', notes: 'New leash law (2025); reliance on Sheriff', harboring: '5-day', pet911Score: 'F', phone: '(304) 275-4200', email: '', address: 'Elizabeth, WV 26143' },
-  { county: 'Wood', agency: 'Humane Society', facility: 'HS of Parkersburg', notes: 'Privatized enforcement; police powers', harboring: '5-day', pet911Score: 'A', phone: '(304) 422-5541', email: 'info@hspwv.org', address: '530 29th St, Parkersburg, WV 26101' },
-  { county: 'Wyoming', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Nuisance animal focus', harboring: '5-day', pet911Score: 'D', phone: '(304) 732-8000', email: '', address: 'Pineville, WV 24874' },
+  { county: 'Barbour', agency: 'Dog Warden', facility: 'Barbour County Animal Control', notes: 'Follows state code; 5-day hold', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 823-1330', email: '', address: 'Philippi, WV 26416' },
+  { county: 'Berkeley', agency: 'Animal Control (County)', facility: 'Berkeley County Animal Shelter', notes: '3-day harboring rule; progressive TNR policy', harboring: '3-day', PetMaydayScore: 'B', phone: '(304) 267-8889', email: 'animalcontrol@berkeleywv.org', address: '554 Dry Run Rd, Martinsburg, WV 25404' },
+  { county: 'Boone', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 369-9913', email: '', address: 'Madison, WV 25130' },
+  { county: 'Braxton', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 765-2335', email: '', address: 'Sutton, WV 26601' },
+  { county: 'Brooke', agency: 'Dog Warden', facility: 'Brooke County Animal Shelter', notes: 'Strict leash law; zero tolerance cruelty', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 737-3660', email: 'brookeanimalshelter@gmail.com', address: '101 Shelter Rd, Wellsburg, WV 26070' },
+  { county: 'Cabell', agency: 'HCW Control Board', facility: 'Huntington Cabell Wayne Shelter', notes: 'Joint Authority; 5-day hold; $50 reclaim', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 526-4455', email: 'hcwacs@gmail.com', address: '1901 James River Rd, Huntington, WV 25704' },
+  { county: 'Calhoun', agency: 'Sheriff Dept', facility: 'No dedicated shelter', notes: 'Transport to neighboring facilities required', harboring: '5-day', PetMaydayScore: 'F', phone: '(304) 354-6118', email: '', address: 'Grantsville, WV 26147' },
+  { county: 'Clay', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 587-4260', email: '', address: 'Clay, WV 25043' },
+  { county: 'Doddridge', agency: 'Humane Officer', facility: 'County Contract', notes: 'Roles consolidated with law enforcement', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 873-2631', email: '', address: 'West Union, WV 26456' },
+  { county: 'Fayette', agency: 'Animal Control', facility: 'County Shelter', notes: 'Oak Hill has 3-day "fed or sheltered" rule', harboring: '3-day', PetMaydayScore: 'C', phone: '(304) 574-1200', email: '', address: 'Fayetteville, WV 25840' },
+  { county: 'Gilmer', agency: 'Sheriff / Warden', facility: 'No dedicated shelter', notes: 'Glenville has chaining/tying laws', harboring: '5-day', PetMaydayScore: 'F', phone: '(304) 462-7454', email: '', address: 'Glenville, WV 26351' },
+  { county: 'Grant', agency: 'Assessor/Warden', facility: 'County Pound', notes: 'Strict license tax collection ($3/$6)', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 257-4422', email: '', address: 'Petersburg, WV 26847' },
+  { county: 'Greenbrier', agency: 'Humane Society', facility: 'Greenbrier Humane Society', notes: 'Strong partnership with private humane society', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 645-4775', email: 'ghs@greenbrierhumanesociety.com', address: '151 Holiday Lane, Lewisburg, WV 24901' },
+  { county: 'Hampshire', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 822-3114', email: '', address: 'Romney, WV 26757' },
+  { county: 'Hancock', agency: 'Dog Warden', facility: 'Hancock County Animal Shelter', notes: 'Emergency service; focus on cruelty/neglect', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 564-3311', email: '', address: 'New Cumberland, WV 26047' },
+  { county: 'Hardy', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 530-0222', email: '', address: 'Moorefield, WV 26836' },
+  { county: 'Harrison', agency: 'Dog Warden', facility: 'Harrison County Animal Control', notes: 'MANDATORY MICROCHIPPING for reclaims', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 423-7760', email: 'hcac@harrisoncountywv.com', address: '279 W Main St, Clarksburg, WV 26301' },
+  { county: 'Jackson', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 372-2290', email: '', address: 'Ripley, WV 25271' },
+  { county: 'Jefferson', agency: 'Animal Control', facility: 'Animal Welfare Society', notes: 'High compliance; strong licensing ($3/$6)', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 725-0589', email: 'info@baacwv.org', address: '60 Eastwood Dr, Kearneysville, WV 25430' },
+  { county: 'Kanawha', agency: 'KCHA', facility: 'KCHA Shelter', notes: 'ANTI-TETHERING; adoption reservation system', harboring: '5-day', PetMaydayScore: 'A+', phone: '(304) 342-1576', email: 'info@kchaonline.org', address: '1248 Greenbrier St, Charleston, WV 25311' },
+  { county: 'Lewis', agency: 'Sheriff / Warden', facility: 'Lewis-Upshur Facility', notes: 'Shared facility with Upshur', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 269-8251', email: '', address: 'Weston, WV 26452' },
+  { county: 'Lincoln', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 824-3336', email: '', address: 'Hamlin, WV 25523' },
+  { county: 'Logan', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 792-8520', email: '', address: 'Logan, WV 25601' },
+  { county: 'Marion', agency: 'Humane Society', facility: 'Marion County Humane Society', notes: 'NO-KILL facility; strong adoption focus', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 366-1098', email: 'mchumanesociety@gmail.com', address: '2731 Locust Ave, Fairmont, WV 26554' },
+  { county: 'Marshall', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 845-1600', email: '', address: 'Moundsville, WV 26041' },
+  { county: 'Mason', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 675-3838', email: '', address: 'Point Pleasant, WV 25550' },
+  { county: 'McDowell', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 436-8531', email: '', address: 'Welch, WV 24801' },
+  { county: 'Mercer', agency: 'Animal Control', facility: 'Mercer County Animal Shelter', notes: '15-DAY HARBORING (Gold Standard); Spay/Neuter ordinance', harboring: '15-day', PetMaydayScore: 'A+', phone: '(304) 425-2838', email: 'mcas@mercercounty.wv.gov', address: '614 Glenwood Park Rd, Princeton, WV 24740' },
+  { county: 'Mineral', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 788-1314', email: '', address: 'Keyser, WV 26726' },
+  { county: 'Mingo', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 235-0360', email: '', address: 'Williamson, WV 25661' },
+  { county: 'Monongalia', agency: 'Canine Adoption Ctr', facility: 'Canine Adoption Center', notes: '3-day harboring; strict weather tethering bans', harboring: '3-day', PetMaydayScore: 'B', phone: '(304) 291-7267', email: 'mccac@monongaliacounty.gov', address: '351 S Pierpont St, Morgantown, WV 26501' },
+  { county: 'Monroe', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 772-3018', email: '', address: 'Union, WV 24983' },
+  { county: 'Morgan', agency: 'Animal Control', facility: 'County Shelter', notes: 'Focus on outdoor enclosure standards', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 258-8546', email: '', address: 'Berkeley Springs, WV 25411' },
+  { county: 'Nicholas', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 872-7850', email: '', address: 'Summersville, WV 26651' },
+  { county: 'Ohio', agency: 'SPCA / Warden', facility: 'Ohio County SPCA', notes: 'Vicious dog and noise ordinances', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 232-1922', email: 'ohiocountyspca@gmail.com', address: '3 Orchard Rd, Wheeling, WV 26003' },
+  { county: 'Pendleton', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 358-2214', email: '', address: 'Franklin, WV 26707' },
+  { county: 'Pleasants', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 684-2234', email: '', address: 'St Marys, WV 26170' },
+  { county: 'Pocahontas', agency: 'Sheriff (Designee)', facility: 'Pocahontas County Animal Shelter', notes: 'Sheriff designates wardens; focus on leash laws', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 799-4445', email: '', address: 'Marlinton, WV 24954' },
+  { county: 'Preston', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 329-0070', email: '', address: 'Kingwood, WV 26537' },
+  { county: 'Putnam', agency: 'Animal Services', facility: 'Putnam County Animal Shelter', notes: '"Adopt a Kennel" program; sustainable care', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 586-0249', email: 'putnamcountyanimalshelter@gmail.com', address: '1 Armory Dr, Eleanor, WV 25070' },
+  { county: 'Raleigh', agency: 'Sheriff / Warden', facility: 'Raleigh County Humane Society', notes: '"One dog at large per 12hr" rule', harboring: '5-day', PetMaydayScore: 'B', phone: '(304) 253-8921', email: '', address: '325 Gray Flats Rd, Beckley, WV 25801' },
+  { county: 'Randolph', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 636-2100', email: '', address: 'Elkins, WV 26241' },
+  { county: 'Ritchie', agency: 'Humane Society', facility: 'Ritchie County Humane Society', notes: 'Contracted shelter services', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 643-4721', email: '', address: 'Harrisville, WV 26362' },
+  { county: 'Roane', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 927-2860', email: '', address: 'Spencer, WV 25276' },
+  { county: 'Summers', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 466-3155', email: '', address: 'Hinton, WV 25951' },
+  { county: 'Taylor', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 265-3365', email: '', address: 'Grafton, WV 26554' },
+  { county: 'Tucker', agency: 'Dog Warden', facility: 'Tucker County Dog Pound', notes: 'Basic pound services; limited hours', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 478-2913', email: '', address: 'Parsons, WV 26287' },
+  { county: 'Tyler', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Defaults to State Code', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 758-2141', email: '', address: 'Middlebourne, WV 26149' },
+  { county: 'Upshur', agency: 'Warden', facility: 'Lewis-Upshur Facility', notes: 'Shared facility with Lewis', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 472-1180', email: '', address: 'Buckhannon, WV 26201' },
+  { county: 'Wayne', agency: 'HCW Control Board', facility: 'Huntington Cabell Wayne Shelter', notes: 'Joint Authority with Cabell', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 526-4455', email: 'hcwacs@gmail.com', address: '1901 James River Rd, Huntington, WV 25704' },
+  { county: 'Webster', agency: 'City Control', facility: 'City of Webster Control', notes: 'City-level control; 3-day harboring implied', harboring: '3-day', PetMaydayScore: 'C', phone: '(304) 847-2423', email: '', address: 'Webster Springs, WV 26288' },
+  { county: 'Wetzel', agency: 'Animal Shelter', facility: 'Wetzel County Animal Shelter', notes: 'Basic shelter operations', harboring: '5-day', PetMaydayScore: 'C', phone: '(304) 455-2510', email: '', address: 'New Martinsville, WV 26155' },
+  { county: 'Wirt', agency: 'Sheriff / Warden', facility: 'No dedicated shelter', notes: 'New leash law (2025); reliance on Sheriff', harboring: '5-day', PetMaydayScore: 'F', phone: '(304) 275-4200', email: '', address: 'Elizabeth, WV 26143' },
+  { county: 'Wood', agency: 'Humane Society', facility: 'HS of Parkersburg', notes: 'Privatized enforcement; police powers', harboring: '5-day', PetMaydayScore: 'A', phone: '(304) 422-5541', email: 'info@hspwv.org', address: '530 29th St, Parkersburg, WV 26101' },
+  { county: 'Wyoming', agency: 'Sheriff / Warden', facility: 'County Shelter', notes: 'Nuisance animal focus', harboring: '5-day', PetMaydayScore: 'D', phone: '(304) 732-8000', email: '', address: 'Pineville, WV 24874' },
 ];
 
 const COMPLIANCE_PILLARS = [
@@ -83,30 +83,30 @@ export default function CompliancePage() {
   const [filterScore, setFilterScore] = useState<string | null>(null);
 
   const scoreStats = {
-    excellent: COUNTY_DATA.filter(c => c.pet911Score === 'A+' || c.pet911Score === 'A').length,
-    good: COUNTY_DATA.filter(c => c.pet911Score === 'B').length,
-    fair: COUNTY_DATA.filter(c => c.pet911Score === 'C').length,
-    poor: COUNTY_DATA.filter(c => c.pet911Score === 'D').length,
-    failing: COUNTY_DATA.filter(c => c.pet911Score === 'F').length,
+    excellent: COUNTY_DATA.filter(c => c.PetMaydayScore === 'A+' || c.PetMaydayScore === 'A').length,
+    good: COUNTY_DATA.filter(c => c.PetMaydayScore === 'B').length,
+    fair: COUNTY_DATA.filter(c => c.PetMaydayScore === 'C').length,
+    poor: COUNTY_DATA.filter(c => c.PetMaydayScore === 'D').length,
+    failing: COUNTY_DATA.filter(c => c.PetMaydayScore === 'F').length,
   };
 
   const filteredCounties = COUNTY_DATA.filter(county => {
     if (searchCounty && !county.county.toLowerCase().includes(searchCounty.toLowerCase())) return false;
-    if (filterScore && county.pet911Score !== filterScore) return false;
+    if (filterScore && county.PetMaydayScore !== filterScore) return false;
     return true;
   });
 
-  const deadzoneCounties = COUNTY_DATA.filter(c => c.pet911Score === 'F' || c.notes.includes('No dedicated shelter'));
+  const deadzoneCounties = COUNTY_DATA.filter(c => c.PetMaydayScore === 'F' || c.notes.includes('No dedicated shelter'));
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Hero */}
       <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border-b border-blue-700">
         <div className="max-w-7xl mx-auto px-6 py-12">
-          <Link href="/" className="text-blue-400 text-sm hover:underline">← Back to Pet911</Link>
+          <Link href="/" className="text-blue-400 text-sm hover:underline">← Back to PetMayday</Link>
           <h1 className="text-4xl font-bold mt-4">📊 Compliance & Resources</h1>
           <p className="text-xl text-zinc-300 mt-2">West Virginia Animal Control Compliance Directory</p>
-          <p className="text-sm text-zinc-400 mt-1">Assessing county compliance with Pet911 standards</p>
+          <p className="text-sm text-zinc-400 mt-1">Assessing county compliance with PetMayday standards</p>
         </div>
       </div>
 
@@ -163,9 +163,9 @@ export default function CompliancePage() {
               </div>
             </div>
 
-            {/* Pet911 Compliance Pillars */}
+            {/* PetMayday Compliance Pillars */}
             <div>
-              <h2 className="text-lg font-semibold mb-4">Pet911 Compliance Pillars</h2>
+              <h2 className="text-lg font-semibold mb-4">PetMayday Compliance Pillars</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {COMPLIANCE_PILLARS.map(pillar => (
                   <div key={pillar.id} className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
@@ -303,8 +303,8 @@ export default function CompliancePage() {
                         <span className="text-xs px-2 py-1 bg-zinc-800 rounded">{county.harboring}</span>
                       </td>
                       <td className="px-3 py-3 text-center">
-                        <span className={`text-xs px-2 py-1 rounded font-medium ${SCORE_COLORS[county.pet911Score]}`}>
-                          {county.pet911Score}
+                        <span className={`text-xs px-2 py-1 rounded font-medium ${SCORE_COLORS[county.PetMaydayScore]}`}>
+                          {county.PetMaydayScore}
                         </span>
                       </td>
                     </tr>

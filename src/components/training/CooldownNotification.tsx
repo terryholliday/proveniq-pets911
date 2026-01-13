@@ -67,7 +67,7 @@ const COOLDOWN_CONFIGS: Record<string, CooldownConfig> = {
     icon: '⚠️',
     color: 'red',
     allowedActions: ['Contact support only'],
-    resources: [{ title: 'support@pet911.org' }],
+    resources: [{ title: 'support@PetMayday.org' }],
   },
 };
 

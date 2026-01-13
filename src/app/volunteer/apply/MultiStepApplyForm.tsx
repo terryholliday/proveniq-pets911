@@ -223,7 +223,7 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
           <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto" />
           <h2 className="text-2xl font-bold">Application Submitted!</h2>
           <p className="text-muted-foreground">
-            Thank you for applying to volunteer with Pet911. Your application is now pending review.
+            Thank you for applying to volunteer with PetMayday. Your application is now pending review.
             You will be contacted once a decision has been made.
           </p>
           <p className="text-sm text-muted-foreground">
@@ -544,7 +544,7 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
                   key: "agreeCodeOfConduct",
                   label: "Code of Conduct",
                   description:
-                    "I agree to conduct myself professionally, treat animals humanely, and follow all Pet911 policies and procedures.",
+                    "I agree to conduct myself professionally, treat animals humanely, and follow all PetMayday policies and procedures.",
                 },
                 {
                   key: "agreeBackgroundCheck",
@@ -556,13 +556,13 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
                   key: "agreeTermsOfService",
                   label: "Terms of Service",
                   description:
-                    "I have read and agree to the Pet911 Terms of Service and understand my responsibilities as a volunteer.",
+                    "I have read and agree to the PetMayday Terms of Service and understand my responsibilities as a volunteer.",
                 },
                 {
                   key: "agreeLiabilityWaiver",
                   label: "Liability Waiver",
                   description:
-                    "I understand that volunteering involves inherent risks and I release Pet911 and its affiliates from liability for any injuries sustained while volunteering.",
+                    "I understand that volunteering involves inherent risks and I release PetMayday and its affiliates from liability for any injuries sustained while volunteering.",
                 },
               ].map(({ key, label, description }) => (
                 <label
@@ -633,7 +633,7 @@ export default function MultiStepApplyForm({ userId, email }: Props) {
               </div>
 
               <div className="text-sm text-muted-foreground">
-                By clicking Submit, your application will be sent to the Pet911 team for review.
+                By clicking Submit, your application will be sent to the PetMayday team for review.
                 You will be notified once a decision has been made.
               </div>
             </div>

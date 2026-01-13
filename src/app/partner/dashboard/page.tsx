@@ -114,7 +114,7 @@ export default function PartnerDashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Incoming Cases from Pet911 */}
+        {/* Incoming Cases from PetMayday */}
         <div className="bg-zinc-900 border border-amber-800/50 rounded-lg">
           <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
             <h2 className="font-semibold flex items-center gap-2">

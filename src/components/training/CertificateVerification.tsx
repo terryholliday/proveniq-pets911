@@ -86,7 +86,7 @@ export function CertificateVerificationPage() {
       <div className="max-w-lg mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Pet911 Certificate Verification</h1>
+          <h1 className="text-2xl font-bold text-gray-900">PetMayday Certificate Verification</h1>
           <p className="text-gray-600 mt-1">Official verification of volunteer credentials</p>
         </div>
 
@@ -163,7 +163,7 @@ export function CertificateVerificationPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-medium text-green-800">Verified by Pet911 Training Academy</p>
+                      <p className="font-medium text-green-800">Verified by PetMayday Training Academy</p>
                       <p className="text-sm text-green-600">
                         Verified at {new Date().toLocaleString()}
                       </p>
@@ -201,16 +201,16 @@ export function CertificateVerificationPage() {
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>Questions about this certificate?</p>
-          <a href="mailto:verify@pet911.org" className="text-blue-600 hover:underline">
-            Contact verify@pet911.org
+          <a href="mailto:verify@PetMayday.org" className="text-blue-600 hover:underline">
+            Contact verify@PetMayday.org
           </a>
         </div>
 
-        {/* Pet911 Branding */}
+        {/* PetMayday Branding */}
         <div className="mt-8 text-center">
           <div className="inline-flex items-center gap-2 text-gray-400">
             <span className="text-xl">🐾</span>
-            <span className="font-medium">Pet911 Training Academy</span>
+            <span className="font-medium">PetMayday Training Academy</span>
           </div>
           <p className="text-xs text-gray-400 mt-1">
             PROVENIQ Charitable Trust

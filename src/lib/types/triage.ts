@@ -2,7 +2,7 @@
  * TRIAGE SYSTEM TYPES
  * 
  * Aligned with EMS Medical Priority Dispatch System (MPDS)
- * Reference: pet911 Academy Training Framework v1.0
+ * Reference: PetMayday Academy Training Framework v1.0
  * 
  * The 3-Tier Triage System adapted from EMS protocols to standardize response urgency.
  * Moderators tag every incoming "incident report" with one of these codes within 5 minutes.
@@ -13,7 +13,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * EMS-style triage codes mapped to pet911 emergency response
+ * EMS-style triage codes mapped to PetMayday emergency response
  * 
  * ECHO/DELTA = Code 3 (Lights & Sirens) - Imminent threat to life
  * BRAVO/CHARLIE = Code 2 (Rapid Response) - Serious but stable

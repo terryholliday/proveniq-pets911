@@ -178,7 +178,7 @@ export default function PartnerIntakePage() {
             {/* Link to existing case */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
               <label className="block text-sm text-zinc-400 mb-2">
-                Link to Pet911 Case # (optional)
+                Link to PetMayday Case # (optional)
               </label>
               <input
                 type="text"

@@ -53,7 +53,7 @@ export default function PrivacyPage() {
                         <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800">
                             <h3 className="text-lg font-bold text-white mb-3">No Commercial Surveillance</h3>
                             <p className="text-slate-400 text-sm leading-relaxed">
-                                Pet911 explicitly replaces "rent-seeking" registries. We do not sell your data, we do not scrape social media, and we do not
+                                PetMayday explicitly replaces "rent-seeking" registries. We do not sell your data, we do not scrape social media, and we do not
                                 use "panic" to upsell services. We are an operational utility for emergency coordination.
                             </p>
                         </div>

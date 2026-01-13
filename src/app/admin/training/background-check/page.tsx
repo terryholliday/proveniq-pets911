@@ -423,7 +423,7 @@ export default function BackgroundCheckPage() {
                 </div>
 
                 <a
-                  href="mailto:support@pet911.org?subject=Background%20Check%20Review"
+                  href="mailto:support@PetMayday.org?subject=Background%20Check%20Review"
                   className="block w-full py-3 bg-amber-600 text-white rounded-xl font-medium text-center hover:bg-amber-700"
                 >
                   Contact Support
@@ -444,7 +444,7 @@ export default function BackgroundCheckPage() {
 
                 <div className="flex gap-3">
                   <a
-                    href="mailto:appeals@pet911.org?subject=Background%20Check%20Appeal"
+                    href="mailto:appeals@PetMayday.org?subject=Background%20Check%20Appeal"
                     className="flex-1 py-3 border border-gray-300 rounded-xl text-center hover:bg-gray-50"
                   >
                     Appeal Decision

@@ -1,4 +1,4 @@
-# pet911 Academy Training Framework Integration
+# PetMayday Academy Training Framework Integration
 
 > **Status:** Core types implemented, ready for content development  
 > **Last Updated:** 2026-01-12  

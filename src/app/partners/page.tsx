@@ -126,7 +126,7 @@ export default function PartnersPage() {
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold mb-4">Application Received!</h1>
           <p className="text-zinc-400 mb-6">
-            Thank you for your interest in partnering with Pet911. Our team will review your
+            Thank you for your interest in partnering with PetMayday. Our team will review your
             application and contact you within 5-7 business days.
           </p>
           <p className="text-sm text-zinc-500 mb-8">
@@ -146,7 +146,7 @@ export default function PartnersPage() {
       <div className="bg-gradient-to-b from-amber-900/20 to-transparent border-b border-zinc-800">
         <div className="max-w-4xl mx-auto px-6 py-12">
           <Link href="/" className="text-amber-500 text-sm hover:underline">← Back to Home</Link>
-          <h1 className="text-3xl font-bold mt-4">Partner With Pet911</h1>
+          <h1 className="text-3xl font-bold mt-4">Partner With PetMayday</h1>
           <p className="text-zinc-400 mt-2 max-w-2xl">
             Join West Virginia&apos;s first unified animal emergency response network. 
             Together, we can save more lives and reunite more families.
@@ -469,7 +469,7 @@ export default function PartnersPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-zinc-400 mb-1">How did you hear about Pet911?</label>
+                <label className="block text-sm text-zinc-400 mb-1">How did you hear about PetMayday?</label>
                 <select
                   value={form.howDidYouHear}
                   onChange={(e) => setForm({ ...form, howDidYouHear: e.target.value })}
@@ -508,7 +508,7 @@ export default function PartnersPage() {
       {/* Footer */}
       <footer className="border-t border-zinc-800 mt-12 py-8 text-center text-xs text-zinc-500">
         <p>Questions? Contact us at <a href="mailto:partners@proveniq.io" className="text-amber-500 hover:underline">partners@proveniq.io</a></p>
-        <p className="mt-2">Pet911 is a project of PROVENIQ Foundation</p>
+        <p className="mt-2">PetMayday is a project of PROVENIQ Foundation</p>
       </footer>
     </div>
   );

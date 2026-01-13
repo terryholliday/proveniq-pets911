@@ -1,4 +1,4 @@
-// Pet911 Training Dashboard API
+// PetMayday Training Dashboard API
 // GET /api/training/dashboard - Get user's training dashboard data
 
 import { NextRequest, NextResponse } from 'next/server';

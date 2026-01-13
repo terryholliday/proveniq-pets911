@@ -1,4 +1,4 @@
-// Pet911 Module Data API
+// PetMayday Module Data API
 // GET /api/training/module/[slug] - Get module with user progress and access info
 
 import { NextRequest, NextResponse } from 'next/server';

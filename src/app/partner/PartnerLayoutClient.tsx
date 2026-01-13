@@ -44,11 +44,11 @@ export default function PartnerLayoutClient({
           <Link href="/" className="flex items-center gap-2">
             <img
               src="/icon-pet-profiles.ico"
-              alt="Pet911"
+              alt="PetMayday"
               className="h-8 w-8"
             />
             <div>
-              <span className="font-bold">Pet911</span>
+              <span className="font-bold">PetMayday</span>
               <span className="text-xs text-amber-500 block">Partner Portal</span>
             </div>
           </Link>

@@ -1,4 +1,4 @@
-// Pet911 Module Progress API
+// PetMayday Module Progress API
 // POST /api/training/progress - Update module progress
 
 import { NextRequest, NextResponse } from 'next/server';

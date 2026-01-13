@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
       if (accountSid && authToken && fromNumber && volunteer.phone) {
         notifyAttempted = true;
         const urgencyText = updated.priority === 'CRITICAL' ? 'URGENT' : updated.priority === 'HIGH' ? 'HIGH PRIORITY' : '';
-        const message = `${urgencyText ? urgencyText + ' ' : ''}Pet911 Dispatch\n\nType: ${updated.request_type}\nAnimal: ${updated.species} (${updated.animal_size})\nPickup: ${updated.pickup_address}\n\nReply Y to accept or N to decline.`;
+        const message = `${urgencyText ? urgencyText + ' ' : ''}PetMayday Dispatch\n\nType: ${updated.request_type}\nAnimal: ${updated.species} (${updated.animal_size})\nPickup: ${updated.pickup_address}\n\nReply Y to accept or N to decline.`;
 
         const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
         const response = await fetch(url, {

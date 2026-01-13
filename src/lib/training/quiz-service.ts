@@ -1,4 +1,4 @@
-// Pet911 Quiz Engine Service
+// PetMayday Quiz Engine Service
 // Handles quiz attempt management, scoring, and progression
 
 import { createClient } from '@supabase/supabase-js';

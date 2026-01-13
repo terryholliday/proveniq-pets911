@@ -1,8 +1,8 @@
-# **State of the Stray: An Exhaustive Analysis of Animal Control, Welfare Law, and Pet911 Compliance Across West Virginia's 55 Counties**
+# **State of the Stray: An Exhaustive Analysis of Animal Control, Welfare Law, and PetMayday Compliance Across West Virginia's 55 Counties**
 
 ## **Executive Summary**
 
-The administration of animal control and welfare within West Virginia represents a complex intersection of antiquated statutory frameworks, evolving municipal ordinances, and the modern exigencies of lost pet recovery. As of 2026, the state’s 55 counties operate under a bifurcated legal system: the foundational West Virginia Code, specifically Chapter 19, Article 20, establishes a regulatory floor, while individual County Commissions wield the discretion to enact stricter or more specific ordinances. This report provides an exhaustive, expert-level analysis of this landscape, evaluating the efficacy of current laws against "Pet911" compliance standards—a benchmark for advocacy that prioritizes mandatory microchip scanning, extended holding periods, legal immunity for finders, and digital transparency in sheltering.
+The administration of animal control and welfare within West Virginia represents a complex intersection of antiquated statutory frameworks, evolving municipal ordinances, and the modern exigencies of lost pet recovery. As of 2026, the state’s 55 counties operate under a bifurcated legal system: the foundational West Virginia Code, specifically Chapter 19, Article 20, establishes a regulatory floor, while individual County Commissions wield the discretion to enact stricter or more specific ordinances. This report provides an exhaustive, expert-level analysis of this landscape, evaluating the efficacy of current laws against "PetMayday" compliance standards—a benchmark for advocacy that prioritizes mandatory microchip scanning, extended holding periods, legal immunity for finders, and digital transparency in sheltering.
 
 The research reveals a stark dichotomy in animal welfare governance. Urban centers such as Kanawha, Monongalia, and Berkeley counties have developed sophisticated legal infrastructures that define "ownership," "harboring," and "cruelty" with granular precision, often exceeding state requirements to address issues like hoarding and chaining. Conversely, rural jurisdictions often lack dedicated animal control facilities, relying instead on the Sheriff’s Department and the bare minimums of state law, which creates significant gaps in the safety net for stray animals. A critical finding of this report is the "harboring liability trap" prevalent in counties with three-day ownership rules, which inadvertently penalizes Good Samaritans and hinders the reunification of lost pets.
 
@@ -16,13 +16,13 @@ To fully comprehend the variance in local ordinances, one must first dissect the
 
 The central figure in West Virginia’s animal control hierarchy is the county dog warden. Under **§ 19-20-6**, the County Commission of each county is mandated to appoint a dog warden and necessary deputies to enforce the provisions of the code regarding the control, registration, and impoundment of dogs. This statute provides the first major structural fork in the road for counties: the Commission may either employ a warden directly or appoint an officer of a humane society to serve in this capacity.1 This provision allows for the privatization of enforcement duties, a model seen in counties like Wood and Harrison, where non-profit humane societies wield police powers regarding animal control.
 
-The warden’s primary statutory duty is to patrol the county and seize on sight any dog more than six months of age found not wearing a valid registration tag.2 This "seize on sight" mandate is the statutory basis for all stray intake in the state. Once seized, the operational clock begins. **§ 19-20-8** dictates that all impounded dogs must be housed and fed for a period of **five days** after notice of seizure has been given or posted.2 This five-day holding period is the absolute minimum standard for "Pet911" compliance. It is a non-negotiable statutory floor; no county may enact an ordinance that reduces this period, though they are free to extend it.
+The warden’s primary statutory duty is to patrol the county and seize on sight any dog more than six months of age found not wearing a valid registration tag.2 This "seize on sight" mandate is the statutory basis for all stray intake in the state. Once seized, the operational clock begins. **§ 19-20-8** dictates that all impounded dogs must be housed and fed for a period of **five days** after notice of seizure has been given or posted.2 This five-day holding period is the absolute minimum standard for "PetMayday" compliance. It is a non-negotiable statutory floor; no county may enact an ordinance that reduces this period, though they are free to extend it.
 
 ![][image1]
 
 ### **1.2 Notification Mechanisms and the "Courthouse Post"**
 
-A critical point of friction between current state law and modern "Pet911" advocacy lies in the notification requirements for impounded animals. The law bifurcates the procedure based on whether the owner is known or unknown. For a known owner, the warden must "forthwith give notice" that the dog has been impounded and will be destroyed or sold if not redeemed.2 However, for the vast majority of strays where the owner is unknown, the statute requires the warden to "post a notice in the county courthouse" describing the dog and the place where it was seized.3
+A critical point of friction between current state law and modern "PetMayday" advocacy lies in the notification requirements for impounded animals. The law bifurcates the procedure based on whether the owner is known or unknown. For a known owner, the warden must "forthwith give notice" that the dog has been impounded and will be destroyed or sold if not redeemed.2 However, for the vast majority of strays where the owner is unknown, the statute requires the warden to "post a notice in the county courthouse" describing the dog and the place where it was seized.3
 
 This requirement is a relic of a time when the county courthouse was the central hub of community information. In the digital age, this mechanism is woefully insufficient for effective pet reunification. Advocacy groups argue that strict adherence to this text—literally posting a paper notice on a bulletin board while failing to post a photo on social media—violates the spirit, if not the letter, of the due process required for depriving an owner of their property (the dog). While the statute does not *forbid* digital notification, it does not *mandate* it, creating a compliance gap where rural counties may technically follow the law while failing to provide meaningful notice to pet owners.
 
@@ -30,23 +30,23 @@ This requirement is a relic of a time when the county courthouse was the central
 
 West Virginia’s rabies control statutes, found in Article 20A, overlay the general animal control laws with public health mandates that have their own seizure and confinement rules. **§ 19-20A-8** generally permits vaccinated dogs and cats to run at large, provided they are not in a quarantined area.4 This creates a nuanced legal environment where a dog running loose is not *automatically* a violation of state law unless a specific county ordinance overrides this permission. The statute explicitly prohibits counties from preventing vaccinated dogs from running at large while engaged in lawful hunting, training, or herding activities.5
 
-This "hunting dog exemption" is a frequent source of confusion and conflict in rural counties. It effectively creates a protected class of free-roaming dogs, making it difficult for animal control officers to distinguish between a stray that needs rescuing and a hunting dog that is legally working. For "Pet911" advocates, this complicates the message of "secure your pets," as the law actively protects the right of certain dogs to be unsecured. Furthermore, the rabies law mandates a strict 10-day observation period for any animal that bites a person, regardless of vaccination status, and a six-month quarantine for unvaccinated animals exposed to rabies.6 These health-driven statutes often supersede standard stray hold times, extending the period an animal must be held before disposition.
+This "hunting dog exemption" is a frequent source of confusion and conflict in rural counties. It effectively creates a protected class of free-roaming dogs, making it difficult for animal control officers to distinguish between a stray that needs rescuing and a hunting dog that is legally working. For "PetMayday" advocates, this complicates the message of "secure your pets," as the law actively protects the right of certain dogs to be unsecured. Furthermore, the rabies law mandates a strict 10-day observation period for any animal that bites a person, regardless of vaccination status, and a six-month quarantine for unvaccinated animals exposed to rabies.6 These health-driven statutes often supersede standard stray hold times, extending the period an animal must be held before disposition.
 
 ### **1.4 Cruelty, Neglect, and the Humane Officer**
 
 While the dog warden focuses on licensing and strays, the **Humane Officer** operates under **§ 7-10-1** with distinct powers focused on welfare. Humane officers are designated to investigate complaints of cruel or inhumane treatment and have the authority to take possession of abandoned or neglected animals.7 The definition of "cruelty" in West Virginia includes withholding proper sustenance, shelter, or medical treatment.4 Crucially, the law mandates that veterinarians and other professionals report suspected cruelty, providing them immunity from civil or criminal liability for doing so.8 This "mandatory reporter" framework is a key pillar of the state's welfare architecture, designed to ensure that cases of severe neglect—such as hoarding or starvation—are brought to the attention of authorities who have the power to intervene.
 
-## **Chapter 2: The Pet911 Compliance Standard**
+## **Chapter 2: The PetMayday Compliance Standard**
 
-"Pet911 Compliance" is not a formal legal term found in the West Virginia Code but rather a composite of best practices advocated by animal welfare organizations, lost pet recovery specialists, and shelter reformists. It represents a modernization of animal control that shifts the focus from "catch and kill" to "recover and reunite." For the purpose of this analysis, we define Pet911 Compliance through four specific operational pillars: Universal Scanning, Digital Transparency, Extended Holding, and Immunity for Finders.
+"PetMayday Compliance" is not a formal legal term found in the West Virginia Code but rather a composite of best practices advocated by animal welfare organizations, lost pet recovery specialists, and shelter reformists. It represents a modernization of animal control that shifts the focus from "catch and kill" to "recover and reunite." For the purpose of this analysis, we define PetMayday Compliance through four specific operational pillars: Universal Scanning, Digital Transparency, Extended Holding, and Immunity for Finders.
 
 ### **2.1 Pillar I: Universal and Intake-Based Scanning**
 
-The single most effective tool for reuniting lost pets is the microchip. However, the West Virginia Code does not currently mandate that animal control officers or shelters scan animals for microchips upon intake. A strict reading of the law allows a warden to seize a dog, hold it for five days, and then destroy it without ever checking for the one device that could identify the owner. Pet911 advocacy demands that **every** animal—living or deceased—be scanned immediately upon seizure or intake. Furthermore, progressive counties like Harrison have moved to require microchipping as a condition of redemption, effectively closing the loop and ensuring that a dog reclaimed once is permanently identifiable in the future.9
+The single most effective tool for reuniting lost pets is the microchip. However, the West Virginia Code does not currently mandate that animal control officers or shelters scan animals for microchips upon intake. A strict reading of the law allows a warden to seize a dog, hold it for five days, and then destroy it without ever checking for the one device that could identify the owner. PetMayday advocacy demands that **every** animal—living or deceased—be scanned immediately upon seizure or intake. Furthermore, progressive counties like Harrison have moved to require microchipping as a condition of redemption, effectively closing the loop and ensuring that a dog reclaimed once is permanently identifiable in the future.9
 
 ### **2.2 Pillar II: Digital Transparency and Modern Notice**
 
-As noted in the analysis of Chapter 19, the "courthouse post" is obsolete. Pet911 compliance requires that the legal requirement for notice be interpreted to include digital platforms. This means that within 24 hours of intake, a shelter should post a photograph, description, and location of the seizure on a publicly accessible website or social media page. This "Digital Notice" is essential because lost pets often cross county lines; a dog lost in Putnam County might be picked up in Kanawha County. A physical notice in the Kanawha Courthouse is useless to an owner searching in Putnam, but a digital post is searchable globally.
+As noted in the analysis of Chapter 19, the "courthouse post" is obsolete. PetMayday compliance requires that the legal requirement for notice be interpreted to include digital platforms. This means that within 24 hours of intake, a shelter should post a photograph, description, and location of the seizure on a publicly accessible website or social media page. This "Digital Notice" is essential because lost pets often cross county lines; a dog lost in Putnam County might be picked up in Kanawha County. A physical notice in the Kanawha Courthouse is useless to an owner searching in Putnam, but a digital post is searchable globally.
 
 ### **2.3 Pillar III: The Harboring Definition and Finder Immunity**
 
@@ -54,11 +54,11 @@ One of the most counter-intuitive barriers to pet recovery in West Virginia is t
 
 * **The 3-Day Trap:** In counties like **Monongalia** and **Berkeley**, the ordinance states that an animal is deemed harbored if fed or sheltered for **three days**.10  
 * **The Advocacy Problem:** If a Good Samaritan finds a stray dog on a Friday night, keeps it safe over the weekend to look for the owner, and then calls the shelter on Tuesday, they have technically become the "harborer." The shelter may then treat the dog not as a "stray" (which usually has no intake fee) but as an "owner surrender" (which often carries a fee of $50 or more and stricter intake criteria). This effectively punishes the citizen for helping and incentivizes them to simply turn the dog loose to avoid liability.  
-* **The Compliance Goal:** Pet911 standards advocate for a "Finder Immunity" period of at least **14 days**, similar to the ordinance in **Mercer County**.12 This allows citizens to act as temporary fosters and active partners in recovery without fear of financial or legal penalty.
+* **The Compliance Goal:** PetMayday standards advocate for a "Finder Immunity" period of at least **14 days**, similar to the ordinance in **Mercer County**.12 This allows citizens to act as temporary fosters and active partners in recovery without fear of financial or legal penalty.
 
 ### **2.4 Pillar IV: Extended Holding and Transfer Networks**
 
-While the state mandates a five-day hold, high-performing shelters treat this as a floor, not a ceiling. Pet911 compliance involves "adoption reservation" programs during the stray hold, as seen in **Kanawha County**, where potential adopters can "hold" a stray dog so that it has a guaranteed exit strategy the moment the five-day window expires.13 Additionally, compliance involves active transfer networks where overcrowded rural shelters can move animals to better-resourced facilities rather than euthanizing for space.
+While the state mandates a five-day hold, high-performing shelters treat this as a floor, not a ceiling. PetMayday compliance involves "adoption reservation" programs during the stray hold, as seen in **Kanawha County**, where potential adopters can "hold" a stray dog so that it has a guaranteed exit strategy the moment the five-day window expires.13 Additionally, compliance involves active transfer networks where overcrowded rural shelters can move animals to better-resourced facilities rather than euthanizing for space.
 
 ![][image2]
 
@@ -78,7 +78,7 @@ Within the county, the **City of Morgantown** enforces even stricter welfare pro
 
 Harrison County has taken significant legislative steps to modernize its animal control through specific ordinance amendments. The county commission has adopted a "Commercial Dog Breeding Operations Ordinance" to regulate puppy mills, leveraging the authority granted by state law to impose stricter local oversight.16
 
-Most notably, Harrison County serves as a model for "Pet911" compliance regarding identification. The county amended its animal control ordinance to require that *any* dog, cat, or animal impounded must be implanted with a microchip prior to being released to its owner.9 The cost of this chip ($5) is assessed to the owner. Furthermore, for repeat offenders (animals impounded a third time), the county mandates spaying or neutering before release.9 This "Mandatory Chip and Snip" policy is a progressive approach that directly addresses the root causes of stray overpopulation and lost pets.
+Most notably, Harrison County serves as a model for "PetMayday" compliance regarding identification. The county amended its animal control ordinance to require that *any* dog, cat, or animal impounded must be implanted with a microchip prior to being released to its owner.9 The cost of this chip ($5) is assessed to the owner. Furthermore, for repeat offenders (animals impounded a third time), the county mandates spaying or neutering before release.9 This "Mandatory Chip and Snip" policy is a progressive approach that directly addresses the root causes of stray overpopulation and lost pets.
 
 ### **3.3 The Northern Panhandle: Ohio, Brooke, and Hancock**
 
@@ -127,7 +127,7 @@ Wood County (Parkersburg) utilizes a unique model where the **Humane Society of 
 
 * **Putnam County:** The **Putnam County Animal Shelter** focuses on "humane and sustainable" care. Their "Adopt a Kennel" program engages the community in funding shelter operations.26  
 * **Wirt County:** Recently updated its leash law to be more explicit. The ordinance defines "at large" as any dog not on the owner's property or under immediate physical control.27 This update was driven by a need to give the Sheriff’s department clearer tools to manage roaming dogs in a rural setting.  
-* **Jackson, Mason, Roane:** These counties operate primarily under the state code default. Facilities are often basic, and enforcement relies heavily on the Sheriff’s department. The lack of specific local ordinances means that "Pet911" compliance (scanning, digital posting) is voluntary rather than mandated.
+* **Jackson, Mason, Roane:** These counties operate primarily under the state code default. Facilities are often basic, and enforcement relies heavily on the Sheriff’s department. The lack of specific local ordinances means that "PetMayday" compliance (scanning, digital posting) is voluntary rather than mandated.
 
 ## **Chapter 5: The Eastern Panhandle**
 
@@ -162,7 +162,7 @@ The southern and central regions of West Virginia face significant economic chal
 
 Despite regional economic struggles, Mercer County has enacted some of the most progressive ordinances in the state.
 
-* **The 15-Day Harboring Rule:** Mercer County defines harboring as feeding or sheltering a dog for **15 days**.12 This is a critical deviation from the 3-day standard seen elsewhere. It allows a finder two full weeks to attempt to locate an owner before assuming legal liability. This is the **Gold Standard** for Pet911 compliance regarding finder immunity.  
+* **The 15-Day Harboring Rule:** Mercer County defines harboring as feeding or sheltering a dog for **15 days**.12 This is a critical deviation from the 3-day standard seen elsewhere. It allows a finder two full weeks to attempt to locate an owner before assuming legal liability. This is the **Gold Standard** for PetMayday compliance regarding finder immunity.  
 * **Spay/Neuter Mandate:** The county requires all dogs to be spayed or neutered unless the owner purchases an "intact permit." This policy directly addresses the source of the stray population—unplanned litters.32  
 * **Control vs. Leash:** Interestingly, Mercer removed specific "leash" language in favor of a broader "control" mandate. While potentially harder to enforce, it accommodates the rural reality where dogs are often working or on large properties.32
 
@@ -176,7 +176,7 @@ In the deep rural interior, animal control is often an adjunct duty of the Sheri
 
 * **Pocahontas County:** The Sheriff designates "Animal Control Officers" who enforce the ban on dogs running at large in unincorporated areas. The ordinance explicitly exempts hunting and farm dogs, aligning with the state code’s rural exemptions.35  
 * **Webster County:** The **City of Webster** operates a control program with specific viewing hours and fees ($50 pickup), but the county-level infrastructure is minimal.36  
-* **Gilmer & Calhoun:** These counties represent "statutory default" jurisdictions. Without detailed local ordinances or dedicated shelters, they rely on § 19-20-6. Stray dogs are often transported to neighboring counties or dealt with informally. This lack of infrastructure is a major barrier to Pet911 compliance, as there is often no physical place to take a found dog and no website to post it on.
+* **Gilmer & Calhoun:** These counties represent "statutory default" jurisdictions. Without detailed local ordinances or dedicated shelters, they rely on § 19-20-6. Stray dogs are often transported to neighboring counties or dealt with informally. This lack of infrastructure is a major barrier to PetMayday compliance, as there is often no physical place to take a found dog and no website to post it on.
 
 ## **Chapter 7: The Harboring Crisis and Legal Reform**
 
@@ -185,7 +185,7 @@ A recurring theme in this analysis is the legal peril faced by citizens who atte
 ### **7.1 The Three-Day Trap vs. The Fifteen-Day Safe Harbor**
 
 * **The Problem:** In **Monongalia** and **Berkeley** counties, the 3-day harboring rule is designed to prevent people from keeping dogs without a license. However, in practice, it means that a rescuer who finds a starving dog on Friday and feeds it until Monday has legally become the owner. If they then try to surrender the dog to the county shelter, they are told they must pay an "owner surrender" fee or are placed on a waiting list.  
-* **The Result:** This policy incentivizes citizens to ignore stray animals or to dump them in other jurisdictions to avoid liability. It directly contradicts the "Pet911" goal of encouraging community involvement in lost pet recovery.  
+* **The Result:** This policy incentivizes citizens to ignore stray animals or to dump them in other jurisdictions to avoid liability. It directly contradicts the "PetMayday" goal of encouraging community involvement in lost pet recovery.  
 * **The Solution:** The **Mercer County** model (15 days) provides a clear alternative. By extending the window, the county acknowledges that finding an owner takes time. It creates a legal "safe harbor" for finders to act as fosters, reducing the burden on the shelter system while maximizing the chances of reunification.
 
 ### **7.2 The Identification Void**
@@ -199,7 +199,7 @@ West Virginia Code requires a tax tag, but not a microchip. A tax tag on a colla
 
 West Virginia’s animal control landscape is a patchwork of the antiquated and the progressive. At one end of the spectrum, counties like Kanawha and Harrison rely on data-driven, welfare-centric ordinances that integrate with modern technology to save lives. At the other, rural counties struggle to meet the bare minimums of a 1951 state code that was written for a different era.
 
-To achieve statewide "Pet911 Compliance," the following strategic roadmap is recommended:
+To achieve statewide "PetMayday Compliance," the following strategic roadmap is recommended:
 
 1. **Legislative Amendment of "Harboring":** The State Legislature must amend Chapter 19 to define "harboring" uniformly, ideally setting a 14-day standard for finder immunity to protect Good Samaritans.  
 2. **Mandatory Intake Scanning:** § 19-20-8 should be amended to require that *every* impounded animal be scanned for a microchip immediately upon seizure.  
@@ -235,7 +235,7 @@ By bridging the gap between the 3-day harborer and the 5-day stray, and by moder
 | **Harrison** | Dog Warden | Harrison County Animal Control | **Mandatory Microchipping** for reclaims; 3-year vax recognized.9 |
 | **Jackson** | Sheriff / Warden | County Shelter | Defaults to State Code. |
 | **Jefferson** | Animal Control | Animal Welfare Society (Contract) | High compliance; strong licensing enforcement ($3/$6).29 |
-| **Kanawha** | Humane Assoc (KCHA) | KCHA Shelter | **Anti-tethering ordinance**; high Pet911 compliance.21 |
+| **Kanawha** | Humane Assoc (KCHA) | KCHA Shelter | **Anti-tethering ordinance**; high PetMayday compliance.21 |
 | **Lewis** | Sheriff / Warden | Lewis-Upshur Control Facility | Shared facility with Upshur; standard state hours.40 |
 | **Lincoln** | Sheriff / Warden | County Shelter | Defaults to State Code. |
 | **Logan** | Sheriff / Warden | County Shelter | Defaults to State Code. |

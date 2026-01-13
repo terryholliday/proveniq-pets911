@@ -69,7 +69,7 @@ export function TrainingDashboard({ initialData }: TrainingDashboardProps) {
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">Pet911 Training Academy</h1>
+          <h1 className="text-2xl font-bold text-gray-900">PetMayday Training Academy</h1>
           <p className="text-gray-600 mt-1">
             Complete your training to become a certified volunteer
           </p>

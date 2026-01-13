@@ -1,7 +1,7 @@
 /**
  * TRAINING MODULE REGISTRY
  * 
- * Aligned with pet911 Academy Training Framework v1.0
+ * Aligned with PetMayday Academy Training Framework v1.0
  * 
  * All training modules required for certification tracks.
  * Includes simulation scenarios and assessment criteria.
@@ -94,7 +94,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'mod-002',
@@ -143,7 +143,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: ['TRIAGE_FUNDAMENTALS'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'mod-003',
@@ -191,7 +191,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: ['ABC_PROTOCOL'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'mod-004',
@@ -239,7 +239,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: ['FRAUD_DETECTION'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'mod-005',
@@ -280,7 +280,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'mod-006',
@@ -328,7 +328,7 @@ export const MODERATOR_MODULES: TrainingModule[] = [
     prerequisiteModules: ['ANTI_VIGILANTISM', 'COMPASSION_FATIGUE_AWARENESS'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
 ];
 
@@ -376,7 +376,7 @@ export const TRANSPORT_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'trn-002',
@@ -417,7 +417,7 @@ export const TRANSPORT_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'trn-003',
@@ -458,7 +458,7 @@ export const TRANSPORT_MODULES: TrainingModule[] = [
     prerequisiteModules: ['CRATE_SAFETY'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
 ];
 
@@ -506,7 +506,7 @@ export const FOSTER_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'fos-002',
@@ -554,7 +554,7 @@ export const FOSTER_MODULES: TrainingModule[] = [
     prerequisiteModules: ['BIOSECURITY_101'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'fos-003',
@@ -595,7 +595,7 @@ export const FOSTER_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
 ];
 
@@ -643,7 +643,7 @@ export const TRAPPER_MODULES: TrainingModule[] = [
     prerequisiteModules: [],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'trp-002',
@@ -684,7 +684,7 @@ export const TRAPPER_MODULES: TrainingModule[] = [
     prerequisiteModules: ['TNR_BASICS'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
   {
     id: 'trp-003',
@@ -725,7 +725,7 @@ export const TRAPPER_MODULES: TrainingModule[] = [
     prerequisiteModules: ['BOX_TRAP_MASTERY'],
     version: '1.0',
     lastUpdated: '2026-01-12',
-    author: 'pet911 Academy',
+    author: 'PetMayday Academy',
   },
 ];
 

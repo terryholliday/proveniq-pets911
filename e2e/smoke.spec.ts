@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('home page renders', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('header').getByText('Pet911', { exact: true })).toBeVisible();
+  await expect(page.locator('header').getByText('PetMayday', { exact: true })).toBeVisible();
 });
 
 test('privacy policy renders', async ({ page }) => {

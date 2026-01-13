@@ -1,7 +1,7 @@
 /**
  * CERTIFICATION TRACKS
  * 
- * Aligned with pet911 Academy Training Framework v1.0
+ * Aligned with PetMayday Academy Training Framework v1.0
  * 
  * Three distinct certification tracks for Field Volunteers:
  * - Track A: Certified Field Trapper (TNR & Recovery)

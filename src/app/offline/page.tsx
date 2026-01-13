@@ -45,7 +45,7 @@ export default function OfflinePage() {
         </div>
 
         <p className="text-xs text-zinc-600 mt-6">
-          Pet911 West Virginia • Offline Mode
+          PetMayday West Virginia • Offline Mode
         </p>
       </div>
     </div>

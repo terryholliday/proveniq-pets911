@@ -50,7 +50,7 @@ export default function ModeratorAnalyticsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pet911-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `PetMayday-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -71,7 +71,7 @@ export default function ModeratorAnalyticsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pet911-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `PetMayday-analytics-${timeRange}-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

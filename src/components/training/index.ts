@@ -1,4 +1,4 @@
-// Pet911 Training Components - Index
+// PetMayday Training Components - Index
 // Export all training-related components
 
 // Core Components

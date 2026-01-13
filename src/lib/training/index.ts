@@ -1,4 +1,4 @@
-// Pet911 Training Services - Index
+// PetMayday Training Services - Index
 // Export all training-related services
 
 export { quizService, QuizService } from './quiz-service';

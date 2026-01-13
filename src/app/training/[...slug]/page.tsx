@@ -22,7 +22,7 @@ const CONTENT_DESCRIPTIONS: Record<string, string> = {
   'vol101/mission': 'Learn about our mission to reunite pets with their families.',
   'vol101/lost-pet-crisis': 'Understand the scope and impact of the lost pet crisis.',
   'vol101/success-stories': 'Read heartwarming reunification stories from our volunteers.',
-  'vol101/platform-tour': 'Take a tour of the Pet911 website and mobile app.',
+  'vol101/platform-tour': 'Take a tour of the PetMayday website and mobile app.',
   'vol101/platform-walkthrough': 'Hands-on practice navigating key platform features.',
   'vol101/case-lifecycle': 'How cases move through our system from report to resolution.',
   'vol101/volunteer-roles': 'Overview of all volunteer positions and responsibilities.',

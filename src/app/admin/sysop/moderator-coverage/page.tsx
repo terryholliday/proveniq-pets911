@@ -51,7 +51,7 @@ const MOCK_MODERATORS: Moderator[] = [
   { 
     id: 'MOD-001', 
     name: 'Emily Carter', 
-    email: 'emily.c@pet911.org', 
+    email: 'emily.c@PetMayday.org', 
     isActive: true,
     assignedCounties: [
       { countyId: 'WV-KANAWHA', type: 'primary' },
@@ -62,7 +62,7 @@ const MOCK_MODERATORS: Moderator[] = [
   { 
     id: 'MOD-002', 
     name: 'James Wilson', 
-    email: 'james.w@pet911.org', 
+    email: 'james.w@PetMayday.org', 
     isActive: true,
     assignedCounties: [
       { countyId: 'WV-CABELL', type: 'primary' },
@@ -73,7 +73,7 @@ const MOCK_MODERATORS: Moderator[] = [
   { 
     id: 'MOD-003', 
     name: 'Sarah Martinez', 
-    email: 'sarah.m@pet911.org', 
+    email: 'sarah.m@PetMayday.org', 
     isActive: true,
     assignedCounties: [
       { countyId: 'WV-GREENBRIER', type: 'primary' },
@@ -85,7 +85,7 @@ const MOCK_MODERATORS: Moderator[] = [
   { 
     id: 'MOD-004', 
     name: 'Michael Brown', 
-    email: 'michael.b@pet911.org', 
+    email: 'michael.b@PetMayday.org', 
     isActive: false,
     assignedCounties: []
   },

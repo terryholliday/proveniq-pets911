@@ -242,7 +242,7 @@ export default function VolunteerDashboard() {
         {/* Back to home */}
         <div className="mt-8 text-center">
           <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-400">
-            ← Back to Pet911 Home
+            ← Back to PetMayday Home
           </Link>
         </div>
       </div>

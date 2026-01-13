@@ -16,7 +16,7 @@ export * from './volunteer';
 // --- Triage System (EMS-Aligned) ---
 export * from './triage';
 
-// --- Certification Tracks (pet911 Academy) ---
+// --- Certification Tracks (PetMayday Academy) ---
 export * from './certification-tracks';
 
 // --- Training Modules ---

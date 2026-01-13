@@ -1,4 +1,4 @@
-// Pet911 Quiz API Routes
+// PetMayday Quiz API Routes
 // POST /api/training/quiz/start - Start a new quiz
 // POST /api/training/quiz/answer - Submit an answer
 // POST /api/training/quiz/complete - Complete the quiz

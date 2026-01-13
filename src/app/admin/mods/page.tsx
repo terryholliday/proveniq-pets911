@@ -873,7 +873,7 @@ export default function ModeratorDashboardPage() {
               </div>
               
               <p className="text-xs text-zinc-500 text-center">
-                Message will be sent as a direct message in the Pet911 app.
+                Message will be sent as a direct message in the PetMayday app.
               </p>
             </div>
           </div>

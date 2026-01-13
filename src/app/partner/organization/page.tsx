@@ -165,7 +165,7 @@ export default function PartnerOrganizationPage() {
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6">
             <h3 className="font-semibold mb-4 flex items-center gap-2">
               <Shield className="h-5 w-5 text-zinc-500" />
-              Pet911 Compliance
+              PetMayday Compliance
             </h3>
             <div className="text-center py-4">
               <div className="text-3xl font-bold text-amber-500 mb-1">SILVER</div>

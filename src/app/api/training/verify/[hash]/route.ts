@@ -1,4 +1,4 @@
-// Pet911 Certificate Verification API
+// PetMayday Certificate Verification API
 // GET /api/training/verify/[hash] - Verify a certificate by hash
 
 import { NextRequest, NextResponse } from 'next/server';

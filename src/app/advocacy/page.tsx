@@ -285,7 +285,7 @@ export default function AdvocacyPage() {
       {/* Hero */}
       <div className="bg-gradient-to-r from-amber-900/40 to-green-900/40 border-b border-amber-700">
         <div className="max-w-5xl mx-auto px-6 py-12">
-          <Link href="/" className="text-amber-400 text-sm hover:underline">← Back to Pet911</Link>
+          <Link href="/" className="text-amber-400 text-sm hover:underline">← Back to PetMayday</Link>
           <h1 className="text-4xl font-bold mt-4">🐕 Advocacy Center</h1>
           <p className="text-xl text-zinc-300 mt-2">Support the B.A.R.K. Act for West Virginia</p>
           <p className="text-sm text-zinc-400 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
@@ -507,7 +507,7 @@ export default function AdvocacyPage() {
           <div className="mt-4 p-3 bg-zinc-800/30 rounded-lg">
             <div className="text-xs text-zinc-500 mb-2">Suggested Hashtags:</div>
             <div className="flex flex-wrap gap-2">
-              {['#BARKAct', '#WVpol', '#AnimalWelfare', '#EndPuppyMills', '#WestVirginia', '#Pet911'].map(tag => (
+              {['#BARKAct', '#WVpol', '#AnimalWelfare', '#EndPuppyMills', '#WestVirginia', '#PetMayday'].map(tag => (
                 <span key={tag} className="text-xs bg-zinc-700 text-amber-300 px-2 py-1 rounded">{tag}</span>
               ))}
             </div>
@@ -573,7 +573,7 @@ export default function AdvocacyPage() {
 
         {/* Footer */}
         <div className="text-center py-6 text-xs text-zinc-500">
-          <p>This advocacy page is provided by Pet911 / PROVENIQ Foundation</p>
+          <p>This advocacy page is provided by PetMayday / PROVENIQ Foundation</p>
           <p className="mt-1">Not affiliated with any political party or campaign</p>
         </div>
       </div>

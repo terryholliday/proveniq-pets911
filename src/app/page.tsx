@@ -42,7 +42,7 @@ function ThankYouBanner() {
   return null;
 }
 
-export default function Pet911Home() {
+export default function PetMaydayHome() {
   const [showHiddenLinks, setShowHiddenLinks] = useState(false);
   const clickCountRef = useRef(0);
   const lastClickTimeRef = useRef(0);
@@ -69,10 +69,10 @@ export default function Pet911Home() {
           <div className="flex items-center gap-2" onClick={handleEasterEggClick}>
             <img
               src="/icon-pet-profiles.ico"
-              alt="Pet911 Logo"
+              alt="PetMayday Logo"
               className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]"
             />
-            <span className="text-xl font-bold tracking-tight">Pet911</span>
+            <span className="text-xl font-bold tracking-tight">PetMayday</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
             <a href="#crisis" className="hover:text-primary transition-colors">The Crisis</a>
@@ -86,7 +86,7 @@ export default function Pet911Home() {
           <div className="flex items-center gap-4">
             {showHiddenLinks && (
               <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                <a href="https://lostpets911.org/admin/mods" target="_blank" rel="noreferrer noopener">Mod Console</a>
+                <a href="https://lostPetMayday.org/admin/mods" target="_blank" rel="noreferrer noopener">Mod Console</a>
               </Button>
             )}
             <Button variant="outline" size="sm" asChild className="hidden sm:flex">
@@ -96,7 +96,7 @@ export default function Pet911Home() {
               <Link href="/volunteer/dashboard">Volunteer Portal</Link>
             </Button>
             <Button size="sm" className="gradient-amber text-zinc-900 font-bold border-none hover:opacity-90 transition-opacity" asChild>
-              <Link href="https://lostpets911.org">Launch App</Link>
+              <Link href="https://lostPetMayday.org">Launch App</Link>
             </Button>
           </div>
         </div>
@@ -129,19 +129,19 @@ export default function Pet911Home() {
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed">
                 The "Post and Pray" era is over. <br />
-                Pet911 coordinates finders, shelters, and vets into a single <span className="text-foreground font-semibold">rapid-response grid</span>.
+                PetMayday coordinates finders, shelters, and vets into a single <span className="text-foreground font-semibold">rapid-response grid</span>.
                 <br />
                 <span className="text-red-500/90 italic mt-2 block">Offline-First. Verified Matches. Zero False Hope.</span>
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
-                  href="https://lostpets911.org"
+                  href="https://lostPetMayday.org"
                   className="inline-flex items-center justify-center h-14 px-8 bg-red-600 text-white font-bold text-lg rounded-md transition-all hover:bg-red-700 shadow-[0_0_20px_rgba(220,38,38,0.4)]"
                 >
                   <AlertTriangle className="mr-2 h-5 w-5" /> Report Emergency
                 </a>
                 <a
-                  href="https://lostpets911.org"
+                  href="https://lostPetMayday.org"
                   className="inline-flex items-center justify-center h-14 px-8 bg-teal text-zinc-900 font-bold text-lg rounded-md transition-all hover:bg-teal/90 shadow-[0_0_20px_rgba(45,212,191,0.3)]"
                 >
                   <Smartphone className="mr-2 h-5 w-5" /> Download App
@@ -249,11 +249,11 @@ export default function Pet911Home() {
                 </div>
               </div>
 
-              {/* Pet911 Protocol */}
+              {/* PetMayday Protocol */}
               <div className="p-8 rounded-2xl border border-teal/20 bg-teal/5 relative overflow-hidden">
                 <div className="absolute top-4 right-4 text-teal opacity-10 font-black text-6xl">ORDER</div>
                 <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="text-teal" /> Pet911 Protocol
+                  <CheckCircle2 className="text-teal" /> PetMayday Protocol
                 </h3>
                 <div className="space-y-4 font-mono text-sm max-w-md mx-auto">
                   <div className="p-4 bg-background rounded border border-border font-bold relative">
@@ -537,7 +537,7 @@ export default function Pet911Home() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Tactical Advantages</h2>
-              <p className="text-zinc-400">Why emergency services trust Pet911.</p>
+              <p className="text-zinc-400">Why emergency services trust PetMayday.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -672,7 +672,7 @@ export default function Pet911Home() {
                       Scammers prey on people in their worst moments. They scrape phone numbers from posters, demand ransoms, and sell false hope.
                     </p>
                     <p className="text-lg text-zinc-400 mb-8">
-                      Pet911 destroys this business model by removing the <em className="text-white not-italic">opportunity</em> to scam.
+                      PetMayday destroys this business model by removing the <em className="text-white not-italic">opportunity</em> to scam.
                     </p>
 
                     <div className="space-y-6">
@@ -845,10 +845,10 @@ export default function Pet911Home() {
               <div className="grid lg:grid-cols-2 gap-8 items-center">
                 <div>
                   <Badge variant="outline" className="mb-4 border-green-500/50 text-green-500">Veterinary Partners</Badge>
-                  <h3 className="text-2xl font-bold mb-4">Why Vets Are Central to Pet911</h3>
+                  <h3 className="text-2xl font-bold mb-4">Why Vets Are Central to PetMayday</h3>
                   <p className="text-muted-foreground mb-6">
                     Veterinarians are trusted confirmation points. Lost pets often arrive at clinics without context.
-                    Pet911 replaces fragmented social media chaos with one verified, structured case per lost pet.
+                    PetMayday replaces fragmented social media chaos with one verified, structured case per lost pet.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
@@ -882,7 +882,7 @@ export default function Pet911Home() {
                   </div>
                 </div>
                 <div className="p-6 rounded-xl bg-background border border-border">
-                  <h4 className="font-bold mb-4 text-center">What Pet911 Does NOT Ask of Vets</h4>
+                  <h4 className="font-bold mb-4 text-center">What PetMayday Does NOT Ask of Vets</h4>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
                       <X className="h-5 w-5 text-red-500 shrink-0" />
@@ -906,10 +906,10 @@ export default function Pet911Home() {
               </div>
             </div>
 
-            {/* What Pet911 Is NOT */}
+            {/* What PetMayday Is NOT */}
             <div className="mt-12 p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
-              <h3 className="text-xl font-bold text-white mb-6 text-center">What Pet911 Is NOT</h3>
-              <p className="text-center text-zinc-400 mb-6">Pet911 is a lost-and-found and reunification system for pets. It is explicitly <strong className="text-white">NOT</strong>:</p>
+              <h3 className="text-xl font-bold text-white mb-6 text-center">What PetMayday Is NOT</h3>
+              <p className="text-center text-zinc-400 mb-6">PetMayday is a lost-and-found and reunification system for pets. It is explicitly <strong className="text-white">NOT</strong>:</p>
               <div className="grid md:grid-cols-4 gap-4">
                 <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700 text-center">
                   <X className="h-8 w-8 text-red-500 mx-auto mb-2" />
@@ -928,7 +928,7 @@ export default function Pet911Home() {
                   <p className="text-sm text-zinc-300">A crowdsourced "panic alert" app</p>
                 </div>
               </div>
-              <p className="text-center text-zinc-500 text-sm mt-6">Pet911 does not give medical advice, assess injuries, or direct treatment decisions.</p>
+              <p className="text-center text-zinc-500 text-sm mt-6">PetMayday does not give medical advice, assess injuries, or direct treatment decisions.</p>
             </div>
 
             {/* Partner CTA */}

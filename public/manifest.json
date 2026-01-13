@@ -1,6 +1,6 @@
 {
-  "name": "Pet911 West Virginia",
-  "short_name": "Pet911",
+  "name": "PetMayday West Virginia",
+  "short_name": "PetMayday",
   "description": "Emergency response network for lost and injured pets in West Virginia",
   "start_url": "/",
   "display": "standalone",
@@ -81,7 +81,7 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Pet911 Homepage"
+      "label": "PetMayday Homepage"
     },
     {
       "src": "/screenshots/dispatch.png",

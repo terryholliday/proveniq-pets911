@@ -173,8 +173,8 @@ export default function LogShadowingPage() {
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-600">
               <strong>Need help finding a mentor?</strong> Contact{' '}
-              <a href="mailto:mentors@pet911.org" className="text-indigo-600 hover:underline">
-                mentors@pet911.org
+              <a href="mailto:mentors@petmayday.org" className="text-indigo-600 hover:underline">
+                mentors@petmayday.org
               </a>{' '}
               and we'll connect you with someone in your area.
             </p>

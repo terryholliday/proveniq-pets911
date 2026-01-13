@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 <Response>
   <Say voice="alice">Hello ${name}. This is Pet 9 1 1 dispatch. We need your assistance with a ${reason} request. Please hold while we connect you with a moderator.</Say>
   <Dial>
-    <Conference>pet911-dispatch</Conference>
+    <Conference>PetMayday-dispatch</Conference>
   </Dial>
 </Response>`;
 

@@ -15,7 +15,7 @@ const TRAINING_MODULES = {
   'vol101/orientation': {
     id: 'vol101/orientation',
     title: 'Volunteer Orientation',
-    description: 'Introduction to the Pet911 network and our mission',
+    description: 'Introduction to the PetMayday network and our mission',
     duration: '15 min',
     isRequired: true,
     prerequisites: [],
@@ -23,7 +23,7 @@ const TRAINING_MODULES = {
   'vol101/platform-basics': {
     id: 'vol101/platform-basics',
     title: 'Platform Basics',
-    description: 'Learn to navigate the Pet911 platform',
+    description: 'Learn to navigate the PetMayday platform',
     duration: '20 min',
     isRequired: true,
     prerequisites: ['vol101/orientation'],

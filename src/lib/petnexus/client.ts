@@ -1,7 +1,7 @@
 /**
  * PetNexus Ecosystem API Client
  * 
- * Provides cross-system sync between Pet911 and the PetNexus ecosystem:
+ * Provides cross-system sync between PetMayday and the PetNexus ecosystem:
  * - VetOS: System of Record for clinics
  * - LifeLog: Immutable biological event log
  * - Teleport: Interoperability and data portability
@@ -20,7 +20,7 @@ export interface LifeLogEvent {
   pet_id?: string;
   case_id?: string;
   timestamp: string;
-  source: 'pet911';
+  source: 'PetMayday';
   data: Record<string, any>;
   provenance: {
     actor_id: string;
@@ -88,7 +88,7 @@ class PetNexusClient {
     this.config = {
       baseUrl: process.env.PETNEXUS_API_URL || 'https://api.petnexus.io',
       apiKey: process.env.PETNEXUS_API_KEY || '',
-      clientId: process.env.PETNEXUS_CLIENT_ID || 'pet911-wv',
+      clientId: process.env.PETNEXUS_CLIENT_ID || 'PetMayday-wv',
       environment: (process.env.PETNEXUS_ENV as PetNexusConfig['environment']) || 'development',
     };
   }
@@ -138,7 +138,7 @@ class PetNexusClient {
     
     const result = await this.request<{ event_id: string }>('/lifelog/events', 'POST', {
       ...event,
-      source: 'pet911',
+      source: 'PetMayday',
       timestamp: event.timestamp || new Date().toISOString(),
     });
 
@@ -162,7 +162,7 @@ class PetNexusClient {
       case_id: data.case_id,
       pet_id: data.pet_id,
       timestamp: new Date().toISOString(),
-      source: 'pet911',
+      source: 'PetMayday',
       data: {
         outcome: data.outcome,
         notes: data.notes,
@@ -190,7 +190,7 @@ class PetNexusClient {
       case_id: data.case_id,
       pet_id: data.pet_id,
       timestamp: new Date().toISOString(),
-      source: 'pet911',
+      source: 'PetMayday',
       data: {
         owner_id: data.owner_id,
         method: data.method,
@@ -219,7 +219,7 @@ class PetNexusClient {
     console.log('[Teleport] Transferring animal to VetOS');
 
     const transfer: TeleportTransfer = {
-      source_system: 'pet911',
+      source_system: 'PetMayday',
       target_system: 'vetos',
       transfer_type: 'animal',
       payload: {
@@ -251,7 +251,7 @@ class PetNexusClient {
         case_id: data.case_id,
         pet_id: result.data?.vetos_id,
         timestamp: new Date().toISOString(),
-        source: 'pet911',
+        source: 'PetMayday',
         data: {
           facility_id: data.destination_facility_id,
           transfer_id: result.data?.transfer_id,
@@ -293,7 +293,7 @@ class PetNexusClient {
       case_id: data.case_id,
       pet_id: data.pet_id,
       timestamp: new Date().toISOString(),
-      source: 'pet911',
+      source: 'PetMayday',
       data: {
         outcome_type: data.outcome_type,
         notes: data.notes,
@@ -356,7 +356,7 @@ class PetNexusClient {
         lng: data.lng,
       },
       photos: data.photos || [],
-      source: 'pet911',
+      source: 'PetMayday',
       case_reference: data.case_id,
     });
 
@@ -402,7 +402,7 @@ class PetNexusClient {
       case_id: data.case_id,
       pet_id: data.pet_id,
       timestamp: new Date().toISOString(),
-      source: 'pet911',
+      source: 'PetMayday',
       data: {
         metrics: data.metrics,
       },
@@ -416,7 +416,7 @@ class PetNexusClient {
 
     // Also post to metrics aggregation endpoint
     await this.request('/metrics/outcomes', 'POST', {
-      source: 'pet911',
+      source: 'PetMayday',
       outcome_type: data.outcome_type,
       case_id: data.case_id,
       county: data.county,
@@ -439,7 +439,7 @@ class PetNexusClient {
       response_time_avg_minutes: number;
     };
   }> {
-    return this.request(`/metrics/impact?period=${period}&source=pet911`);
+    return this.request(`/metrics/impact?period=${period}&source=PetMayday`);
   }
 }
 

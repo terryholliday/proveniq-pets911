@@ -97,7 +97,7 @@ export function PWAInstall() {
           <span className="text-xl">🐕</span>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-sm">Install Pet911</h3>
+          <h3 className="font-medium text-sm">Install PetMayday</h3>
           <p className="text-xs text-zinc-400 mt-1">
             Add to your home screen for quick access and offline support.
           </p>
