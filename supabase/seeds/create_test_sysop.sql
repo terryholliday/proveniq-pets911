@@ -5,12 +5,12 @@
 -- ============================================================
 
 -- IMPORTANT: Change these values before running!
--- Email: test-sysop@pet911.org
+-- Email: test-sysop@PetMayday.org
 -- Password: TestSysop2026! (change in Supabase Auth after creation)
 
 -- Step 1: Create the auth user via Supabase Dashboard or API
 -- Go to Authentication > Users > Add User
--- Email: test-sysop@pet911.org
+-- Email: test-sysop@PetMayday.org
 -- Password: TestSysop2026!
 
 -- Step 2: After creating the user, run this SQL to grant SYSOP role
@@ -19,7 +19,7 @@
 DO $$
 DECLARE
     v_user_id UUID;
-    v_email TEXT := 'test-sysop@pet911.org';
+    v_email TEXT := 'test-sysop@PetMayday.org';
 BEGIN
     -- Find the user by email
     SELECT id INTO v_user_id 
@@ -101,7 +101,7 @@ SELECT
     raw_app_meta_data->>'role' as app_role,
     created_at
 FROM auth.users
-WHERE email = 'test-sysop@pet911.org';
+WHERE email = 'test-sysop@PetMayday.org';
 
 -- ============================================================
 -- GRANT EXISTING USER SYSOP (by email)
@@ -126,7 +126,7 @@ WHERE email = 'your-email@example.com';
 -- To remove the test account after documentation:
 /*
 DELETE FROM volunteers WHERE user_id = (
-    SELECT id FROM auth.users WHERE email = 'test-sysop@pet911.org'
+    SELECT id FROM auth.users WHERE email = 'test-sysop@PetMayday.org'
 );
 
 -- Then delete from Supabase Dashboard: Authentication > Users > Delete

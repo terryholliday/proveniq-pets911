@@ -1,4 +1,4 @@
--- Pet911 Training System V2
+-- PetMayday Training System V2
 -- Implements nonprofit best practices based on ASPCA, Best Friends, FEMA CERT standards
 -- Supports: Quizzes, Certifications, Background Checks, Recertification, Cooldown Enforcement
 

@@ -1,4 +1,4 @@
--- Pet911 Automated Workflows
+-- PetMayday Automated Workflows
 -- Database triggers and functions for automated system behaviors
 
 -- ============================================================================

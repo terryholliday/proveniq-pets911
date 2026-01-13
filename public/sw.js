@@ -1,9 +1,9 @@
 /**
- * Pet911 Service Worker
+ * PetMayday Service Worker
  * Provides offline support and caching for the PWA
  */
 
-const CACHE_NAME = 'pet911-v1';
+const CACHE_NAME = 'PetMayday-v1';
 const OFFLINE_URL = '/offline';
 
 // Assets to cache on install
@@ -99,7 +99,7 @@ self.addEventListener('push', (event) => {
   console.log('[SW] Push notification received');
 
   const options = {
-    body: 'You have a new notification from Pet911',
+    body: 'You have a new notification from PetMayday',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/badge-72x72.png',
     vibrate: [100, 50, 100],
@@ -131,7 +131,7 @@ self.addEventListener('push', (event) => {
   }
 
   event.waitUntil(
-    self.registration.showNotification('Pet911 Alert', options)
+    self.registration.showNotification('PetMayday Alert', options)
   );
 });
 

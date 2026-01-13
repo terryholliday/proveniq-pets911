@@ -1,4 +1,4 @@
-# Pet911 UI Color System
+# PetMayday UI Color System
 
 *Consistent semantic color scheme for admin dashboards*
 

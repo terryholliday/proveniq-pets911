@@ -1,4 +1,4 @@
--- Pet911 Training Quiz Questions
+-- PetMayday Training Quiz Questions
 -- Scenario-based assessments per nonprofit best practices
 -- 80% passing score required, critical questions must be correct
 
@@ -16,13 +16,13 @@ BEGIN
   -- Question 1: Volunteer Status
   INSERT INTO training_questions (module_id, question_type, question_text, explanation, difficulty, is_critical)
   VALUES (v_module_id, 'multiple_choice', 
-    'As a Pet911 volunteer, which statement best describes your relationship with the platform?',
+    'As a PetMayday volunteer, which statement best describes your relationship with the platform?',
     'Volunteers are independent actors, not employees. This distinction is critical for legal liability and operational autonomy.',
     'easy', true)
   RETURNING id INTO v_question_id;
   
   INSERT INTO training_question_options (question_id, option_text, is_correct, sort_order) VALUES
-  (v_question_id, 'I am an employee of Pet911 and must follow all directives', false, 1),
+  (v_question_id, 'I am an employee of PetMayday and must follow all directives', false, 1),
   (v_question_id, 'I am an independent volunteer who acts of my own volition and judgment', true, 2),
   (v_question_id, 'I am a contractor paid per rescue completed', false, 3),
   (v_question_id, 'I am a law enforcement agent with special authority', false, 4);
@@ -30,7 +30,7 @@ BEGIN
   -- Question 2: Scope of Authority
   INSERT INTO training_questions (module_id, question_type, question_text, explanation, difficulty, is_critical)
   VALUES (v_module_id, 'multi_select',
-    'Which of the following actions are WITHIN your scope of authority as a Pet911 volunteer? (Select all that apply)',
+    'Which of the following actions are WITHIN your scope of authority as a PetMayday volunteer? (Select all that apply)',
     'Volunteers coordinate on-platform, report to authorities, and provide direct care. They do NOT have law enforcement powers or authority to trespass.',
     'medium', true)
   RETURNING id INTO v_question_id;
@@ -61,8 +61,8 @@ BEGIN
   -- Question 4: Wikipedia Model
   INSERT INTO training_questions (module_id, question_type, question_text, explanation, difficulty)
   VALUES (v_module_id, 'multiple_choice',
-    'Pet911''s governance model is inspired by Wikipedia and Reddit. What key principle does this mean for dispute resolution?',
-    'Like Wikipedia, Pet911 uses structured escalation with uninvolved reviewers for sensitive cases.',
+    'PetMayday''s governance model is inspired by Wikipedia and Reddit. What key principle does this mean for dispute resolution?',
+    'Like Wikipedia, PetMayday uses structured escalation with uninvolved reviewers for sensitive cases.',
     'easy')
   RETURNING id INTO v_question_id;
   
@@ -75,7 +75,7 @@ BEGIN
   -- Question 5: True/False - Employee Status
   INSERT INTO training_questions (module_id, question_type, question_text, explanation, difficulty, is_critical)
   VALUES (v_module_id, 'true_false',
-    'As a Pet911 volunteer, I can decline any assignment without penalty.',
+    'As a PetMayday volunteer, I can decline any assignment without penalty.',
     'Volunteers are not employees and maintain full autonomy. You can always decline an assignment that you feel uncomfortable with or unable to complete safely.',
     'easy', true)
   RETURNING id INTO v_question_id;

@@ -1,6 +1,6 @@
-# Pet911 Testing Strategy (Website)
+# PetMayday Testing Strategy (Website)
 
-This document describes how to test the **Pet911 marketing/ops website**, with emphasis on **moderator/sysop dispatch operations**.
+This document describes how to test the **PetMayday marketing/ops website**, with emphasis on **moderator/sysop dispatch operations**.
 
 ## Goals
 

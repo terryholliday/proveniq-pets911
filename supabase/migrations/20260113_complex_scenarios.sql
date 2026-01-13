@@ -371,9 +371,9 @@ BEGIN
     ), 0) + 1
     INTO seq_num
     FROM incident_cases
-    WHERE case_number LIKE 'PET911-' || year_part || '-%';
+    WHERE case_number LIKE 'PetMayday-' || year_part || '-%';
     
-    NEW.case_number := 'PET911-' || year_part || '-' || LPAD(seq_num::TEXT, 5, '0');
+    NEW.case_number := 'PetMayday-' || year_part || '-' || LPAD(seq_num::TEXT, 5, '0');
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

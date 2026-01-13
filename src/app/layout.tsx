@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PetMayday | Emergency Response for Lost Pets",
-  description: "West Virginia's emergency coordination grid for lost and found pets. Powered by PROVENIQ Foundation.",
+  title: "PetMayday | Rescue Operations Command Center",
+  description: "Volunteer coordination platform for animal rescue: case routing, transport dispatch, medical handoffs, and audit trails. West Virginia pilot. Powered by PROVENIQ Foundation.",
 };
 
 export default function RootLayout({

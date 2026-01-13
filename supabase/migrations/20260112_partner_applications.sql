@@ -103,4 +103,4 @@ CREATE POLICY "Admins can update partner applications"
         )
     );
 
-COMMENT ON TABLE partner_applications IS 'Applications from shelters, rescues, and NGOs to partner with Pet911';
+COMMENT ON TABLE partner_applications IS 'Applications from shelters, rescues, and NGOs to partner with PetMayday';

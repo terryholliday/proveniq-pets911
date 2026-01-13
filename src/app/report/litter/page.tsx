@@ -16,6 +16,7 @@ import {
   Loader2,
   CheckCircle
 } from 'lucide-react';
+import { FoundPetMatcher } from '@/components/FoundPetMatcher';
 
 type Species = 'DOG' | 'CAT' | 'RABBIT' | 'OTHER';
 
@@ -33,7 +34,8 @@ const COUNTIES = [
 
 export default function QuickLitterReportPage() {
   const router = useRouter();
-  const [step, setStep] = useState<'photo' | 'details' | 'location' | 'submitting' | 'success'>('photo');
+  const [step, setStep] = useState<'photo' | 'details' | 'matching' | 'location' | 'submitting' | 'success'>('photo');
+  const [matchedPetId, setMatchedPetId] = useState<string | null>(null);
   
   // Form state
   const [photo, setPhoto] = useState<File | null>(null);
@@ -117,16 +119,16 @@ export default function QuickLitterReportPage() {
       <div className="max-w-lg mx-auto p-4">
         {/* Progress */}
         <div className="flex items-center gap-2 mb-6">
-          {['photo', 'details', 'location'].map((s, i) => (
+          {['photo', 'details', 'matching', 'location'].map((s, i) => (
             <div key={s} className="flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${
                 step === s ? 'bg-amber-600 text-white' :
-                ['photo', 'details', 'location'].indexOf(step) > i ? 'bg-green-600 text-white' :
+                ['photo', 'details', 'matching', 'location'].indexOf(step) > i ? 'bg-green-600 text-white' :
                 'bg-zinc-800 text-zinc-500'
               }`}>
-                {['photo', 'details', 'location'].indexOf(step) > i ? '✓' : i + 1}
+                {['photo', 'details', 'matching', 'location'].indexOf(step) > i ? '✓' : i + 1}
               </div>
-              {i < 2 && <div className={`w-8 h-0.5 ${['photo', 'details', 'location'].indexOf(step) > i ? 'bg-green-600' : 'bg-zinc-800'}`} />}
+              {i < 3 && <div className={`w-4 sm:w-8 h-0.5 ${['photo', 'details', 'matching', 'location'].indexOf(step) > i ? 'bg-green-600' : 'bg-zinc-800'}`} />}
             </div>
           ))}
         </div>
@@ -241,17 +243,42 @@ export default function QuickLitterReportPage() {
                 Back
               </button>
               <button
-                onClick={() => setStep('location')}
+                onClick={() => setStep('matching')}
                 className="flex-1 bg-amber-700 hover:bg-amber-600 py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
               >
-                Continue
+                Check for Matches
                 <ArrowRight className="h-5 w-5" />
               </button>
             </div>
           </div>
         )}
 
-        {/* Step 3: Location */}
+        {/* Step 3: Matching - Auto-search for lost pets */}
+        {step === 'matching' && (
+          <div className="space-y-6">
+            <FoundPetMatcher
+              species={species}
+              county={county}
+              description={description}
+              photoUrl={photoPreview || undefined}
+              onMatchSelected={(match) => {
+                setMatchedPetId(match.id);
+                // Could auto-route to reunification flow here
+                setStep('location');
+              }}
+              onNoMatch={() => setStep('location')}
+              onSkip={() => setStep('location')}
+            />
+            <button
+              onClick={() => setStep('details')}
+              className="w-full bg-zinc-800 hover:bg-zinc-700 py-3 rounded-lg font-semibold"
+            >
+              ← Back to Details
+            </button>
+          </div>
+        )}
+
+        {/* Step 4: Location */}
         {step === 'location' && (
           <div className="space-y-6">
             <div className="text-center">
@@ -314,7 +341,7 @@ export default function QuickLitterReportPage() {
 
             <div className="flex gap-3">
               <button
-                onClick={() => setStep('details')}
+                onClick={() => setStep('matching')}
                 className="flex-1 bg-zinc-800 hover:bg-zinc-700 py-3 rounded-lg font-semibold"
               >
                 Back

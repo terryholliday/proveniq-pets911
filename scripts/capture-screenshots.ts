@@ -1,5 +1,5 @@
 /**
- * Pet911 Training Documentation Screenshot Automation
+ * PetMayday Training Documentation Screenshot Automation
  * 
  * This script captures screenshots of all moderator and admin pages
  * for use in training materials and documentation.
@@ -113,7 +113,7 @@ async function generateIndexHtml() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pet911 Training Screenshots</title>
+  <title>PetMayday Training Screenshots</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, sans-serif; background: #0a0a0a; color: #fff; padding: 2rem; }
@@ -136,7 +136,7 @@ async function generateIndexHtml() {
   </style>
 </head>
 <body>
-  <h1>🐕 Pet911 Training Screenshots</h1>
+  <h1>🐕 PetMayday Training Screenshots</h1>
   <p class="subtitle">Generated ${new Date().toLocaleDateString()} - Use these images for training documentation</p>
   
   ${['01-public', '02-moderator', '03-sysop'].map(folder => {
@@ -172,7 +172,7 @@ async function generateIndexHtml() {
 }
 
 async function main() {
-  console.log('🚀 Pet911 Screenshot Automation');
+  console.log('🚀 PetMayday Screenshot Automation');
   console.log(`📍 Base URL: ${BASE_URL}`);
   console.log(`📁 Output: ${OUTPUT_DIR}\n`);
   

@@ -1,4 +1,4 @@
--- Pet911 Training Modules Seed Data
+-- PetMayday Training Modules Seed Data
 -- Based on ASPCA, Best Friends, FEMA CERT, CDC, and Reddit/Wikipedia governance models
 
 -- ============================================================================
@@ -8,20 +8,20 @@
 INSERT INTO training_modules (slug, title, subtitle, description, category, track, content_type, estimated_minutes, requires_quiz, passing_score, is_mandatory, sort_order, content_json) VALUES
 
 -- Module 1: Platform Orientation
-('orientation-platform', 'Platform Orientation', 'Welcome to Pet911', 
-'Introduction to the Pet911 platform, mission, and your role as a volunteer. Covers basic navigation, community guidelines, and the volunteer-not-employee relationship.',
+('orientation-platform', 'Platform Orientation', 'Welcome to PetMayday', 
+'Introduction to the PetMayday platform, mission, and your role as a volunteer. Covers basic navigation, community guidelines, and the volunteer-not-employee relationship.',
 'orientation', 'all', 'reading', 20, true, 80, true, 1,
 '{
   "sections": [
     {
       "id": "welcome",
-      "title": "Welcome to Pet911",
-      "content": "Pet911 is a decentralized emergency coordination platform for lost and found pets. Unlike traditional rescue networks, we operate as a high-stakes community similar to Wikipedia''s collaborative model or Reddit''s rapid-response dynamics—but applied to life-or-death scenarios involving animals.\n\nAs a volunteer, you are the backbone of this system. Whether you''re triaging posts as a Moderator, trapping feral cats in the field, or fostering a litter of orphaned kittens, your actions directly save lives."
+      "title": "Welcome to PetMayday",
+      "content": "PetMayday is a decentralized emergency coordination platform for lost and found pets. Unlike traditional rescue networks, we operate as a high-stakes community similar to Wikipedia''s collaborative model or Reddit''s rapid-response dynamics—but applied to life-or-death scenarios involving animals.\n\nAs a volunteer, you are the backbone of this system. Whether you''re triaging posts as a Moderator, trapping feral cats in the field, or fostering a litter of orphaned kittens, your actions directly save lives."
     },
     {
       "id": "volunteer-status",
       "title": "Your Status: Volunteer, Not Employee",
-      "content": "This is critical to understand: You are an independent volunteer, not an employee of Pet911 or any affiliated organization.\n\n**What this means:**\n- You act of your own volition and judgment\n- You are not directed to perform specific physical actions\n- You maintain your own insurance and accept personal risk\n- You can decline any assignment without penalty\n- You are protected under the Volunteer Protection Act of 1997 (with limitations)\n\n**What Pet911 provides:**\n- Training and certification\n- Coordination tools and communication\n- Community support and mentorship\n- Liability guidance (not legal advice)"
+      "content": "This is critical to understand: You are an independent volunteer, not an employee of PetMayday or any affiliated organization.\n\n**What this means:**\n- You act of your own volition and judgment\n- You are not directed to perform specific physical actions\n- You maintain your own insurance and accept personal risk\n- You can decline any assignment without penalty\n- You are protected under the Volunteer Protection Act of 1997 (with limitations)\n\n**What PetMayday provides:**\n- Training and certification\n- Coordination tools and communication\n- Community support and mentorship\n- Liability guidance (not legal advice)"
     },
     {
       "id": "scope-of-authority",
@@ -31,7 +31,7 @@ INSERT INTO training_modules (slug, title, subtitle, description, category, trac
     {
       "id": "escalation",
       "title": "Structured Escalation",
-      "content": "Like Wikipedia''s dispute resolution, Pet911 uses structured escalation:\n\n**Level 1:** Self-resolution with community guidelines\n**Level 2:** Moderator intervention (Junior Mod)\n**Level 3:** Triage Specialist review\n**Level 4:** Community Guardian decision\n**Level 5:** Platform administration (rare)\n\nThis ensures fair, consistent handling of all situations."
+      "content": "Like Wikipedia''s dispute resolution, PetMayday uses structured escalation:\n\n**Level 1:** Self-resolution with community guidelines\n**Level 2:** Moderator intervention (Junior Mod)\n**Level 3:** Triage Specialist review\n**Level 4:** Community Guardian decision\n**Level 5:** Platform administration (rare)\n\nThis ensures fair, consistent handling of all situations."
     }
   ]
 }'::jsonb),
@@ -142,7 +142,7 @@ INSERT INTO training_modules (slug, title, subtitle, description, category, trac
     {
       "id": "platform-safeguards",
       "title": "Platform-Enforced Safeguards",
-      "content": "Pet911 automatically protects you from overexposure:\n\n**Content Controls:**\n- Graphic images load blurred/grayscale by default\n- Click-to-reveal with warning\n- Reduces visceral shock response\n\n**Exposure Tracking:**\n- Each Code Red case increments your exposure counter\n- System tracks severity and frequency\n\n**Automatic Cooldowns:**\n- 2 Code Reds in 60 minutes → 15-minute lockout\n- 5 Code Reds in 24 hours → 12-hour restriction to Green/Yellow only\n- These are NOT punishments—they are protection\n\n**Buddy System:**\n- After threshold, a Guardian reviews your next 3 Code Red cases\n- Ensures you''re not handling severe cases alone"
+      "content": "PetMayday automatically protects you from overexposure:\n\n**Content Controls:**\n- Graphic images load blurred/grayscale by default\n- Click-to-reveal with warning\n- Reduces visceral shock response\n\n**Exposure Tracking:**\n- Each Code Red case increments your exposure counter\n- System tracks severity and frequency\n\n**Automatic Cooldowns:**\n- 2 Code Reds in 60 minutes → 15-minute lockout\n- 5 Code Reds in 24 hours → 12-hour restriction to Green/Yellow only\n- These are NOT punishments—they are protection\n\n**Buddy System:**\n- After threshold, a Guardian reviews your next 3 Code Red cases\n- Ensures you''re not handling severe cases alone"
     },
     {
       "id": "self-care",
@@ -167,7 +167,7 @@ INSERT INTO training_modules (slug, title, subtitle, description, category, trac
     {
       "id": "triage-overview",
       "title": "What is Triage?",
-      "content": "Triage is the process of determining the priority of patients'' treatments based on the severity of their condition. In Pet911, we adapt this medical concept to classify posts.\n\n**Why Triage Matters:**\n- Prevents \"alarm fatigue\" (everything feels urgent)\n- Ensures critical cases get immediate attention\n- Allocates scarce volunteer resources effectively\n- Creates predictable workflows for responders\n\n**The Core Question:**\nWhen a post arrives, you don''t ask \"Is this sad?\" (emotional response).\nYou ask \"Is this stable?\" (clinical response)."
+      "content": "Triage is the process of determining the priority of patients'' treatments based on the severity of their condition. In PetMayday, we adapt this medical concept to classify posts.\n\n**Why Triage Matters:**\n- Prevents \"alarm fatigue\" (everything feels urgent)\n- Ensures critical cases get immediate attention\n- Allocates scarce volunteer resources effectively\n- Creates predictable workflows for responders\n\n**The Core Question:**\nWhen a post arrives, you don''t ask \"Is this sad?\" (emotional response).\nYou ask \"Is this stable?\" (clinical response)."
     },
     {
       "id": "code-red",

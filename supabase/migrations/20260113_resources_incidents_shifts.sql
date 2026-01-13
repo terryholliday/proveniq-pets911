@@ -1,6 +1,6 @@
 -- ============================================================
 -- RESOURCES, INCIDENTS, AND SHIFTS TABLES
--- Core operational tables for Pet911 moderator features
+-- Core operational tables for PetMayday moderator features
 -- ============================================================
 
 -- ============================================================
