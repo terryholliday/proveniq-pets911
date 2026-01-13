@@ -153,6 +153,37 @@ export default async function SysopPage() {
           </div>
         </div>
 
+        {/* Case Management */}
+        <div>
+          <h2 className="text-lg font-semibold text-zinc-300 mb-3">📋 Case Management</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/admin/sysop/cases" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
+              <div className="text-sm font-medium text-blue-400">📂 Incident Cases</div>
+              <div className="text-xs text-zinc-500 mt-1">Manage multi-animal incidents</div>
+            </Link>
+
+            <Link href="/admin/sysop/tnr" className="block border border-teal-800/50 rounded-lg bg-teal-900/20 p-4 hover:border-teal-600/50 hover:bg-teal-900/30 transition-all">
+              <div className="text-sm font-medium text-teal-400">🐱 TNR Colonies</div>
+              <div className="text-xs text-zinc-500 mt-1">Trap-Neuter-Return tracking</div>
+            </Link>
+
+            <Link href="/admin/sysop/capacity" className="block border border-orange-800/50 rounded-lg bg-orange-900/20 p-4 hover:border-orange-600/50 hover:bg-orange-900/30 transition-all">
+              <div className="text-sm font-medium text-orange-400">🏥 Capacity Alerts</div>
+              <div className="text-xs text-zinc-500 mt-1">Shelter capacity monitoring</div>
+            </Link>
+
+            <Link href="/admin/sysop/equipment-match" className="block border border-yellow-800/50 rounded-lg bg-yellow-900/20 p-4 hover:border-yellow-600/50 hover:bg-yellow-900/30 transition-all">
+              <div className="text-sm font-medium text-yellow-400">🔧 Equipment Match</div>
+              <div className="text-xs text-zinc-500 mt-1">Technical rescue volunteer matching</div>
+            </Link>
+
+            <Link href="/admin/sysop/outcomes" className="block border border-pink-800/50 rounded-lg bg-pink-900/20 p-4 hover:border-pink-600/50 hover:bg-pink-900/30 transition-all">
+              <div className="text-sm font-medium text-pink-400">💗 Outcomes</div>
+              <div className="text-xs text-zinc-500 mt-1">Lives saved metrics & tracking</div>
+            </Link>
+          </div>
+        </div>
+
         {/* Operations */}
         <div>
           <h2 className="text-lg font-semibold text-zinc-300 mb-3">🚀 Operations</h2>
@@ -167,7 +198,7 @@ export default async function SysopPage() {
               <div className="text-xs text-zinc-500 mt-1">Auto-escalated unassigned cases</div>
             </Link>
 
-            <Link href="/admin/sysop/transport-relays" className="block border border-zinc-800 rounded-lg bg-zinc-900/30 p-4 hover:border-blue-600/50 hover:bg-blue-900/20 transition-all">
+            <Link href="/admin/sysop/transport-relays" className="block border border-blue-800/50 rounded-lg bg-blue-900/20 p-4 hover:border-blue-600/50 hover:bg-blue-900/30 transition-all">
               <div className="text-sm font-medium text-blue-400">🚚 Transport Relays</div>
               <div className="text-xs text-zinc-500 mt-1">Multi-leg transport coordination</div>
             </Link>
