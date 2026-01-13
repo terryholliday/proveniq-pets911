@@ -5,10 +5,9 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Heart, Users, Building2, AlertCircle } from 'lucide-react';
+import { Heart, AlertCircle, Shield } from 'lucide-react';
 
 type Mode = 'signin' | 'signup' | 'magic';
-type UserType = 'volunteer' | 'partner';
 
 export default function LoginClient() {
   const params = useSearchParams();
@@ -17,7 +16,6 @@ export default function LoginClient() {
 
   const supabase = useMemo(() => createClient(), []);
 
-  const [userType, setUserType] = useState<UserType>('volunteer');
   const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,9 +42,7 @@ export default function LoginClient() {
           console.log('[Auth] Session obtained, redirecting to', redirectTo);
           setStatusType('success');
           setStatus('Success! Redirecting...');
-          // Use router or direct redirect based on user type
-          const destination = userType === 'partner' ? '/partner/dashboard' : '/volunteer/dashboard';
-          window.location.href = redirectTo !== '/' ? redirectTo : destination;
+          window.location.href = redirectTo !== '/' ? redirectTo : '/';
           return;
         }
       }
@@ -106,32 +102,10 @@ export default function LoginClient() {
         </div>
 
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
-          {/* User Type Selection */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            <button
-              type="button"
-              onClick={() => setUserType('volunteer')}
-              className={`p-4 rounded-lg border transition-all ${
-                userType === 'volunteer'
-                  ? 'border-amber-500 bg-amber-500/10 text-amber-500'
-                  : 'border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-zinc-600'
-              }`}
-            >
-              <Users className="h-6 w-6 mx-auto mb-2" />
-              <div className="text-sm font-medium">Volunteer</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => setUserType('partner')}
-              className={`p-4 rounded-lg border transition-all ${
-                userType === 'partner'
-                  ? 'border-blue-500 bg-blue-500/10 text-blue-500'
-                  : 'border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-zinc-600'
-              }`}
-            >
-              <Building2 className="h-6 w-6 mx-auto mb-2" />
-              <div className="text-sm font-medium">Partner Org</div>
-            </button>
+          {/* Staff/Partner Badge */}
+          <div className="flex items-center justify-center gap-2 mb-6 py-3 px-4 bg-zinc-800/50 rounded-lg border border-zinc-700">
+            <Shield className="h-5 w-5 text-amber-500" />
+            <span className="text-sm font-medium text-zinc-300">Staff & Partner Portal</span>
           </div>
 
           {error && (
