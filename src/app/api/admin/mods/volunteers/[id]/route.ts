@@ -110,6 +110,7 @@ export async function PATCH(
     if (body.name !== undefined) updateData.display_name = body.name;
     if (body.phone !== undefined) updateData.phone = body.phone;
     if (body.county !== undefined) updateData.primary_county = body.county;
+    if (body.coverage_counties !== undefined) updateData.coverage_counties = body.coverage_counties;
     if (body.capabilities !== undefined) updateData.capabilities = body.capabilities;
     if (body.vehicle_type !== undefined) updateData.vehicle_type = body.vehicle_type;
     if (body.can_transport_crate !== undefined) updateData.can_transport_crate = body.can_transport_crate;

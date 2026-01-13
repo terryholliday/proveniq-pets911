@@ -31,6 +31,7 @@ type Volunteer = {
   name: string;
   phone: string;
   county: string;
+  coverage_counties?: string[];
   status: Status;
   capabilities: Capability[];
   vehicle_type: string | null;
@@ -481,10 +482,10 @@ export default function ModeratorVolunteersPage() {
                 />
               </div>
 
-              {/* County / Location */}
+              {/* Primary County */}
               <div>
                 <label className="text-sm text-zinc-400 mb-1 block flex items-center gap-1">
-                  <MapPin className="w-3 h-3" /> Assigned County
+                  <MapPin className="w-3 h-3" /> Primary County
                 </label>
                 <select 
                   className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
@@ -493,6 +494,44 @@ export default function ModeratorVolunteersPage() {
                 >
                   <option value="">Select County...</option>
                   {WV_COUNTIES.map(county => (
+                    <option key={county} value={county}>{county}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Additional Coverage Counties */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Additional Coverage Counties</label>
+                <div className="flex flex-wrap gap-1.5 p-2 bg-zinc-800 border border-zinc-700 rounded-lg min-h-[40px]">
+                  {(editForm.coverage_counties || []).map(county => (
+                    <span key={county} className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-blue-900 text-blue-300">
+                      {county}
+                      <button type="button" onClick={() => setEditForm({
+                        ...editForm, 
+                        coverage_counties: (editForm.coverage_counties || []).filter(c => c !== county)
+                      })} className="hover:text-white">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                  {(editForm.coverage_counties || []).length === 0 && (
+                    <span className="text-xs text-zinc-500">No additional counties</span>
+                  )}
+                </div>
+                <select 
+                  className="w-full mt-2 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                  value=""
+                  onChange={(e) => {
+                    if (e.target.value && !(editForm.coverage_counties || []).includes(e.target.value) && e.target.value !== editForm.county) {
+                      setEditForm({
+                        ...editForm,
+                        coverage_counties: [...(editForm.coverage_counties || []), e.target.value]
+                      });
+                    }
+                  }}
+                >
+                  <option value="">+ Add county...</option>
+                  {WV_COUNTIES.filter(c => c !== editForm.county && !(editForm.coverage_counties || []).includes(c)).map(county => (
                     <option key={county} value={county}>{county}</option>
                   ))}
                 </select>

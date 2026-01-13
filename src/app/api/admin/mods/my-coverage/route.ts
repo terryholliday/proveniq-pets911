@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 401 });
     }
 
-    // Get the moderator's coverage assignments
+    // First, try to get explicit moderator coverage assignments
     const { data: assignments, error } = await supabase
       .from('moderator_coverage_assignments')
       .select(`
@@ -39,35 +39,56 @@ export async function GET(request: NextRequest) {
       .eq('moderator_id', user.id)
       .eq('is_active', true);
 
-    if (error) {
-      console.error('Error fetching coverage:', error);
-      // Return empty coverage rather than error - moderator may not have assignments yet
-      return NextResponse.json({ 
-        success: true, 
-        data: {
-          counties: [],
-          states: [],
-          hasStatewide: false
-        }
-      });
-    }
-
     // Parse the assignments into a useful format
     const counties: string[] = [];
     const states: string[] = [];
     let hasStatewide = false;
 
-    assignments?.forEach(a => {
-      const area = a.coverage_areas as any;
-      if (area) {
-        if (area.area_type === 'county' && area.county_name) {
-          counties.push(area.county_name);
-        } else if (area.area_type === 'state') {
-          states.push(area.state_code);
+    if (!error && assignments && assignments.length > 0) {
+      assignments.forEach(a => {
+        const area = a.coverage_areas as any;
+        if (area) {
+          if (area.area_type === 'county' && area.county_name) {
+            counties.push(area.county_name);
+          } else if (area.area_type === 'state') {
+            states.push(area.state_code);
+            hasStatewide = true;
+          }
+        }
+      });
+    }
+
+    // If no explicit assignments, fall back to volunteer profile's coverage areas
+    if (counties.length === 0 && !hasStatewide) {
+      const { data: volunteer } = await supabase
+        .from('volunteers')
+        .select('primary_county, coverage_counties, capabilities')
+        .eq('user_id', user.id)
+        .single();
+
+      if (volunteer) {
+        // Add primary county
+        if (volunteer.primary_county) {
+          counties.push(volunteer.primary_county);
+        }
+        
+        // Add additional coverage counties if they exist
+        if (volunteer.coverage_counties && Array.isArray(volunteer.coverage_counties)) {
+          counties.push(...volunteer.coverage_counties);
+        }
+
+        // Check if user has SYSOP capability = statewide access
+        if (volunteer.capabilities?.includes('SYSOP')) {
           hasStatewide = true;
         }
       }
-    });
+    }
+
+    // Check user role for statewide access
+    const userRole = user.user_metadata?.role || user.app_metadata?.role;
+    if (['sysop', 'SYSOP', 'admin', 'ADMIN'].includes(userRole)) {
+      hasStatewide = true;
+    }
 
     return NextResponse.json({ 
       success: true, 
@@ -75,7 +96,8 @@ export async function GET(request: NextRequest) {
         counties: [...new Set(counties)],
         states: [...new Set(states)],
         hasStatewide,
-        assignments: assignments || []
+        assignments: assignments || [],
+        source: assignments && assignments.length > 0 ? 'moderator_assignments' : 'volunteer_profile'
       }
     });
 
