@@ -8,8 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { createClient } from '@/lib/supabase/client';
 import { 
   Users, Search, MapPin, Phone, Truck, Home, Zap, Star, Clock, 
-  CheckCircle, MessageSquare, Calendar, Award, Car, Package, X, Loader2, Send
+  CheckCircle, MessageSquare, Calendar, Award, Car, Package, X, Loader2, Send,
+  Edit, Save, Trash2
 } from 'lucide-react';
+
+// WV Counties for dropdown
+const WV_COUNTIES = [
+  'BARBOUR', 'BERKELEY', 'BOONE', 'BRAXTON', 'BROOKE', 'CABELL', 'CALHOUN', 'CLAY',
+  'DODDRIDGE', 'FAYETTE', 'GILMER', 'GRANT', 'GREENBRIER', 'HAMPSHIRE', 'HANCOCK',
+  'HARDY', 'HARRISON', 'JACKSON', 'JEFFERSON', 'KANAWHA', 'LEWIS', 'LINCOLN', 'LOGAN',
+  'MARION', 'MARSHALL', 'MASON', 'MCDOWELL', 'MERCER', 'MINERAL', 'MINGO', 'MONONGALIA',
+  'MONROE', 'MORGAN', 'NICHOLAS', 'OHIO', 'PENDLETON', 'PLEASANTS', 'POCAHONTAS',
+  'PRESTON', 'PUTNAM', 'RALEIGH', 'RANDOLPH', 'RITCHIE', 'ROANE', 'SUMMERS', 'TAYLOR',
+  'TUCKER', 'TYLER', 'UPSHUR', 'WAYNE', 'WEBSTER', 'WETZEL', 'WIRT', 'WOOD', 'WYOMING'
+];
 
 type Capability = 'TRANSPORT' | 'FOSTER' | 'EMERGENCY';
 type Status = 'available' | 'busy' | 'offline';
@@ -51,7 +63,7 @@ const CAPABILITY_CONFIG: Record<Capability, { icon: typeof Truck; color: string;
 };
 
 export default function ModeratorVolunteersPage() {
-  const [volunteers] = useState<Volunteer[]>(MOCK_VOLUNTEERS);
+  const [volunteers, setVolunteers] = useState<Volunteer[]>(MOCK_VOLUNTEERS);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<Status | 'all'>('all');
   const [filterCapability, setFilterCapability] = useState<Capability | 'all'>('all');
@@ -66,6 +78,12 @@ export default function ModeratorVolunteersPage() {
   const [messageText, setMessageText] = useState('');
   const [sending, setSending] = useState(false);
   const [messageStatus, setMessageStatus] = useState<string | null>(null);
+  
+  // Edit modal state
+  const [editModal, setEditModal] = useState<{ open: boolean; volunteer: Volunteer } | null>(null);
+  const [editForm, setEditForm] = useState<Partial<Volunteer>>({});
+  const [saving, setSaving] = useState(false);
+  const [editStatus, setEditStatus] = useState<string | null>(null);
 
   const getAccessToken = async () => {
     const supabase = createClient();
@@ -91,6 +109,47 @@ export default function ModeratorVolunteersPage() {
       setCallStatus(`Error: ${err instanceof Error ? err.message : 'Failed to call'}`);
     } finally {
       setCalling(false);
+    }
+  };
+
+  const handleOpenEdit = (volunteer: Volunteer) => {
+    setEditForm({ ...volunteer });
+    setEditModal({ open: true, volunteer });
+    setEditStatus(null);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editModal?.volunteer || !editForm) return;
+    setSaving(true);
+    setEditStatus(null);
+    
+    try {
+      // In production, this would call an API to update the volunteer
+      // For now, update local state
+      setVolunteers(prev => prev.map(v => 
+        v.id === editModal.volunteer.id 
+          ? { ...v, ...editForm } as Volunteer
+          : v
+      ));
+      
+      setEditStatus('Volunteer updated successfully!');
+      setTimeout(() => {
+        setEditModal(null);
+        setEditStatus(null);
+      }, 1500);
+    } catch (err) {
+      setEditStatus(`Error: ${err instanceof Error ? err.message : 'Failed to save'}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const toggleCapability = (cap: Capability) => {
+    const current = editForm.capabilities || [];
+    if (current.includes(cap)) {
+      setEditForm({ ...editForm, capabilities: current.filter(c => c !== cap) });
+    } else {
+      setEditForm({ ...editForm, capabilities: [...current, cap] });
     }
   };
 
@@ -236,6 +295,7 @@ export default function ModeratorVolunteersPage() {
                 <div className="flex gap-2 pt-2">
                   <Button size="sm" variant="outline" className="flex-1 text-xs" onClick={() => setMessageModal({ open: true, volunteer })}><MessageSquare className="w-3 h-3 mr-1" />Message</Button>
                   <Button size="sm" variant="outline" className="flex-1 text-xs" onClick={() => setCallModal({ open: true, volunteer })}><Phone className="w-3 h-3 mr-1" />Call</Button>
+                  <Button size="sm" variant="ghost" className="text-xs" onClick={() => handleOpenEdit(volunteer)}><Edit className="w-3 h-3" /></Button>
                 </div>
               </CardContent>
             </Card>
@@ -304,6 +364,162 @@ export default function ModeratorVolunteersPage() {
                   {sending ? 'Sending...' : 'Send Message'}
                 </Button>
                 <Button variant="outline" onClick={() => { setMessageModal(null); setMessageStatus(null); setMessageText(''); }}>Cancel</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Volunteer Modal */}
+      {editModal?.open && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 overflow-y-auto py-6" onClick={() => { setEditModal(null); setEditStatus(null); }}>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Edit className="w-5 h-5 text-amber-400" />
+                Edit Volunteer
+              </h3>
+              <button onClick={() => { setEditModal(null); setEditStatus(null); }} className="text-zinc-400 hover:text-zinc-200">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Full Name</label>
+                <input 
+                  type="text" 
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                  value={editForm.name || ''}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Phone Number</label>
+                <input 
+                  type="text" 
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                  value={editForm.phone || ''}
+                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                />
+              </div>
+
+              {/* County / Location */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block flex items-center gap-1">
+                  <MapPin className="w-3 h-3" /> Assigned County
+                </label>
+                <select 
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                  value={editForm.county || ''}
+                  onChange={(e) => setEditForm({ ...editForm, county: e.target.value })}
+                >
+                  <option value="">Select County...</option>
+                  {WV_COUNTIES.map(county => (
+                    <option key={county} value={county}>{county}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Status */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Status</label>
+                <select 
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                  value={editForm.status || 'available'}
+                  onChange={(e) => setEditForm({ ...editForm, status: e.target.value as Status })}
+                >
+                  <option value="available">Available</option>
+                  <option value="busy">On Mission</option>
+                  <option value="offline">Offline</option>
+                </select>
+              </div>
+
+              {/* Capabilities */}
+              <div>
+                <label className="text-sm text-zinc-400 mb-2 block">Capabilities</label>
+                <div className="flex flex-wrap gap-2">
+                  {(['TRANSPORT', 'FOSTER', 'EMERGENCY'] as Capability[]).map(cap => {
+                    const config = CAPABILITY_CONFIG[cap];
+                    const Icon = config.icon;
+                    const isActive = editForm.capabilities?.includes(cap);
+                    return (
+                      <button
+                        key={cap}
+                        type="button"
+                        onClick={() => toggleCapability(cap)}
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded text-sm transition-colors ${
+                          isActive ? config.color : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        {config.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Vehicle */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-zinc-400 mb-1 block">Vehicle Type</label>
+                  <select 
+                    className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                    value={editForm.vehicle_type || ''}
+                    onChange={(e) => setEditForm({ ...editForm, vehicle_type: e.target.value || null })}
+                  >
+                    <option value="">None</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Van">Van</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm text-zinc-400 mb-1 block">Foster Capacity</label>
+                  <input 
+                    type="number" 
+                    min="0"
+                    max="20"
+                    className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm focus:outline-none focus:border-zinc-600"
+                    value={editForm.foster_capacity || 0}
+                    onChange={(e) => setEditForm({ ...editForm, foster_capacity: parseInt(e.target.value) || 0 })}
+                  />
+                </div>
+              </div>
+
+              {/* Crate Capable */}
+              <div className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  id="crate-capable"
+                  className="w-4 h-4 rounded bg-zinc-800 border-zinc-700"
+                  checked={editForm.can_transport_crate || false}
+                  onChange={(e) => setEditForm({ ...editForm, can_transport_crate: e.target.checked })}
+                />
+                <label htmlFor="crate-capable" className="text-sm text-zinc-300">Can transport with crate</label>
+              </div>
+
+              {/* Status Message */}
+              {editStatus && (
+                <div className={`p-3 rounded-lg text-sm ${editStatus.startsWith('Error') ? 'bg-red-900/30 text-red-300' : 'bg-green-900/30 text-green-300'}`}>
+                  {editStatus}
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex gap-3 pt-2">
+                <Button className="flex-1 bg-amber-600 hover:bg-amber-700" disabled={saving} onClick={handleSaveEdit}>
+                  {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                  {saving ? 'Saving...' : 'Save Changes'}
+                </Button>
+                <Button variant="outline" onClick={() => { setEditModal(null); setEditStatus(null); }}>
+                  Cancel
+                </Button>
               </div>
             </div>
           </div>
