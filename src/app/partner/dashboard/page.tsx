@@ -1,20 +1,71 @@
 'use client';
 
-import { Bell, AlertTriangle, CheckCircle, Clock, TrendingUp, Users, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Bell, AlertTriangle, CheckCircle, Clock, TrendingUp, Users, MapPin, Briefcase, Loader2 } from 'lucide-react';
 
-const MOCK_ALERTS = [
-  { id: 1, type: 'STRAY_SIGHTED', location: 'Downtown Lewisburg', time: '15 min ago', status: 'new', urgency: 'urgent' },
-  { id: 2, type: 'STRAY_SIGHTED', location: 'White Sulphur Springs', time: '2 hrs ago', status: 'acknowledged', urgency: 'normal' },
-  { id: 3, type: 'TRANSPORT_NEEDED', location: 'Rainelle', time: '4 hrs ago', status: 'pending', urgency: 'normal' },
-];
+interface IncomingCase {
+  id: string;
+  case_number: string;
+  case_type: string;
+  description?: string;
+  location_county: string;
+  total_animals: number;
+  status: string;
+  urgency?: string;
+  created_at: string;
+}
 
-const MOCK_RECENT_CASES = [
-  { id: 'GHC-2026-0142', animal: 'Brown Tabby Cat', status: 'intake', date: 'Today' },
-  { id: 'GHC-2026-0141', animal: 'Black Lab Mix', status: 'reunited', date: 'Yesterday' },
-  { id: 'GHC-2026-0140', animal: 'Orange Tabby', status: 'adopted', date: 'Jan 10' },
-];
+interface DashboardStats {
+  active_alerts: number;
+  urgent_count: number;
+  cases_this_month: number;
+  reunification_rate: number;
+  avg_response_hours: number;
+}
 
 export default function PartnerDashboard() {
+  const [incomingCases, setIncomingCases] = useState<IncomingCase[]>([]);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  async function fetchDashboardData() {
+    setLoading(true);
+    try {
+      const [casesRes, statsRes] = await Promise.all([
+        fetch('/api/partner/incoming-cases'),
+        fetch('/api/partner/stats'),
+      ]);
+
+      if (casesRes.ok) {
+        const data = await casesRes.json();
+        setIncomingCases(data.cases || []);
+      }
+      if (statsRes.ok) {
+        const data = await statsRes.json();
+        setStats(data.stats);
+      }
+    } catch (error) {
+      console.error('Failed to fetch dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function formatTimeAgo(dateString: string) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 60) return `${diffMins} min ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return date.toLocaleDateString();
+  }
   return (
     <div className="p-6">
       {/* Header */}
@@ -63,71 +114,87 @@ export default function PartnerDashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Active Alerts */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-lg">
+        {/* Incoming Cases from Pet911 */}
+        <div className="bg-zinc-900 border border-amber-800/50 rounded-lg">
           <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
-            <h2 className="font-semibold">Active Alerts</h2>
-            <a href="/partner/alerts" className="text-xs text-amber-500 hover:underline">View All</a>
+            <h2 className="font-semibold flex items-center gap-2">
+              <Briefcase className="h-4 w-4 text-amber-500" />
+              Incoming Cases
+            </h2>
+            <Link href="/partner/cases" className="text-xs text-amber-500 hover:underline">View All</Link>
           </div>
-          <div className="divide-y divide-zinc-800">
-            {MOCK_ALERTS.map(alert => (
-              <div key={alert.id} className="p-4 flex items-start gap-3">
-                <div className={`mt-0.5 ${alert.urgency === 'urgent' ? 'text-red-500' : 'text-amber-500'}`}>
-                  {alert.urgency === 'urgent' ? (
-                    <AlertTriangle className="h-5 w-5" />
-                  ) : (
-                    <MapPin className="h-5 w-5" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">{alert.type.replace('_', ' ')}</span>
-                    {alert.urgency === 'urgent' && (
-                      <span className="text-[10px] bg-red-900/50 text-red-400 px-1.5 py-0.5 rounded">URGENT</span>
+          {loading ? (
+            <div className="p-8 text-center">
+              <Loader2 className="h-6 w-6 animate-spin mx-auto text-zinc-500" />
+            </div>
+          ) : incomingCases.length === 0 ? (
+            <div className="p-8 text-center text-zinc-500 text-sm">
+              No incoming cases in your area
+            </div>
+          ) : (
+            <div className="divide-y divide-zinc-800">
+              {incomingCases.slice(0, 5).map(caseItem => (
+                <div key={caseItem.id} className="p-4 flex items-start gap-3">
+                  <div className={`mt-0.5 ${caseItem.urgency === 'CRITICAL' ? 'text-red-500' : 'text-amber-500'}`}>
+                    {caseItem.urgency === 'CRITICAL' ? (
+                      <AlertTriangle className="h-5 w-5" />
+                    ) : (
+                      <MapPin className="h-5 w-5" />
                     )}
                   </div>
-                  <div className="text-xs text-zinc-500">{alert.location}</div>
-                  <div className="text-xs text-zinc-600 mt-1">{alert.time}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm">{caseItem.case_type.replace(/_/g, ' ')}</span>
+                      {caseItem.urgency === 'CRITICAL' && (
+                        <span className="text-[10px] bg-red-900/50 text-red-400 px-1.5 py-0.5 rounded">URGENT</span>
+                      )}
+                    </div>
+                    <div className="text-xs text-zinc-500">
+                      {caseItem.total_animals} animal{caseItem.total_animals !== 1 ? 's' : ''} • {caseItem.location_county}
+                    </div>
+                    <div className="text-xs text-zinc-600 mt-1">{formatTimeAgo(caseItem.created_at)}</div>
+                  </div>
+                  <div>
+                    <span className={`text-xs px-2 py-0.5 rounded ${
+                      caseItem.status === 'OPEN' ? 'bg-amber-900/50 text-amber-400' :
+                      caseItem.status === 'IN_PROGRESS' ? 'bg-blue-900/50 text-blue-400' :
+                      'bg-zinc-800 text-zinc-400'
+                    }`}>
+                      {caseItem.status}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className={`text-xs px-2 py-0.5 rounded ${
-                    alert.status === 'new' ? 'bg-amber-900/50 text-amber-400' :
-                    alert.status === 'acknowledged' ? 'bg-blue-900/50 text-blue-400' :
-                    'bg-zinc-800 text-zinc-400'
-                  }`}>
-                    {alert.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Recent Cases */}
+        {/* Quick Actions */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg">
-          <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
-            <h2 className="font-semibold">Recent Cases</h2>
-            <a href="/partner/cases" className="text-xs text-amber-500 hover:underline">View All</a>
+          <div className="p-4 border-b border-zinc-800">
+            <h2 className="font-semibold">Quick Actions</h2>
           </div>
-          <div className="divide-y divide-zinc-800">
-            {MOCK_RECENT_CASES.map(caseItem => (
-              <div key={caseItem.id} className="p-4 flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-sm">{caseItem.animal}</div>
-                  <div className="text-xs text-zinc-500">{caseItem.id}</div>
-                </div>
-                <div className="text-right">
-                  <span className={`text-xs px-2 py-0.5 rounded ${
-                    caseItem.status === 'intake' ? 'bg-amber-900/50 text-amber-400' :
-                    caseItem.status === 'reunited' ? 'bg-green-900/50 text-green-400' :
-                    'bg-blue-900/50 text-blue-400'
-                  }`}>
-                    {caseItem.status}
-                  </span>
-                  <div className="text-xs text-zinc-600 mt-1">{caseItem.date}</div>
-                </div>
-              </div>
-            ))}
+          <div className="p-4 grid grid-cols-2 gap-3">
+            <Link href="/partner/intake" className="p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
+              <CheckCircle className="h-6 w-6 text-green-500 mb-2" />
+              <div className="text-sm font-medium">New Intake</div>
+              <div className="text-xs text-zinc-500">Log animal arrival</div>
+            </Link>
+            <Link href="/partner/capacity" className="p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
+              <TrendingUp className="h-6 w-6 text-orange-500 mb-2" />
+              <div className="text-sm font-medium">Update Capacity</div>
+              <div className="text-xs text-zinc-500">Current head count</div>
+            </Link>
+            <Link href="/partner/transport" className="p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
+              <Users className="h-6 w-6 text-blue-500 mb-2" />
+              <div className="text-sm font-medium">Request Transport</div>
+              <div className="text-xs text-zinc-500">Find a driver</div>
+            </Link>
+            <Link href="/partner/broadcast" className="p-4 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors">
+              <Bell className="h-6 w-6 text-amber-500 mb-2" />
+              <div className="text-sm font-medium">Broadcast</div>
+              <div className="text-xs text-zinc-500">Alert volunteers</div>
+            </Link>
           </div>
         </div>
       </div>
