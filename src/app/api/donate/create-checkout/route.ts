@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16',
+      apiVersion: '2025-12-15.clover',
     });
 
     // Build line item
