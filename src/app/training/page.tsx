@@ -144,6 +144,7 @@ export default function SimpleTrainingPage() {
       'SHELTER_TRANSPORT': 'TRANSPORT',
       'MODERATOR': 'MODERATOR',
       'SYSOP': 'SYSOP',
+      'PARTNER': 'COMMUNITY_VOLUNTEER',
     };
     
     const role = roleMap[capability];
