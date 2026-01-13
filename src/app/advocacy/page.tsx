@@ -294,6 +294,19 @@ export default function AdvocacyPage() {
           <div className="mt-6 text-sm text-zinc-400">
             <p>Your voice matters. Contact your legislators today.</p>
           </div>
+          
+          {/* BARK Act CTA */}
+          <div className="mt-6">
+            <Link 
+              href="/advocacy/bark-act" 
+              className="inline-flex items-center bg-amber-600 hover:bg-amber-700 text-black font-bold px-6 py-3 rounded-lg transition-colors text-lg"
+            >
+              🐕 Learn About the BARK Act
+            </Link>
+            <p className="text-xs text-zinc-400 mt-2">
+              Comprehensive canine welfare reform for West Virginia
+            </p>
+          </div>
         </div>
       </div>
 

@@ -1,0 +1,720 @@
+WEST VIRGINIA LEGISLATURE
+2026 REGULAR SESSION
+HOUSE BILL No. ____
+(By Delegate ________________)
+[Introduced ____________; Referred to the Committee on ________________]
+A BILL to amend the Code of West Virginia, 1931, as amended, by adding thereto a new article, designated §19-36-1, §19-36-2, §19-36-3, §19-36-4, §19-36-5, §19-36-6, §19-36-7, §19-36-8, §19-36-9, §19-36-10, §19-36-11, §19-36-12, §19-36-13, §19-36-14, §19-36-15, §19-36-16, §19-36-17, §19-36-18, §19-36-19, §19-36-20, §19-36-21, §19-36-22, §19-36-23, §19-36-24, §19-36-25, §19-36-26, §19-36-27, §19-36-28, §19-36-29, §19-36-30, §19-36-31, §19-36-32, §19-36-33, §19-36-34, §19-36-35, §19-36-36, §19-36-37, §19-36-38, §19-36-39, §19-36-40, §19-36-41, §19-36-42, §19-36-43, §19-36-44, §19-36-45, §19-36-46, §19-36-47, §19-36-48, §19-36-49, §19-36-50, §19-36-51, §19-36-52, §19-36-53, §19-36-54, and §19-36-55, all relating to comprehensive canine welfare reform; creating the Breeder Accountability and Regulation for Kindness Act; providing short title; setting forth legislative findings and purpose including interstate commerce justification; defining terms including common control indicia, leased or borrowed dogs, presence-based breeding dog test, boarding contract exemption, critical socialization period, flooding, positive human interaction, routine husbandry, socialization, at large, finder, harboring, impoundment, intake scanning, joint authority, tethering, and adult breeding dog; classifying dogs as companion animals; establishing welfare standards; requiring breeder licensing; providing accidental litter registration with dam sterilization; establishing license application requirements; establishing tiered fees; providing license terms and display requirements; authorizing license denial, suspension, revocation, and stop-work orders with administrative inspection warrant pathway and due process protections; establishing twenty-dog cap; authorizing renewable performance variance; establishing statewide limitation with workload-based capacity formula with auditability requirements and audit triggers; prohibiting evasion with anti-rotation provisions and explicit exceptions for veterinary care and emergencies; requiring mandatory inspections with evidence pack documentation, administrative inspection warrants, letter grades, behavioral assessment with sampling rules, corrective action plans, inspector training, digital evidence authentication, and enforcement priorities; establishing housing, care, training, and retirement standards with behavioral wellness plans and independent attending veterinarian requirements; requiring recordkeeping with post-termination retention; requiring microchipping with reclaim microchipping, repeat impound spay-neuter, and microchip database interoperability; establishing minimum transfer age; requiring health documentation with behavioral disclosure and five-business-day veterinary examination period; prohibiting predatory financing with rescission; requiring advertisements with license and microchip numbers; establishing marketplace verification with safe harbor and system outage provisions; prohibiting unauthorized transfer locations; establishing out-of-state seller jurisdiction; requiring transporter registration; classifying violations; establishing consumer remedies; providing private right of action; establishing administrative and criminal penalties; authorizing seizure with five-business-day bond posting and hardship alternatives; authorizing prohibition orders; providing whistleblower protections with veterinarian professional autonomy; creating Canine Welfare Enforcement Fund with rural shelter grants, scanner distribution, and provisional grant eligibility; authorizing rulemaking with deadlines, minimum floor protections, model templates, and advisory opinions; establishing transition period with military deployment provisions; providing license non-transferability and change of ownership procedures; providing grandfather provision; creating advisory committee with conflict of interest provisions; establishing public registry with enhanced privacy protections and application programming interface requirements; establishing county coordination with law enforcement training; establishing exemptions with rescue pregnancy clarification; harmonizing with other laws including dog warden statutes and county ordinance preemption; coordinating with consumer protection law; providing severability; requiring shelter impact study with reunification metrics; requiring universal intake scanning with required data fields and retention periods; establishing finder immunity with reasonable efforts checklist; establishing tethering restrictions; authorizing regional animal control authorities; providing emergency disease powers; establishing interoperability and technology standards; requiring five-year legislative review; and specifying effective date.
+Be it enacted by the Legislature of West Virginia:
+CHAPTER 19. AGRICULTURE.
+ARTICLE 36. BREEDER ACCOUNTABILITY AND REGULATION FOR KINDNESS ACT.
+§19-36-1. Short title.
+This article may be cited as the "Breeder Accountability and Regulation for Kindness Act" or the "BARK Act".
+§19-36-2. Legislative findings and purpose.
+The Legislature hereby finds and declares:
+(a) The health and welfare of dogs bred and sold within this state is a matter of significant public concern, affecting animal welfare, public health, consumer protection, and the economic interests of responsible breeders.
+(b) Unregulated large-scale commercial breeding operations contribute to animal suffering, genetic health problems in dogs, deceptive sales practices, and the abandonment of animals that ultimately burden public shelters and rescue organizations.
+(c) Existing regulatory frameworks, including §19-20-26 of this code, have proven insufficient to address these concerns due to inadequate licensing requirements, limited enforcement capacity, and loopholes that allow harmful breeding practices to continue.
+(d) A comprehensive regulatory approach that includes universal breeder licensing, enforceable operational standards, scale limitations, consumer protections, and adequate enforcement mechanisms is necessary to protect animal welfare, consumers, and the integrity of responsible breeding practices.
+(e) Self-funding enforcement through license fees and civil penalties ensures sustainable regulatory capacity without burdening general taxpayers.
+(f) Dogs bred in other states and sold to West Virginia consumers are frequently subject to inadequate welfare oversight in the state of origin, creating competitive disadvantage for compliant in-state breeders and imposing externalized costs on West Virginia shelters, veterinary systems, and purchasers. Regulation of interstate sales to West Virginia consumers serves legitimate local interests in consumer protection, animal welfare, and public health that cannot be adequately addressed by the exporting state.
+(g) The inadequate identification and tracking of stray and impounded animals, combined with outdated notification mechanisms that predate modern communication technology, has resulted in unnecessary animal deaths and failure to reunite lost pets with their owners.
+(h) Citizens who assist stray animals in good faith often face unintended legal consequences, including being deemed owners or harborers under outdated ordinances, which discourages community involvement in lost pet recovery.
+(i) Continuous tethering and chaining of dogs causes physical injury, psychological distress, and behavioral problems, and is associated with increased aggression and dog bite incidents.
+(j) Rural counties in this state often lack the resources to operate dedicated animal control facilities, and regional cooperation through joint authorities offers a proven model for efficient service delivery.
+§19-36-3. Definitions.
+As used in this article, unless the context clearly requires otherwise:
+(a) "Breeder" means any person who intentionally causes the breeding of a dog or who knowingly permits intact dogs to mate, regardless of whether the breeding is conducted for commercial purposes, hobby purposes, or any other purpose.
+(b) "Breeding" means the act of mating dogs or using artificial insemination to produce offspring, or the keeping of intact male and female dogs in circumstances where reproduction is reasonably foreseeable and no reasonable preventive measures are taken.
+(c) "Breeding dog" means any intact dog over the age of six months that is maintained, kept, or harbored for the primary purpose of breeding or that has produced a litter within the preceding twenty-four months. "Breeding dog" includes any intact dog over six months owned, leased, borrowed, or otherwise under the custody or control of the breeding operation for breeding purposes at any time within the preceding twelve months, or that has been present at the premises for an aggregate of fourteen days within any sixty-day period, unless the dog is kept solely for the purpose of boarding under a written contract that transfers no ownership or breeding rights.
+(d) "Breeding operation" means any premises or facility where one or more breeding dogs are kept or maintained.
+(e) "Commissioner" means the Commissioner of Agriculture, or the commissioner's designated representative.
+(f) "Common control" means operations exhibiting one or more of the following indicia:
+(1) Shared household residence;
+(2) Ownership interests of ten percent or greater across entities;
+(3) Shared officers, managers, or agents;
+(4) Shared premises, utilities, or lease arrangements;
+(5) Co-mingled recordkeeping, advertising, or sales activities;
+(6) Shared veterinary provider for breeding services;
+(7) Shared waste disposal services;
+(8) Rotation of breeding stock between licenses within any twelve-month period; or
+(9) Shared telephone numbers, email domains, social media accounts, electronic payment accounts, or websites used in advertisements or buyer communications.
+(g) "Companion animal" means a dog that is kept primarily for companionship, personal enjoyment, or as a household pet, rather than for agricultural, commercial, or working purposes as traditionally defined under livestock regulations.
+(h) "Congenital or hereditary condition" means a condition or disease that is present at birth or that develops as a result of genetic inheritance, whether or not symptoms manifest immediately.
+(i) "Department" means the Department of Agriculture.
+(j) "Fund" means the Canine Welfare Enforcement Fund established pursuant to §19-36-31 of this code.
+(k) "Litter" means a group of puppies born from a single pregnancy of a female dog.
+(l) "Marketplace platform" means any website, mobile application, or other electronic service that facilitates the sale, exchange, or transfer of dogs between parties, including classified advertisement services, social media platforms with marketplace or buy-sell features, community forums, and any platform that permits users to post listings offering dogs for sale or adoption, whether or not the platform charges fees or facilitates payment.
+(m) "Microchip" means an electronic identification device implanted subcutaneously that contains a unique identification number registered with a nationally recognized database.
+(n) "Person" means any individual, partnership, corporation, limited liability company, association, trust, estate, or other legal entity.
+(o) "Puppy" means a dog under the age of six months.
+(p) "Retail seller" means a pet store or other commercial establishment that sells dogs to consumers.
+(q) "Transfer" means the sale, exchange, gift, adoption, or any other conveyance of ownership or possession of a dog from one person to another, whether for compensation or without consideration.
+(r) "Transporter" means a person who, for hire or compensation, transports dogs in connection with breeding operations into or out of this state, or within this state, where such transport originates from or terminates at a location within this state.
+(s) "Veterinarian" means a person licensed to practice veterinary medicine in this state pursuant to §30-10-1 et seq. of this code.
+(t) "Workload unit" means the estimated annual inspection hours required for a licensed operation, calculated as five hours for Tier 1, ten hours for Tier 2, and twenty hours for Tier 3 and variance holders, inclusive of travel time, on-site inspection, and documentation.
+(u) "Critical socialization period" means the developmental window between three and fourteen weeks of age during which puppies are most receptive to novel stimuli and social learning.
+(v) "Flooding" means forced exposure to a feared stimulus without the ability to retreat, resulting in sustained distress signals such as persistent avoidance, trembling, vocalization, or aggression.
+(w) "Positive human interaction" means planned, non-aversive, reward-based engagement including gentle handling, calm presence, play, and cooperative care exercises, distinct from routine husbandry.
+(x) "Routine husbandry" means feeding, watering, cage or kennel cleaning, waste removal, and veterinary treatment activities that are primarily custodial and not conducted for enrichment or socialization purposes.
+(y) "Socialization" means the process of exposing a dog to new environments, people, sounds, surfaces, and stimuli to reduce fear and promote adaptability, conducted in a manner that prioritizes biosecurity and disease prevention as recommended by the attending veterinarian.
+(z) "At large" means any dog not on the owner's property or not under immediate physical control of a responsible person by means of a leash, tether, or other physical restraint.
+(aa) "Finder" means a person who discovers and temporarily cares for a stray animal with the intent to locate the owner or transfer the animal to an appropriate authority.
+(bb) "Harboring" means feeding, sheltering, or exercising control over an animal for fourteen or more consecutive days, or holding oneself out as the owner of the animal.
+(cc) "Impoundment" means the seizure and confinement of an animal by an animal control officer, dog warden, humane officer, or law enforcement officer.
+(dd) "Intake scanning" means the use of a universal microchip scanner to check an animal for implanted identification immediately upon impoundment or receipt.
+(ee) "Joint authority" means a regional animal control authority established by agreement of two or more county commissions under §19-36-50 of this code.
+(ff) "Tethering" means fastening, chaining, tying, or restraining a dog to a stationary object or structure, including a trolley or running line system.
+(gg) "Adult breeding dog" means a breeding dog that is twelve months of age or older and that has not been retired from breeding, for purposes of behavioral assessment under §19-36-14 of this code.
+§19-36-4. Legal classification of dogs as companion animals.
+(a) Dogs within this state are classified as "companion animals" for purposes of welfare regulation and enforcement under this article.
+(b) This classification recognizes the unique social bond between dogs and humans and establishes that dogs are entitled to enhanced welfare protections beyond those traditionally afforded to livestock or standard personal property.
+(c) The companion animal classification does not diminish or affect the property rights of dog owners, except as specifically provided in this article for enforcement purposes.
+(d) Working dogs, including livestock guardian dogs, herding dogs, and hunting dogs, are subject to this article when bred, sold, or transferred, but their use in working capacities is not restricted by this classification. For purposes of tax exemptions and agricultural liability protections provided elsewhere in this code, working dogs engaged in bona fide agricultural operations retain any applicable agricultural classifications.
+§19-36-5. Welfare standards.
+As companion animals, dogs are entitled to:
+(a) Adequate food, water, shelter, and veterinary care;
+(b) Protection from abuse, neglect, and inhumane treatment;
+(c) Reasonable opportunities for exercise and socialization appropriate to the dog's age, breed, and health status; and
+(d) Living conditions that do not cause unnecessary suffering or distress.
+§19-36-6. License required; accidental litter registration.
+(a) Except as provided in subsection (e) of this section, a person may not breed dogs or cause dogs to be bred within this state without first obtaining a breeder's license from the department.
+(b) The production of more than one litter at the same residence triggers the full licensing requirement under this article.
+(c) A person who maintains one or more intact breeding dogs for the purpose of breeding shall obtain a license prior to breeding or within thirty days of acquiring the dogs.
+(d) There is no exemption for hobby breeders, occasional breeders, or breeders who do not sell puppies, except as provided in subsection (e) of this section.
+(e) Accidental litter registration. — A person who produces a single accidental litter may, in lieu of licensure, file an accidental litter registration with the department within fourteen days of whelping, provided that the person:
+(1) Pays a registration fee of $25;
+(2) Microchips each puppy before transfer in accordance with §19-36-17 of this code;
+(3) Provides proof of spay or neuter of the dam within thirty days of transfer of the last puppy, unless a veterinarian certifies that the procedure is medically contraindicated; proof of sterilization shall be filed with the department;
+(4) Complies with the transfer requirements of §19-36-17 through §19-36-20 of this code; and
+(5) Has not filed any prior accidental litter registration at the same residence or by the same person in any location.
+(f) A person who produces a second litter at the same residence, or a person who has previously filed an accidental litter registration at any location, must be licensed prior to whelping and is subject to penalties for unlicensed breeding under §19-36-25 and §19-36-27 of this code.
+(g) The accidental litter registration does not exempt the person from the care standards in §19-36-5 of this code.
+§19-36-7. License application.
+Applications for a breeder's license shall include:
+(a) The full legal name, address, telephone number, and email address of the applicant;
+(b) The physical address of each premises where dogs will be kept for breeding purposes;
+(c) The number and description of dogs currently owned, leased, or harbored by the applicant, including microchip numbers;
+(d) The anticipated number of litters per year;
+(e) Attestation that the applicant has read and understands the requirements of this article;
+(f) Disclosure of any prior violations of animal welfare laws in any jurisdiction within the preceding ten years;
+(g) Disclosure of any related licenses held by household members, immediate family, or affiliated business entities; and
+(h) Any other information the department may reasonably require by rule.
+§19-36-8. License fees.
+(a) The department shall collect license fees based on the scale of the breeding operation as follows:
+(1) Tier 1, one to three breeding dogs: $100 annually;
+(2) Tier 2, four to ten breeding dogs: $300 annually, plus $10 per breeding dog; and
+(3) Tier 3, eleven to twenty breeding dogs: $1,000 annually, plus $25 per breeding dog.
+(b) A per-puppy transfer fee of $10 shall be collected at the time of microchip transfer registration for each puppy transferred by a licensed breeder, to be deposited in the fund.
+(c) The department may adjust base fees by rule: Provided, That adjustments may not exceed the percentage change in the Consumer Price Index for All Urban Consumers (CPI-U) for the preceding calendar year, and must be based on documented enforcement costs.
+(d) A reduced initial license fee of $50 is available for first-time Tier 1 applicants who complete a department-approved responsible breeding and canine welfare course within the preceding twelve months.
+§19-36-9. License terms and renewal.
+(a) Breeder licenses are valid for one year from the date of issuance.
+(b) Renewal applications shall be submitted at least thirty days prior to license expiration.
+(c) Licenses are nontransferable.
+(d) Each license shall be assigned a permanent license identification number that must be displayed in all advertisements, transfer documents, and microchip registrations.
+(e) The department shall provide each licensee with a digital verification badge and QR code linking to the public registry established in §19-36-39 of this code.
+(f) License display. — The license identification number shall be posted conspicuously at each licensed premises entrance and inside the primary housing facility, and shall be produced upon request by any inspector or law-enforcement officer.
+§19-36-10. License denial, suspension, and revocation; due process.
+(a) The department may deny, suspend, or revoke a license for:
+(1) Material misrepresentation in the license application;
+(2) Violation of any provision of this article;
+(3) Conviction of animal cruelty or neglect in any jurisdiction;
+(4) Failure to permit inspection as required by this article;
+(5) Failure to maintain required records; or
+(6) Any other ground that demonstrates the applicant or licensee is unfit to breed dogs humanely.
+(b) Summary suspension. — The department may summarily suspend a license without prior hearing only upon written findings that continuation of the licensed activity poses an imminent risk of harm to animal welfare or public health. An expedited hearing shall be held within ten business days of summary suspension.
+(c) Standard suspension or revocation. — Except for summary suspension, the department shall provide written notice and an opportunity for hearing before suspending or revoking a license.
+(d) Appeals of denial, suspension, or revocation shall be conducted by the Office of Administrative Hearings, with judicial review available under §29A-5-1 et seq. of this code. The Office of Administrative Hearings shall hold hearings within thirty days of appeal filing and shall issue decisions within thirty days of close of record.
+(e) Stop-work order. — Upon written findings that continued breeding, whelping, or transfer of dogs poses an imminent risk to animal welfare or public health, the commissioner may issue a stop-work order halting specified activities pending a hearing before the commissioner, which shall be held within five business days of issuance.
+(f) Violation of a stop-work order is a serious administrative violation subject to penalties under §19-36-25 of this code and may be grounds for immediate license revocation.
+§19-36-11. Maximum breeding dogs per operation; performance variance.
+(a) Except as provided in subsection (d) of this section, a person may not own, harbor, lease, borrow, or maintain more than twenty breeding dogs at any single breeding operation or across all breeding operations under common control.
+(b) For purposes of this section, "common control" has the meaning set forth in §19-36-3(f) of this code.
+(c) Dogs that have been permanently spayed or neutered, and puppies under six months of age, do not count toward the twenty-dog limit.
+(d) Performance variance. — The commissioner may grant a performance variance allowing an operation to maintain up to thirty breeding dogs, provided:
+(1) The licensee has maintained continuous licensure with no moderate or serious violations for the preceding three years;
+(2) The licensee demonstrates a staff-to-dog ratio of at least one caretaker per ten breeding dogs;
+(3) The licensee provides space exceeding the minimum requirements of §19-36-15 of this code by at least fifty percent;
+(4) A licensed veterinarian certifies annually that the facility meets or exceeds all care standards; and
+(5) The licensee pays an additional annual variance fee of $500.
+(e) A performance variance may be revoked upon any moderate or serious violation, and shall not be renewed following revocation for a period of three years.
+(f) Variance renewal. — A performance variance is valid for one year and runs concurrently with the breeder's license. It may be renewed annually, provided the licensee continues to meet all criteria in subsection (d) of this section and has maintained a record free of moderate or serious violations during the preceding licensure period.
+(g) Variance transparency. — The department shall post current variance holders on the public registry, including the variance basis, approval date, and latest inspection date.
+§19-36-12. Statewide breeder limitation; workload-based capacity.
+(a) The department shall establish a maximum number of breeder licenses that may be issued statewide, based on the department's capacity to conduct meaningful inspections and enforcement.
+(b) Capacity calculation. — The department shall limit license issuance such that the total projected workload units required for all licensees does not exceed eighty percent of the department's total available inspector hours. The department may not increase total committed workload units above ninety percent of available inspector hours nor decrease below sixty percent except by legislative rule. Weights assigned to tiers may be altered only by legislative rule with a published impact analysis. Until a legislative rule establishes an alternative methodology:
+(1) Tier 1 licenses shall be assigned five workload units;
+(2) Tier 2 licenses shall be assigned ten workload units;
+(3) Tier 3 licenses and variance holders shall be assigned twenty workload units; and
+(4) Available inspector hours shall be calculated as the number of full-time equivalent inspectors multiplied by 1,200 hours per year.
+(c) The department shall publish the capacity calculation, total workload units committed, current license count by tier, waiting list status, and issuance methodology on its website by January 15 of each year. The department shall publish a downloadable capacity workbook showing inputs, weights, and formulas, and an anonymized waiting list with time-stamps. The department shall republish the capacity calculation within thirty days of any change in inspection staffing of ten percent or more.
+(d) When the statewide cap is reached, new license applications shall be placed on a waiting list and processed in the order received as existing licenses are not renewed or are revoked.
+(e) The department shall review and may adjust the statewide cap annually based on enforcement capacity, compliance rates, and available funding.
+(f) Priority for new licenses when capacity permits shall be given to:
+(1) Applicants who are residents of this state;
+(2) Applicants with no prior animal welfare violations in any jurisdiction; and
+(3) Applicants who have completed department-approved responsible breeding education.
+(g) Licenses issued while capacity was overstated due to staffing changes shall remain valid; the department shall apply the waiting list prospectively until capacity is restored.
+(h) County alignment. — Each county animal control program issuing permits under §19-20-26 of this code shall publish an annual workload capacity and inspection plan aligned to available inspector hours and shall not issue permits exceeding eighty percent of available inspector time, calculated on the same basis as the state formula in subsection (b) of this section.
+(i) Inspection-time accounting. — Available inspector hours shall be calculated from actual duty time, with carve-outs for leave, training, administrative duties, and travel time disclosed in the capacity workbook. The department shall annually publish the methodology used to calculate available hours, including the percentage of time allocated to inspections versus other duties.
+(j) Audit trigger. — If the actual inspection completion rate falls below eighty percent of scheduled inspections for two consecutive quarters, the commissioner shall within thirty days publish a corrective staffing plan or temporarily reduce new license issuance until completion rates recover. The corrective plan shall be reported to the advisory committee.
+§19-36-13. Anti-evasion provisions.
+(a) It is unlawful to structure breeding operations, form multiple business entities, use nominees or agents, or otherwise attempt to circumvent the per-operation or statewide limitations established by this article.
+(b) The department may aggregate the breeding dogs of related operations that it determines are operated under common control for purposes of calculating compliance with scale limitations.
+(c) Operations shall be presumed to be under common control if they share two or more of the indicia listed in §19-36-3(f) of this code. The presumption may be rebutted by clear and convincing evidence of independent operation.
+(d) A person who knowingly structures operations to evade the limitations of this article is guilty of a misdemeanor and, upon conviction thereof, shall be fined not less than $5,000 nor more than $25,000.
+(e) Anti-rotation. — It is unlawful to rotate intact dogs between licenses or households under common control for the purpose or effect of avoiding headcount or inspection frequency limits. Any dog present at two or more licensed premises under common control within any twelve-month period counts toward the headcount of each operation for that period. Lease, lend, foster-in-name-only, or similar instruments designed to redistribute headcount are deemed rotations for purposes of this subsection.
+(f) Anti-rotation exceptions. — Subsection (e) of this section does not apply to:
+(1) Temporary transfer for veterinary treatment, hospitalization, or surgery at a licensed veterinary facility;
+(2) Emergency evacuation due to fire, flood, natural disaster, or other emergency declared by a government authority;
+(3) Lawful transport by a registered transporter consistent with §19-36-21 of this code;
+(4) Transfer to a buyer upon completion of sale; or
+(5) Stud service of fourteen days or fewer, documented by written agreement, where the dog returns to the original premises upon completion.
+§19-36-14. Mandatory inspections; documentation; evidence pack.
+(a) All licensed breeding operations are subject to inspection by the department.
+(b) The department shall conduct:
+(1) An initial inspection within sixty days of license issuance;
+(2) At least one unannounced inspection annually for Tier 1 licensees;
+(3) At least two unannounced inspections annually for Tier 2 licensees;
+(4) At least four unannounced inspections annually for Tier 3 licensees and variance holders; and
+(5) Additional inspections as warranted by complaints, prior violations, or other circumstances.
+(c) Inspections shall be conducted during reasonable hours without prior notice to the licensee.
+(d) Refusal to permit inspection is grounds for immediate license suspension pursuant to §19-36-10(b) of this code.
+(e) Documentation and evidence pack. — Inspection findings shall be documented using a standardized evidence pack including: chain-of-custody log; date and time-stamped, geo-tagged digital photographs or video; thermometer and hygrometer readings; space and enrichment calculations; headcount attestation; a standardized checklist citing each applicable standard; any on-site corrective orders issued; and signed witness statements where applicable. The department shall retain inspection media and documentation for at least five years. Findings shall be entered into the public registry established in §19-36-41 of this code. Evidence packs may be admitted as business records upon certification by the custodian or inspector consistent with the rules of evidence; weight and credibility remain for the trier of fact.
+(f) Administrative inspection warrant. — If a licensee refuses to consent to an inspection, the department may apply to the circuit court or magistrate for an administrative inspection warrant upon a showing that the inspection is authorized by law and is conducted pursuant to a neutral inspection scheme. Refusal to permit inspection pending warrant issuance shall not independently trigger suspension. Continued refusal after service of a valid warrant is grounds for immediate license suspension and is a serious violation.
+(g) Inspection grades. — Following each inspection, the department shall issue an inspection grade of A, B, C, or D based on criteria established by legislative rule, reflecting the operation's overall compliance with the standards of this article.
+(h) Grade posting. — The current inspection grade, inspection date, and summary of findings shall appear on the public registry and shall be posted conspicuously at each licensed premises entrance.
+(i) Reinspection. — A grade of D triggers a mandatory reinspection within thirty days. Failure to achieve a grade of C or higher on reinspection is grounds for license suspension.
+(j) Behavioral assessment. — The department shall utilize a standardized behavioral assessment protocol during inspections to evaluate animal welfare outcomes using a three-tier classification: Green (friendly, approaches readily, solicits interaction); Yellow (neutral or hesitant, neither approaches nor avoids); and Red (fearful, avoids contact, or displays aggression). For the first two years following the effective date of this article, behavioral assessments shall be used for data collection, licensee education, and program evaluation only, and shall not constitute an independent basis for license suspension unless the observed behavior indicates severe cruelty or neglect actionable under §61-8-19 of this code.
+(k) Assessment sampling. — Behavioral assessment shall be conducted on all adult breeding dogs present during the inspection, or on a statistically valid random sample of at least twenty dogs or fifty percent of adult breeding dogs, whichever is greater, if the facility houses more than forty adult breeding dogs. The department shall establish sampling protocols by rule to prevent manipulation of assessment results.
+(l) Corrective action. — Beginning in the third year following the effective date, if more than twenty-five percent of adult breeding dogs at any Tier 2 or Tier 3 facility are classified Red at any inspection, the department shall require a corrective action plan within fourteen days, including enrichment modifications, staffing adjustments, and reassessment within sixty days. A second failure to meet corrective thresholds within twelve months is grounds for civil penalties and license suspension.
+(m) Inspector training. — The department shall train and certify inspectors in standardized assessment protocols, evidence capture techniques, biosecurity procedures, and humane animal handling. Inspectors shall complete annual refresher training. The department may contract with academic institutions or professional organizations to develop and deliver training programs.
+(n) Digital evidence. — In any administrative or criminal proceeding under this article: (1) screenshots, printouts, or digital captures of online advertisements, social media posts, or electronic communications are admissible if accompanied by a certification stating the date, time, URL or platform, and method of capture; (2) metadata embedded in digital photographs or documents may be admitted as evidence of the date, time, and location of creation; (3) the department may designate trained personnel to conduct digital evidence collection using forensically sound methods; and (4) evidence collected from publicly accessible websites or platforms does not require a warrant.
+(o) Enforcement priorities. — When inspection demand exceeds available capacity, the department shall prioritize: (1) complaints alleging imminent harm to animal health or safety; (2) Tier 3 operations and variance holders; (3) operations with prior serious or egregious violations; (4) new license applicants pending first inspection; (5) routine inspections of Tier 2 operations; and (6) routine inspections of Tier 1 operations. The department shall publish prioritization metrics in the annual report.
+§19-36-15. Housing and care standards.
+All breeding operations shall comply with the following minimum standards:
+(a) Housing. — Dogs shall be provided with sufficient space to stand, turn, lie down, and stretch fully without obstruction. Primary enclosures shall provide at least twelve square feet per dog under twenty-five pounds, eighteen square feet per dog between twenty-five and fifty pounds, and twenty-four square feet per dog over fifty pounds, plus an additional fifty percent for each additional dog housed in the same enclosure.
+(b) Sanitation. — Enclosures shall be cleaned daily and sanitized at least weekly. Waste shall be removed at least twice daily. Pest control measures shall be implemented.
+(c) Climate control. — Dogs shall be protected from temperature extremes. Indoor temperatures shall be maintained between 50 and 85 degrees Fahrenheit. Indoor humidity shall be maintained between 30 and 70 percent. Adequate ventilation shall be provided. Neonatal puppies under four weeks shall be maintained at temperatures between 75 and 85 degrees Fahrenheit.
+(d) Nutrition and water. — Dogs shall receive nutritionally adequate food appropriate to their age, size, and condition at least once daily, and clean water available at all times.
+(e) Veterinary care. —
+(1) All dogs shall receive annual veterinary examinations.
+(2) Breeding females shall receive prenatal and postnatal veterinary care.
+(3) Sick or injured dogs shall receive prompt veterinary attention.
+(4) Vaccinations shall be administered according to current veterinary standards.
+(5) Tail docking, ear cropping, dewclaw removal after three days of age, cesarean section, hernia repair, and any other surgical procedure shall be performed only by a licensed veterinarian.
+(f) Exercise. — Dogs shall have access to an exercise area or be provided with daily exercise outside of their primary enclosure for at least thirty minutes daily.
+(g) Socialization and enrichment. — Puppies shall receive regular positive human interaction and age-appropriate socialization experiences. All dogs shall have access to environmental enrichment. A veterinarian-approved enrichment plan shall be maintained on file for Tier 2 and Tier 3 operations.
+(h) Breeding frequency and limits. —
+(1) Female dogs may not be bred before the age of eighteen months or the second estrous cycle, whichever is later, unless a veterinarian certifies in writing that earlier breeding is medically appropriate for the specific breed or individual dog;
+(2) Female dogs may not be bred after the age of eight years unless a veterinarian certifies that continued breeding does not pose a health risk;
+(3) Female dogs may not be bred more than twice in any eighteen-month period;
+(4) A minimum of twelve months shall elapse between whelpings; and
+(5) No female dog shall produce more than five litters in her lifetime. Lifetime litter counts shall include all litters whelped by the dam, regardless of ownership changes. A veterinarian may authorize a deviation from spacing limits only if earlier or later breeding is necessary to prevent a specific, documented medical risk to the dam; production or economic reasons do not qualify.
+(i) Noise. — Operations shall implement reasonable measures to minimize excessive noise that causes stress to dogs or constitutes a nuisance to neighboring properties.
+(j) Training. — Tier 2 and Tier 3 licensees shall ensure that each caretaker completes department-approved training on sanitation, disease control, neonatal care, and humane handling within ninety days of hire and at least every twenty-four months thereafter. Training records shall be maintained on-site and are subject to inspection.
+(k) Retirement and rehoming. — A written plan for the humane retirement and rehoming of breeding dogs that are no longer used for breeding shall be maintained on file and produced upon inspection. Surrender of a retired breeding dog to a licensed shelter or rescue organization may not be conditioned upon payment of a fee or donation by the shelter or rescue.
+(l) Behavioral wellness. — Tier 2 and Tier 3 licensees shall implement a written behavioral wellness plan, approved by the attending veterinarian, that provides for:
+(1) Regular positive human interaction beyond routine husbandry, at a frequency appropriate to the dogs' needs as determined by the attending veterinarian;
+(2) Age-appropriate socialization for puppies during the critical socialization period, including controlled exposure to varied people, sounds, surfaces, and environments within biosecurity limits established by the attending veterinarian;
+(3) Environmental enrichment addressing social, nutritional, and physical stimulation needs appropriate to breed and age;
+(4) Avoidance of flooding and recognition of fear periods in puppy development; and
+(5) Protocols for identifying and addressing behavioral concerns, including criteria for veterinary consultation.
+The behavioral wellness plan shall be reviewed and signed by the attending veterinarian at least annually. The department shall adopt by rule minimum standards for interaction frequency, enrichment categories, socialization protocols, and documentation requirements.
+(m) Attending veterinarian requirements. — The attending veterinarian approving the behavioral wellness plan and the program of veterinary care shall:
+(1) Hold an active license to practice veterinary medicine in this state or be authorized under reciprocity provisions;
+(2) Have no ownership interest in the breeding operation and not be an employee of the licensee;
+(3) Conduct at least one in-person site visit annually to review the facility and the plans; and
+(4) Certify in writing that the plans are appropriate for the species, breeds, and number of animals maintained.
+§19-36-16. Recordkeeping requirements.
+(a) All licensees shall maintain records for a minimum of five years, including:
+(1) For each dog in the breeding operation: microchip number, breed, sex, date of birth or estimated age, date acquired, source of acquisition, ownership or lease status, and disposition including date and method of transfer or death;
+(2) For each litter produced: date of birth, number of puppies, sire and dam identification, and disposition of each puppy;
+(3) For each transfer: date of transfer, name and contact information of recipient, microchip number of dog transferred, and consideration received, if any;
+(4) Veterinary records for each dog, including vaccinations, examinations, treatments, and any diagnosed health conditions;
+(5) For female breeding dogs: dates of each breeding, whelping, and total lifetime litter count; and
+(6) For dogs received from or shipped via a transporter: the transporter's name, registration number, and manifest documentation.
+(b) All records shall be made available to the department upon request during any inspection.
+(c) Records may be maintained in electronic format if readily accessible and printable upon request.
+(d) Quarterly inventory. — A quarterly inventory with date- and time-stamped photographs of each breeding dog and primary housing area shall be completed and retained for five years. Quarterly inventories shall be produced upon request during any inspection.
+(e) Tier 1 exemption. — Tier 1 licensees maintaining dogs within a residential dwelling as household companions are exempt from maintaining daily enrichment logs and written socialization checklists required under §19-36-15(l) of this code, provided:
+(1) Dogs are housed primarily inside the residential dwelling, not in dedicated outbuildings or commercial kennel structures;
+(2) The licensee has no employees engaged in breeding operations;
+(3) The licensee does not operate a facility open to the public for appointments or sales; and
+(4) The licensee can demonstrate to the inspector that dogs receive regular interaction and socialization consistent with companion animal care.
+This exemption does not apply if the licensee meets Tier 2 or Tier 3 thresholds based on dog count, sales volume, breeding frequency, or facility type.
+(f) Post-termination retention. — Upon license termination, voluntary surrender, or non-renewal:
+(1) The former licensee shall retain all records required by this section for three years following termination;
+(2) Records shall be made available to the department upon request for purposes of consumer complaint investigation or enforcement action;
+(3) If the former licensee cannot retain records, they shall be transferred to the department for retention; and
+(4) Destruction of records during the retention period to avoid enforcement is a serious violation prosecutable for three years after discovery.
+§19-36-17. Microchipping; chain of custody; privacy; data security.
+(a) A licensed breeder may not transfer a dog unless the dog has been implanted with a microchip and the microchip has been registered with a nationally recognized database.
+(b) The microchip record shall include the breeder's license identification number as the originating source.
+(c) Puppies shall be microchipped before eight weeks of age or before transfer, whichever is later.
+(d) Chain of custody. — At the time of transfer, the breeder shall:
+(1) Initiate the transfer of microchip registration to the new owner in the microchip database;
+(2) Provide the new owner with written instructions for completing the registration transfer; and
+(3) File a transfer confirmation with the department within seven days of transfer, including the microchip number and new owner contact information.
+(e) Privacy protections. — Personal information collected through microchip registration and transfer confirmation shall be used only for:
+(1) Reunification of lost or stolen animals with their owners;
+(2) Enforcement of this article and other animal welfare laws; and
+(3) Statistical analysis in aggregate, de-identified form.
+(f) The department may not sell, lease, or otherwise disclose personal information from microchip records for marketing or commercial purposes.
+(g) Retention. — The department shall retain personally identifiable information from microchip transfer confirmations no longer than five years after the latest transfer event, unless needed for an active investigation or enforcement action.
+(h) Data security. — The department shall adopt reasonable administrative, technical, and physical safeguards to protect registry data and shall notify affected persons within ten days of discovery of any breach of security as defined by §46A-2A-101 et seq. of this code. The department shall file notice of any breach with the Attorney General. Failure to provide timely notification is a moderate violation under §19-36-22(b) of this code.
+(i) Reclaim requirement. — Any dog impounded by a county animal control facility, shelter, or pound and subsequently reclaimed by the owner shall be microchipped before release if not already microchipped. The cost of the microchip, not to exceed twenty-five dollars, may be assessed to the owner as a condition of release.
+(j) Repeat impoundment. — Any dog impounded a third time within any twenty-four-month period shall be spayed or neutered before release, unless a veterinarian certifies that the procedure is medically contraindicated or the owner holds a valid breeding license under this article or an intact animal permit issued by the county. The cost of spay or neuter, not to exceed one hundred fifty dollars, may be assessed to the owner.
+(k) Microchip interoperability. — Scanning required by this article or §19-36-48 of this code shall include a search of the American Animal Hospital Association Universal Pet Microchip Lookup Tool or equivalent aggregated database that queries multiple registries. If a chip is detected but no record is found in the aggregated database, the facility or breeder shall document the chip number and contact the department for manual registry search.
+(i) Registry data may be released only in aggregate or de-identified form for research and reporting purposes.
+§19-36-18. Minimum age for transfer.
+(a) A puppy may not be transferred before the age of eight weeks.
+(b) For breeds or individual puppies that a veterinarian determines require extended maternal care due to size, health, or developmental factors, the veterinarian may certify a later minimum transfer age, which shall be binding on the breeder.
+(c) A veterinarian may authorize earlier transfer only in documented emergency circumstances where remaining with the dam would endanger the puppy's health.
+§19-36-19. Health documentation; advance disclosure; waiver.
+(a) At the time of transfer, the breeder shall provide the recipient with:
+(1) A health certificate signed by a veterinarian within fourteen days of transfer;
+(2) Documentation of all vaccinations administered;
+(3) Written disclosure of any known hereditary or congenital conditions in the dog or in the dog's sire, dam, or siblings, to the extent known;
+(4) The breeder's license identification number;
+(5) Microchip registration information and transfer instructions; and
+(6) A written summary of the consumer remedies available under §19-36-23 of this code.
+(b) Advance disclosure. — The disclosures required by subdivisions (3), (4), and (6) of subsection (a) of this section shall be provided to the purchaser at least twenty-four hours before transfer, in writing or electronically, with receipt acknowledgment. The breeder shall retain proof of delivery for five years.
+(c) Waiver. — The purchaser may waive the twenty-four-hour advance disclosure period in writing at the time of transfer, acknowledging that the purchaser has received and reviewed the required disclosures prior to taking possession. A valid waiver shall be on a form prescribed by the department and shall be retained by the breeder for five years.
+(d) Prohibited financing. — It is unlawful to arrange or facilitate the sale or transfer of a dog through a lease-to-own arrangement or through financing with an annual percentage rate exceeding the maximum rate permitted for consumer loans under §46A-3-104 of this code. Violations of this subsection constitute unfair or deceptive acts or practices enforceable under §46A-6-101 et seq. of this code.
+(e) Behavioral disclosure. — At transfer of any puppy, the licensee shall provide the purchaser a written behavioral summary on a form prescribed by the department, including:
+(1) A list of socialization exposures completed during the critical socialization period, including types of people, sounds, surfaces, and environments to which the puppy has been exposed;
+(2) Any observed behavioral concerns, sensitivities, or triggers; and
+(3) Recommendations for continued socialization appropriate to the puppy's age and developmental stage.
+Failure to disclose known behavioral concerns that materially affect the dog's suitability as a companion is a violation of §19-36-43 of this code and triggers buyer remedies under §19-36-23 of this code.
+§19-36-20. Advertising, location restrictions, and marketplace requirements.
+(a) Any advertisement for the sale or transfer of dogs bred by a licensed breeder, whether online, in print, or by other means, shall prominently display the breeder's license identification number and the microchip number for each dog offered, upon availability.
+(b) It is unlawful to advertise dogs for sale or transfer using a false, expired, or nonexistent license number.
+(c) Each listing or advertisement shall include a department-provided QR code or hyperlink that links directly to the breeder's verification page on the department's public registry. QR codes shall be department-generated and secure to prevent spoofing.
+(d) Marketplace platform and retail seller verification. — A marketplace platform or retail seller facilitating dog transfers to a consumer in this state shall:
+(1) Verify the seller's license number via the department's electronic verification system before permitting any listing or sale;
+(2) Display the verified license number and QR code in each listing;
+(3) Remove any listing within twenty-four hours of receiving notice from the department that the license is invalid, suspended, or revoked; and
+(4) Prevent listings to West Virginia consumers by sellers not holding a license recognized by the department, whether in-state or approved out-of-state reciprocity licensees.
+(e) A marketplace platform or retail seller that fails to verify a license as required by subsection (d) of this section commits a separate violation for each unverified listing, subject to civil penalties under §19-36-25 of this code. A marketplace platform that permits ten or more unverified listings in any thirty-day period is subject to an additional civil penalty of $25,000 per thirty-day period.
+(f) The department shall maintain a free, publicly accessible electronic verification system for license validation.
+(g) Prohibited transfer locations. — It is unlawful to transfer a dog in any public right-of-way, parking lot, roadside, flea market, swap meet, fairground, or temporary venue not specifically licensed for animal sales under this code, except for:
+(1) An adoption event conducted by a licensed shelter or rescue organization; or
+(2) A pre-arranged transfer between a licensed breeder and a specific purchaser conducted at a designated safe exchange zone located at a law enforcement facility or other public location with video surveillance, provided the breeder retains documentation of the location and transaction.
+A violation of this subsection is a serious violation under §19-36-22(c) of this code and authorizes immediate issuance of a stop-work order under §19-36-10(e) of this code.
+(h) Out-of-state sellers; jurisdiction. — A person located outside this state who offers or transfers a dog to a West Virginia consumer is subject to this article and, by engaging in such offer or transfer, appoints the Secretary of State as agent for service of process for matters arising under this article. Offering a dog for transfer to a West Virginia consumer constitutes purposeful availment sufficient for personal jurisdiction. Actions under this article may be brought in the Circuit Court of Kanawha County, the county of the purchaser's residence, or any county where the dog was delivered.
+(i) Marketplace safe harbor. — A marketplace platform is not liable under subsection (e) of this section for unverified listings if the platform:
+(1) Integrates with the department's electronic verification system using documented application programming interface protocols;
+(2) Validates license numbers at listing creation and at least once every seven days thereafter;
+(3) Maintains logs of all verification requests and responses for at least two years;
+(4) Removes listings within twenty-four hours of receiving removal notice from the department or learning that verification failed; and
+(5) Provides seller education materials regarding West Virginia licensing requirements.
+(j) System outage. — A marketplace platform is not liable for verification failure that occurs solely due to documented downtime of the department's verification system, provided the platform: (1) logs the outage and retry attempts; (2) retries verification within four hours of system restoration; and (3) removes any listing that fails verification upon retry. This subsection does not apply if the platform fails to implement reasonable retry procedures.
+§19-36-21. Transporter registration and standards.
+(a) A person who transports dogs for hire into or out of this state, or within this state, where such transport originates from or terminates at a location within this state, in connection with breeding operations, shall register annually with the department and pay a registration fee of $100.
+(b) Registered transporters shall maintain manifests for each shipment identifying:
+(1) The shipper's name and license number;
+(2) The destination address and recipient;
+(3) The microchip number of each dog transported; and
+(4) Any veterinary certificates or health documentation accompanying the dogs.
+(c) Manifests shall be retained for five years and furnished to the department upon request.
+(d) Vehicle and duration standards. — Transport vehicles shall maintain interior temperatures between 50 and 85 degrees Fahrenheit, or heat index not exceeding 90, and humidity between 30 and 70 percent. When the ambient heat index exceeds 90 degrees or wind chill is below 20 degrees Fahrenheit, non-emergency transport is prohibited unless a veterinarian provides written authorization for each animal. Transport exceeding six hours requires a rest stop of at least thirty minutes with dogs removed from crates and given access to water and sanitation. Total daily transport time shall not exceed twelve hours. Vehicles transporting six or more dogs shall maintain an onboard temperature and humidity log captured at fifteen-minute intervals and retained for thirty days. Vehicles subject to logging requirements shall retain the native data export from the recording device with timestamps and calibration records together with the manifest.
+(e) Puppies under eight weeks of age may not be transported except as authorized by a veterinarian for medical necessity.
+(f) Failure to register or comply with this section is a moderate violation subject to penalties under §19-36-25 of this code.
+§19-36-22. Violation classifications.
+For purposes of this article, violations are classified as follows:
+(a) Minor violations include non-safety-related recordkeeping or labeling defects without direct impact on animal welfare.
+(b) Moderate violations include care standard failures without acute animal suffering; repeat minor violations within twelve months; microchip or transfer documentation failures; transporter violations; and failure to complete required training.
+(c) Serious violations include operating without a license; refusing inspection; exceeding headcount caps; conditions causing suffering or risk of serious injury or death; falsifying records; retaliation against whistleblowers; and witness tampering.
+§19-36-23. Consumer remedies for hereditary, congenital, and infectious conditions.
+(a) If, within fourteen days of transfer, a licensed veterinarian states in writing that the dog suffers from an illness or disease that existed in the dog on or before the date of transfer, the purchaser may elect:
+(1) Return the dog to the breeder for a full refund of the purchase price, plus reimbursement for reasonable veterinary fees already incurred, not to exceed the purchase price;
+(2) Exchange the dog for another dog of equivalent value, plus reimbursement for reasonable veterinary fees already incurred, not to exceed the purchase price; or
+(3) Retain the dog and receive reimbursement for reasonable veterinary fees incurred to cure or attempt to cure the condition, not to exceed the purchase price.
+(b) If, within twelve months of transfer, a licensed veterinarian states in writing that the dog possesses a congenital or hereditary condition that adversely affects the health of the dog or requires hospitalization or surgical intervention, the purchaser may elect:
+(1) Return the dog to the breeder for a full refund of the purchase price, plus reimbursement for reasonable veterinary fees already incurred;
+(2) Exchange the dog for another dog of equivalent value, plus reimbursement for reasonable veterinary fees already incurred; or
+(3) Retain the dog and receive reimbursement for reasonable veterinary fees incurred to treat or attempt to treat the condition, not to exceed one and one-half times the purchase price.
+(c) Processing. — The breeder shall process the selected remedy within ten business days of receiving the veterinarian's written statement and any required documentation.
+(d) A breeder who fails to disclose a known hereditary or congenital condition as required by §19-36-19(a)(3) of this code shall be liable for actual veterinary costs without the limitations in subsections (a) and (b) of this section, plus reasonable attorney's fees.
+(e) Exceptions. — This section does not apply if:
+(1) The breeder disclosed the specific health condition in writing at the time of sale pursuant to §19-36-19(a)(3) of this code;
+(2) The illness, injury, or death resulted from maltreatment, neglect, or injury caused by the consumer after transfer; or
+(3) The consumer failed to take the dog for a veterinary examination within five business days of transfer, or within the next available veterinary appointment if no appointment was available within five business days, provided the consumer documents appointment scheduling attempts.
+(f) Notice. — A purchaser seeking remedies under this section shall provide the breeder with written notice and a copy of the veterinary statement within thirty days of diagnosis.
+(g) This section does not limit any other remedies available to the purchaser under law.
+(h) Rescission for prohibited financing. — Any transfer financed through a prohibited arrangement under §19-36-19(d) of this code is voidable at the purchaser's election. Upon rescission, the purchaser is entitled to a full refund of all amounts paid, plus reasonable attorney's fees.
+§19-36-24. Private right of action.
+(a) A purchaser injured by a material violation of §19-36-19 through §19-36-23 of this code may bring a civil action in circuit court to recover:
+(1) Actual damages;
+(2) Reasonable attorney's fees and costs; and
+(3) Statutory damages of not less than $500 nor more than $2,000 per dog.
+(b) Remedies under this section are cumulative and do not preclude other remedies available under this article or other law.
+(c) An action under this section must be brought within two years of the date the purchaser knew or should have known of the violation, or within three years of the violation if the violation was concealed or first disclosed through registry data or enforcement action, whichever is later.
+§19-36-25. Administrative penalties.
+(a) The department may impose administrative civil penalties for violations of this article according to the following schedule:
+(1) Minor violations as defined in §19-36-22(a) of this code: Warning for first offense; $100 to $500 for subsequent offenses;
+(2) Moderate violations as defined in §19-36-22(b) of this code: $500 to $2,500 per violation; and
+(3) Serious violations as defined in §19-36-22(c) of this code: $2,500 to $10,000 per violation, plus up to $1,000 per dog per day the violation continues.
+(b) Civil penalties collected under this section shall be deposited in the fund.
+(c) A seller who posts a listing without a valid license number as required by §19-36-20(d) of this code is subject to a civil penalty of $500 per listing per day the listing remains active.
+§19-36-26. Cure period for administrative violations.
+(a) For violations that do not involve immediate animal welfare concerns, the department shall provide written notice of the violation and a reasonable cure period of not less than fourteen days and not more than thirty days to remedy the violation.
+(b) Penalties shall be assessed only if the violation is not cured within the specified period.
+(c) Violations involving animal suffering or imminent harm are not subject to a cure period and may be enforced immediately.
+§19-36-27. Criminal penalties.
+(a) Misdemeanor offenses. — A first conviction for operating without a license, exceeding the scale cap, refusing inspection, or knowingly structuring operations to evade this article is a misdemeanor and, upon conviction thereof, shall be fined not more than $5,000 or confined in jail not more than one year, or both fined and confined.
+(b) Felony offenses. — A third or subsequent conviction for any serious violation within a five-year period, or a first conviction involving substantial animal cruelty, is a felony and, upon conviction thereof, shall be fined not more than $25,000 or imprisoned in a state correctional facility not less than one year nor more than five years, or both fined and imprisoned.
+(c) Pattern of violations. — A person who demonstrates a pattern of repeated violations showing willful disregard for animal welfare is guilty of a felony and shall be permanently prohibited from obtaining a breeder's license in this state.
+(d) Operating while prohibited. — A person who breeds dogs or operates a breeding facility while subject to a prohibition order under §19-36-29 of this code is guilty of a felony and, upon conviction thereof, shall be fined not less than $10,000 nor more than $50,000 or imprisoned in a state correctional facility not less than one year nor more than five years, or both fined and imprisoned.
+(e) Cumulative charges. — Conduct constituting animal cruelty under §61-8-19 et seq. of this code may be charged cumulatively with offenses under this article.
+(f) Falsification of records. — A person who knowingly falsifies or alters required inspection media, logs, device telemetry, or other records required by this article is guilty of a felony and, upon conviction thereof, shall be fined not more than $10,000 or imprisoned in a state correctional facility not less than one year nor more than three years, or both fined and imprisoned.
+§19-36-28. Animal seizure; cost-of-care bond; escrow; custodial immunity.
+(a) The department, in coordination with law enforcement, may seize dogs from a breeding operation when:
+(1) The dogs are in immediate danger due to neglect, abuse, or conditions that pose an imminent threat to health or safety;
+(2) A license has been revoked and the former licensee has failed to rehome or surrender dogs within the time specified by the department; or
+(3) A court order authorizes seizure.
+(b) Seized animals shall be placed in the custody of an approved shelter or rescue organization pending disposition. An approved custodial agency acting in good faith under this section is immune from civil liability for actions taken in the care or disposition of seized animals, except for willful misconduct or gross negligence.
+(c) Cost-of-care petition. — Within ten days of the seizure of any dog pursuant to this section, the owner or custodian may be served with a petition requiring the posting of a bond to cover the reasonable costs of care for the animal while in custody.
+(d) Cost-of-care hearing. — The court shall hold a hearing on the petition within ten days of service. The sole issue at the hearing shall be the determination of the reasonable cost of care, including food, water, shelter, and necessary veterinary medical treatment.
+(e) Bond amount and escrow. — Upon a finding that the seizure was based on probable cause, the court shall order the owner or custodian to post a cash bond or surety with the court in an amount sufficient to cover the projected cost of care for a period of at least thirty days. The bond shall be not less than fifteen dollars per dog per day unless the custodial agency demonstrates lower actual costs. The court may order the bond deposited into a court-supervised escrow account from which custodial agencies may draw monthly upon submission of itemized statements.
+(f) Forfeiture for failure to post. — If the owner or custodian fails to post the ordered bond within five business days of the court's order, the animal is deemed abandoned and strictly forfeited to the state by operation of law. The custodial agency may then transfer, adopt out, or humanely euthanize the animal in accordance with this article.
+(g) Hardship alternative. — A Tier 1 licensee or non-commercial owner who demonstrates financial hardship may petition the court within three business days of the bond order for alternative security, which may include: (1) a lien against real property; (2) a structured bond payment plan with initial deposit of at least twenty-five percent; or (3) assignment of other collateral acceptable to the court. The court may grant the petition upon a showing of hardship and adequate security. Failure to comply with an alternative security order is treated as failure to post bond.
+(g) Renewal. — If the legal proceedings exceed thirty days, the court shall order the posting of additional bonds in thirty-day increments.
+(h) Restitution and return. — If the owner is convicted of a violation of this article, the bond funds shall be forfeited to the custodial agency. If the owner is acquitted or the charges are dismissed, the unspent portion of the bond shall be returned to the owner.
+(i) Evidence preservation. — Prior to disposition, the department shall document the condition of seized animals through photographs, veterinary examination records, and written reports, which shall be preserved for use in any enforcement proceeding.
+(j) Emergency impound. — Upon a sworn affidavit by a licensed veterinarian attesting to imminent risk of serious harm or death to animals at a breeding operation, a circuit court may issue a temporary ex parte order authorizing immediate impound of the animals pending a hearing, which shall be held within five business days of the impound.
+§19-36-29. Prohibition orders.
+(a) Upon conviction for a felony offense under this article, or upon a third serious administrative violation within three years, the court or department may issue an order prohibiting the person from:
+(1) Owning, harboring, or caring for dogs for a period of five years to permanently;
+(2) Working in any capacity at a breeding operation; or
+(3) Applying for a breeder's license in this state.
+(b) Violation of a prohibition order is a felony and, upon conviction thereof, shall be fined not more than $10,000 or imprisoned in a state correctional facility not less than one year nor more than three years, or both fined and imprisoned.
+(c) Prohibition orders shall be entered in the public registry and the department's electronic verification system.
+§19-36-30. Whistleblower protection.
+(a) No employer may discharge, demote, suspend, threaten, harass, or otherwise discriminate against an employee in the terms or conditions of employment because the employee, in good faith:
+(1) Reports a suspected violation of this article to the department, law enforcement, or any other governmental agency;
+(2) Cooperates with an investigation or proceeding under this article;
+(3) Testifies in a proceeding under this article; or
+(4) Refuses to participate in activity that the employee reasonably believes violates this article.
+(b) An employee who is subject to retaliation in violation of this section may bring a civil action in circuit court within two years of the retaliatory action and may recover reinstatement, back pay, compensatory damages, and reasonable attorney's fees.
+(c) This section applies to employees of breeding operations, veterinary practices, shelters, transporters, and any other entity subject to or involved in the enforcement of this article.
+(d) Veterinarian immunity. — A veterinarian who, in good faith, reports a suspected violation of this article to the department or law enforcement is immune from civil liability for such report, except for reports made with actual malice.
+(e) Waiver void. — Any contract, nondisclosure agreement, or policy that purports to waive, limit, or condition rights under this section is void as against public policy.
+(f) Whistleblower reward. — Up to fifteen percent of civil penalties collected as a result of an enforcement action may be awarded to a qualifying whistleblower whose original information led to the enforcement action. The department shall adopt rules establishing the criteria for qualifying whistleblowers and the process for claiming awards.
+(g) Veterinarian professional autonomy. — A veterinarian shall not be subject to civil liability, professional discipline, or contract termination for:
+(1) Declining to approve a behavioral wellness plan or program of veterinary care that does not meet professional standards;
+(2) Recommending that a breeder reduce breeding frequency or retire dogs for health reasons; or
+(3) Providing truthful information to the department regarding conditions at a breeding operation.
+Any provision of a contract between a veterinarian and breeder that waives these protections is void and unenforceable.
+§19-36-31. Canine Welfare Enforcement Fund established.
+(a) There is hereby created in the State Treasury a special revenue fund to be known as the Canine Welfare Enforcement Fund.
+(b) The fund shall be administered by the department and shall be used exclusively for the implementation and enforcement of this article.
+§19-36-32. Fund sources.
+The fund shall consist of:
+(a) All license fees collected under §19-36-8 of this code;
+(b) All accidental litter registration fees collected under §19-36-6 of this code;
+(c) All per-puppy transfer fees collected under §19-36-8 of this code;
+(d) All administrative civil penalties collected under §19-36-25 of this code;
+(e) Performance variance fees collected under §19-36-11 of this code;
+(f) Transporter registration fees collected under §19-36-21 of this code;
+(g) Cost-of-care reimbursements recovered under §19-36-28 of this code;
+(h) Civil penalty sharing payments from counties pursuant to memoranda of understanding;
+(i) Gifts, grants, and donations received for purposes consistent with this article; and
+(j) Interest earned on fund balances.
+§19-36-33. Fund expenditures.
+Moneys in the fund may be expended only for:
+(a) Salaries and expenses of inspectors and enforcement personnel;
+(b) Administrative costs of the licensing program;
+(c) Development and maintenance of the electronic verification system, public registry, and recordkeeping systems;
+(d) Public education regarding responsible breeding and this article;
+(e) Emergency care costs for seized animals pending recovery from violators;
+(f) Payments to counties that assist with inspections or enforcement pursuant to memoranda of understanding; and
+(g) Other purposes directly related to implementation and enforcement of this article.
+(h) Local programs. — Beginning in the third fiscal year following the effective date of this article, not less than fifteen percent of annual fund inflows shall be distributed through formula grants to county-administered spay and neuter programs, microchip assistance programs, and public education initiatives regarding responsible pet ownership. To be eligible for grants, a county must: (1) issue permits under §19-20-26 of this code or have executed a memorandum of understanding with the department; (2) conduct inspections in accordance with department protocols; and (3) maintain a public dashboard of permit and inspection data. Non-compliant counties are ineligible for grants until compliance is achieved. Grant distributions shall be calculated as fifty percent base allocation based on county population and fifty percent performance allocation. Performance weights shall be: timely completion of required inspections (thirty percent); closure of serious and egregious violations (thirty percent); accuracy of registry data submissions (twenty percent); and referrals for prosecution or Attorney General action (twenty percent). The department shall publish the grant formula and award criteria annually.
+(i) Rural shelter development. — Beginning in the second fiscal year following the effective date of this article, the department shall allocate not less than ten percent of annual fund inflows for grants to counties that: (1) lack a dedicated animal control facility; (2) are forming or have formed a joint authority under §19-36-50 of this code; or (3) are upgrading facilities to meet intake scanning and digital notice requirements under §19-36-47 of this code. Priority shall be given to joint authority applications that consolidate resources across multiple counties.
+(j) Scanner distribution. — The department shall purchase and distribute universal microchip scanners to all county animal control facilities, shelters, pounds, and sheriff's departments upon request, at no cost to the county. Scanners shall be capable of reading all common microchip frequencies. The department shall maintain an inventory of replacement scanners and provide training materials for scanner operation.
+(k) Provisional eligibility. — A county that does not meet the eligibility requirements of subsection (h) of this section may receive provisional eligibility for grants for twelve months if the county executes a memorandum of understanding with the department committing to an implementation plan with specific milestones. Upon successful completion of the implementation plan, the county shall receive full eligibility. Failure to meet implementation milestones may result in loss of provisional eligibility and repayment of grant funds received.
+§19-36-34. Fund balance and reporting.
+(a) Unexpended fund balances do not revert to the General Revenue Fund but remain in the Canine Welfare Enforcement Fund.
+(b) The department shall submit an annual report to the Joint Committee on Government and Finance by March 1 of each year, detailing:
+(1) Fund revenues by source;
+(2) Fund expenditures by category;
+(3) Number of licenses issued, denied, suspended, and revoked by tier;
+(4) Number of accidental litter registrations;
+(5) Number of transporter registrations;
+(6) Inspection counts and findings by tier;
+(7) Enforcement actions taken by violation classification;
+(8) Statewide capacity calculation, workload units committed, and waiting list status;
+(9) Consumer complaints received and resolved;
+(10) Private actions filed under §19-36-24 of this code, if known; and
+(11) Recommendations for legislative or regulatory changes.
+§19-36-35. Rulemaking.
+(a) The department shall propose rules for legislative approval in accordance with the provisions of §29A-3-1 et seq. of this code necessary to implement this article within one hundred eighty days of its effective date. Final rules shall be adopted within twelve months of the effective date.
+(b) The department shall provide for public comment on proposed rules.
+(c) Rules shall address, at minimum:
+(1) License application procedures and forms;
+(2) Inspection protocols, checklists, and evidence pack requirements;
+(3) Workload-based capacity formula methodology;
+(4) Electronic verification system specifications;
+(5) Public registry data elements and access procedures;
+(6) Accidental litter registration procedures;
+(7) Performance variance application and review criteria;
+(8) Transporter vehicle standards and telemetry requirements;
+(9) Caretaker training curriculum and certification;
+(10) Advance disclosure waiver form;
+(11) Coordination procedures with county animal control agencies;
+(12) Minimum standards for behavioral wellness plans, including interaction frequency by tier, enrichment categories and rotation schedules, socialization protocols for the critical period, and documentation requirements;
+(13) Standardized behavioral assessment protocols and scoring criteria for inspections, including observable criteria for Green, Yellow, and Red classifications;
+(14) Noise and temperature measurement methodologies for housing and whelping areas;
+(15) Behavioral disclosure form for sale-time transfers; and
+(16) Corrective action plan procedures and timelines for behavioral compliance failures.
+(d) Model templates. — Within one hundred eighty days of the effective date, the department shall publish model templates for behavioral wellness plans, enrichment logs, socialization checklists, and behavioral disclosure forms. Templates shall be made available at no cost on the department's website.
+(e) Minimum floor. — Rules adopted under this section shall not reduce welfare protections below the baseline standards established in this article. Rules may exceed but not diminish statutory requirements.
+(f) Advisory opinions. — A licensee or prospective licensee may request a written advisory opinion from the department regarding the application of this article to a specific proposed action. The department shall respond within thirty days. Good-faith reliance on an advisory opinion is a defense to administrative penalty for the conduct addressed, unless the opinion was obtained through misrepresentation of material facts. Advisory opinions shall be published on the department's website with personally identifiable information redacted.
+§19-36-36. Transition period.
+(a) Persons engaged in breeding dogs on the effective date of this article have one hundred eighty days to obtain a license.
+(b) Existing operations that exceed the twenty-dog limit have two years from the effective date to come into compliance through attrition, spaying or neutering, or rehoming.
+(c) During the two-year compliance period for operations exceeding the twenty-dog limit:
+(1) The operation may not acquire additional breeding dogs or increase total breeding dog count above the number held on the effective date;
+(2) The operation shall submit quarterly reports to the department documenting progress toward compliance; and
+(3) Failure to demonstrate good-faith progress toward compliance subjects the operation to penalties under §19-36-25 of this code.
+(d) During the transition period, the department shall prioritize education and compliance assistance over penalties for good-faith efforts to comply.
+(e) Military deployment. — A licensee who is an active member of the armed forces and receives deployment orders of ninety days or more may: (1) apply for license suspension during deployment; (2) designate a temporary caretaker who is not required to hold a separate license if no breeding occurs and dogs remain at the licensed premises; (3) resume the license upon return without reapplication if the suspension was less than one year; or (4) request license termination and expedited rehoming assistance. The department shall waive renewal fees for any license period during which the licensee was deployed for more than half the period.
+§19-36-37. License non-transferability; change of ownership.
+(a) Non-transferability. — Licenses issued under this article are personal to the licensee and are not transferable by sale, assignment, bequest, or operation of law.
+(b) Change of ownership. — Upon sale or transfer of a breeding operation:
+(1) The new owner must apply for a new license before commencing breeding activities;
+(2) The new owner's application shall disclose the prior ownership and any outstanding violations;
+(3) Pending violations and corrective action plans transfer to the new owner as conditions of licensure;
+(4) The new owner may not commence breeding until the department has inspected the facility; and
+(5) Dogs acquired in the transaction count toward the new owner's headcount limits.
+(c) Death or incapacity. — Upon the death or legal incapacity of a licensee:
+(1) The license is automatically suspended;
+(2) A family member or estate representative may apply for a temporary license of ninety days, renewable once, to wind down operations, rehome dogs, and complete pending transfers;
+(3) No new breeding may occur under a temporary license; and
+(4) The department shall expedite inspection and disposition of animals.
+§19-36-38. Grandfather provision.
+(a) Licensed breeders operating in good standing at the time of any statewide cap implementation are guaranteed license renewal priority, provided they:
+(1) Remain in continuous compliance with this article;
+(2) Have no moderate violations within the preceding twelve months; and
+(3) Have no serious violations within the preceding twenty-four months.
+(b) A grandfathered breeder who receives two or more moderate violations or one serious violation loses renewal priority status and must reapply through the standard waiting list process if the statewide cap has been reached.
+(c) Grandfathering does not exempt a breeder from any other requirement of this article.
+§19-36-39. Advisory committee.
+(a) The commissioner shall establish a Canine Welfare Advisory Committee consisting of:
+(1) Two representatives of licensed breeders, at least one of whom operates a Tier 1 facility;
+(2) Two licensed veterinarians with experience in canine reproduction and welfare;
+(3) Two representatives of animal welfare or rescue organizations;
+(4) One representative of law enforcement with animal control experience;
+(5) One representative of a county commission; and
+(6) One member of the general public who is not affiliated with any of the foregoing categories.
+(b) The advisory committee shall meet at least semiannually and provide recommendations to the department regarding implementation, rules, enforcement priorities, and legislative improvements.
+(c) Members shall serve without compensation but may be reimbursed for reasonable travel expenses from the fund.
+(d) Conflict of interest. — Committee members shall recuse themselves from deliberations and votes on matters in which they have a direct financial interest or that involve enforcement actions against themselves, their employers, or their organizations. Members shall disclose any potential conflicts at the beginning of each meeting. Disclosures shall be recorded in meeting minutes.
+§19-36-40. Public breeder registry.
+(a) The department shall establish and maintain a searchable online public registry containing:
+(1) For each licensed breeder: license number, tier, business name, county, license status, and expiration date;
+(2) For each registered transporter: registration number, business name, and status;
+(3) Inspection dates and summary findings for each licensed operation, redacted as necessary for ongoing investigations or to protect personal identifying information;
+(4) Final enforcement actions by violation classification, including penalties, suspensions, and revocations;
+(5) Prohibition orders in effect; and
+(6) Voluntary compliance plans, if any.
+(b) The registry shall be updated within fourteen days of any license issuance, inspection, or enforcement action.
+(c) The registry shall include a verification tool allowing any person to confirm the validity of a license or registration number.
+(d) Personal addresses and contact information of individual breeders shall not be displayed in the public registry, but shall be available to the department for enforcement purposes.
+(e) Public dashboard. — The department shall publish a public dashboard, updated monthly by the fifteenth day of each month, displaying: license counts by tier; inspections completed; findings by violation classification; penalties assessed and collected; seizure counts; capacity status and waiting list length; fund balance; and, beginning in the third year following the effective date, aggregate behavioral assessment outcomes by tier and county.
+(f) Data availability. — A downloadable file in comma-separated values (CSV) format containing the dashboard data shall be posted on the department's website for public analysis and research.
+(g) Privacy protections. — The public registry shall not display the exact residential street address of Tier 1 licensees who operate from their primary residence; such licensees shall be identified by county and zip code only. Purchaser personally identifiable information, including names, addresses, and contact information, shall not be disclosed except as required for enforcement proceedings or upon court order. The department shall not release data fields that, in combination, would identify a Tier 1 residential location, including but not limited to parcel identification numbers and geographic coordinates, except to law enforcement and enforcement personnel.
+(h) Application programming interface. — Within two years of the effective date of this article, the department shall expose verification and registry data via a public application programming interface that allows: (1) real-time license verification by license number; (2) batch verification for marketplace platforms; (3) read-only access to public registry data; and (4) submission of impounded animal data by county facilities. The interface shall be documented, available without charge for non-commercial use, and subject to reasonable rate limits to prevent abuse.
+§19-36-41. County coordination.
+(a) County animal control officers and sheriff's deputies shall forward complaints related to dog breeding operations to the department within forty-eight hours of receipt, using a standardized electronic form provided by the department.
+(b) The department shall notify the referring county of the outcome of any investigation initiated based on a county referral within thirty days of case closure.
+(c) The department may enter into memoranda of understanding with county commissions to:
+(1) Authorize trained county personnel to conduct inspections on behalf of the department;
+(2) Share civil penalty revenues at twenty-five percent for enforcement assistance conducted under a signed memorandum of understanding using department protocols; and
+(3) Coordinate seizure and emergency response operations.
+(d) County personnel acting under a memorandum of understanding shall receive department-approved training and shall conduct inspections in accordance with department protocols.
+(e) Law enforcement training. — The department shall develop and offer training materials for sheriffs, deputies, and local law enforcement officers on:
+(1) Recognition of potential violations of this article;
+(2) Procedures for documenting and reporting violations to the department;
+(3) Preservation of evidence for administrative and criminal proceedings;
+(4) Coordination with department inspectors; and
+(5) Emergency animal seizure procedures.
+The department shall offer training at least annually at regional locations and via online modules.
+§19-36-42. Exemptions.
+This article does not apply to:
+(a) Licensed animal shelters and rescue organizations that do not intentionally breed dogs;
+(b) Foster homes operating under the auspices of a licensed shelter or rescue organization;
+(c) Veterinary facilities acting within the scope of veterinary practice;
+(d) Research facilities regulated under federal law; and
+(e) Law enforcement agencies with respect to dogs used in official duties.
+(f) Rescue pregnancy. — A rescue organization or shelter that takes possession of a pregnant dog or a dog that subsequently gives birth while in the organization's care is not engaged in breeding under this article, provided:
+(1) The organization did not intentionally cause the pregnancy;
+(2) All puppies are spayed or neutered before adoption or transferred under a spay or neuter contract enforceable by the organization; and
+(3) The organization does not charge adoption fees exceeding reasonable costs of care, veterinary treatment, and sterilization.
+§19-36-43. Relationship to other laws; harmonization; no enforcement gap.
+(a) This article is in addition to, and not in lieu of, any other applicable state or federal laws regarding animal welfare, consumer protection, or business licensing, except as specifically provided in this section.
+(b) This article supersedes conflicting provisions of §19-20-26 of this code only to the extent of a direct conflict; otherwise, requirements are cumulative.
+(c) Possession of a valid state breeder license under this article shall satisfy and supersede any requirement for a county kennel permit under §19-20-26 of this code.
+(d) County commissions shall continue to issue any permits required under §19-20-26 of this code until the commissioner certifies, by order published in the State Register, that county permit functions for dog breeders have been subsumed by the department under a memorandum of understanding. Upon certification:
+(1) County permit functions for dog breeders transfer to the department;
+(2) Fees thereafter collected shall be deposited in the fund; and
+(3) The department shall assume responsibility for all inspections previously conducted by the county.
+(e) No enforcement gap. — During the transition period, no enforcement gap shall occur: county permits and inspections remain in force until the department certifies assumption; violations discovered by counties during the transition may be prosecuted under either this article or §19-20-26 of this code.
+(f) Local authority preserved. — Nothing in this article preempts or restricts counties or municipalities from adopting and enforcing more protective standards for dog breeding operations; this article establishes a minimum floor, not a ceiling. Local governments may adopt more restrictive regulations regarding dog breeding within their jurisdictions, provided such regulations do not conflict with the licensing, inspection, or enforcement provisions of this article.
+(g) Conflict resolution. — To the extent of any direct conflict between this article and §19-20-26 of this code, enforcement agencies shall apply the provision that results in the greater protection for animal welfare and public transparency. When no direct conflict exists, the provisions are cumulative, and both shall be enforced.
+(h) Relationship to dog warden statutes. — This article supplements the provisions of §19-20-1 et seq. of this code. To the extent of any conflict:
+(1) The holding period established in §19-20-8 of this code is the minimum; this article may extend but not reduce holding periods;
+(2) The notification requirements of §19-36-47 of this code are in addition to, not in lieu of, the notice requirements of §19-20-8 of this code;
+(3) The harboring definition of §19-36-48 of this code supersedes any shorter period established by county ordinance; and
+(4) The hunting dog exemptions of §19-20A-8 of this code remain in effect for purposes of rabies control but do not exempt breeding operations from licensing under this article.
+(i) County ordinance preemption. — No county may enact or enforce an ordinance that:
+(1) Defines harboring using a period shorter than fourteen days;
+(2) Imposes surrender fees on qualifying finders under §19-36-48 of this code;
+(3) Requires a holding period shorter than five days for impounded animals; or
+(4) Prohibits or limits digital notification of impounded animals as required by §19-36-47 of this code.
+§19-36-44. Coordination with consumer protection law.
+(a) Misrepresentation of license status, health disclosures, lineage, or breeding history in connection with the sale or transfer of a dog constitutes an unfair or deceptive act or practice enforceable by the Attorney General under §46A-6-101 et seq. of this code, in addition to any remedies available under this article.
+(b) The Attorney General may bring civil actions for injunctive relief, restitution, and civil penalties for violations of §19-36-19 through §19-36-23 of this code, in addition to remedies available under Chapter 46A of this code.
+(c) Remedies under this article are cumulative and do not limit any private action or Attorney General enforcement action under Chapter 46A of this code.
+§19-36-45. Severability; construction.
+(a) If any provision of this article or the application thereof to any person or circumstance is held invalid, the invalidity does not affect other provisions or applications of the article that can be given effect without the invalid provision or application, and to this end the provisions of this article are declared to be severable.
+(b) This article shall be liberally construed to effectuate its remedial and protective purposes.
+§19-36-46. Shelter impact study and report.
+(a) Beginning one year after the effective date of this article, and annually thereafter, the department, in coordination with licensed animal shelters, rescue organizations, and county animal control agencies, shall collect and publish data correlating:
+(1) Licensed breeder output by breed category, including total puppies transferred and breeding dogs maintained;
+(2) Statewide animal shelter intake by breed category, including owner surrenders, strays, and seizures;
+(3) Shelter outcomes by breed category, including adoptions, transfers, returns to owner, and euthanasia; and
+(4) Geographic distribution of licensed breeders and shelter intake.
+(b) Mandatory reporting. — Licensed animal shelters and county animal control agencies shall report intake and disposition data to the department annually, in a format prescribed by the commissioner. Failure to report data as required is grounds for ineligibility for grants under §19-36-33(h) of this code.
+(c) The department shall include in its annual report required by §19-36-34 of this code an analysis of any correlation between licensed breeding activity and shelter intake, and shall recommend to the Legislature any intake-responsive, breed-specific, or other targeted measures that may reduce shelter burden without imposing undue restrictions on responsible breeders.
+(d) Methods disclosure. — The annual report shall include a description of the methods used, confidence intervals for statistical estimates, and a data dictionary. Recommendations shall specify whether observed correlations support causal inferences or are descriptive only.
+(e) Data collected under this section shall be published on the department's public dashboard and made available in downloadable format for public analysis and research.
+(f) The department may contract with academic institutions or nonprofit organizations to conduct independent analysis of data collected under this section.
+(g) Reunification metrics. — The annual report shall include:
+(1) The percentage of impounded dogs reunited with owners, by county;
+(2) The percentage of impounded dogs scanned for microchips at intake, by county;
+(3) The average length of stay for stray dogs, by county;
+(4) The number of dogs received from finders versus at-large seizures, by county; and
+(5) Recommendations for improving reunification rates and reducing shelter intake statewide.
+§19-36-48. Universal intake scanning; digital notification.
+(a) Mandatory scanning. — Every animal control facility, shelter, pound, or agency receiving impounded or surrendered dogs shall scan each animal for a microchip immediately upon intake using a universal scanner capable of reading all common chip frequencies.
+(b) Owner notification. — If a microchip is detected and owner contact information is available through the chip registry:
+(1) The facility shall make reasonable efforts to contact the owner within twenty-four hours of intake;
+(2) Contact attempts shall be documented in the animal's intake record; and
+(3) A microchipped animal with valid contact information shall be held for a minimum of ten days before disposition, unless the owner affirmatively surrenders the animal or cannot be located after diligent effort.
+(c) Digital notice. — In addition to any notice required by §19-20-8 of this code, facilities shall post a photograph, description, intake location, and date of each impounded animal on a publicly accessible website or social media platform within twenty-four hours of intake. The posting shall include contact information for the facility and instructions for claiming the animal.
+(d) Required data fields. — Digital postings under subsection (c) of this section shall include, at minimum: (1) at least one clear photograph of the animal's face and body; (2) intake date and time; (3) intake location described as a cross-street intersection or fuzzed geographic coordinates (within one-quarter mile); (4) animal description including approximate breed, color, sex, and size; (5) any collar, tag, or microchip information; (6) a unique intake identification number; and (7) facility contact information and claiming instructions.
+(e) Retention. — Digital postings shall remain publicly accessible for at least ninety days from intake. Intake records shall be retained internally for at least two years.
+(f) Statewide database. — The department shall establish and maintain a statewide online database of impounded animals, aggregating postings from county facilities. Counties may satisfy the digital notice requirement by posting to this statewide database.
+(g) Deceased animals. — Animals received deceased or euthanized due to injury or illness shall be scanned for microchips to facilitate owner notification. The facility shall make reasonable efforts to notify the registered owner within forty-eight hours.
+(h) Equipment. — The department shall make universal microchip scanners available at no cost to county animal control facilities, shelters, pounds, and sheriff's departments upon request, funded by the Canine Welfare Enforcement Fund established in §19-36-31 of this code.
+(i) Failure to scan. — Failure to scan an animal for a microchip upon intake is a minor violation. Repeated failures to scan or post digital notice may result in ineligibility for grants under §19-36-33 of this code.
+§19-36-49. Finder immunity; temporary care; safe harbor.
+(a) Safe harbor period. — A finder who provides temporary care to a stray dog shall not be deemed the owner, harborer, or keeper of the animal for a period of fourteen days from the date the animal was found, provided the finder:
+(1) Makes reasonable efforts to locate the owner as defined in subsection (g) of this section;
+(2) Reports the found animal to the county animal control agency, dog warden, sheriff's department, or local shelter within seventy-two hours of finding; and
+(3) Does not hold the animal out as their own or attempt to transfer ownership to a third party.
+(b) Shelter intake classification. — An animal presented to a shelter by a qualifying finder during the fourteen-day safe harbor period shall be classified as a stray and not as an owner surrender. No surrender fee, intake fee, or relinquishment fee may be charged to a qualifying finder.
+(c) Liability protection. — A finder acting in good faith under this section shall not be liable for:
+(1) Licensing, vaccination, registration, or tax fees for the found animal during the safe harbor period;
+(2) Civil damages arising from reasonable care of the animal, absent gross negligence or willful misconduct;
+(3) Fees or penalties associated with owner surrender at any county facility; or
+(4) Damages caused by the animal to third parties during the safe harbor period, unless the finder was negligent in controlling the animal.
+(d) Emergency veterinary care. — A finder who provides emergency veterinary care to an injured stray animal may seek reimbursement from the owner upon reunification, up to five hundred dollars, as a lien against the animal. The finder shall provide the owner with itemized veterinary invoices.
+(e) Extension of safe harbor. — If a finder has made diligent efforts to locate the owner and the shelter cannot accept the animal due to capacity constraints, the safe harbor period may be extended by an additional fourteen days upon written confirmation from the shelter.
+(f) Harboring defined. — For purposes of this article and §19-20-1 et seq. of this code, harboring means feeding, sheltering, or exercising control over an animal for fourteen or more consecutive days. No county may enact or enforce an ordinance that defines harboring using a period shorter than fourteen days.
+(g) Reasonable efforts defined. — A finder satisfies the reasonable efforts requirement by completing at least two of the following actions:
+(1) Checking for and documenting any collar, tags, or visible identification;
+(2) Scanning for a microchip using available equipment or requesting a scan at a veterinary clinic, shelter, or pet store;
+(3) Posting a notice with photograph to the statewide database established under §19-36-48 of this code, a community social media group, or a lost pet website; or
+(4) Contacting the local shelter, animal control, or sheriff's department to report the found animal.
+In emergencies involving an injured or ill animal, reasonable efforts shall be satisfied by providing immediate care and contacting a veterinarian or animal control as soon as practicable.
+§19-36-50. Tethering restrictions.
+(a) Prohibition on continuous tethering. — No person shall tether, chain, or otherwise confine a dog to a stationary object or structure for more than ten hours in any twenty-four-hour period.
+(b) Weather restrictions. — No person shall tether a dog outdoors:
+(1) When a heat advisory, wind chill advisory, or severe weather warning has been issued by the National Weather Service for the area;
+(2) When the ambient temperature exceeds ninety degrees Fahrenheit or falls below thirty-two degrees Fahrenheit;
+(3) During active precipitation that saturates the animal's coat; or
+(4) For more than thirty minutes when conditions pose a risk to the animal's health as determined by temperature, humidity, wind, or precipitation.
+(c) Tethering standards. — When tethering is permitted under this section:
+(1) The tether shall be at least ten feet in length or five times the length of the dog from nose to base of tail, whichever is greater;
+(2) The tether shall be attached to a properly fitted collar or harness and shall not be attached to a choke collar, prong collar, pinch collar, or other device that restricts breathing or causes injury;
+(3) The tether shall be of a type and weight that does not cause injury to the dog and allows the dog to move freely;
+(4) The dog shall have continuous access to adequate food, potable water, and shelter that protects from sun, rain, wind, and temperature extremes;
+(5) The tether shall not allow the dog to reach a public right-of-way, sidewalk, or neighboring property; and
+(6) The tether shall not become entangled such that it restricts the dog's movement to less than ten feet in any direction.
+(d) Prohibited tethering. — The following tethering practices are prohibited at all times:
+(1) Tethering a dog under six months of age;
+(2) Tethering a female dog in estrus or that is nursing puppies;
+(3) Tethering a sick or injured dog unless prescribed by a veterinarian for recovery;
+(4) Tethering multiple dogs to the same fixed point; and
+(5) Tethering using a log chain, tow chain, or other chain weighing more than one-eighth of the dog's body weight.
+(e) Exemptions. — This section does not apply to:
+(1) Tethering for a period of less than one hour while the owner is present and within direct sight of the animal;
+(2) Tethering required for licensed veterinary care or grooming;
+(3) Temporary tethering during camping, hiking, or other outdoor recreation while the owner is present and attentive to the animal;
+(4) Tethering of working dogs actively engaged in herding, hunting, guarding livestock, or other agricultural tasks under the direct supervision of the handler; or
+(5) Temporary tethering at a public event, market, or outdoor establishment for a period not exceeding two hours while the owner is present.
+(f) Penalty. — A violation of this section is a minor violation for a first offense, punishable by a fine not to exceed two hundred dollars. A second violation within twelve months is a moderate violation. A third or subsequent violation within twenty-four months, or any violation resulting in serious injury or death to the animal, is a serious violation and may also constitute cruelty under §61-8-19 of this code.
+(g) Enforcement. — Animal control officers, dog wardens, humane officers, and law enforcement officers are authorized to enforce this section. Upon observation of a violation, the officer may issue a written warning for a first offense or a citation for subsequent offenses. The officer may impound an animal in immediate danger.
+§19-36-51. Regional animal control authorities.
+(a) Authorization. — Two or more counties may establish a joint animal control authority by agreement of their county commissions to provide consolidated animal control, sheltering, and enforcement services across county boundaries.
+(b) Powers. — A joint authority established under this section may:
+(1) Operate shared shelter facilities serving all member counties;
+(2) Employ animal control officers, dog wardens, and humane officers with jurisdiction throughout the member counties;
+(3) Pool tax revenues, license fees, and fee collections from member counties;
+(4) Apply jointly for grants under §19-36-33 of this code, with priority consideration for joint applications;
+(5) Establish uniform ordinances and policies for animal control across member counties, subject to approval by each member county commission;
+(6) Contract with humane societies, rescue organizations, or private organizations for service delivery;
+(7) Establish and operate spay and neuter programs serving member counties; and
+(8) Coordinate with the department on breeder licensing, inspection, and enforcement within member counties.
+(c) Governance. — The agreement establishing a joint authority shall specify:
+(1) The governing board composition, with representation from each member county;
+(2) Voting procedures and quorum requirements;
+(3) The allocation of costs among member counties, which may be based on population, land area, service utilization, or a combination thereof;
+(4) The location and operation of shared facilities;
+(5) Personnel policies, including hiring authority, compensation, and chain of command;
+(6) Procedures for adopting and amending uniform policies;
+(7) Financial management, budgeting, and auditing procedures;
+(8) Procedures for a county to withdraw from the authority, including notice period and financial obligations; and
+(9) Dispute resolution procedures among member counties.
+(d) State support. — The department shall:
+(1) Provide technical assistance to counties seeking to establish joint authorities;
+(2) Prioritize grant funding under §19-36-33(h) and (i) of this code for joint authority formation and facility development;
+(3) Offer training programs for joint authority personnel; and
+(4) Facilitate introductions between counties with compatible needs and resources.
+(e) Model agreement. — Within one year of the effective date of this article, the department shall publish a model joint authority agreement for use by counties, including sample provisions for governance, cost allocation, and withdrawal procedures.
+(f) Existing authorities. — Joint authorities in existence on the effective date of this article are hereby ratified and may continue to operate under their existing agreements. Such authorities may amend their agreements to incorporate the provisions of this section.
+§19-36-52. Emergency disease powers.
+(a) Upon determination by the state veterinarian that a disease outbreak poses a significant risk to canine health in this state or a region thereof, the commissioner may by emergency order impose temporary restrictions on dog transfers, transport, or congregation events within affected areas.
+(b) Emergency orders take effect immediately upon publication and remain in effect for up to thirty days, renewable for additional thirty-day periods as necessary to address the emergency.
+(c) The department shall publish emergency orders on its website, notify all licensees and registered transporters by email or text message, and issue a press release to major media outlets within the affected area.
+(d) Violation of an emergency order is a serious violation under this article.
+(e) Emergency orders issued under this section are exempt from the rulemaking requirements of §29A-3-1 et seq. of this code but shall be reported to the Joint Committee on Government and Finance within five days of issuance.
+§19-36-53. Interoperability and technology standards.
+(a) The department shall ensure that all electronic systems established under this article, including the public registry, verification system, statewide impound database, and dashboard, are designed for interoperability with county, municipal, and private-sector systems.
+(b) Within two years of the effective date, the department shall publish:
+(1) Application programming interface documentation for all public-facing data systems;
+(2) Data format specifications for bulk data export and import;
+(3) Integration guides for marketplace platforms, shelter management systems, and microchip registries; and
+(4) Security standards for third-party integrations.
+(c) The department may charge reasonable fees for high-volume commercial use of application programming interfaces, provided that non-commercial, academic, and journalistic use remains free.
+(d) All systems shall be designed to maximize accessibility, including mobile device compatibility and compliance with web accessibility standards.
+§19-36-54. Legislative review.
+(a) The Legislature shall conduct a comprehensive review of this article five years after the effective date to evaluate enforcement outcomes, industry impacts, shelter statistics, and consumer protection effectiveness.
+(b) One year before the scheduled review, the department shall submit a report to the Joint Committee on Government and Finance and the Joint Committee on Agriculture and Rural Development analyzing:
+(1) License issuance, denial, suspension, and revocation statistics by tier;
+(2) Inspection completion rates and findings by violation classification;
+(3) Consumer complaint trends and resolution outcomes;
+(4) Shelter intake and reunification metrics;
+(5) Fund revenues, expenditures, and balance;
+(6) Behavioral assessment outcomes and corrective action effectiveness;
+(7) County coordination and joint authority formation; and
+(8) Recommendations for legislative amendment.
+(c) The advisory committee shall provide independent recommendations to the Legislature as part of the review process.
+§19-36-55. Effective date.
+This article takes effect July 1, 2026.
+NOTE: The purpose of this bill is to establish comprehensive canine welfare reform in West Virginia through the Breeder Accountability and Regulation for Kindness (BARK) Act. The bill classifies dogs as companion animals entitled to enhanced welfare protections while preserving property rights and agricultural classifications for working dogs. Key definitions include critical socialization period (three to fourteen weeks), flooding (forced stimulus exposure without retreat), positive human interaction (planned, non-aversive engagement distinct from routine husbandry), socialization (biosecurity-safe exposure to novel stimuli), at large, finder, harboring (fourteen or more consecutive days), impoundment, intake scanning, joint authority, and tethering. It requires all breeders to obtain a license from the Department of Agriculture, with a one-time accidental litter registration alternative available for a single accidental litter per person, per residence; the dam must be spayed within thirty days of last puppy transfer. Leased or borrowed dogs count toward headcount limits, and any dog present for fourteen days in any sixty-day period is deemed a breeding dog, unless kept solely for boarding under a written contract with no breeding rights. License numbers must be displayed at premises entrances and housing facilities. The commissioner may issue stop-work orders halting breeding activities when imminent risk exists, with hearings before the commissioner within five business days. Administrative appeals must be heard within thirty days with decisions within thirty days of close of record. The bill establishes a cap of twenty breeding dogs per operation, with a performance variance available for exceptional facilities meeting strict standards; variances are renewable annually while criteria are met, and variance holders are posted on the public registry. A statewide cap is authorized based on an objective workload-unit capacity formula with guardrails preventing arbitrary changes (sixty to ninety percent of inspector capacity), and counties must align their permit programs to the same methodology. Anti-evasion provisions prohibit rotation of dogs between licenses, and lease, lend, or foster-in-name-only arrangements designed to redistribute headcount are deemed rotations. Licensed operations are subject to mandatory unannounced inspections scaled by tier, with standardized evidence pack documentation that is presumptively admissible in enforcement proceedings. Inspections result in letter grades (A, B, C, or D) that are posted on premises and in the public registry; a grade of D triggers mandatory reinspection within thirty days. Inspectors shall utilize a standardized behavioral assessment protocol (Green, Yellow, Red) to evaluate animal welfare outcomes; for the first two years, behavioral assessments are used for data collection and education only, with corrective action plan requirements beginning in the third year if more than twenty-five percent of dogs score Red. Inspectors must be trained and certified in standardized protocols, evidence capture, biosecurity, and humane handling. The bill establishes minimum standards for housing, care, veterinary attention, breeding frequency with veterinary exceptions for small breeds, lifetime litter limits, required staff training, veterinarian-only surgical procedures, and written retirement and rehoming plans. Tier 2 and Tier 3 licensees must implement a written behavioral wellness plan approved by an independent attending veterinarian, providing for regular positive human interaction beyond routine husbandry, age-appropriate socialization during the critical period within biosecurity limits, environmental enrichment addressing social, nutritional, and physical needs, avoidance of flooding, and protocols for addressing behavioral concerns. The attending veterinarian must have no ownership interest in the operation and must conduct annual in-person site visits. Tier 1 licensees maintaining dogs within a residential dwelling as household companions are exempt from daily enrichment logs and written socialization checklists, provided dogs are housed inside the dwelling and the licensee has no employees and operates no facility open to the public. Dogs must be microchipped before transfer with chain-of-custody documentation, data privacy protections, retention limits, and breach notification within ten days with penalties for failure to notify. Any dog impounded and reclaimed must be microchipped before release at owner expense (not to exceed twenty-five dollars). Dogs impounded a third time within twenty-four months must be spayed or neutered before release (not to exceed one hundred fifty dollars), unless the owner holds a breeding license or intact permit. Quarterly photo inventories of breeding dogs and housing areas are required. Puppies cannot be transferred before eight weeks of age. Health disclosures must be provided at least twenty-four hours before transfer with a waiver option for on-site purchases. At transfer, the licensee must provide a behavioral disclosure including socialization exposures completed, observed behavioral concerns, and recommendations for continued socialization; failure to disclose material behavioral concerns is an unfair or deceptive act triggering buyer remedies. Predatory lease-to-own and high-interest financing arrangements for dog purchases are prohibited, and transfers financed through prohibited arrangements are voidable with full refund. Transfers in parking lots, flea markets, swap meets, and other unauthorized locations are serious violations authorizing immediate stop-work orders, with an exception for pre-arranged transfers at designated safe exchange zones at law enforcement facilities or video-monitored public locations. Marketplace platforms and retail sellers must verify license numbers before permitting listings, display verified information, and remove invalid listings within twenty-four hours; failure to verify is a separate per-listing violation, and platforms with ten or more unverified listings in thirty days face an additional $25,000 penalty. Advertisements must include breeder license numbers and microchip numbers for traceability. QR codes must be department-generated and secure to prevent spoofing. Out-of-state sellers to West Virginia consumers are subject to this article with venue in Kanawha County, the purchaser's county, or the county where the dog was delivered. Transporters must register, maintain manifests, and comply with rest requirements: six-hour maximum continuous transport with thirty-minute rest stops, twelve-hour maximum daily transport. Transport is prohibited when ambient heat index exceeds 90 degrees or wind chill is below 20 degrees unless a veterinarian provides written authorization. Temperature and humidity logs must be maintained for thirty days. Violations are classified as minor, moderate, or serious. Consumer remedies are provided for hereditary, congenital, infectious, and undisclosed behavioral conditions discovered after purchase, with a three-day veterinary examination requirement; transfers through prohibited financing are voidable with full refund. Purchasers have a private right of action with statutory damages and a three-year limitations period for concealed violations; remedies are cumulative with consumer protection law. The bill creates an escalating penalty structure with per-dog and per-day penalties for serious violations, per-listing penalties for marketplace violations, and criminal penalties including felony charges for repeat offenders, animal cruelty, and falsification of records, with authority for cumulative charging under animal cruelty statutes. Cost-of-care bond and escrow requirements apply to seizure cases, with a minimum bond of fifteen dollars per dog per day, custodial agency immunity, and courts may issue emergency ex parte impound orders based on veterinarian affidavits. A self-funding enforcement mechanism is established through the Canine Welfare Enforcement Fund, which receives license fees, civil penalties, per-puppy transfer fees, and transporter registration fees. Beginning in the third fiscal year, at least fifteen percent of fund inflows must be distributed as grants for county-administered spay and neuter programs, microchip assistance, and public education; counties must issue permits, conduct inspections, and maintain dashboards to be eligible. Grant distributions are fifty percent base allocation and fifty percent performance-based. Beginning in the second fiscal year, at least ten percent of fund inflows must be allocated for rural shelter development grants to counties lacking dedicated facilities, forming joint authorities, or upgrading to meet intake scanning and digital notice requirements. The department must purchase and distribute universal microchip scanners to all county facilities at no cost. Rules must be proposed within one hundred eighty days and finalized within twelve months; rules cannot reduce welfare protections below statutory baselines, and the department must publish model templates for behavioral wellness plans, enrichment logs, socialization checklists, and behavioral disclosure forms within one hundred eighty days. The bill creates a public breeder and transporter registry with inspection grades and aggregate behavioral assessment data beginning in year three. The public dashboard is updated monthly by the fifteenth with downloadable data files for transparency. Privacy protections shield exact residential addresses of Tier 1 licensees and purchaser personally identifiable information. Whistleblower protections include veterinarian immunity, voiding of contrary nondisclosure agreements, and rewards of up to fifteen percent of collected penalties. County coordination mechanisms include fixed twenty-five percent penalty sharing. This article establishes a minimum floor, not a ceiling; local governments may adopt more protective standards, and where conflicts exist, the provision providing greater protection for animal welfare applies. The article supplements the dog warden statutes, with digital notice requirements in addition to courthouse posting, and the fourteen-day harboring definition supersedes shorter county ordinances. No county may define harboring using a period shorter than fourteen days or impose surrender fees on qualifying finders. The Attorney General has explicit authority to bring civil actions for violations. An advisory committee meets semiannually to provide recommendations. Beginning one year after the effective date, the department must collect and publish annual data correlating licensed breeder output by breed category with shelter intake by breed category, including reunification metrics showing percentage of impounded dogs reunited with owners, percentage scanned for microchips at intake, average length of stay, and dogs received from finders versus at-large seizures; shelters and county agencies must report data or lose grant eligibility. The annual report must include methods disclosure, confidence intervals, and specification of whether correlations support causal inferences. Every animal control facility, shelter, pound, or agency receiving impounded or surrendered dogs must scan each animal for a microchip immediately upon intake using a universal scanner; if a microchip with valid contact information is detected, the facility must attempt to contact the owner within twenty-four hours and hold the animal for ten days before disposition. Facilities must post a photograph, description, and intake location of each impounded animal on a publicly accessible website or social media platform within twenty-four hours of intake. The department shall establish a statewide online database aggregating impounded animal postings from county facilities. Deceased animals must be scanned to facilitate owner notification. A finder who provides temporary care to a stray dog is protected by a fourteen-day safe harbor during which they are not deemed the owner or harborer, provided they make reasonable efforts to locate the owner, report the animal within seventy-two hours, and do not hold the animal out as their own. Animals presented by qualifying finders must be classified as strays, not owner surrenders, and no surrender fee may be charged. Finders are protected from liability for licensing fees, civil damages arising from reasonable care, and shelter surrender fees. A finder providing emergency veterinary care may seek reimbursement from the owner up to five hundred dollars upon reunification. No person may tether a dog for more than ten hours in any twenty-four-hour period. Tethering is prohibited during heat advisories, severe weather warnings, temperatures above ninety or below thirty-two degrees Fahrenheit, active precipitation that saturates the coat, or conditions posing health risk for more than thirty minutes. When tethering is permitted, the tether must be at least ten feet or five times the dog's length, must not be attached to a choke or prong collar, the dog must have access to food, water, and shelter, and the tether must not reach public areas or become entangled. Tethering is prohibited for dogs under six months, females in estrus or nursing, sick or injured dogs unless prescribed by a veterinarian, multiple dogs to the same point, and using chains weighing more than one-eighth the dog's weight. Exemptions apply for tethering under one hour while owner is present and within sight, veterinary care, camping or recreation while owner is present and attentive, working dogs actively engaged in agricultural tasks under supervision, and public events not exceeding two hours. Violations are minor for first offense, moderate for second within twelve months, and serious for third or subsequent within twenty-four months or any violation causing serious injury or death. Two or more counties may establish a joint animal control authority by agreement of their county commissions to provide consolidated sheltering and enforcement, operate shared facilities, employ officers with jurisdiction throughout member counties, pool revenues, apply jointly for grants with priority consideration, establish uniform ordinances, contract with humane societies, and coordinate with the department on licensing. The agreement must specify governance, cost allocation, facilities, personnel policies, withdrawal procedures, and dispute resolution. The department must provide technical assistance, prioritize grant funding for joint authorities, offer training, and publish a model joint authority agreement within one year. A transition period allows existing breeders to come into compliance with expansion limitations. The article includes a severability clause and shall be liberally construed to effectuate its protective purposes.
+This article is new; therefore, strike-throughs and underscoring have been omitted.

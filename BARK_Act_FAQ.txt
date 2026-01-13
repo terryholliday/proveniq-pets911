@@ -1,0 +1,144 @@
+BARK Act (WV Code Chapter 19, Article 36) 
+Frequently Asked Questions
+Draft legislative FAQ (non-legal summary)
+Quick orientation
+Q: What is this FAQ?
+A: This is a plain-language overview of the draft West Virginia “Breeder Accountability and Regulation for Kindness Act” (the “BARK Act”) as provided. It is not legal advice and does not replace the bill text or agency rules.
+Q: What problems is the bill trying to solve?
+A: The bill targets (1) inadequate oversight of breeding operations, (2) consumer deception and downstream shelter costs, (3) weak traceability and reunification systems for lost/impounded dogs, and (4) harms associated with continuous tethering.
+Q: What are the biggest changes, at a glance?
+Breeder licensing applies broadly (including non-commercial and hobby breeding), with a limited one-time accidental litter alternative.
+A 20-breeding-dog cap per operation and across “common control,” with a strict variance path up to 30 for exceptional compliance.
+Tier-based unannounced inspections, standardized “evidence packs,” and public letter grades (A–D).
+Microchipping and chain-of-custody requirements tied to transfer; marketplaces must verify license numbers before listings.
+Expanded buyer remedies and private right of action for key sale/transfer violations.
+Universal intake microchip scanning and 24-hour digital posting for impounded dogs; longer holds for microchipped dogs with owner info.
+Finder safe-harbor protections and statewide definitions that prevent punishing good-faith helpers.
+Statewide enforcement fund funded by fees/penalties, with grants back to counties (spay/neuter, microchips, rural facilities, scanners).
+Scope and definitions
+Q: Who counts as a “breeder” under this bill?
+A: A “breeder” is any person who intentionally causes breeding or knowingly permits intact dogs to mate, regardless of whether the breeding is commercial, hobby, or otherwise.
+Q: What is a “breeding dog” and why does it matter?
+A: A “breeding dog” generally includes intact dogs over six months kept primarily for breeding, dogs that produced a litter within the last 24 months, and dogs owned/leased/borrowed for breeding purposes. Dogs can be counted based on a presence-based test (aggregate presence over a defined period), with a boarding-contract exemption if there is no ownership or breeding right transfer.
+Q: What does “common control” mean?
+A: “Common control” is used to prevent evasion by splitting an operation across family members, entities, or locations. The bill lists multiple indicia (shared residence, managers, premises, records, ads, accounts, rotation of stock, etc.).
+Q: What is the “critical socialization period,” and why is it defined?
+A: It is defined as 3–14 weeks of age, and is used to anchor puppy socialization and behavioral disclosure expectations.
+Q: What is “flooding” and why is it prohibited in practice?
+A: Flooding is forced exposure to a feared stimulus without the ability to retreat, resulting in sustained distress. The concept is used to distinguish humane, incremental socialization from harmful exposure practices.
+Breeder licensing and caps
+Q: Do I need a breeder license if I only breed once?
+A: Generally yes, unless you qualify for the one-time “accidental litter registration.” The bill also states that more than one litter at the same residence triggers full licensing.
+Q: What is the accidental litter registration?
+A: A one-time alternative to licensure for a single accidental litter, requiring a $25 fee, microchipping puppies before transfer, compliance with transfer rules, and spay/neuter of the dam within 30 days after transfer of the last puppy (unless medically contraindicated).
+Q: How are breeder license fees structured?
+A: The bill uses tiered annual fees based on the number of breeding dogs, plus a per-puppy transfer fee deposited into the enforcement fund. It also allows CPI-bounded fee adjustments by rule based on documented enforcement costs.
+Q: What is the cap on breeding dogs?
+A: The baseline cap is 20 breeding dogs per operation and across operations under common control. Spayed/neutered dogs and puppies under six months do not count toward the cap.
+Q: Is there any way to exceed 20 breeding dogs?
+A: Yes, via a performance variance (up to 30) if the operation has years of clean compliance, meets staffing and space expansion thresholds, has annual veterinarian certification, and pays an additional variance fee. Variance holders are publicly listed.
+Q: How does the bill stop “shell licenses” and rotating dogs to dodge limits?
+A: It prohibits structuring to evade caps and explicitly bans rotating intact dogs between licenses/households under common control for the purpose or effect of avoiding headcount or inspection frequency limits, with narrow exceptions (vet care, emergencies, documented short stud service, etc.).
+Inspections, grading, and evidence
+Q: How often will licensed breeders be inspected?
+A: The bill sets tier-based minimums (at least one annual unannounced inspection for Tier 1; more frequent for higher tiers, with Tier 3 and variance holders receiving the most), plus additional inspections based on complaints and risk factors.
+Q: What is an “evidence pack”?
+A: It is the standardized inspection documentation bundle: chain-of-custody log, timestamped photos/videos, climate readings, space/enrichment calculations, headcount attestation, checklist mapped to standards, corrective orders, and witness statements. Evidence is retained for at least five years.
+Q: What happens if a breeder refuses inspection?
+A: Refusal can trigger enforcement. The bill also provides an administrative inspection warrant pathway: the agency can seek a warrant under a neutral inspection scheme. Continued refusal after a warrant is served is treated as a serious violation.
+Q: What do letter grades (A–D) do?
+A: Inspection grades are displayed in the public registry and posted at the premises. A D grade triggers a mandatory reinspection within 30 days; failure to improve can trigger suspension pathways.
+Q: What is the Green/Yellow/Red behavioral assessment?
+A: It is a standardized observational protocol for welfare outcomes. For the first two years, results are for data collection and education only; beginning in year three, high “Red” rates at larger facilities can require corrective action plans and reassessment.
+Care standards: housing, health, exercise, breeding limits
+Q: What are the minimum housing and climate requirements?
+A: The bill includes minimum space per dog (tiered by weight), daily cleaning and weekly sanitation, and climate/humidity ranges for housing areas, including higher neonatal temperature requirements.
+Q: Are exercise, socialization, and enrichment required?
+A: Yes. Dogs must receive daily exercise and access to enrichment. Puppies must receive positive human interaction and socialization. Tier 2 and Tier 3 must maintain a veterinarian-approved enrichment/behavioral wellness plan.
+Q: What are the breeding limits for female dogs?
+A: The bill sets minimum age requirements, maximum age limits (with vet certification exceptions), spacing between litters, and a lifetime cap on litters, with a narrow medical exception for deviations based on documented health risk (not economic reasons).
+Q: Who can perform procedures like tail docking or C-sections?
+A: Specified surgical procedures must be performed only by a licensed veterinarian.
+Microchipping, transfers, and marketplace rules
+Q: When is microchipping required?
+A: A licensed breeder may not transfer a dog unless the dog is microchipped and registered with a nationally recognized database, with chain-of-custody steps at transfer.
+Q: What is the chain-of-custody requirement at transfer?
+A: At transfer, the breeder must initiate the microchip registration transfer, provide instructions to the buyer, and file a transfer confirmation with the department within seven days.
+Q: What information must be disclosed to buyers?
+A: At transfer, the bill requires a recent veterinary health certificate, vaccination documentation, disclosure of known hereditary/congenital issues to the extent known, the breeder license ID, microchip information, and a written summary of buyer remedies.
+Q: Is there an “advance disclosure” requirement?
+A: Yes. Certain disclosures must be provided at least 24 hours before transfer, with a written waiver option on a department form.
+Q: What is the behavioral disclosure requirement?
+A: A written behavioral summary must include what socialization exposures occurred during the critical period, observed concerns/triggers, and recommendations for continued socialization. Failure to disclose material behavioral issues can trigger remedies and consumer protection consequences.
+Q: Are parking-lot transfers allowed?
+A: Generally no. Transfers in public right-of-way, parking lots, flea markets, swap meets, and similar venues are prohibited, with narrow exceptions (e.g., adoption events; designated safe exchange zones with surveillance).
+Q: What must marketplace platforms do?
+A: Platforms and retail sellers must verify a seller’s license number using the state verification system before allowing listings/sales to WV consumers, display verified information/QR, and remove invalid listings quickly. Safe-harbor provisions exist for platforms that integrate via API and follow defined validation and removal practices.
+Q: Are out-of-state sellers covered?
+A: Yes. A seller outside WV who offers/transfers a dog to a WV consumer is subject to the article and is treated as having appointed the Secretary of State as agent for service of process for matters arising under the article.
+Transporters
+Q: Who must register as a transporter?
+A: A person who transports dogs for hire in connection with breeding operations into/out of WV, or within WV when a WV location is the origin or destination.
+Q: What standards apply to transport?
+A: Registration is annual. Transporters must keep manifests (shipper license, destination, microchip numbers, certificates), comply with temperature/humidity requirements, rest-stop rules for long transports, maximum daily transport limits, and certain logging/retention requirements for larger transports.
+Counties, shelters, intake scanning, and lost-pet reunification
+Q: What is “universal intake scanning”?
+A: Every facility receiving impounded or surrendered dogs must scan for a microchip immediately upon intake with a universal scanner.
+Q: What is the 24-hour digital notice rule?
+A: Facilities must post a photo and key intake details publicly (or via the statewide database) within 24 hours, including intake location (with a privacy-friendly description), intake ID, and contact info.
+Q: How long must a microchipped dog be held?
+A: If a microchip is detected and owner contact information is available, the minimum hold is 10 days before disposition (subject to exceptions like affirmative surrender).
+Q: Does the bill fund scanners and rural shelter upgrades?
+A: Yes. The enforcement fund is authorized to purchase and distribute universal scanners and to provide rural shelter development grants and related support.
+Finder protections and tethering restrictions
+Q: If I find a stray dog, will I be treated as the owner?
+A: The bill creates a 14-day safe-harbor period where a good-faith finder is not deemed the owner/harborer if they make reasonable efforts to locate the owner, report within 72 hours, and do not hold the dog out as their own.
+Q: Can shelters charge me a surrender fee if I bring in a stray I found?
+A: A qualifying finder must not be charged surrender/intake fees for presenting the found dog during the safe-harbor period; the dog is treated as a stray rather than an owner surrender.
+Q: What is the tethering rule?
+A: Continuous tethering is limited (no more than 10 hours in a 24-hour period), with strong weather/temperature limits, equipment and length requirements, and specific prohibitions (e.g., puppies under six months; nursing/estrus females; certain chains/collars). Penalties escalate for repeat violations or harm.
+Enforcement, penalties, and due process
+Q: How are violations classified?
+A: Minor, moderate, and serious classes are defined. Serious violations include operating without a license, refusing inspection, exceeding caps, falsifying records, and conditions causing suffering or major risk.
+Q: What penalties can apply?
+A: The department can assess civil penalties by class (with higher penalties and per-dog/per-day components for serious violations). Criminal penalties can apply for certain conduct and repeat patterns, including felony exposure for repeated serious violations and falsification.
+Q: Can the commissioner shut down operations quickly if animals are at risk?
+A: The bill authorizes stop-work orders based on imminent risk, with an expedited hearing pathway.
+Q: What happens in a seizure?
+A: The bill authorizes seizure under defined conditions and uses a cost-of-care bond/escrow process. If an owner fails to post a required bond after a finding of probable cause, animals can be deemed abandoned and forfeited by operation of law (subject to the bill’s procedures).
+Privacy, data retention, and transparency
+Q: Will the public registry show a breeder’s home address?
+A: The registry is designed to be public but includes enhanced privacy protections, especially for Tier 1 residential breeders (county/zip rather than exact address). Purchaser PII is protected from disclosure except in limited circumstances.
+Q: Can microchip data be sold or used for marketing?
+A: No. The bill restricts use of collected personal information to reunification, enforcement, and de-identified statistics, and prohibits sale/lease/disclosure for marketing.
+Q: How long are records kept?
+A: Breeders generally must retain required records for five years; inspection evidence packs are retained at least five years. Certain post-termination retention duties also apply.
+Funding, grants, and reporting
+Q: How is enforcement paid for?
+A: The Canine Welfare Enforcement Fund is funded by license fees, per-puppy transfer fees, transporter fees, penalties, and related sources. It is restricted to implementation and enforcement uses.
+Q: Does the bill send money back to counties?
+A: Yes. It includes formula grants and performance-based allocations (with eligibility requirements), plus rural shelter development grants and scanner distribution provisions.
+Q: What reporting is required?
+A: The department must publish annual reports including finances, license counts, inspections, enforcement actions, capacity calculations, and more. It also requires shelter impact and reunification metrics reporting and methods disclosure.
+Timeline and next steps
+Q: When would this take effect?
+A: The draft effective date is July 1, 2026.
+Q: How long do existing breeders have to comply?
+A: Generally 180 days to obtain a license; operations above the 20-dog cap have a multi-year compliance period with restrictions and reporting obligations.
+Q: When do agency rules get written?
+A: The bill directs the department to propose rules within 180 days and adopt final rules within 12 months, with rules prohibited from reducing statutory welfare protections below the bill’s baseline.
+Compliance checklists
+For breeders (high level)
+Determine whether you meet the bill’s definition of breeder and breeding dog count (including leased/borrowed dogs and presence-based counting).
+Apply for the correct tier license before breeding; if truly accidental, evaluate whether you qualify for the one-time accidental litter registration.
+Prepare for unannounced inspections: records, headcount, housing standards, climate readings, and proof of care protocols.
+Implement microchipping and transfer confirmations; keep proof of advance disclosures and any signed waivers.
+If Tier 2/3: maintain veterinarian-approved enrichment/behavioral wellness plan; document training and socialization.
+Avoid prohibited transfer locations; follow marketplace verification rules for any online listing.
+For shelters/counties
+Scan every dog immediately at intake; document results and owner contact attempts.
+Post digital notice with required fields within 24 hours (or use the statewide database once available).
+Hold microchipped dogs with valid owner contact info for the required minimum period before disposition.
+Track reunification metrics and reporting requirements to maintain grant eligibility.
+Disclaimer
+This FAQ summarizes a draft bill text provided in the conversation. It is not legal advice. If the bill is amended, codified, or implemented by rule, requirements may change. For official interpretation, consult the enacted West Virginia Code, legislative history, and Department of Agriculture rules and guidance.
