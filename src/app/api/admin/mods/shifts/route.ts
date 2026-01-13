@@ -172,3 +172,165 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+/**
+ * PUT /api/admin/mods/shifts
+ * Update shift or handle swap requests
+ */
+export async function PUT(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const supabaseAuth = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    const adminDb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    const body = await request.json();
+    const { action } = body;
+
+    // Request shift swap
+    if (action === 'request_swap') {
+      const { shift_id, reason } = body;
+      
+      const { data: swap, error } = await adminDb
+        .from('shift_swap_requests')
+        .insert({
+          shift_id,
+          requesting_volunteer_id: user.id,
+          status: 'pending',
+          reason,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Swap request error:', error);
+        return NextResponse.json({ error: 'Failed to request swap' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, swap });
+    }
+
+    // Claim swap (volunteer offers to take the shift)
+    if (action === 'claim_swap') {
+      const { swap_id } = body;
+      
+      const { error } = await adminDb
+        .from('shift_swap_requests')
+        .update({
+          accepting_volunteer_id: user.id,
+          status: 'claimed',
+        })
+        .eq('id', swap_id)
+        .eq('status', 'pending');
+
+      if (error) {
+        console.error('Claim swap error:', error);
+        return NextResponse.json({ error: 'Failed to claim swap' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, message: 'Swap claimed - pending approval' });
+    }
+
+    // Approve swap (moderator action)
+    if (action === 'approve_swap') {
+      const { swap_id } = body;
+      
+      // Get swap details
+      const { data: swap, error: fetchError } = await adminDb
+        .from('shift_swap_requests')
+        .select('*, shift:shift_id (*)')
+        .eq('id', swap_id)
+        .single();
+
+      if (fetchError || !swap) {
+        return NextResponse.json({ error: 'Swap not found' }, { status: 404 });
+      }
+
+      // Update the shift to new volunteer
+      const { error: updateError } = await adminDb
+        .from('volunteer_shifts')
+        .update({ volunteer_id: swap.accepting_volunteer_id })
+        .eq('id', swap.shift_id);
+
+      if (updateError) {
+        return NextResponse.json({ error: 'Failed to update shift' }, { status: 500 });
+      }
+
+      // Mark swap as approved
+      await adminDb
+        .from('shift_swap_requests')
+        .update({ 
+          status: 'approved', 
+          approved_by: user.id,
+          approved_at: new Date().toISOString()
+        })
+        .eq('id', swap_id);
+
+      return NextResponse.json({ success: true, message: 'Swap approved' });
+    }
+
+    // Deny swap
+    if (action === 'deny_swap') {
+      const { swap_id, reason } = body;
+      
+      const { error } = await adminDb
+        .from('shift_swap_requests')
+        .update({ 
+          status: 'denied',
+          approved_by: user.id,
+          approved_at: new Date().toISOString()
+        })
+        .eq('id', swap_id);
+
+      if (error) {
+        return NextResponse.json({ error: 'Failed to deny swap' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, message: 'Swap denied' });
+    }
+
+    // Cancel swap request
+    if (action === 'cancel_swap') {
+      const { swap_id } = body;
+      
+      const { error } = await adminDb
+        .from('shift_swap_requests')
+        .delete()
+        .eq('id', swap_id)
+        .eq('requesting_volunteer_id', user.id);
+
+      if (error) {
+        return NextResponse.json({ error: 'Failed to cancel swap' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, message: 'Swap cancelled' });
+    }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+
+  } catch (error) {
+    console.error('Shifts PUT error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+/**
+ * GET /api/admin/mods/shifts/swaps - Fetch pending swap requests
+ * (handled via query param on main GET)
+ */

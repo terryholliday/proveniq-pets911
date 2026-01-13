@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -89,24 +90,156 @@ export default function ModeratorIncidentsPage() {
   const [showNewForm, setShowNewForm] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState<string | null>(null);
   const [showInvestigateModal, setShowInvestigateModal] = useState<string | null>(null);
-  const [safetyAlerts] = useState<SafetyAlert[]>(SAFETY_ALERTS);
+  const [safetyAlerts, setSafetyAlerts] = useState<SafetyAlert[]>(SAFETY_ALERTS);
   const [showAlerts, setShowAlerts] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleStartInvestigation = (incidentId: string) => {
-    setIncidents(prev => prev.map(inc => 
-      inc.id === incidentId 
-        ? { ...inc, status: 'investigating' as Status, assigned_to: 'You' }
-        : inc
-    ));
+  // Form state
+  const [newIncident, setNewIncident] = useState({
+    title: '',
+    type: 'safety',
+    severity: 'medium' as Severity,
+    county: '',
+    description: '',
+  });
+
+  // Fetch incidents from API
+  const fetchIncidents = useCallback(async () => {
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+
+      if (!token) {
+        setError('Not authenticated - showing sample data');
+        setLoading(false);
+        return;
+      }
+
+      const res = await fetch('/api/admin/mods/incidents', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (data.success && data.data) {
+        if (data.data.incidents?.length > 0) {
+          setIncidents(data.data.incidents.map((i: any) => ({
+            ...i,
+            reported_at: i.reported_at ? formatTimeAgo(new Date(i.reported_at)) : 'Unknown',
+          })));
+        }
+        if (data.data.alerts?.length > 0) {
+          setSafetyAlerts(data.data.alerts.map((a: any) => ({
+            ...a,
+            expires_at: a.expires_at ? new Date(a.expires_at).toLocaleDateString() : 'Never',
+            active: true,
+          })));
+        }
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Incidents fetch error:', err);
+      setError('Failed to load - showing sample data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchIncidents();
+  }, [fetchIncidents]);
+
+  // Helper function
+  const formatTimeAgo = (date: Date) => {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 60) return `${diffMins} min ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays} days ago`;
+  };
+
+  // API action handlers
+  const handleStartInvestigation = async (incidentId: string) => {
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) return;
+
+      await fetch('/api/admin/mods/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'assign', incident_id: incidentId, assigned_to: session.session?.user?.id }),
+      });
+      fetchIncidents();
+    } catch (err) {
+      console.error('Assign error:', err);
+    }
     setShowInvestigateModal(null);
   };
 
-  const handleResolve = (incidentId: string) => {
-    setIncidents(prev => prev.map(inc => 
-      inc.id === incidentId 
-        ? { ...inc, status: 'resolved' as Status }
-        : inc
-    ));
+  const handleResolve = async (incidentId: string, notes?: string) => {
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) return;
+
+      await fetch('/api/admin/mods/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'update_status', incident_id: incidentId, status: 'resolved', notes }),
+      });
+      fetchIncidents();
+    } catch (err) {
+      console.error('Resolve error:', err);
+    }
+  };
+
+  const handleCreateIncident = async () => {
+    if (!newIncident.title || !newIncident.description) return;
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) return;
+
+      await fetch('/api/admin/mods/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'create_incident', ...newIncident }),
+      });
+      setShowNewForm(false);
+      setNewIncident({ title: '', type: 'safety', severity: 'medium', county: '', description: '' });
+      fetchIncidents();
+    } catch (err) {
+      console.error('Create error:', err);
+    }
+  };
+
+  const handleDeactivateAlert = async (alertId: string) => {
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) return;
+
+      await fetch('/api/admin/mods/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'deactivate_alert', alert_id: alertId }),
+      });
+      fetchIncidents();
+    } catch (err) {
+      console.error('Deactivate error:', err);
+    }
   };
 
   const filteredIncidents = incidents.filter(i => {

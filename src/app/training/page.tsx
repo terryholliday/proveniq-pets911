@@ -44,6 +44,30 @@ const TRAINING_MODULES = {
     isRequired: true,
     prerequisites: ['vol101/safety'],
   },
+  'sys101/fraud-detection': {
+    id: 'sys101/fraud-detection',
+    title: 'Fraud Detection & Prevention',
+    description: 'Identify and handle fraudulent content and suspicious activity',
+    duration: '45 min',
+    isRequired: true,
+    prerequisites: ['mod101/code-of-conduct'],
+  },
+  'sys101/emergency-broadcast': {
+    id: 'sys101/emergency-broadcast',
+    title: 'Emergency Broadcast System',
+    description: 'Send critical alerts and manage emergency communications',
+    duration: '30 min',
+    isRequired: true,
+    prerequisites: ['sys101/fraud-detection'],
+  },
+  'sys101/autonomous-operations': {
+    id: 'sys101/autonomous-operations',
+    title: 'Autonomous Operations Overview',
+    description: 'Understanding the 99.9% automated system and human oversight',
+    duration: '60 min',
+    isRequired: true,
+    prerequisites: ['sys101/emergency-broadcast'],
+  },
   'trn101/vehicle-setup': {
     id: 'trn101/vehicle-setup',
     title: 'Vehicle Setup',
@@ -58,7 +82,7 @@ const ROLE_TRAINING_PATHS = {
   COMMUNITY_VOLUNTEER: ['vol101/orientation', 'vol101/platform-basics', 'vol101/safety'],
   TRANSPORT: ['vol101/orientation', 'vol101/platform-basics', 'vol101/safety', 'trn101/vehicle-setup'],
   MODERATOR: ['vol101/orientation', 'vol101/platform-basics', 'vol101/safety', 'mod101/code-of-conduct'],
-  SYSOP: ['vol101/orientation', 'vol101/platform-basics', 'vol101/safety', 'mod101/code-of-conduct'],
+  SYSOP: ['vol101/orientation', 'vol101/platform-basics', 'vol101/safety', 'mod101/code-of-conduct', 'sys101/fraud-detection', 'sys101/emergency-broadcast', 'sys101/autonomous-operations'],
 } as const;
 
 export default function SimpleTrainingPage() {
@@ -171,31 +195,31 @@ export default function SimpleTrainingPage() {
     const isCompleted = status === 'completed';
 
     return (
-      <div key={moduleId} className={`border rounded-lg p-4 ${isCompleted ? 'border-green-200 bg-green-50' : 'border-slate-200 bg-white'}`}>
+      <div key={moduleId} className={`border rounded-lg p-4 ${isCompleted ? 'border-green-800 bg-green-900/20' : 'border-zinc-800 bg-zinc-900/50'}`}>
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
             <h3 className="text-lg font-semibold flex items-center gap-2">
               {isCompleted ? (
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-green-400" />
               ) : status === 'locked' ? (
-                <Lock className="w-5 h-5 text-slate-400" />
+                <Lock className="w-5 h-5 text-zinc-500" />
               ) : (
-                <BookOpen className="w-5 h-5 text-blue-600" />
+                <BookOpen className="w-5 h-5 text-blue-400" />
               )}
               {module.title}
             </h3>
             {isRequired && (
-              <Badge variant="destructive" className="ml-2">Required</Badge>
+              <Badge variant="destructive" className="ml-2 bg-red-900 text-red-300 border-red-800">Required</Badge>
             )}
           </div>
-          <Badge variant={status === 'completed' ? 'default' : 'secondary'}>
+          <Badge variant={status === 'completed' ? 'default' : 'secondary'} className={status === 'completed' ? 'bg-green-900 text-green-300' : 'bg-zinc-800 text-zinc-300'}>
             {status === 'completed' ? 'Completed' : status === 'locked' ? 'Locked' : 'Available'}
           </Badge>
         </div>
         
-        <p className="text-sm text-slate-600 mb-3">{module.description}</p>
+        <p className="text-sm text-zinc-400 mb-3">{module.description}</p>
         
-        <div className="flex items-center gap-4 text-sm text-slate-500 mb-3">
+        <div className="flex items-center gap-4 text-sm text-zinc-500 mb-3">
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             {module.duration}
@@ -203,7 +227,7 @@ export default function SimpleTrainingPage() {
         </div>
 
         {module.prerequisites.length > 0 && (
-          <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded mb-3">
+          <div className="text-xs text-amber-400 bg-amber-900/20 border border-amber-800/50 p-2 rounded mb-3">
             Requires: {module.prerequisites.map(p => TRAINING_MODULES[p as keyof typeof TRAINING_MODULES]?.title).join(', ')}
           </div>
         )}
@@ -340,33 +364,33 @@ export default function SimpleTrainingPage() {
   const progressPercentage = totalRequired > 0 ? (completedRequired / totalRequired) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 p-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Training Center</h1>
-          <p className="text-slate-600">Complete your training to become an effective volunteer</p>
+          <h1 className="text-3xl font-bold text-amber-500 mb-2">Training Center</h1>
+          <p className="text-zinc-400">Complete your training to become an effective volunteer</p>
         </div>
 
         {/* Progress Overview */}
-        <div className="border rounded-lg p-4 mb-8 bg-white">
+        <div className="border border-zinc-800 rounded-lg p-4 mb-8 bg-zinc-900/50">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <Users className="w-5 h-5" />
+            <Users className="w-5 h-5 text-blue-400" />
             Your Training Progress
           </h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">Required Training</span>
-              <span className="text-sm text-slate-600">{completedRequired} of {totalRequired} completed</span>
+              <span className="text-sm text-zinc-400">{completedRequired} of {totalRequired} completed</span>
             </div>
-            <div className="w-full bg-slate-200 rounded-full h-2">
+            <div className="w-full bg-zinc-800 rounded-full h-2">
               <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-amber-600 to-orange-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
             <div className="flex flex-wrap gap-2">
               {userCapabilities.map(cap => (
-                <Badge key={cap} variant="outline">
+                <Badge key={cap} variant="outline" className="border-zinc-700 text-zinc-300">
                   {cap === 'SYSOP' && <Settings className="w-3 h-3 mr-1" />}
                   {cap === 'MODERATOR' && <Shield className="w-3 h-3 mr-1" />}
                   {cap.replace('_', ' ')}
@@ -378,7 +402,7 @@ export default function SimpleTrainingPage() {
 
         {/* Required Training */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-slate-900 mb-4">Required Training</h2>
+          <h2 className="text-xl font-semibold text-zinc-100 mb-4">Required Training</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {requiredModules.map(moduleId => renderModuleCard(moduleId as keyof typeof TRAINING_MODULES, true))}
           </div>
@@ -386,12 +410,12 @@ export default function SimpleTrainingPage() {
 
         {/* SYSOP/Admin Access to Full Dashboard */}
         {userCapabilities.includes('SYSOP') && (
-          <div className="mb-8 p-4 border-2 border-amber-300 rounded-lg bg-amber-50">
-            <h2 className="text-lg font-semibold text-amber-800 mb-2 flex items-center gap-2">
+          <div className="mb-8 p-4 border-2 border-amber-600 rounded-lg bg-amber-900/20">
+            <h2 className="text-lg font-semibold text-amber-400 mb-2 flex items-center gap-2">
               <Settings className="w-5 h-5" />
               SYSOP Access
             </h2>
-            <p className="text-sm text-amber-700 mb-3">
+            <p className="text-sm text-amber-300 mb-3">
               Access the full training management dashboard with cooldown controls, signoff management, and certification tracking.
             </p>
             <Link href="/training/dashboard">

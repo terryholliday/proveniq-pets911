@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
   Package, Home, DollarSign, Plus, Edit, Trash2, CheckCircle, 
-  AlertTriangle, Clock, User, MapPin, Calendar, TrendingUp, TrendingDown
+  AlertTriangle, Clock, User, MapPin, Calendar, TrendingUp, TrendingDown,
+  X, ArrowRight, RotateCcw
 } from 'lucide-react';
 
 // Types
@@ -90,9 +92,191 @@ const TRANSACTION_COLORS: Record<string, string> = {
 
 export default function ResourceManagementPage() {
   const [activeTab, setActiveTab] = useState<'equipment' | 'foster' | 'fund'>('equipment');
-  const [equipment] = useState<Equipment[]>(EQUIPMENT);
-  const [fosterHomes] = useState<FosterHome[]>(FOSTER_HOMES);
-  const [transactions] = useState<FundTransaction[]>(TRANSACTIONS);
+  const [equipment, setEquipment] = useState<Equipment[]>(EQUIPMENT);
+  const [fosterHomes, setFosterHomes] = useState<FosterHome[]>(FOSTER_HOMES);
+  const [transactions, setTransactions] = useState<FundTransaction[]>(TRANSACTIONS);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [fundBalance, setFundBalance] = useState(2340.00);
+  
+  // Checkout modal state
+  const [checkoutModal, setCheckoutModal] = useState<Equipment | null>(null);
+  const [returnModal, setReturnModal] = useState<Equipment | null>(null);
+  const [selectedVolunteer, setSelectedVolunteer] = useState('');
+  const [expectedReturn, setExpectedReturn] = useState('');
+  const [returnCondition, setReturnCondition] = useState<string>('good');
+  const [returnNotes, setReturnNotes] = useState('');
+
+  // Mock volunteers for checkout
+  const VOLUNTEERS = [
+    { id: 'V1', name: 'Emily Carter', county: 'KANAWHA' },
+    { id: 'V2', name: 'James Wilson', county: 'CABELL' },
+    { id: 'V3', name: 'Sarah Martinez', county: 'BERKELEY' },
+    { id: 'V4', name: 'Michael Brown', county: 'RALEIGH' },
+    { id: 'V5', name: 'Lisa Anderson', county: 'KANAWHA' },
+  ];
+
+  // Fetch resources from API
+  const fetchResources = useCallback(async () => {
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+
+      if (!token) {
+        setError('Not authenticated - showing sample data');
+        setLoading(false);
+        return;
+      }
+
+      const res = await fetch('/api/admin/mods/resources', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (data.success && data.data) {
+        if (data.data.equipment?.length > 0) {
+          setEquipment(data.data.equipment);
+        }
+        if (data.data.fosterHomes?.length > 0) {
+          setFosterHomes(data.data.fosterHomes.map((f: any) => ({
+            ...f,
+            species_ok: f.species_ok || [],
+            sizes_ok: f.sizes_ok || [],
+            last_placement: f.last_placement ? new Date(f.last_placement).toLocaleDateString() : 'Never',
+          })));
+        }
+        if (data.data.transactions?.length > 0) {
+          setTransactions(data.data.transactions.map((t: any) => ({
+            ...t,
+            date: new Date(t.date).toLocaleDateString(),
+          })));
+        }
+        if (data.data.stats?.fund?.balance) {
+          setFundBalance(data.data.stats.fund.balance);
+        }
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Resources fetch error:', err);
+      setError('Failed to load - showing sample data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchResources();
+  }, [fetchResources]);
+
+  // Equipment checkout handler
+  const handleCheckout = async (item: Equipment) => {
+    setCheckoutModal(item);
+    setSelectedVolunteer('');
+    setExpectedReturn(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+  };
+
+  const handleConfirmCheckout = async () => {
+    if (!checkoutModal || !selectedVolunteer) return;
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      
+      if (!token) {
+        // Mock update
+        const volunteer = VOLUNTEERS.find(v => v.id === selectedVolunteer);
+        setEquipment(prev => prev.map(e => 
+          e.id === checkoutModal.id 
+            ? { ...e, status: 'checked_out' as const, checked_out_to: volunteer?.name, checked_out_at: new Date().toISOString().split('T')[0] }
+            : e
+        ));
+        setCheckoutModal(null);
+        return;
+      }
+
+      await fetch('/api/admin/mods/resources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ 
+          action: 'checkout', 
+          resourceType: 'equipment', 
+          equipment_id: checkoutModal.id,
+          volunteer_id: selectedVolunteer,
+          expected_return_at: expectedReturn,
+        }),
+      });
+      setCheckoutModal(null);
+      fetchResources();
+    } catch (err) {
+      console.error('Checkout error:', err);
+    }
+  };
+
+  // Equipment return handler
+  const handleReturn = async (item: Equipment) => {
+    setReturnModal(item);
+    setReturnCondition(item.condition || 'good');
+    setReturnNotes('');
+  };
+
+  const handleConfirmReturn = async () => {
+    if (!returnModal) return;
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      
+      if (!token) {
+        // Mock update
+        setEquipment(prev => prev.map(e => 
+          e.id === returnModal.id 
+            ? { ...e, status: 'available' as const, checked_out_to: undefined, checked_out_at: undefined, condition: returnCondition as any }
+            : e
+        ));
+        setReturnModal(null);
+        return;
+      }
+
+      await fetch('/api/admin/mods/resources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ 
+          action: 'return', 
+          resourceType: 'equipment', 
+          equipment_id: returnModal.id,
+          condition_in: returnCondition,
+          notes: returnNotes,
+        }),
+      });
+      setReturnModal(null);
+      fetchResources();
+    } catch (err) {
+      console.error('Return error:', err);
+    }
+  };
+
+  // Fund approval handler
+  const handleApproval = async (transactionId: string, approved: boolean) => {
+    try {
+      const supabase = createClient();
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) return;
+
+      await fetch('/api/admin/mods/resources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ action: 'approve', resourceType: 'fund', transaction_id: transactionId, approved }),
+      });
+      fetchResources();
+    } catch (err) {
+      console.error('Approval error:', err);
+    }
+  };
 
   // Calculate stats
   const equipmentStats = {
@@ -110,7 +294,7 @@ export default function ResourceManagementPage() {
   };
 
   const fundStats = {
-    balance: 2340.00,
+    balance: fundBalance,
     pendingExpenses: transactions.filter(t => t.type === 'expense' && t.status === 'pending').reduce((sum, t) => sum + t.amount, 0),
     monthlyDonations: transactions.filter(t => t.type === 'donation').reduce((sum, t) => sum + t.amount, 0),
   };
@@ -232,10 +416,10 @@ export default function ResourceManagementPage() {
                     </div>
                     <div className="flex gap-2 mt-3">
                       {item.status === 'available' && (
-                        <Button size="sm" variant="outline" className="flex-1">Check Out</Button>
+                        <Button size="sm" variant="outline" className="flex-1" onClick={() => handleCheckout(item)}>Check Out</Button>
                       )}
                       {item.status === 'checked_out' && (
-                        <Button size="sm" variant="outline" className="flex-1">Check In</Button>
+                        <Button size="sm" variant="outline" className="flex-1" onClick={() => handleReturn(item)}>Check In</Button>
                       )}
                       <Button size="sm" variant="ghost"><Edit className="w-3 h-3" /></Button>
                     </div>
@@ -378,10 +562,10 @@ export default function ResourceManagementPage() {
                         </Badge>
                         {tx.status === 'pending' && (
                           <div className="flex gap-1">
-                            <Button size="sm" variant="outline" className="text-green-400 border-green-800 hover:bg-green-900/50">
+                            <Button size="sm" variant="outline" className="text-green-400 border-green-800 hover:bg-green-900/50" onClick={() => handleApproval(tx.id, true)}>
                               <CheckCircle className="w-3 h-3" />
                             </Button>
-                            <Button size="sm" variant="outline" className="text-red-400 border-red-800 hover:bg-red-900/50">
+                            <Button size="sm" variant="outline" className="text-red-400 border-red-800 hover:bg-red-900/50" onClick={() => handleApproval(tx.id, false)}>
                               <Trash2 className="w-3 h-3" />
                             </Button>
                           </div>
@@ -395,6 +579,140 @@ export default function ResourceManagementPage() {
           </div>
         )}
       </div>
+
+      {/* Equipment Checkout Modal */}
+      {checkoutModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setCheckoutModal(null)}>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <ArrowRight className="w-5 h-5 text-blue-400" />
+                Check Out Equipment
+              </h3>
+              <button onClick={() => setCheckoutModal(null)} className="text-zinc-400 hover:text-zinc-200">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-zinc-800 rounded-lg p-3">
+                <div className="text-sm font-medium">{checkoutModal.name}</div>
+                <div className="text-xs text-zinc-400 mt-1">
+                  {checkoutModal.type.toUpperCase()} • {checkoutModal.size.toUpperCase()} • {checkoutModal.location}
+                </div>
+                <div className="text-xs text-zinc-500 mt-1">
+                  Condition: <span className={checkoutModal.condition === 'excellent' ? 'text-green-400' : checkoutModal.condition === 'good' ? 'text-blue-400' : 'text-amber-400'}>{checkoutModal.condition}</span>
+                </div>
+              </div>
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Assign to Volunteer *</label>
+                <select
+                  value={selectedVolunteer}
+                  onChange={(e) => setSelectedVolunteer(e.target.value)}
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm"
+                >
+                  <option value="">Select volunteer...</option>
+                  {VOLUNTEERS.map(v => (
+                    <option key={v.id} value={v.id}>{v.name} ({v.county})</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Expected Return Date</label>
+                <input
+                  type="date"
+                  value={expectedReturn}
+                  onChange={(e) => setExpectedReturn(e.target.value)}
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm"
+                />
+              </div>
+              <div className="text-xs text-zinc-500">
+                Equipment checkout will be logged with timestamp for tracking purposes.
+              </div>
+              <div className="flex gap-3 pt-2">
+                <Button 
+                  className="flex-1 bg-blue-600 hover:bg-blue-500" 
+                  disabled={!selectedVolunteer}
+                  onClick={handleConfirmCheckout}
+                >
+                  <ArrowRight className="w-4 h-4 mr-2" />
+                  Confirm Checkout
+                </Button>
+                <Button variant="outline" onClick={() => setCheckoutModal(null)}>Cancel</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Equipment Return Modal */}
+      {returnModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setReturnModal(null)}>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <RotateCcw className="w-5 h-5 text-green-400" />
+                Check In Equipment
+              </h3>
+              <button onClick={() => setReturnModal(null)} className="text-zinc-400 hover:text-zinc-200">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-zinc-800 rounded-lg p-3">
+                <div className="text-sm font-medium">{returnModal.name}</div>
+                <div className="text-xs text-zinc-400 mt-1">
+                  {returnModal.type.toUpperCase()} • {returnModal.size.toUpperCase()}
+                </div>
+                <div className="text-xs text-zinc-500 mt-1">
+                  Checked out to: <span className="text-amber-400">{returnModal.checked_out_to}</span>
+                </div>
+                {returnModal.checked_out_at && (
+                  <div className="text-xs text-zinc-500">
+                    Since: {returnModal.checked_out_at}
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Condition on Return *</label>
+                <select
+                  value={returnCondition}
+                  onChange={(e) => setReturnCondition(e.target.value)}
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm"
+                >
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair - Needs Attention</option>
+                  <option value="poor">Poor - Needs Repair</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-sm text-zinc-400 mb-1 block">Notes (optional)</label>
+                <textarea
+                  value={returnNotes}
+                  onChange={(e) => setReturnNotes(e.target.value)}
+                  placeholder="Any issues or notes about the equipment..."
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm h-20 resize-none"
+                />
+              </div>
+              {returnCondition === 'poor' && (
+                <div className="bg-red-900/30 border border-red-800 rounded-lg p-2 text-xs text-red-300">
+                  ⚠️ Equipment will be marked for maintenance and removed from available pool.
+                </div>
+              )}
+              <div className="flex gap-3 pt-2">
+                <Button 
+                  className="flex-1 bg-green-600 hover:bg-green-500" 
+                  onClick={handleConfirmReturn}
+                >
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Confirm Return
+                </Button>
+                <Button variant="outline" onClick={() => setReturnModal(null)}>Cancel</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
