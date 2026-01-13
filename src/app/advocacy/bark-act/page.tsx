@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function BARKActPage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'legislation' | 'faq'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'legislation' | 'faq' | 'reform'>('overview');
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -50,6 +50,16 @@ export default function BARKActPage() {
             }`}
           >
             FAQ
+          </button>
+          <button
+            onClick={() => setActiveTab('reform')}
+            className={`px-6 py-3 text-sm font-medium transition-colors ${
+              activeTab === 'reform'
+                ? 'text-amber-400 border-b-2 border-amber-400'
+                : 'text-zinc-400 hover:text-zinc-300'
+            }`}
+          >
+            Reform Agenda
           </button>
         </div>
       </div>
@@ -603,6 +613,238 @@ The Legislature hereby finds and declares:
                 >
                   📥 Download Full FAQ
                 </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'reform' && (
+          <div className="space-y-6">
+            {/* Reform Hero */}
+            <div className="bg-gradient-to-r from-amber-900/30 to-green-900/30 border border-amber-700 rounded-lg p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-xs text-amber-400 font-medium uppercase tracking-wide">Reform Agenda</div>
+                  <h2 className="text-2xl font-bold text-white mt-1">🐕 The B.A.R.K. Act</h2>
+                  <p className="text-zinc-300 mt-1">Breeder Accountability and Regulation for Kindness Act</p>
+                  <p className="text-sm text-zinc-400 mt-2">WV Code Chapter 19, Article 36 • 55 Sections • Effective July 1, 2026</p>
+                </div>
+                <div className="bg-amber-600 text-black text-xs font-bold px-3 py-1 rounded">HOUSE BILL</div>
+              </div>
+            </div>
+
+            {/* Key Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-amber-400">20</div>
+                <div className="text-xs text-zinc-500">Max Breeding Dogs</div>
+              </div>
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-green-400">14</div>
+                <div className="text-xs text-zinc-500">Day Finder Immunity</div>
+              </div>
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-blue-400">24hr</div>
+                <div className="text-xs text-zinc-500">Digital Notice Req</div>
+              </div>
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-purple-400">10hr</div>
+                <div className="text-xs text-zinc-500">Max Tether Time</div>
+              </div>
+            </div>
+
+            {/* Core Pillars */}
+            <div>
+              <h3 className="text-lg font-semibold text-zinc-200 mb-3">📜 Six Core Pillars</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="bg-blue-900/20 border border-blue-800/50 rounded-lg p-4">
+                  <div className="text-blue-400 font-medium mb-2">🏷️ Universal Breeder Licensing</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• Tier 1: 1-3 dogs ($100/yr)</li>
+                    <li>• Tier 2: 4-10 dogs ($300+$10/dog)</li>
+                    <li>• Tier 3: 11-20 dogs ($1000+$25/dog)</li>
+                    <li>• No hobby breeder exemptions</li>
+                    <li>• One-time accidental litter registration ($25)</li>
+                  </ul>
+                </div>
+                <div className="bg-green-900/20 border border-green-800/50 rounded-lg p-4">
+                  <div className="text-green-400 font-medium mb-2">🐶 Animal Welfare Standards</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• Dogs classified as "companion animals"</li>
+                    <li>• Min 12-24 sq ft per dog (by size)</li>
+                    <li>• 50-85°F temperature range</li>
+                    <li>• 30 min daily exercise minimum</li>
+                    <li>• Max 5 litters per lifetime</li>
+                  </ul>
+                </div>
+                <div className="bg-amber-900/20 border border-amber-800/50 rounded-lg p-4">
+                  <div className="text-amber-400 font-medium mb-2">🔍 Inspection & Grading</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• Unannounced inspections</li>
+                    <li>• Public letter grades (A-D)</li>
+                    <li>• Standardized evidence packs</li>
+                    <li>• D grade triggers 30-day reinspection</li>
+                    <li>• Whistleblower protections</li>
+                  </ul>
+                </div>
+                <div className="bg-purple-900/20 border border-purple-800/50 rounded-lg p-4">
+                  <div className="text-purple-400 font-medium mb-2">📡 Traceability & Reunification</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• Mandatory microchipping at transfer</li>
+                    <li>• Universal intake scanning</li>
+                    <li>• 24-hour digital posting</li>
+                    <li>• 10-day hold for chipped dogs</li>
+                    <li>• Statewide lost-pet database</li>
+                  </ul>
+                </div>
+                <div className="bg-red-900/20 border border-red-800/50 rounded-lg p-4">
+                  <div className="text-red-400 font-medium mb-2">🛡️ Finder Safe Harbor</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• 14-day protection period</li>
+                    <li>• No surrender fees for finders</li>
+                    <li>• 72-hour reporting window</li>
+                    <li>• Good-faith presumption</li>
+                    <li>• Liability shield for rescuers</li>
+                  </ul>
+                </div>
+                <div className="bg-cyan-900/20 border border-cyan-800/50 rounded-lg p-4">
+                  <div className="text-cyan-400 font-medium mb-2">⛓️ Anti-Tethering</div>
+                  <ul className="text-xs text-zinc-400 space-y-1">
+                    <li>• Max 10 hours in 24-hour period</li>
+                    <li>• Weather/temperature limits</li>
+                    <li>• Equipment requirements</li>
+                    <li>• No puppies under 6 months</li>
+                    <li>• No nursing/estrus females</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Current WV Law Problems */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-red-400 mb-4">🚨 Current WV Law Problems</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">No Breeder Licensing</p>
+                      <p className="text-xs text-zinc-500">Anyone can breed unlimited dogs with zero oversight</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">No Mandatory Scanning</p>
+                      <p className="text-xs text-zinc-500">Shelters not required to check for microchips</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">Courthouse Notice Only</p>
+                      <p className="text-xs text-zinc-500">1951 law requires posting in courthouse, not online</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">No Finder Protections</p>
+                      <p className="text-xs text-zinc-500">Good Samaritans face liability for helping strays</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">No Tethering Limits</p>
+                      <p className="text-xs text-zinc-500">Dogs can be chained 24/7 with no restrictions</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-400">✗</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">Dead Zone Counties</p>
+                      <p className="text-xs text-zinc-500">3+ counties have no dedicated shelter facilities</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* How BARK Act Fixes It */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-green-400 mb-4">✓ How the BARK Act Fixes It</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">Universal Breeder Licensing</p>
+                      <p className="text-xs text-zinc-500">Tiered system with inspections and public grades</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">Mandatory Intake Scanning</p>
+                      <p className="text-xs text-zinc-500">Every facility must scan with universal scanner</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">24-Hour Digital Posting</p>
+                      <p className="text-xs text-zinc-500">Photos and details online within one day</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">14-Day Finder Safe Harbor</p>
+                      <p className="text-xs text-zinc-500">Protection for Good Samaritans helping strays</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">10-Hour Tethering Limit</p>
+                      <p className="text-xs text-zinc-500">With weather limits and equipment standards</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-green-400">✓</span>
+                    <div>
+                      <p className="font-medium text-zinc-300">Regional Joint Authorities</p>
+                      <p className="text-xs text-zinc-500">Counties can pool resources to end dead zones</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="bg-gradient-to-r from-amber-900/30 to-blue-900/30 border border-amber-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-amber-300 mb-3">📣 Support the BARK Act</h3>
+              <p className="text-zinc-300 mb-4">
+                Contact your legislators and ask them to co-sponsor this comprehensive animal welfare reform.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/advocacy"
+                  className="inline-flex items-center bg-amber-600 hover:bg-amber-700 text-black font-medium px-6 py-2 rounded-lg transition-colors"
+                >
+                  📞 Contact Legislators
+                </Link>
+                <Link
+                  href="/compliance"
+                  className="inline-flex items-center bg-zinc-700 hover:bg-zinc-600 text-white font-medium px-6 py-2 rounded-lg transition-colors"
+                >
+                  📊 View Compliance Data
+                </Link>
               </div>
             </div>
           </div>
