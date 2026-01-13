@@ -98,7 +98,7 @@ export default function LoginClient() {
             <Heart className="h-8 w-8 text-amber-500" />
           </div>
           <h1 className="text-2xl font-bold text-white">Pet911 West Virginia</h1>
-          <p className="text-zinc-400 text-sm mt-1">Sign in to continue</p>
+          <p className="text-zinc-400 text-sm mt-1">Staff & Partner Sign In</p>
         </div>
 
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
