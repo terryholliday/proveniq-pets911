@@ -52,9 +52,9 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
   id: MODULE_IDS.VOLUNTEER_ORIENTATION,
   code: 'VOL-101',
   title: 'Volunteer Orientation',
-  shortDescription: 'Introduction to Pet911 and your role as a volunteer',
+  shortDescription: 'Introduction to PetMayday and your role as a volunteer',
   fullDescription: `
-    Welcome to Pet911! This orientation module introduces you to our mission,
+    Welcome to PetMayday! This orientation module introduces you to our mission,
     values, and the important work we do reuniting lost pets with their families.
     You'll learn about our organization structure, how to use our platform,
     and the expectations we have for all volunteers.
@@ -72,10 +72,10 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
       id: 'les_vol101_1',
       moduleId: MODULE_IDS.VOLUNTEER_ORIENTATION,
       orderIndex: 1,
-      title: 'Welcome to Pet911',
+      title: 'Welcome to PetMayday',
       description: 'Learn about our mission, history, and impact',
       learningObjectives: [
-        { id: 'obj_v1_1', description: 'Explain the mission and vision of Pet911', measurable: true, assessedInQuiz: true },
+        { id: 'obj_v1_1', description: 'Explain the mission and vision of PetMayday', measurable: true, assessedInQuiz: true },
         { id: 'obj_v1_2', description: 'Describe the scope of the lost pet problem in the US', measurable: true, assessedInQuiz: true },
         { id: 'obj_v1_3', description: 'Identify key stakeholders in our ecosystem', measurable: true, assessedInQuiz: false },
       ],
@@ -120,7 +120,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
           {
             id: 'q_v1_1',
             type: 'MULTIPLE_CHOICE',
-            question: 'What is the primary mission of Pet911?',
+            question: 'What is the primary mission of PetMayday?',
             options: [
               { id: 'a', text: 'To rescue stray animals', isCorrect: false, feedback: 'While we help strays, our primary mission is reunification.' },
               { id: 'b', text: 'To reunite lost pets with their families', isCorrect: true, feedback: 'Correct! Reunification is our core mission.' },
@@ -128,7 +128,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
               { id: 'd', text: 'To adopt out homeless pets', isCorrect: false },
             ],
             points: 1,
-            explanation: "Pet911's primary mission is to reunite lost pets with their families through community coordination and technology.",
+            explanation: "PetMayday's primary mission is to reunite lost pets with their families through community coordination and technology.",
             objectiveId: 'obj_v1_1',
             tags: ['mission', 'basics'],
             difficulty: 'BEGINNER',
@@ -160,10 +160,10 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
       id: 'les_vol101_2',
       moduleId: MODULE_IDS.VOLUNTEER_ORIENTATION,
       orderIndex: 2,
-      title: 'How Pet911 Works',
+      title: 'How PetMayday Works',
       description: 'Understanding our platform, processes, and your role',
       learningObjectives: [
-        { id: 'obj_v2_1', description: 'Navigate the Pet911 platform and mobile app', measurable: true, assessedInQuiz: true },
+        { id: 'obj_v2_1', description: 'Navigate the PetMayday platform and mobile app', measurable: true, assessedInQuiz: true },
         { id: 'obj_v2_2', description: 'Explain the case lifecycle from report to resolution', measurable: true, assessedInQuiz: true },
         { id: 'obj_v2_3', description: 'Identify different volunteer roles and responsibilities', measurable: true, assessedInQuiz: true },
       ],
@@ -172,7 +172,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
           id: 'cnt_v2_1',
           type: 'VIDEO',
           title: 'Platform Overview',
-          description: 'Tour of the Pet911 website and mobile app',
+          description: 'Tour of the PetMayday website and mobile app',
           durationMinutes: 15,
           contentUrl: '/helpers/training/vol101/platform-tour',
           downloadable: false,
@@ -256,7 +256,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
       title: 'Code of Conduct & Safety',
       description: 'Understanding expectations, boundaries, and staying safe',
       learningObjectives: [
-        { id: 'obj_v3_1', description: 'Recite core principles of the Pet911 Code of Conduct', measurable: true, assessedInQuiz: true },
+        { id: 'obj_v3_1', description: 'Recite core principles of the PetMayday Code of Conduct', measurable: true, assessedInQuiz: true },
         { id: 'obj_v3_2', description: 'Identify situations requiring escalation to a moderator', measurable: true, assessedInQuiz: true },
         { id: 'obj_v3_3', description: 'Apply personal safety protocols', measurable: true, assessedInQuiz: true },
         { id: 'obj_v3_4', description: 'Explain mandatory reporting obligations', measurable: true, assessedInQuiz: true },
@@ -323,7 +323,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
           {
             id: 'q_v3_1',
             type: 'MULTIPLE_SELECT',
-            question: 'Which are core principles in the Pet911 Code of Conduct? (Select all)',
+            question: 'Which are core principles in the PetMayday Code of Conduct? (Select all)',
             options: [
               { id: 'a', text: 'Animal welfare comes first', isCorrect: true },
               { id: 'b', text: 'Maximize profits', isCorrect: false },
@@ -465,7 +465,7 @@ export const MODULE_VOLUNTEER_ORIENTATION: TrainingModule = {
   certificationValidityMonths: 24,
   ceCredits: 3,
   ceCategory: 'ORIENTATION',
-  author: 'Pet911 Training Team',
+  author: 'PetMayday Training Team',
   reviewedBy: 'Training Committee',
   lastReviewedAt: '2026-01-01T00:00:00Z',
   nextReviewDue: '2027-01-01T00:00:00Z',
@@ -512,7 +512,7 @@ const MODERATOR_MODULE_COMMON: Pick<
   certificationValidityMonths: undefined,
   ceCredits: 1,
   ceCategory: 'ROLE_SPECIFIC',
-  author: 'Pet911 Governance',
+  author: 'PetMayday Governance',
   reviewedBy: 'Lead Moderator',
   lastReviewedAt: '2026-01-01T00:00:00Z',
   nextReviewDue: '2027-01-01T00:00:00Z',
@@ -524,7 +524,7 @@ export const MODULE_MODERATOR_BASICS: TrainingModule = {
   id: MODULE_IDS.MODERATOR_BASICS,
   code: 'MOD-101',
   title: 'Moderator Basics',
-  shortDescription: 'Core rules, safety, privacy, and how to operate as a Pet911 moderator',
+  shortDescription: 'Core rules, safety, privacy, and how to operate as a PetMayday moderator',
   fullDescription: `
     This module introduces the non-negotiable rules and operating principles for moderators.
     Focus: privacy, evidence standards, documentation, and escalation.
@@ -1037,7 +1037,7 @@ export const MODULE_TRANSPORT_BASICS: TrainingModule = {
   certificationValidityMonths: 24,
   ceCredits: 4,
   ceCategory: 'ROLE_SPECIFIC',
-  author: 'Pet911 Training Team',
+  author: 'PetMayday Training Team',
   reviewedBy: 'Senior Transport Coordinator',
   lastReviewedAt: '2026-01-01T00:00:00Z',
   nextReviewDue: '2027-01-01T00:00:00Z',
@@ -1373,7 +1373,7 @@ export const MODULE_FOSTER_BASICS: TrainingModule = {
   certificationValidityMonths: 24,
   ceCredits: 3,
   ceCategory: 'ROLE_SPECIFIC',
-  author: 'Pet911 Training Team',
+  author: 'PetMayday Training Team',
   reviewedBy: 'Foster Coordinator',
   lastReviewedAt: '2026-01-01T00:00:00Z',
   nextReviewDue: '2027-01-01T00:00:00Z',

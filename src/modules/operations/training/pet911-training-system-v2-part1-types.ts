@@ -1,5 +1,5 @@
 /**
- * PET911 TRAINING SYSTEM V2 — Part 1: Core Types
+ * PETMAYDAY TRAINING SYSTEM V2 — Part 1: Core Types
  * 
  * Consolidated type definitions incorporating:
  * - Branded types and authoring/delivery split
@@ -252,7 +252,7 @@ export interface Certification {
   code: string;
   name: string;
   description: string;
-  issuingAuthority: 'PET911' | 'EXTERNAL';
+  issuingAuthority: 'PETMAYDAY' | 'EXTERNAL';
   externalProvider?: string;
   externalCertificationUrl?: string;
   requiredModules: ModuleId[];

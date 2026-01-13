@@ -237,7 +237,7 @@ export interface TrainingCertification {
   code: string;
   name: string;
   description: string;
-  issuingAuthority: 'PET911' | 'EXTERNAL';
+  issuingAuthority: 'PETMAYDAY' | 'EXTERNAL';
   externalProvider?: string;
   
   requiredModules: Uuid[];
@@ -446,7 +446,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_cv_1',
         name: 'Orientation',
-        description: 'Get started with Pet911',
+        description: 'Get started with PetMayday',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -478,7 +478,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_t_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -525,7 +525,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_st_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -591,7 +591,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_f_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -638,7 +638,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_ef_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -688,7 +688,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_tr_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -738,7 +738,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_jm_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -786,7 +786,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_m_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -850,7 +850,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_lm_1',
         name: 'Orientation',
-        description: 'Pet911 basics',
+        description: 'PetMayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,

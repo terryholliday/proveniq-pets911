@@ -1,9 +1,9 @@
 // ============================================================
-// PET911 TELEPORT API SCHEMA
-// Interoperability layer for Pet360 integration
+// PETMAYDAY TELEPORT API SCHEMA
+// Interoperability layer for PetShelterOS integration
 // ============================================================
 // 
-// Pet360 (shelters) consume this API to:
+// PetShelterOS (shelters) consume this API to:
 // - Receive stray alerts in their service area
 // - Log intake directly from their existing interface
 // - Track reunification outcomes
@@ -11,7 +11,7 @@
 //
 // Standalone Partner Portal remains for:
 // - Rescues, foster networks, transport orgs
-// - Organizations not using Pet360
+// - Organizations not using PetShelterOS
 // ============================================================
 
 import type { County, TriageTier, TriageCode } from '../types';
@@ -21,7 +21,7 @@ import type { County, TriageTier, TriageCode } from '../types';
 // ============================================================
 
 /**
- * Alert payload sent to Pet360 shelters
+ * Alert payload sent to PetShelterOS shelters
  * Privacy-aware: Reporter PII withheld until acknowledged
  */
 export interface TeleportAlert {
@@ -90,7 +90,7 @@ export interface TeleportAlertDetails extends TeleportAlert {
   };
   
   // Case linkage
-  pet911_case_id: string;
+  petmayday_case_id: string;
   lifelog_event_id?: string;
 }
 
@@ -116,7 +116,7 @@ export interface TeleportIntakePayload {
   intake: {
     received_at: string;
     received_by: string;
-    source: 'PET911_ALERT' | 'WALK_IN' | 'TRANSPORT' | 'ACO_DELIVERY';
+    source: 'PETMAYDAY_ALERT' | 'WALK_IN' | 'TRANSPORT' | 'ACO_DELIVERY';
     condition_on_arrival: string;
     immediate_medical_needed: boolean;
     notes?: string;
@@ -135,7 +135,7 @@ export interface TeleportIntakePayload {
  */
 export interface TeleportReunificationPayload {
   alert_id: string;
-  pet911_case_id: string;
+  petmayday_case_id: string;
   organization_id: string;
   
   reunification: {
@@ -146,7 +146,7 @@ export interface TeleportReunificationPayload {
     proof_of_ownership?: string;
   };
   
-  // For LifeLog immutable record
+  // For PetLifeLog immutable record
   outcome: {
     type: 'REUNITED';
     days_in_care: number;
@@ -155,7 +155,7 @@ export interface TeleportReunificationPayload {
 }
 
 /**
- * Metrics payload for Pet360 dashboard widget
+ * Metrics payload for PetShelterOS dashboard widget
  */
 export interface TeleportMetrics {
   organization_id: string;
@@ -187,22 +187,22 @@ export interface TeleportMetrics {
 
 export const TELEPORT_ENDPOINTS = {
   // Alerts
-  GET_ALERTS: '/teleport/v1/pet911/alerts',
-  GET_ALERT_DETAILS: '/teleport/v1/pet911/alerts/:id',
-  ACKNOWLEDGE_ALERT: '/teleport/v1/pet911/alerts/:id/acknowledge',
+  GET_ALERTS: '/teleport/v1/petmayday/alerts',
+  GET_ALERT_DETAILS: '/teleport/v1/petmayday/alerts/:id',
+  ACKNOWLEDGE_ALERT: '/teleport/v1/petmayday/alerts/:id/acknowledge',
   
   // Intake
-  LOG_INTAKE: '/teleport/v1/pet911/intake',
+  LOG_INTAKE: '/teleport/v1/petmayday/intake',
   
   // Reunification
-  LOG_REUNIFICATION: '/teleport/v1/pet911/reunification',
+  LOG_REUNIFICATION: '/teleport/v1/petmayday/reunification',
   
   // Metrics
-  GET_METRICS: '/teleport/v1/pet911/metrics',
+  GET_METRICS: '/teleport/v1/petmayday/metrics',
   
-  // Webhooks (Pet360 subscribes)
-  WEBHOOK_NEW_ALERT: '/teleport/v1/pet911/webhooks/alert',
-  WEBHOOK_CASE_UPDATE: '/teleport/v1/pet911/webhooks/case',
+  // Webhooks (PetShelterOS subscribes)
+  WEBHOOK_NEW_ALERT: '/teleport/v1/petmayday/webhooks/alert',
+  WEBHOOK_CASE_UPDATE: '/teleport/v1/petmayday/webhooks/case',
 } as const;
 
 // ============================================================
@@ -223,7 +223,7 @@ export type TeleportWebhookEvent =
 export interface TeleportAuthHeader {
   'X-Teleport-Org-ID': string;
   'X-Teleport-API-Key': string;
-  'X-Teleport-Source': 'PET360' | 'PARTNER_PORTAL' | 'MOBILE';
+  'X-Teleport-Source': 'PETSHELTEROS' | 'PARTNER_PORTAL' | 'MOBILE';
 }
 
 /**
