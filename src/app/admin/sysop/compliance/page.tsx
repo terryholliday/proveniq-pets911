@@ -849,45 +849,129 @@ export default function CompliancePage() {
         )}
 
         {activeTab === 'laws' && (
-          <div className="space-y-6 max-w-4xl">
-            <div className="prose prose-invert prose-sm">
-              <h2>WV Code Chapter 19, Article 20 - Dogs</h2>
-              
-              <h3>§ 19-20-6: County Dog Warden</h3>
-              <p className="text-zinc-400">
-                The County Commission of each county shall appoint a dog warden and necessary deputies to enforce 
-                the provisions of the code. The Commission may employ a warden directly or appoint an officer of a 
-                humane society to serve in this capacity.
-              </p>
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-800 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-white">⚖️ WV Code Chapter 19, Article 20 - Dogs</h2>
+              <p className="text-zinc-400 mt-2">West Virginia&apos;s animal control statutes governing impoundment, wardens, and enforcement</p>
+            </div>
 
-              <h3>§ 19-20-8: Impoundment and Hold Period</h3>
-              <p className="text-zinc-400">
-                All impounded dogs must be housed and fed for a period of <strong>five days</strong> after notice 
-                of seizure has been given or posted. This is the absolute minimum standard - no county may reduce 
-                this period, though they may extend it.
-              </p>
+            {/* Law Sections Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* § 19-20-6 */}
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs font-mono">§ 19-20-6</div>
+                  <h3 className="font-semibold text-zinc-100">County Dog Warden</h3>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  The County Commission of each county shall appoint a dog warden and necessary deputies to enforce 
+                  the provisions of the code. The Commission may employ a warden directly or appoint an officer of a 
+                  humane society to serve in this capacity.
+                </p>
+              </div>
 
-              <h3>Notice Requirements (Critical Gap)</h3>
-              <p className="text-zinc-400">
-                For unknown owners, the warden must "post a notice in the county courthouse" describing the dog 
-                and place of seizure. This requirement is a relic of 1951 - it does not mandate digital 
-                notification, creating a compliance gap where rural counties may technically follow the law 
-                while failing to provide meaningful notice.
-              </p>
+              {/* § 19-20-8 */}
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="bg-green-900/50 text-green-300 px-2 py-1 rounded text-xs font-mono">§ 19-20-8</div>
+                  <h3 className="font-semibold text-zinc-100">Impoundment and Hold Period</h3>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  All impounded dogs must be housed and fed for a period of <span className="text-green-400 font-semibold">five days</span> after notice 
+                  of seizure has been given or posted. This is the absolute minimum standard - no county may reduce 
+                  this period, though they may extend it.
+                </p>
+              </div>
 
-              <h3>§ 19-20A-8: Rabies Control & Running at Large</h3>
-              <p className="text-zinc-400">
-                Vaccinated dogs and cats may run at large unless in a quarantined area. The statute explicitly 
-                prohibits counties from preventing vaccinated dogs from running at large while engaged in lawful 
-                hunting, training, or herding activities. This "hunting dog exemption" complicates enforcement.
-              </p>
+              {/* Notice Requirements */}
+              <div className="bg-amber-900/20 border border-amber-800 rounded-lg p-5">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="bg-amber-900/50 text-amber-300 px-2 py-1 rounded text-xs font-mono">⚠️ GAP</div>
+                  <h3 className="font-semibold text-amber-200">Notice Requirements (Critical Gap)</h3>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  For unknown owners, the warden must &quot;post a notice in the county courthouse&quot; describing the dog 
+                  and place of seizure. This requirement is a <span className="text-amber-400">relic of 1951</span> - it does not mandate digital 
+                  notification, creating a compliance gap where rural counties may technically follow the law 
+                  while failing to provide meaningful notice.
+                </p>
+              </div>
 
-              <h3>§ 7-10-1: Humane Officer Powers</h3>
-              <p className="text-zinc-400">
-                Humane officers are designated to investigate cruelty complaints and have authority to take 
-                possession of abandoned or neglected animals. Veterinarians and professionals have mandatory 
-                reporter status with immunity for good-faith reports.
-              </p>
+              {/* § 19-20A-8 */}
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="bg-purple-900/50 text-purple-300 px-2 py-1 rounded text-xs font-mono">§ 19-20A-8</div>
+                  <h3 className="font-semibold text-zinc-100">Rabies Control & Running at Large</h3>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  Vaccinated dogs and cats may run at large unless in a quarantined area. The statute explicitly 
+                  prohibits counties from preventing vaccinated dogs from running at large while engaged in lawful 
+                  hunting, training, or herding activities. This <span className="text-purple-400">&quot;hunting dog exemption&quot;</span> complicates enforcement.
+                </p>
+              </div>
+
+              {/* § 7-10-1 */}
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5 lg:col-span-2">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded text-xs font-mono">§ 7-10-1</div>
+                  <h3 className="font-semibold text-zinc-100">Humane Officer Powers</h3>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  Humane officers are designated to investigate cruelty complaints and have authority to take 
+                  possession of abandoned or neglected animals. Veterinarians and professionals have <span className="text-cyan-400">mandatory 
+                  reporter status</span> with immunity for good-faith reports.
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Reference Table */}
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg overflow-hidden">
+              <div className="px-4 py-3 border-b border-zinc-800 bg-zinc-800/50">
+                <h3 className="font-semibold">📋 Quick Reference</h3>
+              </div>
+              <table className="w-full text-sm">
+                <tbody className="divide-y divide-zinc-800">
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300 w-1/3">Minimum Hold Period</td>
+                    <td className="px-4 py-3 text-green-400">5 days after notice (§ 19-20-8)</td>
+                  </tr>
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300">Notice Requirement</td>
+                    <td className="px-4 py-3 text-amber-400">Post in county courthouse (outdated - 1951)</td>
+                  </tr>
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300">Rabies Quarantine</td>
+                    <td className="px-4 py-3 text-zinc-300">10 days observation; 6 months for unvaccinated exposed</td>
+                  </tr>
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300">Hunting Dog Exemption</td>
+                    <td className="px-4 py-3 text-purple-400">Vaccinated dogs may run at large during lawful hunting</td>
+                  </tr>
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300">Mandatory Microchip Scanning</td>
+                    <td className="px-4 py-3 text-red-400">❌ NOT REQUIRED by state law</td>
+                  </tr>
+                  <tr className="hover:bg-zinc-800/30">
+                    <td className="px-4 py-3 font-medium text-zinc-300">Digital Photo Posting</td>
+                    <td className="px-4 py-3 text-red-400">❌ NOT REQUIRED by state law</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Reform Link */}
+            <div className="bg-gradient-to-r from-amber-900/20 to-green-900/20 border border-amber-800/50 rounded-lg p-4 flex items-center justify-between">
+              <div>
+                <p className="font-medium text-amber-300">🐕 Want to fix these gaps?</p>
+                <p className="text-sm text-zinc-400">The B.A.R.K. Act addresses all critical compliance gaps in WV animal law.</p>
+              </div>
+              <button 
+                onClick={() => setActiveTab('reform')}
+                className="bg-amber-600 hover:bg-amber-700 text-black font-medium px-4 py-2 rounded-lg text-sm"
+              >
+                View Reform Agenda →
+              </button>
             </div>
           </div>
         )}

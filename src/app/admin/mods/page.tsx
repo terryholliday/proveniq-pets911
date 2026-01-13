@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/client';
+import { X, Loader2 } from 'lucide-react';
 import { 
   Users, 
   AlertTriangle, 
@@ -192,16 +194,129 @@ export default function ModeratorDashboardPage() {
   const [escalations] = useState<Escalation[]>(MOCK_ESCALATIONS);
   const [loadingData, setLoadingData] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
+  
+  // Coverage area state
+  const [myCoverage, setMyCoverage] = useState<{ counties: string[]; hasStatewide: boolean }>({ counties: [], hasStatewide: false });
+  const [loadingCoverage, setLoadingCoverage] = useState(true);
+
+  // Fetch moderator's coverage areas on mount
+  useEffect(() => {
+    const fetchCoverage = async () => {
+      try {
+        const supabase = createClient();
+        const { data: session } = await supabase.auth.getSession();
+        if (!session.session?.access_token) return;
+        
+        const res = await fetch('/api/admin/mods/my-coverage', {
+          headers: { Authorization: `Bearer ${session.session.access_token}` },
+        });
+        const data = await res.json();
+        if (data.success) {
+          setMyCoverage({ counties: data.data.counties || [], hasStatewide: data.data.hasStatewide || false });
+        }
+      } catch (err) {
+        console.error('Failed to fetch coverage:', err);
+      } finally {
+        setLoadingCoverage(false);
+      }
+    };
+    fetchCoverage();
+  }, []);
+
+  // Filter tickets by coverage area (unless statewide)
+  const filteredTickets = myCoverage.hasStatewide 
+    ? openTickets 
+    : openTickets.filter(t => myCoverage.counties.length === 0 || myCoverage.counties.includes(t.county));
+  
+  // Filter volunteers by coverage area (unless statewide)
+  const filteredVolunteers = myCoverage.hasStatewide
+    ? availableVolunteers
+    : availableVolunteers.filter(v => myCoverage.counties.length === 0 || myCoverage.counties.includes(v.county));
+  
+  // Call modal state
+  const [callModal, setCallModal] = useState<{ open: boolean; volunteer?: AvailableVolunteer; requesterPhone?: string; requesterName?: string } | null>(null);
+  const [calling, setCalling] = useState(false);
+  const [callStatus, setCallStatus] = useState<string | null>(null);
+  
+  // Message modal state
+  const [messageModal, setMessageModal] = useState<{ open: boolean; volunteer?: AvailableVolunteer } | null>(null);
+  const [messageText, setMessageText] = useState('');
+  const [sending, setSending] = useState(false);
+  const [messageStatus, setMessageStatus] = useState<string | null>(null);
+
+  const getAccessToken = async () => {
+    const supabase = createClient();
+    const { data } = await supabase.auth.getSession();
+    return data.session?.access_token ?? null;
+  };
+
+  const handleCall = async (phone: string, name: string, volunteerId?: string) => {
+    setCalling(true);
+    setCallStatus(null);
+    try {
+      const token = await getAccessToken();
+      if (!token) throw new Error('Not authenticated');
+      
+      const res = await fetch('/api/admin/mods/call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ volunteer_id: volunteerId, volunteer_phone: phone, volunteer_name: name, reason: 'dispatch' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCallStatus(data.message || `Calling ${name}...`);
+      } else {
+        setCallStatus(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      setCallStatus(`Error: ${err instanceof Error ? err.message : 'Failed to call'}`);
+    } finally {
+      setCalling(false);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!messageModal?.volunteer || !messageText.trim()) return;
+    setSending(true);
+    setMessageStatus(null);
+    try {
+      const token = await getAccessToken();
+      if (!token) throw new Error('Not authenticated');
+      
+      const res = await fetch('/api/admin/mods/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ 
+          recipient_id: messageModal.volunteer.id, 
+          recipient_name: messageModal.volunteer.name,
+          message: messageText,
+          context: 'dispatch'
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessageStatus(`Message sent to ${messageModal.volunteer.name}`);
+        setMessageText('');
+        setTimeout(() => setMessageModal(null), 1500);
+      } else {
+        setMessageStatus(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      setMessageStatus(`Error: ${err instanceof Error ? err.message : 'Failed to send'}`);
+    } finally {
+      setSending(false);
+    }
+  };
 
   const stats = {
-    openTickets: openTickets.length,
-    criticalTickets: openTickets.filter(t => t.priority === 'CRITICAL').length,
-    availableVolunteers: availableVolunteers.length,
-    transportCapable: availableVolunteers.filter(v => v.capabilities.includes('TRANSPORT')).length,
-    fosterCapable: availableVolunteers.filter(v => v.capabilities.includes('FOSTER')).length,
-    totalFosterSlots: availableVolunteers.reduce((sum, v) => sum + (v.foster_capacity || 0), 0),
+    openTickets: filteredTickets.length,
+    criticalTickets: filteredTickets.filter(t => t.priority === 'CRITICAL').length,
+    availableVolunteers: filteredVolunteers.length,
+    transportCapable: filteredVolunteers.filter(v => v.capabilities.includes('TRANSPORT')).length,
+    fosterCapable: filteredVolunteers.filter(v => v.capabilities.includes('FOSTER')).length,
+    totalFosterSlots: filteredVolunteers.reduce((sum, v) => sum + (v.foster_capacity || 0), 0),
     escalations: escalations.length,
-    avgWaitTime: Math.round(openTickets.reduce((sum, t) => sum + t.waiting_minutes, 0) / (openTickets.length || 1)),
+    avgWaitTime: Math.round(filteredTickets.reduce((sum, t) => sum + t.waiting_minutes, 0) / (filteredTickets.length || 1)),
   };
 
   const refreshData = async () => {
@@ -226,6 +341,30 @@ export default function ModeratorDashboardPage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {/* Coverage Area Banner */}
+      {!loadingCoverage && (
+        <div className="bg-blue-900/30 border-b border-blue-800 px-6 py-2">
+          <div className="max-w-7xl mx-auto flex items-center gap-2 text-sm">
+            <MapPin className="w-4 h-4 text-blue-400" />
+            <span className="text-blue-300 font-medium">Your Coverage:</span>
+            {myCoverage.hasStatewide ? (
+              <Badge variant="outline" className="border-blue-600 text-blue-300">West Virginia (Statewide)</Badge>
+            ) : myCoverage.counties.length > 0 ? (
+              <div className="flex flex-wrap gap-1">
+                {myCoverage.counties.slice(0, 5).map(county => (
+                  <Badge key={county} variant="outline" className="border-blue-800 text-blue-300 text-xs">{county}</Badge>
+                ))}
+                {myCoverage.counties.length > 5 && (
+                  <Badge variant="outline" className="border-blue-800 text-blue-300 text-xs">+{myCoverage.counties.length - 5} more</Badge>
+                )}
+              </div>
+            ) : (
+              <span className="text-amber-400">No coverage assigned - contact SYSOP</span>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="border-b border-zinc-800 bg-zinc-900/50">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -325,13 +464,13 @@ export default function ModeratorDashboardPage() {
               <CardDescription>Requests awaiting assignment</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {openTickets.length === 0 ? (
+              {filteredTickets.length === 0 ? (
                 <div className="text-center py-8 text-zinc-500">
                   <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-500" />
-                  <p>All caught up! No open tickets.</p>
+                  <p>All caught up! No open tickets in your coverage area.</p>
                 </div>
               ) : (
-                openTickets.map(ticket => {
+                filteredTickets.map(ticket => {
                   const TypeIcon = TYPE_ICONS[ticket.type];
                   return (
                     <div 
@@ -391,7 +530,15 @@ export default function ModeratorDashboardPage() {
                                 Assign
                               </Button>
                             </Link>
-                            <Button size="sm" variant="outline">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // For tickets, we'd call the requester - mock phone for now
+                                setCallModal({ open: true, requesterPhone: '(304) 555-0000', requesterName: ticket.requester_name });
+                              }}
+                            >
                               <Phone className="w-3 h-3 mr-1" />
                               Call
                             </Button>
@@ -425,13 +572,13 @@ export default function ModeratorDashboardPage() {
               <CardDescription>Online and ready to help</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {availableVolunteers.length === 0 ? (
+              {filteredVolunteers.length === 0 ? (
                 <div className="text-center py-8 text-zinc-500">
                   <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No volunteers currently available</p>
+                  <p>No volunteers available in your coverage area</p>
                 </div>
               ) : (
-                availableVolunteers.map(volunteer => (
+                filteredVolunteers.map(volunteer => (
                   <div 
                     key={volunteer.id}
                     className="p-3 rounded-lg border border-zinc-800 bg-zinc-800/30 hover:border-zinc-700 transition-colors"
@@ -487,10 +634,24 @@ export default function ModeratorDashboardPage() {
                         </div>
                       </div>
                       
-                      <div className="flex flex-col gap-1">
-                        <Button size="sm" variant="outline" className="text-xs">
+                      <div className="flex flex-col gap-2">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs"
+                          onClick={() => setMessageModal({ open: true, volunteer })}
+                        >
                           <Send className="w-3 h-3 mr-1" />
                           Message
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs"
+                          onClick={() => setCallModal({ open: true, volunteer })}
+                        >
+                          <Phone className="w-3 h-3 mr-1" />
+                          Call
                         </Button>
                       </div>
                     </div>
@@ -594,6 +755,130 @@ export default function ModeratorDashboardPage() {
           </Card>
         </div>
       </div>
+
+      {/* Call Modal */}
+      {callModal?.open && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => { setCallModal(null); setCallStatus(null); }}>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Phone className="w-5 h-5 text-green-400" />
+                Call {callModal.volunteer?.name || callModal.requesterName}
+              </h3>
+              <button onClick={() => { setCallModal(null); setCallStatus(null); }} className="text-zinc-400 hover:text-zinc-200">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-zinc-800/50 rounded-lg p-4">
+                <p className="text-sm text-zinc-400 mb-1">Phone Number</p>
+                <p className="text-lg font-medium">{callModal.volunteer?.phone || callModal.requesterPhone}</p>
+              </div>
+              
+              {callModal.volunteer && (
+                <div className="bg-zinc-800/50 rounded-lg p-4">
+                  <p className="text-sm text-zinc-400 mb-1">County</p>
+                  <p className="font-medium">{callModal.volunteer.county}</p>
+                </div>
+              )}
+              
+              {callStatus && (
+                <div className={`p-3 rounded-lg text-sm ${callStatus.startsWith('Error') ? 'bg-red-900/30 text-red-300' : 'bg-green-900/30 text-green-300'}`}>
+                  {callStatus}
+                </div>
+              )}
+              
+              <div className="flex gap-3">
+                <Button 
+                  className="flex-1 bg-green-600 hover:bg-green-700"
+                  disabled={calling}
+                  onClick={() => handleCall(
+                    callModal.volunteer?.phone || callModal.requesterPhone || '',
+                    callModal.volunteer?.name || callModal.requesterName || 'Unknown',
+                    callModal.volunteer?.id
+                  )}
+                >
+                  {calling ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Phone className="w-4 h-4 mr-2" />}
+                  {calling ? 'Calling...' : 'Call Now'}
+                </Button>
+                <Button variant="outline" onClick={() => { setCallModal(null); setCallStatus(null); }}>
+                  Cancel
+                </Button>
+              </div>
+              
+              <p className="text-xs text-zinc-500 text-center">
+                Call will be initiated via Twilio. Volunteer will hear a dispatch message.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Message Modal */}
+      {messageModal?.open && messageModal.volunteer && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => { setMessageModal(null); setMessageStatus(null); setMessageText(''); }}>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-blue-400" />
+                Message {messageModal.volunteer.name}
+              </h3>
+              <button onClick={() => { setMessageModal(null); setMessageStatus(null); setMessageText(''); }} className="text-zinc-400 hover:text-zinc-200">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-zinc-800/50 rounded-lg p-3 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center text-lg font-medium">
+                  {messageModal.volunteer.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="font-medium">{messageModal.volunteer.name}</p>
+                  <p className="text-xs text-zinc-400">{messageModal.volunteer.county} • {messageModal.volunteer.phone}</p>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm text-zinc-400 mb-2 block">Message</label>
+                <textarea 
+                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm h-24 resize-none focus:outline-none focus:border-zinc-600"
+                  placeholder="Type your message to the volunteer..."
+                  value={messageText}
+                  onChange={(e) => setMessageText(e.target.value)}
+                  autoFocus
+                />
+                <p className="text-xs text-zinc-500 mt-1">{messageText.length}/500 characters</p>
+              </div>
+              
+              {messageStatus && (
+                <div className={`p-3 rounded-lg text-sm ${messageStatus.startsWith('Error') ? 'bg-red-900/30 text-red-300' : 'bg-green-900/30 text-green-300'}`}>
+                  {messageStatus}
+                </div>
+              )}
+              
+              <div className="flex gap-3">
+                <Button 
+                  className="flex-1"
+                  disabled={sending || !messageText.trim()}
+                  onClick={handleSendMessage}
+                >
+                  {sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                  {sending ? 'Sending...' : 'Send Message'}
+                </Button>
+                <Button variant="outline" onClick={() => { setMessageModal(null); setMessageStatus(null); setMessageText(''); }}>
+                  Cancel
+                </Button>
+              </div>
+              
+              <p className="text-xs text-zinc-500 text-center">
+                Message will be sent as a direct message in the Pet911 app.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
