@@ -66,6 +66,7 @@ export async function GET(request: NextRequest) {
 // POST - Create or update coverage assignment
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin();
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
@@ -124,6 +125,7 @@ export async function POST(request: NextRequest) {
 // DELETE - Remove coverage assignment
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin();
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
