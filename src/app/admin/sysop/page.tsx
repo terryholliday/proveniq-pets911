@@ -290,6 +290,11 @@ export default async function SysopPage() {
               <div className="text-sm font-medium">📜 Audit Log</div>
               <div className="text-xs text-zinc-500 mt-1">Track all admin actions</div>
             </Link>
+
+            <Link href="/admin/sysop/diagnostics" className="block border border-purple-800/50 rounded-lg bg-purple-900/20 p-4 hover:border-purple-600/50 hover:bg-purple-900/30 transition-all">
+              <div className="text-sm font-medium text-purple-400">🔬 Diagnostics</div>
+              <div className="text-xs text-zinc-500 mt-1">Debug auth, capabilities, partner links</div>
+            </Link>
           </div>
         </div>
 

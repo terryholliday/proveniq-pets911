@@ -39,10 +39,45 @@ export default function LoginClient() {
         }
         
         if (data.session) {
-          console.log('[Auth] Session obtained, redirecting to', redirectTo);
+          console.log('[Auth] Session obtained, determining redirect...');
           setStatusType('success');
-          setStatus('Success! Redirecting...');
-          window.location.href = redirectTo !== '/' ? redirectTo : '/';
+          setStatus('Success! Determining your dashboard...');
+          
+          // If explicit redirectTo was provided (and not just /), use it
+          if (redirectTo && redirectTo !== '/') {
+            console.log('[Auth] Using explicit redirectTo:', redirectTo);
+            window.location.href = redirectTo;
+            return;
+          }
+          
+          // Otherwise, determine redirect based on user role
+          try {
+            const { data: volunteer } = await supabase
+              .from('volunteers')
+              .select('capabilities, status')
+              .eq('user_id', data.user.id)
+              .maybeSingle();
+            
+            const caps: string[] = volunteer?.capabilities || [];
+            console.log('[Auth] User capabilities:', caps);
+            
+            let targetPath = '/';
+            if (caps.includes('SYSOP')) {
+              targetPath = '/admin/sysop';
+            } else if (caps.includes('MODERATOR')) {
+              targetPath = '/admin/mods/dispatch';
+            } else if (caps.includes('PARTNER')) {
+              targetPath = '/partner/dashboard';
+            } else if (volunteer?.status === 'ACTIVE') {
+              targetPath = '/volunteer/dashboard';
+            }
+            
+            console.log('[Auth] Role-based redirect to:', targetPath);
+            window.location.href = targetPath;
+          } catch (roleErr) {
+            console.error('[Auth] Role lookup failed, redirecting home:', roleErr);
+            window.location.href = '/';
+          }
           return;
         }
       }
