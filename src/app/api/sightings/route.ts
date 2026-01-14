@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClientForAPI } from '@/lib/supabase/client';
+import { createACODispatch } from '@/lib/services/aco-dispatch-service';
+import type { LawTriggerCategory } from '@/lib/services/aco-law-trigger-service';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +80,9 @@ export async function POST(request: NextRequest) {
     // Determine priority based on can_stay_with_animal
     const priority = body.can_stay_with_animal ? 'HIGH' : 'MEDIUM';
 
+    // Extract law triggers if provided
+    const lawTriggers: LawTriggerCategory[] = body.law_triggers || [];
+
     // Create the sighting
     const { data, error } = await supabase
       .from('sighting')
@@ -100,6 +105,7 @@ export async function POST(request: NextRequest) {
         priority: priority,
         status: 'ACTIVE',
         is_verified: false,
+        law_triggers: lawTriggers,
       })
       .select()
       .single();
@@ -115,11 +121,32 @@ export async function POST(request: NextRequest) {
     // If this is a high priority sighting (reporter can stay with animal),
     // trigger immediate notification workflow
     if (priority === 'HIGH') {
-      // TODO: Implement notification workflow
       console.log('High priority sighting created, notification workflow triggered');
     }
 
-    return NextResponse.json({ sighting: data }, { status: 201 });
+    // If law triggers present, create ACO dispatch (Option C: auto-create + notify)
+    let acoDispatchResult = null;
+    if (lawTriggers.length > 0 && data) {
+      acoDispatchResult = await createACODispatch({
+        source_case_type: 'SIGHTING',
+        source_case_id: data.id,
+        county: body.county,
+        lat: body.sighting_lat || 0,
+        lng: body.sighting_lng || 0,
+        address: body.sighting_address,
+        species: body.species || 'Unknown',
+        description: body.description,
+        reporter_name: body.reporter_name || 'Anonymous',
+        reporter_phone: body.reporter_phone || '',
+        law_triggers: lawTriggers,
+        notes: body.animal_behavior || undefined,
+      });
+    }
+
+    return NextResponse.json({ 
+      sighting: data,
+      aco_dispatch: acoDispatchResult,
+    }, { status: 201 });
   } catch (error) {
     console.error('Unexpected error:', error);
     return NextResponse.json(
