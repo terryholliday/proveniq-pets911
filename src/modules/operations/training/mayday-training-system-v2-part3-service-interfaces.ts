@@ -80,7 +80,7 @@ import type {
   QuestionAnalytics,
   AssessmentGeneration,
   RemediationPolicy,
-} from './Mayday-training-system-v2-part1-types';
+} from './mayday-training-system-v2-part1-types';
 
 import type {
   TrainingAnalyticsDashboard,
@@ -98,7 +98,7 @@ import type {
   TrainingSandbox,
   SimulatedCase,
   SandboxAction,
-} from './Mayday-training-system-v2-part2-analytics';
+} from './mayday-training-system-v2-part2-analytics';
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 1: UTILITY FUNCTIONS (Time math)

@@ -33,7 +33,7 @@ import type {
   DifficultyLevel,
   ContentStatus,
   ProctoringSessionId,
-} from './Mayday-training-system-v2-part1-types';
+} from './mayday-training-system-v2-part1-types';
 import type { RoleId } from '../roles';
 
 // ══════════════════════════════════════════════════════════════════════════════
