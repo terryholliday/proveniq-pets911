@@ -21,6 +21,17 @@ async function getAuthToken(): Promise<string | null> {
   return null;
 }
 
+async function parseJsonResponse(response: Response): Promise<any | null> {
+  const text = await response.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Make API request with standard headers and error handling
  */
@@ -48,7 +59,22 @@ async function apiRequest<T>(
     headers,
   });
 
-  const data = await response.json();
+  const data = await parseJsonResponse(response);
+  const fallbackMeta = {
+    request_id: 'unknown',
+    timestamp: new Date().toISOString(),
+  };
+
+  if (!data) {
+    return {
+      success: false,
+      error: {
+        code: 'INVALID_RESPONSE',
+        message: 'Empty or invalid JSON response',
+      },
+      meta: fallbackMeta,
+    };
+  }
 
   if (!response.ok) {
     return {
@@ -57,10 +83,7 @@ async function apiRequest<T>(
         code: 'UNKNOWN_ERROR',
         message: 'An unexpected error occurred',
       },
-      meta: data.meta || {
-        request_id: 'unknown',
-        timestamp: new Date().toISOString(),
-      },
+      meta: data.meta || fallbackMeta,
     };
   }
 
