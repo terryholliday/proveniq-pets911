@@ -325,27 +325,8 @@ INSERT INTO law_trigger_rules (rule_code, rule_name, description, legal_basis, c
  'Kanawha County Anti-Tethering Ordinance')
 ON CONFLICT (rule_code) DO NOTHING;
 
--- Mercer County - 15-day harboring (finder immunity is stronger)
-INSERT INTO law_trigger_rules (rule_code, rule_name, description, legal_basis, county, trigger_categories, priority, response_sla_minutes, is_stronger_than_state, statute_citations, ordinance_reference) VALUES
-('MERCER_HARBOR_001', 'Mercer 15-Day Harboring Rule',
- 'Mercer County allows 15-day finder harboring before ACO involvement required',
- 'COUNTY_ORDINANCE', 'MERCER',
- ARRAY['AT_LARGE_HAZARD']::law_trigger_category_enum[],
- 'LOW', 1440, true,
- ARRAY['§7-1-14'],
- 'Mercer County 15-Day Harboring Ordinance')
-ON CONFLICT (rule_code) DO NOTHING;
-
--- Monongalia County - Weather tethering (30 min max, stricter)
-INSERT INTO law_trigger_rules (rule_code, rule_name, description, legal_basis, county, trigger_categories, priority, response_sla_minutes, is_stronger_than_state, supersedes_rule_code, statute_citations, ordinance_reference) VALUES
-('MONONGALIA_WEATHER_001', 'Monongalia Adverse Weather Tethering',
- 'Monongalia County: 30 minute max tethering in adverse weather',
- 'COUNTY_ORDINANCE', 'MONONGALIA',
- ARRAY['TETHERING_VIOLATION', 'EXTREME_WEATHER_EXPOSURE']::law_trigger_category_enum[],
- 'CRITICAL', 30, true, 'WV_TETHER_001',
- ARRAY['§7-1-14'],
- 'Monongalia County Weather Tethering Ban')
-ON CONFLICT (rule_code) DO NOTHING;
+-- NOTE: Additional county rules (MERCER, MONONGALIA, etc.) can be added
+-- when those counties are added to county_enum and join the pilot.
 
 -- 10. ROW LEVEL SECURITY
 -- ============================================================
