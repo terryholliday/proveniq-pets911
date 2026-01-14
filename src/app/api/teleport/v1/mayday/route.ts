@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { TeleportAlert, TeleportAuthHeader } from '@/lib/teleport/petmayday-teleport-schema';
-import { validateTeleportAuth } from '@/lib/teleport/petmayday-teleport-schema';
+import type { TeleportAlert, TeleportAuthHeader } from '@/lib/teleport/mayday-teleport-schema';
+import { validateTeleportAuth } from '@/lib/teleport/mayday-teleport-schema';
 
 /**
- * GET /api/teleport/v1/petmayday/alerts
+ * GET /api/teleport/v1/mayday/alerts
  * 
  * Returns active alerts for the authenticated organization's service area.
- * Used by PetShelterOS to display alerts in their dashboard.
+ * Used by PROVENIQ ShelterOS to display alerts in their dashboard.
  * 
  * Query params:
  * - status: 'ACTIVE' | 'ACKNOWLEDGED' | 'ALL' (default: ACTIVE)
@@ -58,8 +58,8 @@ export async function GET(request: NextRequest) {
       actions: {
         can_acknowledge: true,
         can_resolve: false,
-        acknowledge_url: `/api/teleport/v1/petmayday/alerts/ALT-2026-0001/acknowledge`,
-        resolve_url: `/api/teleport/v1/petmayday/alerts/ALT-2026-0001/resolve`,
+        acknowledge_url: `/api/teleport/v1/mayday/alerts/ALT-2026-0001/acknowledge`,
+        resolve_url: `/api/teleport/v1/mayday/alerts/ALT-2026-0001/resolve`,
       },
     },
   ];

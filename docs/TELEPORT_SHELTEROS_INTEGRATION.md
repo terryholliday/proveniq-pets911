@@ -1,16 +1,16 @@
-# PetMayday ↔ petshelteros Teleport Integration
+# PROVENIQ Mayday ↔ PROVENIQ ShelterOS Teleport Integration
 
 ## Overview
 
-petshelteros shelters can integrate PetMayday emergency response data directly into their existing dashboard via the Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
+PROVENIQ ShelterOS shelters can integrate PROVENIQ Mayday emergency response data directly into their existing dashboard via the PROVENIQ Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
 
 ## Architecture
 
 ```
 ┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
 │                 │         │                 │         │                 │
-│     petshelteros      │ ←─────→ │    Teleport     │ ←─────→ │     PetMayday      │
-│  (Shelter OS)   │   API   │   (API Layer)   │         │ (Emergency Sys) │
+│  PROVENIQ ShelterOS │ ←─────→ │ PROVENIQ Teleport│ ←─────→ │  PROVENIQ Mayday   │
+│  (Shelter OS)   │   API   │   (API Layer)   │         │ (Emergency Sys)  │
 │                 │         │                 │         │                 │
 └─────────────────┘         └─────────────────┘         └─────────────────┘
                                     │
@@ -30,7 +30,7 @@ All requests require Teleport authentication headers:
 ```http
 X-Teleport-Org-ID: org_abc123
 X-Teleport-API-Key: tpk_live_xxx
-X-Teleport-Source: petshelteros
+X-Teleport-Source: PROVENIQ_SHELTEROS
 ```
 
 API keys are issued during partner onboarding and can be rotated via the admin console.
@@ -210,7 +210,7 @@ Fetch performance metrics for dashboard widget.
 
 ## Webhooks
 
-petshelteros can subscribe to real-time events:
+PROVENIQ ShelterOS can subscribe to real-time events:
 
 | Event | Description |
 |-------|-------------|
@@ -230,21 +230,21 @@ petshelteros can subscribe to real-time events:
 
 ---
 
-## petshelteros Widget Integration
+## PROVENIQ ShelterOS Widget Integration
 
-Embed PetMayday data in petshelteros dashboard:
+Embed PROVENIQ Mayday data in PROVENIQ ShelterOS dashboard:
 
 ```jsx
-// petshelteros Dashboard Component
-import { usePetMaydayAlerts, usePetMaydayMetrics } from '@petshelteros/teleport-client';
+// PROVENIQ ShelterOS Dashboard Component
+import { useMaydayAlerts, useMaydayMetrics } from '@proveniq/shelteros-teleport-client';
 
-function PetMaydayWidget() {
-  const { alerts, acknowledge } = usePetMaydayAlerts();
-  const { metrics } = usePetMaydayMetrics('MONTH');
+function MaydayWidget() {
+  const { alerts, acknowledge } = useMaydayAlerts();
+  const { metrics } = useMaydayMetrics('MONTH');
 
   return (
-    <div className="PetMayday-widget">
-      <h3>🚨 PetMayday Alerts ({alerts.length})</h3>
+    <div className="mayday-widget">
+      <h3>🚨 PROVENIQ Mayday Alerts ({alerts.length})</h3>
       {alerts.map(alert => (
         <AlertCard 
           key={alert.alert_id} 
@@ -267,7 +267,7 @@ function PetMaydayWidget() {
    ↓
 2. Moderator triages → Alert broadcast to service area
    ↓
-3. petshelteros receives webhook OR polls /alerts endpoint
+3. PROVENIQ ShelterOS receives webhook OR polls /alerts endpoint
    ↓
 4. Shelter acknowledges → Gets reporter contact
    ↓
@@ -284,10 +284,10 @@ function PetMaydayWidget() {
 
 ## Partner Portal (Standalone)
 
-Organizations NOT using petshelteros can use the standalone Partner Portal at:
+Organizations NOT using PROVENIQ ShelterOS can use the standalone Partner Portal at:
 
 ```
-https://PetMayday.proveniq.io/partner/dashboard
+https://mayday.proveniq.io/partner/dashboard
 ```
 
 This is recommended for:

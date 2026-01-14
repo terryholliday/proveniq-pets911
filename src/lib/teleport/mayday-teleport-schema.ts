@@ -1,9 +1,9 @@
 // ============================================================
-// PETMAYDAY TELEPORT API SCHEMA
-// Interoperability layer for PetShelterOS integration
+// PROVENIQ MAYDAY TELEPORT API SCHEMA
+// Interoperability layer for PROVENIQ ShelterOS integration
 // ============================================================
 // 
-// PetShelterOS (shelters) consume this API to:
+// PROVENIQ ShelterOS (shelters) consume this API to:
 // - Receive stray alerts in their service area
 // - Log intake directly from their existing interface
 // - Track reunification outcomes
@@ -11,7 +11,7 @@
 //
 // Standalone Partner Portal remains for:
 // - Rescues, foster networks, transport orgs
-// - Organizations not using PetShelterOS
+// - Organizations not using PROVENIQ ShelterOS
 // ============================================================
 
 import type { County, TriageTier, TriageCode } from '../types';
@@ -21,7 +21,7 @@ import type { County, TriageTier, TriageCode } from '../types';
 // ============================================================
 
 /**
- * Alert payload sent to PetShelterOS shelters
+ * Alert payload sent to PROVENIQ ShelterOS shelters
  * Privacy-aware: Reporter PII withheld until acknowledged
  */
 export interface TeleportAlert {
@@ -155,7 +155,7 @@ export interface TeleportReunificationPayload {
 }
 
 /**
- * Metrics payload for PetShelterOS dashboard widget
+ * Metrics payload for PROVENIQ ShelterOS dashboard widget
  */
 export interface TeleportMetrics {
   organization_id: string;
@@ -200,7 +200,7 @@ export const TELEPORT_ENDPOINTS = {
   // Metrics
   GET_METRICS: '/teleport/v1/petmayday/metrics',
   
-  // Webhooks (PetShelterOS subscribes)
+  // Webhooks (PROVENIQ ShelterOS subscribes)
   WEBHOOK_NEW_ALERT: '/teleport/v1/petmayday/webhooks/alert',
   WEBHOOK_CASE_UPDATE: '/teleport/v1/petmayday/webhooks/case',
 } as const;
@@ -223,7 +223,7 @@ export type TeleportWebhookEvent =
 export interface TeleportAuthHeader {
   'X-Teleport-Org-ID': string;
   'X-Teleport-API-Key': string;
-  'X-Teleport-Source': 'PETSHELTEROS' | 'PARTNER_PORTAL' | 'MOBILE';
+  'X-Teleport-Source': 'PROVENIQ_SHELTEROS' | 'PARTNER_PORTAL' | 'MOBILE';
 }
 
 /**
