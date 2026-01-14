@@ -11,6 +11,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 
 interface ACODispatch {
@@ -152,15 +153,15 @@ export default function ACODashboard() {
           <div>
             <h1 className="text-2xl font-bold">ACO Command Center</h1>
             <p className="text-blue-200 text-sm">Animal Control Officer Dashboard</p>
-            <a href="/admin/aco/register" className="text-xs text-blue-300 hover:text-white mr-3">
+            <Link href="/admin/aco/register" className="text-xs text-blue-300 hover:text-white mr-3">
               Register →
-            </a>
-            <a href="/admin/aco/schedule" className="text-xs text-blue-300 hover:text-white mr-3">
+            </Link>
+            <Link href="/admin/aco/schedule" className="text-xs text-blue-300 hover:text-white mr-3">
               Schedule →
-            </a>
-            <a href="/admin/aco/metrics" className="text-xs text-blue-300 hover:text-white">
+            </Link>
+            <Link href="/admin/aco/metrics" className="text-xs text-blue-300 hover:text-white">
               Metrics →
-            </a>
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <select
