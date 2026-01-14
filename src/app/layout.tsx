@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import { NotificationProvider } from '@/contexts/NotificationContext';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -33,6 +34,7 @@ export default function RootLayout({
             </div>
           </NotificationProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
