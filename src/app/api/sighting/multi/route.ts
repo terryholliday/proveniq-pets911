@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@/lib/supabase/client';
-import { getSupabaseAdmin } from '@/lib/supabase/admin';
 
 /**
  * POST /api/sighting/multi
@@ -61,76 +60,43 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Map scenario to case_type
-    const caseTypeMap: Record<string, string> = {
-      'LITTER': 'STRAY_LITTER',
-      'DECEASED_OWNER': 'ABANDONMENT',
-      'FERAL_COLONY': 'COMMUNITY_CAT_COLONY',
-      'HOARDING': 'HOARDING',
-      'ABANDONMENT': 'ABANDONMENT',
-      'OTHER': 'STRAY_LITTER',
-    };
+    // Generate a case number
+    const caseNumber = `MULTI-${Date.now().toString(36).toUpperCase()}`;
 
-    const speciesBreakdown: Record<string, number> = {};
-    if (count && species) {
-      speciesBreakdown[species] = count;
-    }
+    // Build description with scenario context
+    const fullDescription = [
+      `[${scenario}] ${count ? count + ' animals' : 'Multiple animals'}`,
+      `Species: ${species}`,
+      description,
+      urgency !== 'MEDIUM' ? `Urgency: ${urgency}` : '',
+      canHold ? 'Reporter can stay with animals' : '',
+    ].filter(Boolean).join('\n');
 
-    // Use admin client to bypass RLS for inserts
-    const supabaseAdmin = getSupabaseAdmin();
-
-    // Create incident case
-    const { data: incidentCase, error: caseError } = await supabaseAdmin
-      .from('incident_cases')
+    // Create sighting record (using existing MAYDAY schema)
+    const { data: sightingRecord, error: sightingError } = await supabase
+      .from('sighting')
       .insert({
-        case_type: caseTypeMap[scenario] || 'STRAY_LITTER',
-        status: urgency === 'CRITICAL' ? 'IN_PROGRESS' : 'OPEN',
-        location_county: county,
-        location_address: address,
-        location_notes: locationNotes,
-        total_animals: count || 0,
-        species_breakdown: speciesBreakdown,
         reporter_id: user?.id || null,
         reporter_name: reporterName,
         reporter_phone: reporterPhone,
-        // Special flags
-        is_multi_species: species === 'MIXED',
+        sighting_at: new Date().toISOString(),
+        sighting_address: address || null,
+        description: fullDescription.substring(0, 1000),
+        animal_behavior: locationNotes || null,
+        county: county,
+        photo_url: photoUrl,
+        confidence_level: 'CONFIDENT',
       })
-      .select('id, case_number')
+      .select('id')
       .single();
 
-    if (caseError) {
-      console.error('Case creation error:', caseError);
+    if (sightingError) {
+      console.error('Sighting creation error:', sightingError);
       return NextResponse.json(
-        { error: 'Failed to create case: ' + caseError.message },
+        { error: 'Failed to create report: ' + sightingError.message },
         { status: 500 }
       );
     }
-
-    // For feral colonies, create a specific record
-    if (scenario === 'FERAL_COLONY') {
-      // Could create a specific TNR colony record here
-      // For now, the description captures the colony details
-    }
-
-    // Create a placeholder animal entry
-    await supabaseAdmin
-      .from('case_animals')
-      .insert({
-        case_id: incidentCase.id,
-        temp_id: count ? `Group of ${count}` : 'Multiple animals',
-        species: species === 'MIXED' ? 'OTHER' : species,
-        species_detail: scenario === 'FERAL_COLONY' ? 'Feral cat colony' : null,
-        description: description,
-        condition: urgency === 'CRITICAL' ? 'CRITICAL' : 'UNKNOWN',
-        is_litter_member: scenario === 'LITTER',
-        is_group_photo: true,
-        photo_urls: photoUrl ? [photoUrl] : [],
-        microchip_scanned: false,
-        has_collar: false,
-        requires_immediate_medical: urgency === 'CRITICAL',
-        suspected_breeder_release: false,
-      });
 
     // TODO: Trigger appropriate alerts based on scenario
     // - FERAL_COLONY -> TNR coordinators
@@ -139,10 +105,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      case_id: incidentCase.id,
-      case_number: incidentCase.case_number,
+      case_id: sightingRecord.id,
+      case_number: caseNumber,
       scenario,
-      message: `Case created for ${scenario.toLowerCase().replace('_', ' ')} situation`,
+      message: `Report created for ${scenario.toLowerCase().replace('_', ' ')} situation`,
     });
 
   } catch (error) {
