@@ -152,6 +152,9 @@ export default function ACODashboard() {
           <div>
             <h1 className="text-2xl font-bold">ACO Command Center</h1>
             <p className="text-blue-200 text-sm">Animal Control Officer Dashboard</p>
+            <a href="/admin/aco/register" className="text-xs text-blue-300 hover:text-white">
+              Register as ACO Officer →
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <select

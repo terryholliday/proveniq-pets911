@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AlertTriangle, Search, Eye, Heart, Users, ClipboardList, MessageCircleHeart, LogOut, LogIn } from 'lucide-react';
+import { AlertTriangle, Search, Eye, Heart, Users, ClipboardList, MessageCircleHeart, LogOut, LogIn, ShieldAlert } from 'lucide-react';
 import { NotificationCenter } from '@/components/notifications/NotificationCenter';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -190,6 +190,22 @@ export default function HomePage() {
                     <p className="text-slate-400 text-sm">Get empathetic support during a difficult time</p>
                   </div>
                   <span className="text-slate-500 text-xl group-hover:text-teal-400 transition-colors">→</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Report Neglect/Cruelty */}
+            <Link href="/report-neglect" className="block group">
+              <div className="bg-slate-800 border-2 border-slate-700 hover:border-red-500 rounded-2xl p-4 transition-all hover:bg-slate-800/80">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-red-700 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <ShieldAlert className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white mb-1">Report Animal Neglect or Cruelty</h3>
+                    <p className="text-slate-400 text-sm">Report abuse, neglect, or dangerous animals to Animal Control</p>
+                  </div>
+                  <span className="text-slate-500 text-xl group-hover:text-red-400 transition-colors">→</span>
                 </div>
               </div>
             </Link>
