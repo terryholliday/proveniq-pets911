@@ -76,7 +76,7 @@ export async function getOnDuty(county: County): Promise<OnDutyInfo | null> {
 
   return {
     county,
-    current_role: duty.current_role,
+    current_role: duty.duty_role,
     aco_officer_id: duty.aco_officer_id,
     dispatcher_id: duty.dispatcher_id,
     on_duty_since: duty.on_duty_since,

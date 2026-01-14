@@ -113,7 +113,7 @@ CREATE INDEX IF NOT EXISTS idx_shift_log_effective ON aco_shift_log(effective_at
 CREATE OR REPLACE VIEW current_on_duty AS
 SELECT DISTINCT ON (county)
     county,
-    to_role as current_role,
+    to_role as duty_role,
     to_officer_id as aco_officer_id,
     to_911_operator_id as dispatcher_id,
     effective_at as on_duty_since,
@@ -125,7 +125,7 @@ ORDER BY county, effective_at DESC;
 -- ============================================================
 CREATE OR REPLACE FUNCTION get_on_duty(p_county county_enum)
 RETURNS TABLE (
-    current_role TEXT,
+    duty_role TEXT,
     aco_officer_id UUID,
     dispatcher_id UUID,
     on_duty_since TIMESTAMPTZ
