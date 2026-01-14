@@ -1,5 +1,5 @@
 /**
- * PET911 TRAINING SYSTEM - Part 1: Core Types & Structures
+ * petmayday TRAINING SYSTEM - Part 1: Core Types & Structures
  * 
  * Comprehensive training and certification system for all volunteer
  * and moderator roles.

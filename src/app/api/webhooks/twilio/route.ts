@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
 
     if (!volunteer) {
       return new NextResponse(
-        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Volunteer profile not found. Please register at pet911.org/helpers/join</Message></Response>',
+        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Volunteer profile not found. Please register at petmayday.org/helpers/join</Message></Response>',
         { 
           status: 200,
           headers: { 'Content-Type': 'text/xml' }
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
         .eq('id', volunteer.id);
 
       return new NextResponse(
-        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Thank you! You\'ve accepted the dispatch. The finder will be notified. Check your dashboard for details: pet911.org/helpers/dashboard</Message></Response>',
+        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Thank you! You\'ve accepted the dispatch. The finder will be notified. Check your dashboard for details: petmayday.org/helpers/dashboard</Message></Response>',
         { 
           status: 200,
           headers: { 'Content-Type': 'text/xml' }

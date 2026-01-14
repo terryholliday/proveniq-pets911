@@ -5,7 +5,7 @@
 
 import type { County, CountyComplianceData } from '../types';
 
-// Gold Standard Counties (High Pet911 Compliance)
+// Gold Standard Counties (High petmayday Compliance)
 const GOLD_TIER_COUNTIES: Partial<Record<County, CountyComplianceData>> = {
   KANAWHA: {
     county: 'KANAWHA',
@@ -25,8 +25,8 @@ const GOLD_TIER_COUNTIES: Partial<Record<County, CountyComplianceData>> = {
     pillar_digital_transparency: true,
     pillar_extended_holding: true,
     pillar_finder_immunity: false,
-    ordinance_notes: 'Anti-tethering ordinance; high Pet911 compliance. Adoption reservation system. PILOT COUNTY.',
-    special_programs: ['Adoption Reservation System', 'Anti-Tethering Ordinance', 'Pet911 Pilot Program'],
+    ordinance_notes: 'Anti-tethering ordinance; high petmayday compliance. Adoption reservation system. PILOT COUNTY.',
+    special_programs: ['Adoption Reservation System', 'Anti-Tethering Ordinance', 'petmayday Pilot Program'],
     primary_phone: null,
     website_url: null,
     last_verified_at: '2026-01-12',
@@ -131,7 +131,7 @@ const SILVER_TIER_COUNTIES: Partial<Record<County, CountyComplianceData>> = {
     pillar_extended_holding: false,
     pillar_finder_immunity: false,
     ordinance_notes: 'Strong partnership with private humane society. PILOT COUNTY.',
-    special_programs: ['Pet911 Pilot Program'],
+    special_programs: ['petmayday Pilot Program'],
     primary_phone: null,
     website_url: null,
     last_verified_at: '2026-01-12',

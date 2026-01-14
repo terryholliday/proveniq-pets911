@@ -1,5 +1,5 @@
 /**
- * PET911 TRAINING SYSTEM - Part 2: Module Content Definitions
+ * petmayday TRAINING SYSTEM - Part 2: Module Content Definitions
  * 
  * Detailed module content for:
  * - Volunteer Orientation

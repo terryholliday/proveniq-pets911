@@ -106,7 +106,7 @@ export function AuthForm() {
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h1>
           <p className="text-slate-400">
-            {isLogin ? 'Sign in to manage your pet registrations' : 'Join Pet911 to protect your pets'}
+            {isLogin ? 'Sign in to manage your pet registrations' : 'Join petmayday to protect your pets'}
           </p>
         </div>
 

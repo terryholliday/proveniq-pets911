@@ -1,7 +1,7 @@
 /**
  * ROLE HIERARCHY & PERMISSIONS SYSTEM
  * 
- * Defines all volunteer and staff roles for Pet911 operations.
+ * Defines all volunteer and staff roles for petmayday operations.
  * Establishes clear chain of command, permissions, and accountability.
  * 
  * HIERARCHY (Top to Bottom):

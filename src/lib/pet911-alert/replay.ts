@@ -20,52 +20,52 @@ export function replay(events: MemoryEvent[]): AlertProjection {
 
   for (const e of events) {
     switch (e.type) {
-      case 'pet911.alert.consent_set':
+      case 'petmayday.alert.consent_set':
         p.consentByChannel[`${e.channel}::${e.audience_segment}`] = e.consent;
         break;
-      case 'pet911.alert.user_pause_set':
+      case 'petmayday.alert.user_pause_set':
         p.userPaused = e.paused;
         break;
-      case 'pet911.partner.contracted':
+      case 'petmayday.partner.contracted':
         p.partnerContracted[`${e.channel}::${e.audience_segment}`] = true;
         break;
-      case 'pet911.alert.rate_limit_exceeded':
+      case 'petmayday.alert.rate_limit_exceeded':
         p.rateLimitedUntilByChannel[`${e.channel}::${e.audience_segment}`] = e.until;
         break;
-      case 'pet911.alert.flag_low_confidence':
+      case 'petmayday.alert.flag_low_confidence':
         p.lowConfidence = true;
         break;
-      case 'pet911.alert.fraud_signal':
+      case 'petmayday.alert.fraud_signal':
         p.fraudSignal = true;
         break;
-      case 'pet911.alert.escalation_proof_required':
+      case 'petmayday.alert.escalation_proof_required':
         p.escalationProofRequired = true;
         break;
-      case 'pet911.alert.escalation_proof_attached':
+      case 'petmayday.alert.escalation_proof_attached':
         p.escalationProofAttached = true;
         break;
-      case 'pet911.alert.human_review_required':
+      case 'petmayday.alert.human_review_required':
         p.humanReviewRequired = true;
         p.humanReviewChannels = e.channels ? [...e.channels] : null;
         break;
-      case 'pet911.alert.evaluate_requested':
+      case 'petmayday.alert.evaluate_requested':
         break;
       // ANTI_FRAUD_LOCKER_V2 events
-      case 'pet911.antifraud.message_blocked':
+      case 'petmayday.antifraud.message_blocked':
         p.fraudSignal = true;
         break;
-      case 'pet911.antifraud.user_banned':
+      case 'petmayday.antifraud.user_banned':
         p.bannedUser = true;
         p.fraudSignal = true;
         break;
-      case 'pet911.antifraud.proof_of_life_submitted':
+      case 'petmayday.antifraud.proof_of_life_submitted':
         p.proofOfLifeVerified = e.verification_status === 'VERIFIED';
         break;
-      case 'pet911.antifraud.identity_verified':
+      case 'petmayday.antifraud.identity_verified':
         p.identityVerified = true;
         p.identityTrustScore = e.trust_score;
         break;
-      case 'pet911.antifraud.verified_match':
+      case 'petmayday.antifraud.verified_match':
         p.proofOfLifeVerified = true;
         p.identityVerified = true;
         break;

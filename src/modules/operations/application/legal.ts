@@ -40,7 +40,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
   {
     type: 'nda_agreement',
@@ -52,7 +52,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
   {
     type: 'media_release',
@@ -64,7 +64,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
   {
     type: 'vehicle_indemnification',
@@ -76,7 +76,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
   {
     type: 'background_check_consent',
@@ -92,7 +92,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
   {
     type: 'location_sharing_consent',
@@ -106,7 +106,7 @@ export const AGREEMENT_VERSIONS: AgreementVersion[] = [
     requiresResigning: false,
     legalJurisdiction: 'USA',
     lastReviewed: '2025-12-01',
-    reviewedBy: 'legal@pet911.org',
+    reviewedBy: 'legal@petmayday.org',
   },
 ];
 

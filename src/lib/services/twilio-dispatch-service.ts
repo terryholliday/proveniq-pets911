@@ -61,14 +61,14 @@ export async function notifyVolunteerDispatch(
   const urgencyText = params.priority === 'CRITICAL' ? '🚨 URGENT' : 
                       params.priority === 'HIGH' ? '⚠️ HIGH PRIORITY' : '';
 
-  const message = `${urgencyText} Pet911 Emergency Helper Request
+  const message = `${urgencyText} petmayday Emergency Helper Request
 
 Animal: ${params.species} (${params.animalSize})
 Location: ${params.pickupAddress}
 Distance: ${params.distance} miles from you
 
 Reply Y to accept or N to decline.
-Details: https://pet911.org/dispatch/${params.dispatchId}`;
+Details: https://petmayday.org/dispatch/${params.dispatchId}`;
 
   try {
     // Use Twilio REST API

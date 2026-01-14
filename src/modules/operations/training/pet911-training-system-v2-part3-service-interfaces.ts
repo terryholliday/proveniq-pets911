@@ -1,5 +1,5 @@
 /**
- * PET911 TRAINING SYSTEM V2 — Part 3: Service Interfaces
+ * petmayday TRAINING SYSTEM V2 — Part 3: Service Interfaces
  *
  * Service layer implementation incorporating:
  * - ChatGPT's bug fixes (time math, progress calculation, phase advancement)
@@ -80,7 +80,7 @@ import type {
   QuestionAnalytics,
   AssessmentGeneration,
   RemediationPolicy,
-} from './pet911-training-system-v2-part1-types';
+} from './petmayday-training-system-v2-part1-types';
 
 import type {
   TrainingAnalyticsDashboard,
@@ -98,7 +98,7 @@ import type {
   TrainingSandbox,
   SimulatedCase,
   SandboxAction,
-} from './pet911-training-system-v2-part2-analytics';
+} from './petmayday-training-system-v2-part2-analytics';
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 1: UTILITY FUNCTIONS (Time math)

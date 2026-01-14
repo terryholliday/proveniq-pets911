@@ -1,7 +1,7 @@
 /**
  * Roles & Volunteer Management Module
  * 
- * Comprehensive role hierarchy, permissions, and application system for Pet911.
+ * Comprehensive role hierarchy, permissions, and application system for petmayday.
  */
 
 // Role Hierarchy & Permissions

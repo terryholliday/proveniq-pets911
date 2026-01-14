@@ -26,13 +26,13 @@ export default function AppStoreSafetyPage() {
 
           <div className="space-y-6 text-slate-200 leading-relaxed">
             <p>
-              Pet911 provides emotional support and general guidance related to pets during stressful situations such as loss, emergencies, or uncertainty.
+              petmayday provides emotional support and general guidance related to pets during stressful situations such as loss, emergencies, or uncertainty.
             </p>
 
             <div className="p-5 rounded-xl bg-slate-950 border border-red-900/40">
               <h2 className="text-xl font-bold text-white mb-2">Important Safety Information</h2>
               <ul className="space-y-2">
-                <li>• Pet911 does <strong>not</strong> provide medical, veterinary, or mental health diagnoses.</li>
+                <li>• petmayday does <strong>not</strong> provide medical, veterinary, or mental health diagnoses.</li>
                 <li>• Pet11 does <strong>not</strong> replace licensed professionals or emergency services.</li>
                 <li>• If you or your pet are in immediate danger, contact local emergency services.</li>
               </ul>
@@ -48,14 +48,14 @@ export default function AppStoreSafetyPage() {
                 <li><strong>988 – Suicide & Crisis Lifeline</strong> (call or text)</li>
               </ul>
               <p className="mt-2">
-                Pet911 may encourage users to seek professional help when appropriate.
+                petmayday may encourage users to seek professional help when appropriate.
               </p>
             </div>
 
             <div>
               <h2 className="text-xl font-bold text-white mb-2">Intended Use</h2>
               <p>
-                Pet911 is intended as a <strong>supportive informational tool</strong> only. Always consult qualified professionals for medical or mental health concerns.
+                petmayday is intended as a <strong>supportive informational tool</strong> only. Always consult qualified professionals for medical or mental health concerns.
               </p>
             </div>
 

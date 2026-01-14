@@ -1,7 +1,7 @@
 /**
  * ANTI_FRAUD_LOCKER_V2
  * 
- * Military-grade fraud prevention for Pet911.
+ * Military-grade fraud prevention for petmayday.
  * Ending the Desperation Economy.
  * 
  * Features:

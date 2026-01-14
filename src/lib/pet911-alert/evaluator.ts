@@ -161,7 +161,7 @@ export function evaluateAlert(
   const predictedSorted = sortPredictedIneligibility(predicted);
 
   const policyEvaluated: PolicyEvaluatedEvent = {
-    type: 'pet911.alert.policy_evaluated',
+    type: 'petmayday.alert.policy_evaluated',
     decision_id,
     policy_version_hash: req.policy_version_hash ?? '',
     tier: req.tier ?? 'T0',
@@ -179,7 +179,7 @@ export function evaluateAlert(
     const reason = predicted.find(p => p.channel === ch)?.reason_code ?? null;
     if (reason) {
       suppressed.push({
-        type: 'pet911.alert.suppressed',
+        type: 'petmayday.alert.suppressed',
         decision_id,
         policy_version_hash: req.policy_version_hash ?? '',
         case_id: req.case_id ?? '',
@@ -202,7 +202,7 @@ export function evaluateAlert(
         ttl_seconds: typeof req.ttl_seconds === 'number' ? req.ttl_seconds : null,
       });
       emitted.push({
-        type: 'pet911.alert.emitted',
+        type: 'petmayday.alert.emitted',
         decision_id,
         policy_version_hash: req.policy_version_hash ?? '',
         channel: ch,
@@ -231,9 +231,9 @@ export function evaluateAlert(
 }
 
 export function extractEvaluateRequest(events: MemoryEvent[]): EvaluateRequest {
-  const reqEvent = events.find(e => e.type === 'pet911.alert.evaluate_requested');
-  if (!reqEvent || reqEvent.type !== 'pet911.alert.evaluate_requested') {
-    throw new Error('Missing pet911.alert.evaluate_requested event');
+  const reqEvent = events.find(e => e.type === 'petmayday.alert.evaluate_requested');
+  if (!reqEvent || reqEvent.type !== 'petmayday.alert.evaluate_requested') {
+    throw new Error('Missing petmayday.alert.evaluate_requested event');
   }
   return {
     case_id: reqEvent.case_id,

@@ -47,7 +47,7 @@ export interface OwnershipClaim {
   // Verification steps
   verificationSteps: OwnershipVerificationStep[];
   
-  // Pre-reg linkage (Pet911 doctrine)
+  // Pre-reg linkage (petmayday doctrine)
   linkedPreregProfileId?: string;
   preregMatchConfidence?: ConfidenceLevel;
   
@@ -166,7 +166,7 @@ export interface OwnershipEvidence {
 
 export type OwnershipEvidenceType =
   | 'microchip_registration'      // 80 points - Gold standard
-  | 'owner_prereg_profile_match'  // 60 points - Pet911 pre-registration
+  | 'owner_prereg_profile_match'  // 60 points - petmayday pre-registration
   | 'vet_records'                 // 40 points
   | 'adoption_papers'             // 40 points
   | 'purchase_receipt'            // 30 points
@@ -193,7 +193,7 @@ export interface EvidenceScoreRule {
 
 export const EVIDENCE_SCORE_RULES: EvidenceScoreRule[] = [
   { type: 'microchip_registration', basePoints: 80, requiresVerification: true, maxInstances: 1, description: 'Registered microchip matching claimant' },
-  { type: 'owner_prereg_profile_match', basePoints: 60, requiresVerification: true, maxInstances: 1, description: 'Pre-registered Pet911 profile match' },
+  { type: 'owner_prereg_profile_match', basePoints: 60, requiresVerification: true, maxInstances: 1, description: 'Pre-registered petmayday profile match' },
   { type: 'vet_records', basePoints: 40, requiresVerification: true, maxInstances: 1, description: 'Veterinary records with claimant name' },
   { type: 'adoption_papers', basePoints: 40, requiresVerification: true, maxInstances: 1, description: 'Official adoption documentation' },
   { type: 'purchase_receipt', basePoints: 30, requiresVerification: true, maxInstances: 1, description: 'Purchase receipt from breeder/store' },

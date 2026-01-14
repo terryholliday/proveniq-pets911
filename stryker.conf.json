@@ -6,8 +6,8 @@
   "checkers": ["typescript"],
   "tsconfigFile": "tsconfig.json",
   "mutate": [
-    "src/lib/pet911-alert/**/*.ts",
-    "!src/lib/pet911-alert/**/*.d.ts"
+    "src/lib/petmayday-alert/**/*.ts",
+    "!src/lib/petmayday-alert/**/*.d.ts"
   ],
   "ignorePatterns": [
     "**/__tests__/**",

@@ -1,15 +1,15 @@
-# PetMayday ↔ Pet360 Teleport Integration
+# PetMayday ↔ petshelteros Teleport Integration
 
 ## Overview
 
-Pet360 shelters can integrate PetMayday emergency response data directly into their existing dashboard via the Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
+petshelteros shelters can integrate PetMayday emergency response data directly into their existing dashboard via the Teleport API. This eliminates the need for separate logins while maintaining the standalone Partner Portal for rescues, fosters, and transport networks.
 
 ## Architecture
 
 ```
 ┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
 │                 │         │                 │         │                 │
-│     Pet360      │ ←─────→ │    Teleport     │ ←─────→ │     PetMayday      │
+│     petshelteros      │ ←─────→ │    Teleport     │ ←─────→ │     PetMayday      │
 │  (Shelter OS)   │   API   │   (API Layer)   │         │ (Emergency Sys) │
 │                 │         │                 │         │                 │
 └─────────────────┘         └─────────────────┘         └─────────────────┘
@@ -30,7 +30,7 @@ All requests require Teleport authentication headers:
 ```http
 X-Teleport-Org-ID: org_abc123
 X-Teleport-API-Key: tpk_live_xxx
-X-Teleport-Source: PET360
+X-Teleport-Source: petshelteros
 ```
 
 API keys are issued during partner onboarding and can be rotated via the admin console.
@@ -210,7 +210,7 @@ Fetch performance metrics for dashboard widget.
 
 ## Webhooks
 
-Pet360 can subscribe to real-time events:
+petshelteros can subscribe to real-time events:
 
 | Event | Description |
 |-------|-------------|
@@ -230,13 +230,13 @@ Pet360 can subscribe to real-time events:
 
 ---
 
-## Pet360 Widget Integration
+## petshelteros Widget Integration
 
-Embed PetMayday data in Pet360 dashboard:
+Embed PetMayday data in petshelteros dashboard:
 
 ```jsx
-// Pet360 Dashboard Component
-import { usePetMaydayAlerts, usePetMaydayMetrics } from '@pet360/teleport-client';
+// petshelteros Dashboard Component
+import { usePetMaydayAlerts, usePetMaydayMetrics } from '@petshelteros/teleport-client';
 
 function PetMaydayWidget() {
   const { alerts, acknowledge } = usePetMaydayAlerts();
@@ -267,7 +267,7 @@ function PetMaydayWidget() {
    ↓
 2. Moderator triages → Alert broadcast to service area
    ↓
-3. Pet360 receives webhook OR polls /alerts endpoint
+3. petshelteros receives webhook OR polls /alerts endpoint
    ↓
 4. Shelter acknowledges → Gets reporter contact
    ↓
@@ -284,7 +284,7 @@ function PetMaydayWidget() {
 
 ## Partner Portal (Standalone)
 
-Organizations NOT using Pet360 can use the standalone Partner Portal at:
+Organizations NOT using petshelteros can use the standalone Partner Portal at:
 
 ```
 https://PetMayday.proveniq.io/partner/dashboard

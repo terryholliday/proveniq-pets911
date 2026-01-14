@@ -67,8 +67,8 @@ export type County =
 // Pilot counties (active deployment)
 export const PILOT_COUNTIES: County[] = ['GREENBRIER', 'KANAWHA'];
 
-// Pet911 Compliance Tiers based on research
-export type Pet911ComplianceTier = 'GOLD' | 'SILVER' | 'BRONZE' | 'NON_COMPLIANT';
+// petmayday Compliance Tiers based on research
+export type petmaydayComplianceTier = 'GOLD' | 'SILVER' | 'BRONZE' | 'NON_COMPLIANT';
 
 // Enforcement agency types
 export type EnforcementAgencyType =
@@ -557,8 +557,8 @@ export interface CountyComplianceData {
   has_spay_neuter_mandate: boolean;
   has_tnr_program: boolean;
   
-  // Pet911 Compliance Pillars
-  compliance_tier: Pet911ComplianceTier;
+  // petmayday Compliance Pillars
+  compliance_tier: petmaydayComplianceTier;
   pillar_universal_scanning: boolean;
   pillar_digital_transparency: boolean;
   pillar_extended_holding: boolean;

@@ -158,7 +158,7 @@ function CaseCard({
     e.preventDefault();
     e.stopPropagation();
     const url = getShareUrl();
-    const subject = isFound ? 'Found pet report (Pet911)' : 'Missing pet alert (Pet911)';
+    const subject = isFound ? 'Found pet report (petmayday)' : 'Missing pet alert (petmayday)';
     const body = `${getShareText()}\n\nView case: ${url}`;
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setShareOpen(false);

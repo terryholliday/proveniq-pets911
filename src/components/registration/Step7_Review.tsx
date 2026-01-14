@@ -84,7 +84,7 @@ export function Step7_Review({ data, onComplete, onBack }: { data: RegistrationD
                         className="mt-1 w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500/20 transition-all cursor-pointer"
                     />
                     <span className="text-xs text-slate-400 leading-relaxed font-medium">
-                        I confirm this information is accurate to the best of my knowledge. I understand this data is used for reunification purposes within the PetNexus Pet911 network.
+                        I confirm this information is accurate to the best of my knowledge. I understand this data is used for reunification purposes within the PetNexus petmayday network.
                     </span>
                 </label>
             </div>

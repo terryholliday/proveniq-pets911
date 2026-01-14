@@ -166,7 +166,7 @@ export default function VolunteerApplyPage() {
         {step === 'agreements' && role && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Agreements</h2>
-            <Agreement label="Code of Conduct *" desc="I agree to abide by the Pet911 Volunteer Code of Conduct." checked={form.agree?.code} onChange={v => update('agree', { code: v })} />
+            <Agreement label="Code of Conduct *" desc="I agree to abide by the petmayday Volunteer Code of Conduct." checked={form.agree?.code} onChange={v => update('agree', { code: v })} />
             <Agreement label="Terms of Service *" desc="I agree to the Terms of Service and Privacy Policy." checked={form.agree?.terms} onChange={v => update('agree', { terms: v })} />
             {APPLICATION_REQUIREMENTS[role]?.requiresBackgroundCheck && (
               <Agreement label="Background Check *" desc="I authorize a background check as part of my application." checked={form.agree?.bg} onChange={v => update('agree', { bg: v })} />

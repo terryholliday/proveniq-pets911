@@ -1,4 +1,4 @@
-# PetNexus Pet911 - Pilot PWA
+# PetNexus petmayday - Pilot PWA
 
 Emergency coordination for lost and found pets in West Virginia. Offline-first PWA with moderator console.
 
@@ -94,7 +94,7 @@ This implementation follows:
 
 ### Compliance Documents
 
-- [Pet911 Alert Compliance](docs/pets/PET911_ALERT_COMPLIANCE.md) – E2E determinism, auditability, fail-closed
+- [petmayday Alert Compliance](docs/pets/petmayday_ALERT_COMPLIANCE.md) – E2E determinism, auditability, fail-closed
 - [Offline Sync Compliance](docs/pets/OFFLINE_SYNC_COMPLIANCE.md) – FIFO, idempotency, retry, dependencies
 - [Canonical Law](docs/pets/CANONICAL_LAW.md) – Governance and fail-closed rules
 - [Offline Protocol](docs/pets/OFFLINE_PROTOCOL.md) – Caching tiers, sync lifecycle
@@ -109,7 +109,7 @@ npm test
 npm run test:watch
 
 # Run specific test suites
-npm run test:pet911-alert-compliance
+npm run test:petmayday-alert-compliance
 npm run test:sync-worker-e2e
 npm test -- --testPathPattern=offline-queue
 npm test -- --testPathPattern=county-pack

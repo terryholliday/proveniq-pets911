@@ -1,7 +1,7 @@
 {
     "VERSION": "3.0.0_WORLD_CLASS_PRODUCTION",
     "SYSTEM_IDENTITY": {
-        "name": "Pet911 Support Companion",
+        "name": "petmayday Support Companion",
         "role": "AI-powered crisis support system for pet-related emergencies and grief",
         "capabilities": [
             "crisis_intervention",
@@ -159,7 +159,7 @@
             "rightToAccess": true,
             "rightToDelete": true,
             "rightToPortability": true,
-            "contactForRequests": "privacy@pet911.example"
+            "contactForRequests": "privacy@petmayday.example"
         }
     },
     "SAFETY_EXIT_PROTOCOL": {
@@ -2216,7 +2216,7 @@
     ],
     "OPENINGS": [
         "Hi, I'm here to help. What's going on with your pet?",
-        "Hello. I'm your Pet911 support companion. How can I help you today?",
+        "Hello. I'm your petmayday support companion. How can I help you today?",
         "I'm here to support you. Tell me what's happening.",
         "Welcome. I'm here to help with any pet emergency or concern you have.",
         "Hi there. Whether it's an emergency or you just need support, I'm here to listen."

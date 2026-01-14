@@ -1,4 +1,4 @@
-Ôªø{
+{
     "VERSION": "2.2_WORLD_CLASS",
     "SAFETY_PROTOCOL": {
         "DISCLAIMER": {
@@ -168,12 +168,12 @@
         "templates": {
             "afterHotline": "Thank you for calling them. That took courage. **You did the right thing.**\n\nRight now, let's focus on getting through the next few hours. Have you eaten anything today?",
             "afterCrisis": "I'm glad you're still here with me. **You got through the worst moment.** That matters.\n\nWhat's one small thing you can do right now to take care of yourself? Even something tiny.",
-            "sleepSupport": "Your body and mind have been through a lot. Sleep can helpŒì√á√∂but if you can't sleep, that's okay too. Just rest. Close your eyes. Let your body be still.\n\nI'll be here if you need me."
+            "sleepSupport": "Your body and mind have been through a lot. Sleep can helpG«ˆbut if you can't sleep, that's okay too. Just rest. Close your eyes. Let your body be still.\n\nI'll be here if you need me."
         }
     },
     "CRISIS_TOOLS": {
         "grounding_54321": {
-            "text": "I can tell you're in a panic storm right now. Let's ground ourselves before we do anything else.\n\n**Look around the room and find:**\n‚â°∆í√¶√á **5** things you can see\nŒì¬£√Ø **4** things you can touch\n‚â°∆í√¶√© **3** things you can hear\n‚â°∆í√¶√¢ **2** things you can smell\n‚â°∆í√¶√† **1** thing you can taste\n\nTake a deep breath. Are you back with me?",
+            "text": "I can tell you're in a panic storm right now. Let's ground ourselves before we do anything else.\n\n**Look around the room and find:**\n=ÉÊ« **5** things you can see\nG£Ô **4** things you can touch\n=ÉÊÈ **3** things you can hear\n=ÉÊ‚ **2** things you can smell\n=ÉÊ‡ **1** thing you can taste\n\nTake a deep breath. Are you back with me?",
             "trigger": [
                 "panic attack",
                 "can't breathe",
@@ -855,11 +855,11 @@
             "perdido",
             "perdida",
             "desaparecido",
-            "se escap‚îú‚îÇ",
+            "se escap+¶",
             "no encuentro"
         ],
         "FOUND_PET": [
-            "encontr‚îú‚åê",
+            "encontr+¨",
             "encontrado",
             "hay un"
         ],
@@ -1027,7 +1027,7 @@
     },
     "TEMPLATES": {
         "suicide_intent": {
-            "response": "**I need you to know: your life matters. Right now, in this moment, your life has value.**\n\nIf you are in immediate danger of acting on these thoughts, please:\n\n‚â°∆í√¥‚Çß **CALL {HOTLINES.{REGION}.crisis_988}** Œì√á√∂ Available 24/7, call or text\n‚â°∆í√¥‚ñí **{HOTLINES.{REGION}.crisis_text_line}**\n‚â°∆í√¥‚Çß **Veterinary Social Work Helpline: {HOTLINES.US.ut_vet_social_work}**\n\nIf you are in immediate danger: **Call {HOTLINES.{REGION}.emergency}**\n\n**I can't keep you safe alone, but I can stay with you while you reach out.**\n\nYour pet loved you. That love doesn't end. But you have to stay alive to honor it.",
+            "response": "**I need you to know: your life matters. Right now, in this moment, your life has value.**\n\nIf you are in immediate danger of acting on these thoughts, please:\n\n=ÉÙP **CALL {HOTLINES.{REGION}.crisis_988}** G«ˆ Available 24/7, call or text\n=ÉÙ¶ **{HOTLINES.{REGION}.crisis_text_line}**\n=ÉÙP **Veterinary Social Work Helpline: {HOTLINES.US.ut_vet_social_work}**\n\nIf you are in immediate danger: **Call {HOTLINES.{REGION}.emergency}**\n\n**I can't keep you safe alone, but I can stay with you while you reach out.**\n\nYour pet loved you. That love doesn't end. But you have to stay alive to honor it.",
             "consentCheck": {
                 "prompt": "Is it okay if we keep talking about this together for a bit?",
                 "ifDeclined": "I understand. Please, before you go, save this number: {HOTLINES.{REGION}.crisis_988}. Call them if things get worse. You deserve support."
@@ -1052,7 +1052,7 @@
             "requiresHumanHandoff": true
         },
         "vet_med_crisis": {
-            "response": "I hear the weight you are carrying. **To the world, you are a helper. But right now, you are the one who needs support.**\n\nCompassion fatigue and moral injury are not signs that you are \"weak\" or \"bad at your job.\" They are the cost of caring deeply in a broken system.\n\n**You are not alone in this field.**\n\n**Specific Support for Vet/Shelter Pros:**\n‚â°∆í√¥‚Çß **NOT ONE MORE VET (NOMV):** {HOTLINES.US.nomv}\n‚â°∆í√¥‚Çß **Vets4Vets (VIN Foundation):** {HOTLINES.US.vets4vets}\n‚â°∆í√¥‚Çß **Vetlife (UK): {HOTLINES.UK.vetlife}**\n‚â°∆í√¥‚Çß **Crisis Line: {HOTLINES.{REGION}.crisis_988}**\n\nThe clients, the trauma, the financial constraints, the convenience euthanasiasŒì√á√∂**it is too much for one person to carry.**\n\nPlease, put down the weight for a moment and reach out to peers who understand.\n\nAre you safe right now?",
+            "response": "I hear the weight you are carrying. **To the world, you are a helper. But right now, you are the one who needs support.**\n\nCompassion fatigue and moral injury are not signs that you are \"weak\" or \"bad at your job.\" They are the cost of caring deeply in a broken system.\n\n**You are not alone in this field.**\n\n**Specific Support for Vet/Shelter Pros:**\n=ÉÙP **NOT ONE MORE VET (NOMV):** {HOTLINES.US.nomv}\n=ÉÙP **Vets4Vets (VIN Foundation):** {HOTLINES.US.vets4vets}\n=ÉÙP **Vetlife (UK): {HOTLINES.UK.vetlife}**\n=ÉÙP **Crisis Line: {HOTLINES.{REGION}.crisis_988}**\n\nThe clients, the trauma, the financial constraints, the convenience euthanasiasG«ˆ**it is too much for one person to carry.**\n\nPlease, put down the weight for a moment and reach out to peers who understand.\n\nAre you safe right now?",
             "consentCheck": {
                 "prompt": "Would it help to talk more about what you're experiencing in the clinic?",
                 "ifDeclined": "I understand. The resources above are there when you're ready."
@@ -1069,7 +1069,7 @@
             ]
         },
         "theft_dispute": {
-            "response": "I can hear how angry and terrified you are. It feels like a kidnapping. **However, for your safety and your pet's safety, please pause.**\n\n**DO NOT confront the person violently or try to break into their property.**\nŒì√á√≥ This can lead to legal charges against *you*.\nŒì√á√≥ It can cause the person to harm or hide the pet to \"get rid of evidence.\"\nŒì√á√≥ You could be injured or killed.\n\n**The most effective steps:**\n1. **Documentation:** Gather photos, microchip records, vet bills, and adoption papers. Prove ownership.\n2. **Police Report:** Even if they say it's a \"civil matter,\" insist on filing a report for \"Theft of Property\" or \"Larceny.\"\n3. **Demand Letter:** Send a formal certified letter demanding the return by a specific date.\n4. **Small Claims Court:** This is often the legal remedy for \"replevin\" (return of property).\n5. **Attorney:** If the pet's value is high or case is complex, consult a lawyer.\n\n**I know you want to storm over there. But getting arrested or hurt won't help you get your pet back.**\n\nDo you have documentation of ownership?",
+            "response": "I can hear how angry and terrified you are. It feels like a kidnapping. **However, for your safety and your pet's safety, please pause.**\n\n**DO NOT confront the person violently or try to break into their property.**\nG«Û This can lead to legal charges against *you*.\nG«Û It can cause the person to harm or hide the pet to \"get rid of evidence.\"\nG«Û You could be injured or killed.\n\n**The most effective steps:**\n1. **Documentation:** Gather photos, microchip records, vet bills, and adoption papers. Prove ownership.\n2. **Police Report:** Even if they say it's a \"civil matter,\" insist on filing a report for \"Theft of Property\" or \"Larceny.\"\n3. **Demand Letter:** Send a formal certified letter demanding the return by a specific date.\n4. **Small Claims Court:** This is often the legal remedy for \"replevin\" (return of property).\n5. **Attorney:** If the pet's value is high or case is complex, consult a lawyer.\n\n**I know you want to storm over there. But getting arrested or hurt won't help you get your pet back.**\n\nDo you have documentation of ownership?",
             "escalation": "HIGH",
             "mustContain": [
                 "DO NOT confront",
@@ -1083,7 +1083,7 @@
             ]
         },
         "grounding_tool": {
-            "response": "I can tell you're in a panic storm right now. **Let's ground ourselves before we do anything else.**\n\n**5-4-3-2-1 Method:**\n\nLook around the room and find:\n‚â°∆í√¶√á **5** things you can see\nŒì¬£√Ø **4** things you can touch\n‚â°∆í√¶√© **3** things you can hear\n‚â°∆í√¶√¢ **2** things you can smell\n‚â°∆í√¶√† **1** thing you can taste\n\nTake a deep breath. Are you back with me?\n\nIf you need it, we can also try **box breathing** together. Just tell me.",
+            "response": "I can tell you're in a panic storm right now. **Let's ground ourselves before we do anything else.**\n\n**5-4-3-2-1 Method:**\n\nLook around the room and find:\n=ÉÊ« **5** things you can see\nG£Ô **4** things you can touch\n=ÉÊÈ **3** things you can hear\n=ÉÊ‚ **2** things you can smell\n=ÉÊ‡ **1** thing you can taste\n\nTake a deep breath. Are you back with me?\n\nIf you need it, we can also try **box breathing** together. Just tell me.",
             "escalation": "STANDARD",
             "mustContain": [
                 "5-4-3-2-1",
@@ -1154,7 +1154,7 @@
     },
     "SERVICE_RESPONSES": {
         "greeting": [
-            "I'm so sorry {petName} is missing. ‚â°∆í√Ü¬£ This must be incredibly difficult.",
+            "I'm so sorry {petName} is missing. =É∆£ This must be incredibly difficult.",
             "I can only imagine how worried you must be about {petName}. I'm here with you.",
             "Losing {petName} must feel overwhelming right now. You're not alone in this."
         ],
@@ -1168,7 +1168,7 @@
         "emotionalSupport": [
             "It's okay to feel overwhelmed. What you're feeling is completely valid.",
             "Remember to take care of yourself too. {petName} needs you to stay strong.",
-            "Many pets are found days or even weeks later. Don't lose hope. ‚â°∆í√Ü¬£",
+            "Many pets are found days or even weeks later. Don't lose hope. =É∆£",
             "You're doing everything you can. That matters.",
             "It's okay to take breaks. Exhausting yourself won't help {petName}."
         ],

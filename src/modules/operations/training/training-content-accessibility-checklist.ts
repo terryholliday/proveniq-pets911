@@ -1,4 +1,4 @@
-import type { AccessibilityMetadata, ContentItem, ContentType, Percentage } from './pet911-training-system-v2-part1-types';
+import type { AccessibilityMetadata, ContentItem, ContentType, Percentage } from './petmayday-training-system-v2-part1-types';
 
 export type AccessibilitySeverity = 'INFO' | 'WARNING' | 'CRITICAL';
 

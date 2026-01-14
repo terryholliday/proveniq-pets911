@@ -37,7 +37,7 @@ It MAY:
 It MAY NOT:
 - Redefine ownership, licensing, or governance
 - Introduce monetization, advertising, or data resale
-- Modify naming conventions (PetNexus, Pet360, PetMayday)
+- Modify naming conventions (PetNexus, petshelteros, PetMayday)
 - Circumvent Ledger invariants or Trust restrictions
 
 Any changes that impact governance MUST be proposed and approved
