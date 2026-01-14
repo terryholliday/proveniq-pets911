@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           <h1 className="text-3xl md:text-4xl font-black text-white mb-6">Privacy Policy</h1>
           <div className="space-y-4 text-slate-200 leading-relaxed">
             <p>
-              This page describes how petmayday handles information.
+              This page describes how Mayday handles information.
             </p>
             <p>
               We aim to collect and use only what is necessary to provide the service. Where available, we prefer privacy-preserving

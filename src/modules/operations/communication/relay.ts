@@ -73,7 +73,7 @@ export interface RelayParty {
 
 export interface MaskedIdentifier {
   maskedPhone?: string;    // e.g., "+1-555-RELAY-01"
-  maskedEmail?: string;    // e.g., "case123-party1@relay.petmayday.org"
+  maskedEmail?: string;    // e.g., "case123-party1@relay.Mayday.org"
   maskedChatId?: string;   // e.g., "chat_abc123"
 }
 
@@ -513,7 +513,7 @@ export class RelayManager {
         };
       case 'email':
         return {
-          maskedEmail: `relay-${randomId.toLowerCase()}@relay.petmayday.org`,
+          maskedEmail: `relay-${randomId.toLowerCase()}@relay.Mayday.org`,
         };
       case 'chat':
         return {

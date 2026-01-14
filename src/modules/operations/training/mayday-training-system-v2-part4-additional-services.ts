@@ -1,5 +1,5 @@
 /**
- * petmayday TRAINING SYSTEM V2 — Part 4: Additional Services
+ * Mayday TRAINING SYSTEM V2 — Part 4: Additional Services
  *
  * Contains service interfaces and implementations for:
  * - Analytics Service
@@ -58,7 +58,7 @@ import type {
   MentorProfile,
   ShadowSession,
   TrainingAuditEvent,
-} from './petmayday-training-system-v2-part1-types';
+} from './Mayday-training-system-v2-part1-types';
 
 import type {
   TrainingAnalyticsDashboard,
@@ -84,9 +84,9 @@ import type {
   SimulatedCase,
   SimulatedApplication,
   SandboxAction,
-} from './petmayday-training-system-v2-part2-analytics';
+} from './Mayday-training-system-v2-part2-analytics';
 
-import { now, generateId, daysBetween, addDays, minutesBetween } from './petmayday-training-system-v2-part3-services';
+import { now, generateId, daysBetween, addDays, minutesBetween } from './Mayday-training-system-v2-part3-services';
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 1: ANALYTICS SERVICE INTERFACE

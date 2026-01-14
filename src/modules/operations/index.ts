@@ -1,5 +1,5 @@
 /**
- * petmayday OPERATIONS MODULE
+ * Mayday OPERATIONS MODULE
  * 
  * Enterprise-grade volunteer coordination, case handling, and safety protocols.
  * 

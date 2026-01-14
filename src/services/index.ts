@@ -1,5 +1,5 @@
 /**
- * PETMAYDAY SERVICE LAYER V2
+ * Mayday SERVICE LAYER V2
  * 
  * Core services for volunteer applications, training, safety, and verification.
  * All services follow strict architectural constraints:

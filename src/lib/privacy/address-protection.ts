@@ -316,7 +316,7 @@ export function protectFinderInfo(params: {
   if (context.viewerRole === 'public') {
     return {
       displayName: 'Anonymous Finder',
-      contactMethod: 'Contact through petmayday',
+      contactMethod: 'Contact through Mayday',
       location: {
         displayText: 'Location protected',
         displayPrecision: 'HIDDEN',
@@ -329,7 +329,7 @@ export function protectFinderInfo(params: {
   if (context.viewerRole === 'community') {
     return {
       displayName: params.finderName.split(' ')[0] + ' ' + params.finderName.split(' ')[1]?.[0] + '.',
-      contactMethod: 'Contact through petmayday',
+      contactMethod: 'Contact through Mayday',
       location: protectLocation({
         exactAddress: params.finderAddress,
         exactCoordinates: params.finderCoordinates,
@@ -364,7 +364,7 @@ export function protectFinderInfo(params: {
   // Default: protected
   return {
     displayName: 'Finder',
-    contactMethod: 'Contact through petmayday',
+    contactMethod: 'Contact through Mayday',
     location: {
       displayText: 'Location protected',
       displayPrecision: 'HIDDEN',

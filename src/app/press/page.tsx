@@ -22,29 +22,29 @@ export default function PressPage() {
 
       <section className="px-6 py-10">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-6">What Is petmayday?</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-white mb-6">What Is Mayday?</h1>
 
           <div className="space-y-6 text-slate-200 leading-relaxed">
             <p>
-              petmayday is a digital support service designed to help people navigate emotionally intense moments involving pets—such as emergencies, loss, or difficult decisions—without replacing professional care.
+              Mayday is a digital support service designed to help people navigate emotionally intense moments involving pets—such as emergencies, loss, or difficult decisions—without replacing professional care.
             </p>
 
             <p>
-              For many people, pets are family. When something goes wrong, panic and grief can overwhelm even the most prepared pet owner. petmayday aims to provide calm, compassionate guidance and encourage appropriate next steps.
+              For many people, pets are family. When something goes wrong, panic and grief can overwhelm even the most prepared pet owner. Mayday aims to provide calm, compassionate guidance and encourage appropriate next steps.
             </p>
 
             <div>
               <h2 className="text-xl font-bold text-white mb-2">How It Works (High-Level)</h2>
               <p>
-                petmayday responds to user input with supportive language and practical guidance based on established principles of trauma-informed support and grief awareness.
+                Mayday responds to user input with supportive language and practical guidance based on established principles of trauma-informed support and grief awareness.
               </p>
               <p className="mt-2">
-                When situations appear serious or unsafe, petmayday encourages users to seek help from trained professionals or emergency services.
+                When situations appear serious or unsafe, Mayday encourages users to seek help from trained professionals or emergency services.
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">What petmayday Is — and Is Not</h2>
+              <h2 className="text-xl font-bold text-white mb-2">What Mayday Is — and Is Not</h2>
               <p>
                 <strong>It is:</strong>
               </p>
@@ -64,26 +64,26 @@ export default function PressPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">Why petmayday Was Created</h2>
+              <h2 className="text-xl font-bold text-white mb-2">Why Mayday Was Created</h2>
               <p>
                 Pet-related crises are often minimized by society, even though research shows pet loss and emergencies can trigger grief responses similar to human loss.
               </p>
               <p className="mt-2">
-                petmayday was built to acknowledge that pain—without judgment—and to help people feel less alone during moments that can otherwise feel overwhelming.
+                Mayday was built to acknowledge that pain—without judgment—and to help people feel less alone during moments that can otherwise feel overwhelming.
               </p>
             </div>
 
             <div>
               <h2 className="text-xl font-bold text-white mb-2">Safety First</h2>
               <p>
-                petmayday is intentionally designed to prioritize safety and to encourage human support whenever a situation exceeds what an automated tool should handle.
+                Mayday is intentionally designed to prioritize safety and to encourage human support whenever a situation exceeds what an automated tool should handle.
               </p>
             </div>
 
             <div>
               <h2 className="text-xl font-bold text-white mb-2">Ethical Design</h2>
               <p>
-                The creators of petmayday emphasize:
+                The creators of Mayday emphasize:
               </p>
               <ul className="list-disc pl-6 space-y-1 mt-2">
                 <li>Responsible use of AI</li>

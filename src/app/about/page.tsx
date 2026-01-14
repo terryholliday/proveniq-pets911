@@ -15,36 +15,36 @@ export default function AboutPage() {
           </Link>
           <div className="flex items-center gap-2 text-white font-bold">
             <Heart className="w-5 h-5 text-red-500" />
-            petmayday
+            Mayday
           </div>
         </div>
       </header>
 
       <section className="px-6 py-10">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-6">About petmayday</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-white mb-6">About Mayday</h1>
 
           <div className="space-y-6 text-slate-200 leading-relaxed">
             <p>
-              petmayday exists to support people during some of the most emotionally intense moments of pet ownership—when a pet is
+              Mayday exists to support people during some of the most emotionally intense moments of pet ownership—when a pet is
               missing, injured, dying, or has passed away.
             </p>
 
             <p>
               For many people, pets are family. Losing them, worrying about them, or facing difficult decisions about their care can
-              bring overwhelming grief, fear, and confusion. petmayday was created to help people feel less alone in those moments and
+              bring overwhelming grief, fear, and confusion. Mayday was created to help people feel less alone in those moments and
               to provide calm, compassionate guidance when it matters most.
             </p>
 
             <h2 className="text-xl font-bold text-white pt-2">Safety Comes First</h2>
             <p>
-              petmayday is designed with safety as its highest priority. When conversations indicate severe emotional distress or
-              potential risk to personal safety, the system encourages reaching out to trained human support resources. petmayday does
+              Mayday is designed with safety as its highest priority. When conversations indicate severe emotional distress or
+              potential risk to personal safety, the system encourages reaching out to trained human support resources. Mayday does
               not attempt to replace professional care and will always point users toward appropriate help when a situation goes beyond
               what an automated system should handle.
             </p>
 
-            <h2 className="text-xl font-bold text-white pt-2">What petmayday Can Help With</h2>
+            <h2 className="text-xl font-bold text-white pt-2">What Mayday Can Help With</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>Emotional support during pet loss or grief</li>
               <li>Guidance when a pet is missing or found</li>
@@ -53,20 +53,20 @@ export default function AboutPage() {
               <li>Encouragement to seek professional or emergency help when needed</li>
             </ul>
 
-            <h2 className="text-xl font-bold text-white pt-2">What petmayday Is Not</h2>
+            <h2 className="text-xl font-bold text-white pt-2">What Mayday Is Not</h2>
             <p>
-              petmayday does not provide medical, veterinary, or mental health diagnoses. It does not replace veterinarians, doctors,
+              Mayday does not provide medical, veterinary, or mental health diagnoses. It does not replace veterinarians, doctors,
               therapists, or emergency services. It is a support tool—not a substitute for professional care.
             </p>
 
             <h2 className="text-xl font-bold text-white pt-2">Built With Care</h2>
             <p>
-              petmayday was designed using established principles from grief research and trauma-informed support. The goal is not to
+              Mayday was designed using established principles from grief research and trauma-informed support. The goal is not to
               rush grief or minimize pain, but to meet people where they are—with respect, clarity, and compassion.
             </p>
 
             <p className="text-slate-100">
-              If you’re here because you’re struggling, you’re not weak. You’re human. petmayday is here to support you through it.
+              If you’re here because you’re struggling, you’re not weak. You’re human. Mayday is here to support you through it.
             </p>
           </div>
 

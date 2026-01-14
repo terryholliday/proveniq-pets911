@@ -1,5 +1,5 @@
 /**
- * petmayday TRAINING SYSTEM - Part 1: Core Types & Structures
+ * Mayday TRAINING SYSTEM - Part 1: Core Types & Structures
  * 
  * Comprehensive training and certification system for all volunteer
  * and moderator roles.
@@ -237,7 +237,7 @@ export interface TrainingCertification {
   code: string;
   name: string;
   description: string;
-  issuingAuthority: 'PETMAYDAY' | 'EXTERNAL';
+  issuingAuthority: 'Mayday' | 'EXTERNAL';
   externalProvider?: string;
   
   requiredModules: Uuid[];
@@ -446,7 +446,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_cv_1',
         name: 'Orientation',
-        description: 'Get started with PetMayday',
+        description: 'Get started with Mayday',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -478,7 +478,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_t_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -525,7 +525,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_st_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -591,7 +591,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_f_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -638,7 +638,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_ef_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -688,7 +688,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_tr_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -738,7 +738,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_jm_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -786,7 +786,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_m_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,
@@ -850,7 +850,7 @@ export const TRAINING_PATHS: Record<RoleId, TrainingPath> = {
       {
         id: 'phase_lm_1',
         name: 'Orientation',
-        description: 'PetMayday basics',
+        description: 'Mayday basics',
         orderIndex: 1,
         modules: [MODULE_IDS.VOLUNTEER_ORIENTATION],
         mustCompleteBeforeNextPhase: true,

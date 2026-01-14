@@ -259,8 +259,8 @@ export const TRAINING_MODULES: Record<string, TrainingModule> = {
   // Novice modules
   ORIENTATION_101: {
     id: 'ORIENTATION_101',
-    name: 'petmayday Orientation',
-    description: 'Introduction to the petmayday platform, mission, and community guidelines.',
+    name: 'Mayday Orientation',
+    description: 'Introduction to the Mayday platform, mission, and community guidelines.',
     duration_minutes: 30,
     has_quiz: true,
     passing_score: 80,

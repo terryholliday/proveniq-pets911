@@ -1,17 +1,17 @@
-# PetMayday Alert Testing & Compliance (E2E Determinism)
+# Mayday Alert Testing & Compliance (E2E Determinism)
 
 ## Commands
 
 ```bash
-npm test -- --testPathPattern=PetMayday-alert-compliance
-npm run test:PetMayday-alert-compliance
+npm test -- --testPathPattern=Mayday-alert-compliance
+npm run test:Mayday-alert-compliance
 ```
 
 ## Evidence Produced
 
-- `PetMayday.alert.policy_evaluated`
-- `PetMayday.alert.emitted`
-- `PetMayday.alert.suppressed`
+- `Mayday.alert.policy_evaluated`
+- `Mayday.alert.emitted`
+- `Mayday.alert.suppressed`
 
 ## Determinism Controls
 

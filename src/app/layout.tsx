@@ -5,7 +5,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'PetNexus petmayday (WV)',
+  title: 'PetNexus Mayday (WV)',
   description: 'Emergency coordination for lost and found pets in West Virginia',
   manifest: '/manifest.json',
 };

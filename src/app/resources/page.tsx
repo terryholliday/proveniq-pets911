@@ -55,7 +55,7 @@ export default function ResourcesPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Heart className="w-6 h-6 text-red-500" />
-              <span className="font-bold text-white">PetNexus petmayday</span>
+              <span className="font-bold text-white">PetNexus Mayday</span>
             </div>
             <Link
               href="/"

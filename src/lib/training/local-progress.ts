@@ -7,7 +7,7 @@ type TrainingProgressStore = {
   modules: Record<string, TrainingModuleProgress>;
 };
 
-const STORAGE_KEY = 'petmayday_training_progress_v1';
+const STORAGE_KEY = 'Mayday_training_progress_v1';
 
 function safeParse(json: string): TrainingProgressStore | null {
   try {

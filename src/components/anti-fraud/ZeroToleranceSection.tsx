@@ -45,7 +45,7 @@ export function ZeroToleranceSection() {
                 phone numbers from posters, demand ransoms, and sell false hope.
               </p>
               <p>
-                petmayday destroys this business model by removing the{' '}
+                Mayday destroys this business model by removing the{' '}
                 <span className="text-white font-semibold">opportunity</span> to scam.
               </p>
             </div>

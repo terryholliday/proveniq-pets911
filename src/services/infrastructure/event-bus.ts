@@ -157,7 +157,7 @@ export function createServiceEvent<T extends string, P extends Record<string, un
     causationId: options?.causationId,
     payload,
     metadata: {
-      source: options?.source ?? 'petmayday-services',
+      source: options?.source ?? 'Mayday-services',
       version: '2.0.0',
       environment: (process.env.NODE_ENV as 'production' | 'staging' | 'development') || 'development',
     },

@@ -24,7 +24,7 @@ export const policyEvaluatedSchema: JsonSchema = {
     'evaluation_timestamp',
   ],
   properties: {
-    type: { type: 'string', const: 'petmayday.alert.policy_evaluated' },
+    type: { type: 'string', const: 'Mayday.alert.policy_evaluated' },
     decision_id: { type: 'string' },
     policy_version_hash: { type: 'string' },
     tier: { type: 'string', enum: ['T0', 'T1', 'T2', 'T3', 'T4', 'T5'] },
@@ -77,7 +77,7 @@ export const alertEmittedSchema: JsonSchema = {
     'idempotency_key',
   ],
   properties: {
-    type: { type: 'string', const: 'petmayday.alert.emitted' },
+    type: { type: 'string', const: 'Mayday.alert.emitted' },
     decision_id: { type: 'string' },
     policy_version_hash: { type: 'string' },
     channel: { type: 'string' },
@@ -103,7 +103,7 @@ export const alertSuppressedSchema: JsonSchema = {
     'reason_code',
   ],
   properties: {
-    type: { type: 'string', const: 'petmayday.alert.suppressed' },
+    type: { type: 'string', const: 'Mayday.alert.suppressed' },
     decision_id: { type: 'string' },
     policy_version_hash: { type: 'string' },
     case_id: { type: 'string' },

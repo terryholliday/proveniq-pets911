@@ -37,7 +37,7 @@ API keys are issued during partner onboarding and can be rotated via the admin c
 
 ## Endpoints
 
-### GET /api/teleport/v1/PetMayday/alerts
+### GET /api/teleport/v1/Mayday/alerts
 
 Fetch active alerts for your service area.
 
@@ -71,7 +71,7 @@ Fetch active alerts for your service area.
       "status": "ACTIVE",
       "actions": {
         "can_acknowledge": true,
-        "acknowledge_url": "/api/teleport/v1/PetMayday/alerts/ALT-2026-0001/acknowledge"
+        "acknowledge_url": "/api/teleport/v1/Mayday/alerts/ALT-2026-0001/acknowledge"
       }
     }
   ]
@@ -82,7 +82,7 @@ Fetch active alerts for your service area.
 
 ---
 
-### POST /api/teleport/v1/PetMayday/alerts/:id/acknowledge
+### POST /api/teleport/v1/Mayday/alerts/:id/acknowledge
 
 Acknowledge an alert and receive full details for pickup.
 
@@ -106,7 +106,7 @@ Acknowledge an alert and receive full details for pickup.
 
 ---
 
-### POST /api/teleport/v1/PetMayday/intake
+### POST /api/teleport/v1/Mayday/intake
 
 Log animal intake after pickup.
 
@@ -124,7 +124,7 @@ Log animal intake after pickup.
   "intake": {
     "received_at": "2026-01-12T21:30:00Z",
     "received_by": "Staff: Mike Johnson",
-    "source": "PetMayday_ALERT",
+    "source": "Mayday_ALERT",
     "condition_on_arrival": "Limping, otherwise stable"
   },
   "disposition": {
@@ -142,14 +142,14 @@ Log animal intake after pickup.
   "lifelog_event_id": "LL-1705093800000",
   "next_steps": {
     "stray_hold_expires": "2026-01-17T21:30:00Z",
-    "reunification_url": "/api/teleport/v1/PetMayday/reunification"
+    "reunification_url": "/api/teleport/v1/Mayday/reunification"
   }
 }
 ```
 
 ---
 
-### POST /api/teleport/v1/PetMayday/reunification
+### POST /api/teleport/v1/Mayday/reunification
 
 Log successful reunification with owner.
 
@@ -157,7 +157,7 @@ Log successful reunification with owner.
 ```json
 {
   "alert_id": "ALT-2026-0001",
-  "PetMayday_case_id": "CASE-2026-0001",
+  "Mayday_case_id": "CASE-2026-0001",
   "organization_id": "org_abc123",
   "reunification": {
     "reunited_at": "2026-01-14T14:00:00Z",
@@ -175,7 +175,7 @@ Log successful reunification with owner.
 
 ---
 
-### GET /api/teleport/v1/PetMayday/metrics
+### GET /api/teleport/v1/Mayday/metrics
 
 Fetch performance metrics for dashboard widget.
 
@@ -263,7 +263,7 @@ function MaydayWidget() {
 ## Data Flow
 
 ```
-1. Stray reported via PetMayday app
+1. Stray reported via Mayday app
    ↓
 2. Moderator triages → Alert broadcast to service area
    ↓

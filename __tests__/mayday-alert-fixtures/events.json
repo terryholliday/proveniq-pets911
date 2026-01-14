@@ -1,28 +1,28 @@
 [
-  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"petmayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:00:00.000Z"}},
-  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"petmayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:00:00.000Z"}},
-  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"petmayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:00:01.000Z"}},
-  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"petmayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:00:01.000Z"}},
-  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-001","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["push","email"],"audience_segment":"public","at":"2026-01-07T12:00:02.000Z"}},
+  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"Mayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:00:00.000Z"}},
+  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"Mayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:00:00.000Z"}},
+  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"Mayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:00:01.000Z"}},
+  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"Mayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:00:01.000Z"}},
+  {"fixture_id":"BASIC_EMIT_ALL","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-001","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["push","email"],"audience_segment":"public","at":"2026-01-07T12:00:02.000Z"}},
 
-  {"fixture_id":"CONSENT_MISSING","event":{"type":"petmayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:10:00.000Z"}},
-  {"fixture_id":"CONSENT_MISSING","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-002","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:10:01.000Z"}},
+  {"fixture_id":"CONSENT_MISSING","event":{"type":"Mayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:10:00.000Z"}},
+  {"fixture_id":"CONSENT_MISSING","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-002","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:10:01.000Z"}},
 
-  {"fixture_id":"PARTNER_UNKNOWN","event":{"type":"petmayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:20:00.000Z"}},
-  {"fixture_id":"PARTNER_UNKNOWN","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-003","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:20:01.000Z"}},
+  {"fixture_id":"PARTNER_UNKNOWN","event":{"type":"Mayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:20:00.000Z"}},
+  {"fixture_id":"PARTNER_UNKNOWN","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-003","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:20:01.000Z"}},
 
-  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"petmayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:30:00.000Z"}},
-  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"petmayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:30:00.000Z"}},
-  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"petmayday.alert.flag_low_confidence","at":"2026-01-07T12:30:00.000Z"}},
-  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"petmayday.alert.fraud_signal","at":"2026-01-07T12:30:00.000Z"}},
-  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-004","policy_version_hash":"POLICY_V1","tier":"T2","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":1800,"requested_channels":["push"],"audience_segment":"public","at":"2026-01-07T12:30:01.000Z"}},
+  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"Mayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:30:00.000Z"}},
+  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"Mayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:30:00.000Z"}},
+  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"Mayday.alert.flag_low_confidence","at":"2026-01-07T12:30:00.000Z"}},
+  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"Mayday.alert.fraud_signal","at":"2026-01-07T12:30:00.000Z"}},
+  {"fixture_id":"FRAUD_SIGNAL","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-004","policy_version_hash":"POLICY_V1","tier":"T2","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":1800,"requested_channels":["push"],"audience_segment":"public","at":"2026-01-07T12:30:01.000Z"}},
 
-  {"fixture_id":"RATE_LIMITED","event":{"type":"petmayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:40:00.000Z"}},
-  {"fixture_id":"RATE_LIMITED","event":{"type":"petmayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:40:00.000Z"}},
-  {"fixture_id":"RATE_LIMITED","event":{"type":"petmayday.alert.rate_limit_exceeded","channel":"email","audience_segment":"public","until":"2026-01-07T12:55:00.000Z","at":"2026-01-07T12:40:00.000Z"}},
-  {"fixture_id":"RATE_LIMITED","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-005","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:40:01.000Z"}},
+  {"fixture_id":"RATE_LIMITED","event":{"type":"Mayday.partner.contracted","channel":"email","audience_segment":"public","at":"2026-01-07T12:40:00.000Z"}},
+  {"fixture_id":"RATE_LIMITED","event":{"type":"Mayday.alert.consent_set","channel":"email","audience_segment":"public","consent":true,"at":"2026-01-07T12:40:00.000Z"}},
+  {"fixture_id":"RATE_LIMITED","event":{"type":"Mayday.alert.rate_limit_exceeded","channel":"email","audience_segment":"public","until":"2026-01-07T12:55:00.000Z","at":"2026-01-07T12:40:00.000Z"}},
+  {"fixture_id":"RATE_LIMITED","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-005","policy_version_hash":"POLICY_V1","tier":"T1","geofence_snapshot":{"lat_microdegrees":37801800,"lng_microdegrees":-80445600,"radius_meters":2500},"ttl_seconds":3600,"requested_channels":["email"],"audience_segment":"public","at":"2026-01-07T12:40:01.000Z"}},
 
-  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"petmayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:50:00.000Z"}},
-  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"petmayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:50:00.000Z"}},
-  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"petmayday.alert.evaluate_requested","case_id":"CASE-006","policy_version_hash":"POLICY_V1","tier":"T1","ttl_seconds":3600,"requested_channels":["push"],"audience_segment":"public","at":"2026-01-07T12:50:01.000Z"}}
+  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"Mayday.partner.contracted","channel":"push","audience_segment":"public","at":"2026-01-07T12:50:00.000Z"}},
+  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"Mayday.alert.consent_set","channel":"push","audience_segment":"public","consent":true,"at":"2026-01-07T12:50:00.000Z"}},
+  {"fixture_id":"AMBIGUOUS_PENDING_CANON_MISSING_GEOFENCE","event":{"type":"Mayday.alert.evaluate_requested","case_id":"CASE-006","policy_version_hash":"POLICY_V1","tier":"T1","ttl_seconds":3600,"requested_channels":["push"],"audience_segment":"public","at":"2026-01-07T12:50:01.000Z"}}
 ]

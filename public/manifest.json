@@ -1,6 +1,6 @@
 {
-  "name": "PetNexus petmayday (WV)",
-  "short_name": "petmayday",
+  "name": "PetNexus Mayday (WV)",
+  "short_name": "Mayday",
   "description": "Emergency coordination for lost and found pets in West Virginia",
   "start_url": "/",
   "display": "standalone",

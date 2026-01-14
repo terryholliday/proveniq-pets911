@@ -11,7 +11,7 @@
  * - Wind speed affects how far scent carries (relevant for tracking)
  * 
  * Architecture:
- * - petmayday accesses weather APIs directly for real-time operational needs
+ * - Mayday accesses weather APIs directly for real-time operational needs
  * - Data is reported back to PROVENIQ Core for aggregation and ML training
  */
 
@@ -513,7 +513,7 @@ export async function reportToProveniqCore(
   // This would call PROVENIQ Core API
   // For now, just log
   console.log('[PROVENIQ_CORE_REPORT]', {
-    system: 'petmayday',
+    system: 'Mayday',
     type: 'weather_search_correlation',
     caseId,
     weather: {

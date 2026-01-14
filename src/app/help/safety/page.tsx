@@ -38,14 +38,14 @@ export default function HelpSafetyPage() {
                 <li>Local emergency services (911)</li>
               </ul>
               <p className="text-slate-300 text-sm mt-4">
-                petmayday will always encourage reaching out to trained human professionals when safety is at risk.
+                Mayday will always encourage reaching out to trained human professionals when safety is at risk.
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">How petmayday Supports You</h2>
+              <h2 className="text-xl font-bold text-white mb-2">How Mayday Supports You</h2>
               <p>
-                petmayday provides emotional support and practical guidance related to pets and the intense feelings that can come with
+                Mayday provides emotional support and practical guidance related to pets and the intense feelings that can come with
                 pet emergencies, loss, or grief.
               </p>
               <p className="mt-3">The system is designed to:</p>
@@ -72,11 +72,11 @@ export default function HelpSafetyPage() {
             <div>
               <h2 className="text-xl font-bold text-white mb-2">Privacy &amp; Respect</h2>
               <p>
-                petmayday is designed to treat every interaction with care and respect. Conversations are intended to provide
+                Mayday is designed to treat every interaction with care and respect. Conversations are intended to provide
                 support—not judgment—and to prioritize your safety and well-being.
               </p>
               <p className="mt-3">
-                If you ever feel that petmayday is not enough, that’s okay. Human help is always the right next step.
+                If you ever feel that Mayday is not enough, that’s okay. Human help is always the right next step.
               </p>
             </div>
 

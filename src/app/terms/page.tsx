@@ -22,23 +22,23 @@ export default function TermsPage() {
           <h1 className="text-3xl md:text-4xl font-black text-white mb-6">Terms of Service</h1>
           <div className="space-y-4 text-slate-200 leading-relaxed">
             <p>
-              <strong>petmayday – Terms of Service (Safety & Use)</strong>
+              <strong>Mayday – Terms of Service (Safety & Use)</strong>
             </p>
             <div className="space-y-6">
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">Purpose of the Service</h2>
                 <p>
-                  petmayday is an informational and emotional support service designed to assist users during stressful situations involving pets, including loss, emergencies, and uncertainty.
+                  Mayday is an informational and emotional support service designed to assist users during stressful situations involving pets, including loss, emergencies, and uncertainty.
                 </p>
                 <p className="mt-2">
-                  petmayday does <strong>not</strong> provide medical, veterinary, psychological, or legal advice.
+                  Mayday does <strong>not</strong> provide medical, veterinary, psychological, or legal advice.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">Not a Substitute for Professional Care</h2>
                 <p>
-                  petmayday is <strong>not a replacement</strong> for:
+                  Mayday is <strong>not a replacement</strong> for:
                 </p>
                 <ul className="list-disc pl-6 space-y-1 mt-2">
                   <li>Licensed veterinarians</li>
@@ -54,17 +54,17 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">Crisis & Safety Escalation</h2>
                 <p>
-                  petmayday may encourage users to seek immediate professional or emergency assistance when a situation appears to involve serious risk or distress.
+                  Mayday may encourage users to seek immediate professional or emergency assistance when a situation appears to involve serious risk or distress.
                 </p>
                 <p className="mt-2">
-                  petmayday does not monitor users in real time and cannot guarantee detection of emergencies or crises.
+                  Mayday does not monitor users in real time and cannot guarantee detection of emergencies or crises.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">No Guarantees</h2>
                 <p>
-                  petmayday is provided "as is." We make no guarantees regarding:
+                  Mayday is provided "as is." We make no guarantees regarding:
                 </p>
                 <ul className="list-disc pl-6 space-y-1 mt-2">
                   <li>Accuracy</li>
@@ -80,7 +80,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">Limitation of Liability</h2>
                 <p>
-                  To the maximum extent permitted by law, petmayday and its operators are not liable for any damages resulting from reliance on information provided through the service.
+                  To the maximum extent permitted by law, Mayday and its operators are not liable for any damages resulting from reliance on information provided through the service.
                 </p>
               </div>
 
@@ -95,14 +95,14 @@ export default function TermsPage() {
                   <li>Your personal safety and well-being</li>
                 </ul>
                 <p className="mt-2">
-                  petmayday is a support tool, not a decision-maker.
+                  Mayday is a support tool, not a decision-maker.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-white mb-2">A Note on Compassion</h2>
                 <p>
-                  petmayday was created to support people during difficult moments. Nothing in these terms is intended to minimize grief or emotional pain.
+                  Mayday was created to support people during difficult moments. Nothing in these terms is intended to minimize grief or emotional pain.
                 </p>
               </div>
             </div>

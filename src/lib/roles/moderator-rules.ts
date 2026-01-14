@@ -1,7 +1,7 @@
 /**
  * MODERATOR RULES & PROCEDURES
  * 
- * Comprehensive guidelines for petmayday moderators.
+ * Comprehensive guidelines for Mayday moderators.
  * These rules are binding and enforceable.
  */
 
@@ -585,7 +585,7 @@ export const TRAINING_MODULES: TrainingModule[] = [
   {
     id: 'volunteer_orientation',
     title: 'General Volunteer Orientation',
-    description: 'Introduction to petmayday, expectations, and community guidelines.',
+    description: 'Introduction to Mayday, expectations, and community guidelines.',
     durationMinutes: 30,
     requiredForRoles: ['community_volunteer'],
     prerequisites: [],

@@ -1,7 +1,7 @@
 /**
  * ANTI_FRAUD_LOCKER_V2
  * 
- * Military-grade fraud prevention for petmayday.
+ * Military-grade fraud prevention for Mayday.
  * Ending the Desperation Economy by removing the opportunity to scam.
  * 
  * Components:

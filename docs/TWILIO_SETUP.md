@@ -4,7 +4,7 @@ This document explains how to configure Twilio for sending automated SMS and voi
 
 ## Overview
 
-The PetNexus PetMayday app uses Twilio to:
+The PetNexus Mayday app uses Twilio to:
 - Send SMS alerts to vet clinics when a finder is transporting an injured animal
 - Make automated voice calls for critical emergencies
 - Provide real-time notification status to users

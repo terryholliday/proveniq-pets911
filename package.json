@@ -1,5 +1,5 @@
 {
-  "name": "proveniq-petmayday",
+  "name": "proveniq-Mayday",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,12 +9,12 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:petmayday-alert-compliance": "jest --testPathPattern=petmayday-alert-compliance",
+    "test:Mayday-alert-compliance": "jest --testPathPattern=Mayday-alert-compliance",
     "test:watch": "jest --watch",
     "e2e:install": "playwright install",
     "e2e": "playwright test",
     "governance": "node scripts/canon-governance.js",
-    "pre-commit": "npm run governance && npm run test:petmayday-alert-compliance"
+    "pre-commit": "npm run governance && npm run test:Mayday-alert-compliance"
   },
   "dependencies": {
     "@radix-ui/react-progress": "^1.1.8",

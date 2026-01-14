@@ -192,7 +192,7 @@ export interface PartnerService {
   category: 'intake' | 'medical' | 'behavioral' | 'grooming' | 'transport' | 'foster' | 'adoption' | 'tnr' | 'other';
   available: boolean;
   cost?: number;
-  discountedForpetmayday: boolean;
+  discountedForMayday: boolean;
   discountPercent?: number;
   requiresAppointment: boolean;
   leadTimeHours?: number;
@@ -316,7 +316,7 @@ export interface PartnerReferral {
   // Communication
   messages: {
     id: string;
-    from: 'petmayday' | 'partner';
+    from: 'Mayday' | 'partner';
     content: string;
     sentAt: string;
   }[];

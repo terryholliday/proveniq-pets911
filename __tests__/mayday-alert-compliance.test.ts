@@ -1,18 +1,18 @@
-import { FakeClock } from '@/lib/petmayday-alert/fake-clock';
-import { ProjectionBuilder } from '@/lib/petmayday-alert/projection-builder';
-import { replay } from '@/lib/petmayday-alert/replay';
-import { evaluateAlert, extractEvaluateRequest } from '@/lib/petmayday-alert/evaluator';
-import { validateAgainstSchema } from '@/lib/petmayday-alert/schema';
+import { FakeClock } from '@/lib/Mayday-alert/fake-clock';
+import { ProjectionBuilder } from '@/lib/Mayday-alert/projection-builder';
+import { replay } from '@/lib/Mayday-alert/replay';
+import { evaluateAlert, extractEvaluateRequest } from '@/lib/Mayday-alert/evaluator';
+import { validateAgainstSchema } from '@/lib/Mayday-alert/schema';
 import {
   policyEvaluatedSchema,
   alertEmittedSchema,
   alertSuppressedSchema,
-} from '@/lib/petmayday-alert/event-schemas';
-import { canonicalJsonStringify } from '@/lib/petmayday-alert/canonical-json';
-import type { MemoryEvent } from '@/lib/petmayday-alert/types';
+} from '@/lib/Mayday-alert/event-schemas';
+import { canonicalJsonStringify } from '@/lib/Mayday-alert/canonical-json';
+import type { MemoryEvent } from '@/lib/Mayday-alert/types';
 
-import eventsLines from './petmayday-alert-fixtures/events.json';
-import expectedAll from './petmayday-alert-fixtures/expected.json';
+import eventsLines from './Mayday-alert-fixtures/events.json';
+import expectedAll from './Mayday-alert-fixtures/expected.json';
 
 declare const describe: (name: string, fn: () => void) => void;
 declare const it: (name: string, fn: () => void) => void;
@@ -34,22 +34,22 @@ function groupByFixture(lines: { fixture_id: string; event: MemoryEvent }[]): Re
 }
 
 function validateAuditEvent(event: any): void {
-  if (event.type === 'petmayday.alert.policy_evaluated') {
+  if (event.type === 'Mayday.alert.policy_evaluated') {
     validateAgainstSchema(policyEvaluatedSchema, event);
     return;
   }
-  if (event.type === 'petmayday.alert.emitted') {
+  if (event.type === 'Mayday.alert.emitted') {
     validateAgainstSchema(alertEmittedSchema, event);
     return;
   }
-  if (event.type === 'petmayday.alert.suppressed') {
+  if (event.type === 'Mayday.alert.suppressed') {
     validateAgainstSchema(alertSuppressedSchema, event);
     return;
   }
   throw new Error(`Unknown audit event type: ${event.type}`);
 }
 
-describe('petmayday Alert Testing & Compliance', () => {
+describe('Mayday Alert Testing & Compliance', () => {
   it('runs golden fixtures with differential evaluation (projection vs replay) and fail-closed reason codes', () => {
     const grouped = groupByFixture(
       (eventsLines as unknown as { fixture_id: string; event: MemoryEvent }[])
@@ -60,8 +60,8 @@ describe('petmayday Alert Testing & Compliance', () => {
       if (!events) throw new Error(`Missing events for fixture: ${fx.fixture_id}`);
 
       const req = extractEvaluateRequest(events);
-      const evalRequested = events.find(e => e.type === 'petmayday.alert.evaluate_requested');
-      if (!evalRequested || evalRequested.type !== 'petmayday.alert.evaluate_requested') {
+      const evalRequested = events.find(e => e.type === 'Mayday.alert.evaluate_requested');
+      if (!evalRequested || evalRequested.type !== 'Mayday.alert.evaluate_requested') {
         throw new Error(`Fixture missing evaluate_requested: ${fx.fixture_id}`);
       }
 
@@ -88,19 +88,19 @@ describe('petmayday Alert Testing & Compliance', () => {
 
         for (const ev of decisionA.audit_events) validateAuditEvent(ev);
 
-        const policyEv = decisionA.audit_events.find(e => e.type === 'petmayday.alert.policy_evaluated');
-        if (!policyEv || policyEv.type !== 'petmayday.alert.policy_evaluated') {
+        const policyEv = decisionA.audit_events.find(e => e.type === 'Mayday.alert.policy_evaluated');
+        if (!policyEv || policyEv.type !== 'Mayday.alert.policy_evaluated') {
           throw new Error('Missing policy_evaluated event');
         }
 
         expect(policyEv.eligible_channels).toEqual(fx.expected.eligible_channels);
 
         const emittedChannels = decisionA.audit_events
-          .filter(e => e.type === 'petmayday.alert.emitted')
+          .filter(e => e.type === 'Mayday.alert.emitted')
           .map(e => (e as any).channel);
         expect(emittedChannels).toEqual(fx.expected.emitted_channels);
 
-        const suppressed = decisionA.audit_events.filter(e => e.type === 'petmayday.alert.suppressed') as any[];
+        const suppressed = decisionA.audit_events.filter(e => e.type === 'Mayday.alert.suppressed') as any[];
         const suppressedMap: Record<string, string> = {};
         for (const s of suppressed) suppressedMap[s.channel] = s.reason_code;
         expect(suppressedMap).toEqual(fx.expected.suppressed_reasons_by_channel);

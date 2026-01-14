@@ -90,7 +90,7 @@ export interface TeleportAlertDetails extends TeleportAlert {
   };
   
   // Case linkage
-  petmayday_case_id: string;
+  Mayday_case_id: string;
   lifelog_event_id?: string;
 }
 
@@ -116,7 +116,7 @@ export interface TeleportIntakePayload {
   intake: {
     received_at: string;
     received_by: string;
-    source: 'PETMAYDAY_ALERT' | 'WALK_IN' | 'TRANSPORT' | 'ACO_DELIVERY';
+    source: 'Mayday_ALERT' | 'WALK_IN' | 'TRANSPORT' | 'ACO_DELIVERY';
     condition_on_arrival: string;
     immediate_medical_needed: boolean;
     notes?: string;
@@ -135,7 +135,7 @@ export interface TeleportIntakePayload {
  */
 export interface TeleportReunificationPayload {
   alert_id: string;
-  petmayday_case_id: string;
+  Mayday_case_id: string;
   organization_id: string;
   
   reunification: {
@@ -146,7 +146,7 @@ export interface TeleportReunificationPayload {
     proof_of_ownership?: string;
   };
   
-  // For PetLifeLog immutable record
+  // For LifeLog immutable record
   outcome: {
     type: 'REUNITED';
     days_in_care: number;
@@ -187,22 +187,22 @@ export interface TeleportMetrics {
 
 export const TELEPORT_ENDPOINTS = {
   // Alerts
-  GET_ALERTS: '/teleport/v1/petmayday/alerts',
-  GET_ALERT_DETAILS: '/teleport/v1/petmayday/alerts/:id',
-  ACKNOWLEDGE_ALERT: '/teleport/v1/petmayday/alerts/:id/acknowledge',
+  GET_ALERTS: '/teleport/v1/Mayday/alerts',
+  GET_ALERT_DETAILS: '/teleport/v1/Mayday/alerts/:id',
+  ACKNOWLEDGE_ALERT: '/teleport/v1/Mayday/alerts/:id/acknowledge',
   
   // Intake
-  LOG_INTAKE: '/teleport/v1/petmayday/intake',
+  LOG_INTAKE: '/teleport/v1/Mayday/intake',
   
   // Reunification
-  LOG_REUNIFICATION: '/teleport/v1/petmayday/reunification',
+  LOG_REUNIFICATION: '/teleport/v1/Mayday/reunification',
   
   // Metrics
-  GET_METRICS: '/teleport/v1/petmayday/metrics',
+  GET_METRICS: '/teleport/v1/Mayday/metrics',
   
   // Webhooks (PROVENIQ ShelterOS subscribes)
-  WEBHOOK_NEW_ALERT: '/teleport/v1/petmayday/webhooks/alert',
-  WEBHOOK_CASE_UPDATE: '/teleport/v1/petmayday/webhooks/case',
+  WEBHOOK_NEW_ALERT: '/teleport/v1/Mayday/webhooks/alert',
+  WEBHOOK_CASE_UPDATE: '/teleport/v1/Mayday/webhooks/case',
 } as const;
 
 // ============================================================

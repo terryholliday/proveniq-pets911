@@ -1,7 +1,7 @@
 /**
  * Roles & Volunteer Management Module
  * 
- * Comprehensive role hierarchy, permissions, and application system for petmayday.
+ * Comprehensive role hierarchy, permissions, and application system for Mayday.
  */
 
 // Role Hierarchy & Permissions

@@ -399,7 +399,7 @@ export default function ModeratorConsoleDashboard() {
                       Shelter Escalation — High-Impact Action
                     </div>
                     <p className="text-sm text-slate-600">
-                      This action may trigger notifications and partner workflows under the petmayday Alert Decision Matrix.
+                      This action may trigger notifications and partner workflows under the Mayday Alert Decision Matrix.
                     </p>
                   </div>
                   <Button

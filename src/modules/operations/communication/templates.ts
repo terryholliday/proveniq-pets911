@@ -102,7 +102,7 @@ export const STANDARD_TEMPLATES: Omit<MessageTemplate, 'id' | 'audit' | 'usageCo
     description: 'Confirmation when a new case is created',
     category: 'case_update',
     channels: ['email', 'sms', 'push'],
-    subject: 'Your petmayday Case Has Been Created - {{caseNumber}}',
+    subject: 'Your Mayday Case Has Been Created - {{caseNumber}}',
     body: `Dear {{ownerName}},
 
 Your case has been successfully created and assigned case number {{caseNumber}}.
@@ -122,8 +122,8 @@ You can view your case status at: {{caseUrl}}
 If you have any urgent updates, please reply to this message.
 
 Best regards,
-The petmayday Team`,
-    shortBody: 'petmayday: Case {{caseNumber}} created for {{petName}}. View status: {{caseUrl}}',
+The Mayday Team`,
+    shortBody: 'Mayday: Case {{caseNumber}} created for {{petName}}. View status: {{caseUrl}}',
     variables: [
       { name: 'ownerName', description: 'Owner name', type: 'string', required: true, example: 'John' },
       { name: 'caseNumber', description: 'Case number', type: 'string', required: true, example: 'P911-2026-001234' },
@@ -132,7 +132,7 @@ The petmayday Team`,
       { name: 'petSpecies', description: 'Pet species', type: 'string', required: true, example: 'Dog' },
       { name: 'location', description: 'Last known location', type: 'string', required: true, example: 'Austin, TX' },
       { name: 'triageTime', description: 'Expected triage time', type: 'string', required: false, defaultValue: '30 minutes', example: '30 minutes' },
-      { name: 'caseUrl', description: 'Case status URL', type: 'url', required: true, example: 'https://petmayday.org/case/123' },
+      { name: 'caseUrl', description: 'Case status URL', type: 'url', required: true, example: 'https://Mayday.org/case/123' },
     ],
     requiredVariables: ['ownerName', 'caseNumber', 'caseType', 'petName', 'petSpecies', 'location', 'caseUrl'],
     version: '1.0',
@@ -170,8 +170,8 @@ If this is your pet, we'll arrange for a safe reunion. If not, we'll continue se
 Questions? Reply to this message or call {{supportPhone}}.
 
 Best regards,
-The petmayday Team`,
-    shortBody: 'petmayday: Potential match found for {{petName}}! Check details: {{matchUrl}}',
+The Mayday Team`,
+    shortBody: 'Mayday: Potential match found for {{petName}}! Check details: {{matchUrl}}',
     variables: [
       { name: 'ownerName', description: 'Owner name', type: 'string', required: true, example: 'John' },
       { name: 'petName', description: 'Pet name', type: 'string', required: true, example: 'Max' },
@@ -180,7 +180,7 @@ The petmayday Team`,
       { name: 'foundLocation', description: 'Where pet was found', type: 'string', required: true, example: 'Downtown Austin' },
       { name: 'foundDate', description: 'When pet was found', type: 'date', required: true, example: 'January 11, 2026' },
       { name: 'currentStatus', description: 'Current status of found pet', type: 'string', required: true, example: 'Safe at shelter' },
-      { name: 'matchUrl', description: 'Match details URL', type: 'url', required: true, example: 'https://petmayday.org/match/123' },
+      { name: 'matchUrl', description: 'Match details URL', type: 'url', required: true, example: 'https://Mayday.org/match/123' },
       { name: 'supportPhone', description: 'Support phone number', type: 'phone', required: false, defaultValue: '1-800-PET-911', example: '1-800-PET-911' },
     ],
     requiredVariables: ['ownerName', 'petName', 'caseNumber', 'matchConfidence', 'foundLocation', 'foundDate', 'currentStatus', 'matchUrl'],
@@ -217,15 +217,15 @@ Pet theft is a real concern, and we take every precaution to ensure pets are ret
 Questions about verification? Visit: {{faqUrl}}
 
 Best regards,
-The petmayday Team`,
-    shortBody: 'petmayday: Ownership verification needed for case {{caseNumber}}. Upload docs: {{uploadUrl}}',
+The Mayday Team`,
+    shortBody: 'Mayday: Ownership verification needed for case {{caseNumber}}. Upload docs: {{uploadUrl}}',
     variables: [
       { name: 'claimantName', description: 'Claimant name', type: 'string', required: true, example: 'John' },
       { name: 'caseNumber', description: 'Case number', type: 'string', required: true, example: 'P911-2026-001234' },
       { name: 'verificationItems', description: 'List of verification items needed', type: 'string', required: true, example: '- Photo ID\n- Vet records\n- Recent photos' },
-      { name: 'uploadUrl', description: 'Document upload URL', type: 'url', required: true, example: 'https://petmayday.org/verify/123' },
+      { name: 'uploadUrl', description: 'Document upload URL', type: 'url', required: true, example: 'https://Mayday.org/verify/123' },
       { name: 'deadline', description: 'Verification deadline', type: 'date', required: true, example: 'January 15, 2026' },
-      { name: 'faqUrl', description: 'FAQ URL', type: 'url', required: false, defaultValue: 'https://petmayday.org/faq/verification', example: 'https://petmayday.org/faq/verification' },
+      { name: 'faqUrl', description: 'FAQ URL', type: 'url', required: false, defaultValue: 'https://Mayday.org/faq/verification', example: 'https://Mayday.org/faq/verification' },
     ],
     requiredVariables: ['claimantName', 'caseNumber', 'verificationItems', 'uploadUrl', 'deadline'],
     version: '1.0',
@@ -272,7 +272,7 @@ Decline: {{declineUrl}}
 Questions? Contact dispatch at {{dispatchPhone}}.
 
 Thank you for volunteering!`,
-    shortBody: 'petmayday Dispatch: {{dispatchType}} at {{pickupAddress}}. Accept: {{acceptUrl}}',
+    shortBody: 'Mayday Dispatch: {{dispatchType}} at {{pickupAddress}}. Accept: {{acceptUrl}}',
     variables: [
       { name: 'volunteerName', description: 'Volunteer name', type: 'string', required: true, example: 'Sarah' },
       { name: 'dispatchType', description: 'Type of dispatch', type: 'string', required: true, example: 'Transport' },
@@ -286,8 +286,8 @@ Thank you for volunteering!`,
       { name: 'destinationPhone', description: 'Destination contact phone', type: 'phone', required: false, example: '512-555-5678' },
       { name: 'instructions', description: 'Special instructions', type: 'string', required: false, defaultValue: 'No special instructions', example: 'Animal may be frightened' },
       { name: 'responseTime', description: 'Response time in minutes', type: 'number', required: false, defaultValue: '15', example: '15' },
-      { name: 'acceptUrl', description: 'Accept dispatch URL', type: 'url', required: true, example: 'https://petmayday.org/dispatch/123/accept' },
-      { name: 'declineUrl', description: 'Decline dispatch URL', type: 'url', required: true, example: 'https://petmayday.org/dispatch/123/decline' },
+      { name: 'acceptUrl', description: 'Accept dispatch URL', type: 'url', required: true, example: 'https://Mayday.org/dispatch/123/accept' },
+      { name: 'declineUrl', description: 'Decline dispatch URL', type: 'url', required: true, example: 'https://Mayday.org/dispatch/123/decline' },
       { name: 'dispatchPhone', description: 'Dispatch phone number', type: 'phone', required: false, defaultValue: '1-800-PET-911', example: '1-800-PET-911' },
     ],
     requiredVariables: ['volunteerName', 'dispatchType', 'priority', 'caseNumber', 'pickupAddress', 'pickupContact', 'pickupPhone', 'acceptUrl', 'declineUrl'],
@@ -324,14 +324,14 @@ If we don't hear from you within {{escalationTime}} minutes, we will:
 
 Your safety is our priority.
 
-petmayday Safety Team`,
-    shortBody: 'URGENT petmayday: Safety check-in overdue! Reply OK or tap: {{checkinUrl}}',
+Mayday Safety Team`,
+    shortBody: 'URGENT Mayday: Safety check-in overdue! Reply OK or tap: {{checkinUrl}}',
     variables: [
       { name: 'volunteerName', description: 'Volunteer name', type: 'string', required: true, example: 'Sarah' },
       { name: 'lastCheckinTime', description: 'Last check-in time', type: 'string', required: true, example: '2:30 PM' },
       { name: 'expectedCheckinTime', description: 'Expected check-in time', type: 'string', required: true, example: '3:00 PM' },
       { name: 'lastKnownLocation', description: 'Last known location', type: 'string', required: true, example: '123 Main St, Austin, TX' },
-      { name: 'checkinUrl', description: 'Check-in URL', type: 'url', required: true, example: 'https://petmayday.org/checkin' },
+      { name: 'checkinUrl', description: 'Check-in URL', type: 'url', required: true, example: 'https://Mayday.org/checkin' },
       { name: 'emergencyLine', description: 'Emergency phone line', type: 'phone', required: false, defaultValue: '1-800-PET-911', example: '1-800-PET-911' },
       { name: 'escalationTime', description: 'Time until escalation in minutes', type: 'number', required: false, defaultValue: '15', example: '15' },
       { name: 'emergencyContactName', description: 'Emergency contact name', type: 'string', required: true, example: 'John (spouse)' },
@@ -350,7 +350,7 @@ petmayday Safety Team`,
     description: 'Notification when volunteer application is approved',
     category: 'volunteer',
     channels: ['email'],
-    subject: 'Welcome to petmayday - Your Application Has Been Approved!',
+    subject: 'Welcome to Mayday - Your Application Has Been Approved!',
     body: `Dear {{volunteerName}},
 
 Congratulations! Your volunteer application has been approved.
@@ -373,19 +373,19 @@ Training modules to complete:
 We're excited to have you on the team!
 
 Best regards,
-The petmayday Volunteer Team`,
-    shortBody: 'petmayday: Your volunteer application is approved! Complete training: {{trainingUrl}}',
+The Mayday Volunteer Team`,
+    shortBody: 'Mayday: Your volunteer application is approved! Complete training: {{trainingUrl}}',
     variables: [
       { name: 'volunteerName', description: 'Volunteer name', type: 'string', required: true, example: 'Sarah' },
       { name: 'roleName', description: 'Assigned role', type: 'string', required: true, example: 'Transporter' },
       { name: 'regionName', description: 'Assigned region', type: 'string', required: true, example: 'Austin Metro' },
       { name: 'startDate', description: 'Start date', type: 'date', required: true, example: 'January 15, 2026' },
-      { name: 'trainingUrl', description: 'Training portal URL', type: 'url', required: true, example: 'https://petmayday.org/training' },
-      { name: 'handbookUrl', description: 'Handbook URL', type: 'url', required: true, example: 'https://petmayday.org/handbook' },
-      { name: 'profileUrl', description: 'Profile setup URL', type: 'url', required: true, example: 'https://petmayday.org/profile' },
-      { name: 'communityUrl', description: 'Community URL', type: 'url', required: false, defaultValue: 'https://petmayday.org/community', example: 'https://petmayday.org/community' },
+      { name: 'trainingUrl', description: 'Training portal URL', type: 'url', required: true, example: 'https://Mayday.org/training' },
+      { name: 'handbookUrl', description: 'Handbook URL', type: 'url', required: true, example: 'https://Mayday.org/handbook' },
+      { name: 'profileUrl', description: 'Profile setup URL', type: 'url', required: true, example: 'https://Mayday.org/profile' },
+      { name: 'communityUrl', description: 'Community URL', type: 'url', required: false, defaultValue: 'https://Mayday.org/community', example: 'https://Mayday.org/community' },
       { name: 'mentorName', description: 'Mentor name', type: 'string', required: true, example: 'John Smith' },
-      { name: 'mentorEmail', description: 'Mentor email', type: 'email', required: true, example: 'john@petmayday.org' },
+      { name: 'mentorEmail', description: 'Mentor email', type: 'email', required: true, example: 'john@Mayday.org' },
       { name: 'trainingModules', description: 'List of training modules', type: 'string', required: true, example: '- Safety Basics\n- Transport Procedures\n- Animal Handling' },
     ],
     requiredVariables: ['volunteerName', 'roleName', 'regionName', 'startDate', 'trainingUrl', 'handbookUrl', 'profileUrl', 'mentorName', 'mentorEmail', 'trainingModules'],

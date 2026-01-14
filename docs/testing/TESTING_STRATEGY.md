@@ -1,6 +1,6 @@
-# PetMayday Testing Strategy (App)
+# Mayday Testing Strategy (App)
 
-This document describes how to test **PetNexus PetMayday (PWA app)** end-to-end, including **dispatch orders**, **volunteer workflows**, and **moderator/sysop procedures**, without risking production data.
+This document describes how to test **PetNexus Mayday (PWA app)** end-to-end, including **dispatch orders**, **volunteer workflows**, and **moderator/sysop procedures**, without risking production data.
 
 ## Goals
 

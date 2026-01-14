@@ -1,7 +1,7 @@
 /**
  * ALERT CHANNEL DEFINITIONS
  * 
- * 7 Alert Channels as defined in the petmayday Protocol:
+ * 7 Alert Channels as defined in the Mayday Protocol:
  * 1. Mobile Push - Opt-in users, pet owners, community members
  * 2. SMS - High-urgency verified cases only
  * 3. Email - Low urgency summaries, follow-ups

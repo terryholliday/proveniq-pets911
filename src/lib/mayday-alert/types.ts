@@ -20,7 +20,7 @@ export interface GeofenceSnapshot {
 }
 
 export interface PolicyEvaluatedEvent {
-  type: 'petmayday.alert.policy_evaluated';
+  type: 'Mayday.alert.policy_evaluated';
   decision_id: string;
   policy_version_hash: string;
   tier: Tier;
@@ -31,7 +31,7 @@ export interface PolicyEvaluatedEvent {
 }
 
 export interface AlertEmittedEvent {
-  type: 'petmayday.alert.emitted';
+  type: 'Mayday.alert.emitted';
   decision_id: string;
   policy_version_hash: string;
   channel: string;
@@ -43,7 +43,7 @@ export interface AlertEmittedEvent {
 }
 
 export interface AlertSuppressedEvent {
-  type: 'petmayday.alert.suppressed';
+  type: 'Mayday.alert.suppressed';
   decision_id: string;
   policy_version_hash: string;
   case_id: string;
@@ -57,53 +57,53 @@ export type AuditEvent = PolicyEvaluatedEvent | AlertEmittedEvent | AlertSuppres
 
 export type MemoryEvent =
   | {
-      type: 'petmayday.alert.consent_set';
+      type: 'Mayday.alert.consent_set';
       channel: string;
       audience_segment: string;
       consent: boolean;
       at: string;
     }
   | {
-      type: 'petmayday.alert.user_pause_set';
+      type: 'Mayday.alert.user_pause_set';
       paused: boolean;
       at: string;
     }
   | {
-      type: 'petmayday.partner.contracted';
+      type: 'Mayday.partner.contracted';
       channel: string;
       audience_segment: string;
       at: string;
     }
   | {
-      type: 'petmayday.alert.rate_limit_exceeded';
+      type: 'Mayday.alert.rate_limit_exceeded';
       channel: string;
       audience_segment: string;
       until: string;
       at: string;
     }
   | {
-      type: 'petmayday.alert.flag_low_confidence';
+      type: 'Mayday.alert.flag_low_confidence';
       at: string;
     }
   | {
-      type: 'petmayday.alert.fraud_signal';
+      type: 'Mayday.alert.fraud_signal';
       at: string;
     }
   | {
-      type: 'petmayday.alert.escalation_proof_required';
+      type: 'Mayday.alert.escalation_proof_required';
       at: string;
     }
   | {
-      type: 'petmayday.alert.escalation_proof_attached';
+      type: 'Mayday.alert.escalation_proof_attached';
       at: string;
     }
   | {
-      type: 'petmayday.alert.human_review_required';
+      type: 'Mayday.alert.human_review_required';
       channels?: string[];
       at: string;
     }
   | {
-      type: 'petmayday.alert.evaluate_requested';
+      type: 'Mayday.alert.evaluate_requested';
       case_id?: string;
       policy_version_hash?: string;
       tier?: Tier;
@@ -114,7 +114,7 @@ export type MemoryEvent =
       at: string;
     }
   | {
-      type: 'petmayday.antifraud.message_blocked';
+      type: 'Mayday.antifraud.message_blocked';
       sender_id: string;
       report_id: string;
       pattern_type: string;
@@ -122,28 +122,28 @@ export type MemoryEvent =
       at: string;
     }
   | {
-      type: 'petmayday.antifraud.user_banned';
+      type: 'Mayday.antifraud.user_banned';
       user_id: string;
       ip_address?: string;
       reason: string;
       at: string;
     }
   | {
-      type: 'petmayday.antifraud.proof_of_life_submitted';
+      type: 'Mayday.antifraud.proof_of_life_submitted';
       report_id: string;
       submitter_id: string;
       verification_status: 'VERIFIED' | 'FAILED_NO_METADATA' | 'FAILED_TIMESTAMP_MISMATCH' | 'FAILED_LOCATION_MISMATCH' | 'FAILED_STOCK_PHOTO';
       at: string;
     }
   | {
-      type: 'petmayday.antifraud.identity_verified';
+      type: 'Mayday.antifraud.identity_verified';
       user_id: string;
       method: 'PHONE_OTP' | 'EMAIL_LINK' | 'SHELTER_PARTNER' | 'VET_PARTNER' | 'CHIP_REGISTRY';
       trust_score: number;
       at: string;
     }
   | {
-      type: 'petmayday.antifraud.verified_match';
+      type: 'Mayday.antifraud.verified_match';
       report_id: string;
       finder_id: string;
       claimant_id: string;

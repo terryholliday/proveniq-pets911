@@ -81,7 +81,7 @@ This checklist ensures the offline sync subsystem respects causality, idempotenc
 - [ ] Fail-closed when backend unavailable.
 
 ### Compliance Tests
-- [ ] Run `npm run test:PetMayday-alert-compliance` on each commit.
+- [ ] Run `npm run test:Mayday-alert-compliance` on each commit.
 - [ ] Run `npm run test:sync-worker-e2e` in CI.
 - [ ] Mutation testing (opt-in) for critical paths.
 
@@ -108,7 +108,7 @@ This checklist ensures the offline sync subsystem respects causality, idempotenc
 
 - [OFFLINE_PROTOCOL.md](./OFFLINE_PROTOCOL.md) – Full protocol specification
 - [CANONICAL_LAW.md](./CANONICAL_LAW.md) – Governance and fail-closed rules
-- [PetMayday Alert Compliance](./PetMayday_ALERT_COMPLIANCE.md) – Alert-specific compliance
+- [Mayday Alert Compliance](./Mayday_ALERT_COMPLIANCE.md) – Alert-specific compliance
 
 ---
 

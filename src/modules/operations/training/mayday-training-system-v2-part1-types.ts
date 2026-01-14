@@ -1,5 +1,5 @@
 /**
- * PETMAYDAY TRAINING SYSTEM V2 — Part 1: Core Types
+ * Mayday TRAINING SYSTEM V2 — Part 1: Core Types
  * 
  * Consolidated type definitions incorporating:
  * - Branded types and authoring/delivery split
@@ -252,7 +252,7 @@ export interface Certification {
   code: string;
   name: string;
   description: string;
-  issuingAuthority: 'PETMAYDAY' | 'EXTERNAL';
+  issuingAuthority: 'Mayday' | 'EXTERNAL';
   externalProvider?: string;
   externalCertificationUrl?: string;
   requiredModules: ModuleId[];

@@ -20,52 +20,52 @@ export function replay(events: MemoryEvent[]): AlertProjection {
 
   for (const e of events) {
     switch (e.type) {
-      case 'petmayday.alert.consent_set':
+      case 'Mayday.alert.consent_set':
         p.consentByChannel[`${e.channel}::${e.audience_segment}`] = e.consent;
         break;
-      case 'petmayday.alert.user_pause_set':
+      case 'Mayday.alert.user_pause_set':
         p.userPaused = e.paused;
         break;
-      case 'petmayday.partner.contracted':
+      case 'Mayday.partner.contracted':
         p.partnerContracted[`${e.channel}::${e.audience_segment}`] = true;
         break;
-      case 'petmayday.alert.rate_limit_exceeded':
+      case 'Mayday.alert.rate_limit_exceeded':
         p.rateLimitedUntilByChannel[`${e.channel}::${e.audience_segment}`] = e.until;
         break;
-      case 'petmayday.alert.flag_low_confidence':
+      case 'Mayday.alert.flag_low_confidence':
         p.lowConfidence = true;
         break;
-      case 'petmayday.alert.fraud_signal':
+      case 'Mayday.alert.fraud_signal':
         p.fraudSignal = true;
         break;
-      case 'petmayday.alert.escalation_proof_required':
+      case 'Mayday.alert.escalation_proof_required':
         p.escalationProofRequired = true;
         break;
-      case 'petmayday.alert.escalation_proof_attached':
+      case 'Mayday.alert.escalation_proof_attached':
         p.escalationProofAttached = true;
         break;
-      case 'petmayday.alert.human_review_required':
+      case 'Mayday.alert.human_review_required':
         p.humanReviewRequired = true;
         p.humanReviewChannels = e.channels ? [...e.channels] : null;
         break;
-      case 'petmayday.alert.evaluate_requested':
+      case 'Mayday.alert.evaluate_requested':
         break;
       // ANTI_FRAUD_LOCKER_V2 events
-      case 'petmayday.antifraud.message_blocked':
+      case 'Mayday.antifraud.message_blocked':
         p.fraudSignal = true;
         break;
-      case 'petmayday.antifraud.user_banned':
+      case 'Mayday.antifraud.user_banned':
         p.bannedUser = true;
         p.fraudSignal = true;
         break;
-      case 'petmayday.antifraud.proof_of_life_submitted':
+      case 'Mayday.antifraud.proof_of_life_submitted':
         p.proofOfLifeVerified = e.verification_status === 'VERIFIED';
         break;
-      case 'petmayday.antifraud.identity_verified':
+      case 'Mayday.antifraud.identity_verified':
         p.identityVerified = true;
         p.identityTrustScore = e.trust_score;
         break;
-      case 'petmayday.antifraud.verified_match':
+      case 'Mayday.antifraud.verified_match':
         p.proofOfLifeVerified = true;
         p.identityVerified = true;
         break;

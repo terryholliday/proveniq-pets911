@@ -187,7 +187,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
       </div>
       
       <h1 className="text-3xl font-bold text-white mb-3">
-        Welcome to PetNexus petmayday
+        Welcome to PetNexus Mayday
       </h1>
       <p className="text-blue-100 text-lg mb-2">
         West Virginia Pilot Program

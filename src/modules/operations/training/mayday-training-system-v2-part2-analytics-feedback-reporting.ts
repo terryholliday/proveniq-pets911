@@ -1,5 +1,5 @@
 /**
- * petmayday TRAINING SYSTEM V2 — Part 2: Analytics, Feedback & Reporting
+ * Mayday TRAINING SYSTEM V2 — Part 2: Analytics, Feedback & Reporting
  *
  * Contains:
  * - Learning Analytics Dashboard
@@ -33,7 +33,7 @@ import type {
   DifficultyLevel,
   ContentStatus,
   ProctoringSessionId,
-} from './petmayday-training-system-v2-part1-types';
+} from './Mayday-training-system-v2-part1-types';
 import type { RoleId } from '../roles';
 
 // ══════════════════════════════════════════════════════════════════════════════
