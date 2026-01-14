@@ -183,6 +183,9 @@ export default function Dispatch911Dashboard() {
           <div>
             <h1 className="text-2xl font-bold">911 Dispatch Center</h1>
             <p className="text-indigo-200 text-sm">After-Hours Animal Control Coordination</p>
+            <a href="/admin/dispatch-911/register" className="text-xs text-indigo-300 hover:text-white">
+              Register as 911 Dispatcher →
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <div className={`px-3 py-1 rounded text-sm font-medium ${
