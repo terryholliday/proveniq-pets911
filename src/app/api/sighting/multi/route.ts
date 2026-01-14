@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@/lib/supabase/client';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 
 /**
  * POST /api/sighting/multi
@@ -75,8 +76,11 @@ export async function POST(request: NextRequest) {
       speciesBreakdown[species] = count;
     }
 
+    // Use admin client to bypass RLS for inserts
+    const supabaseAdmin = getSupabaseAdmin();
+
     // Create incident case
-    const { data: incidentCase, error: caseError } = await supabase
+    const { data: incidentCase, error: caseError } = await supabaseAdmin
       .from('incident_cases')
       .insert({
         case_type: caseTypeMap[scenario] || 'STRAY_LITTER',
@@ -86,7 +90,7 @@ export async function POST(request: NextRequest) {
         location_notes: locationNotes,
         total_animals: count || 0,
         species_breakdown: speciesBreakdown,
-        reporter_id: user?.id,
+        reporter_id: user?.id || null,
         reporter_name: reporterName,
         reporter_phone: reporterPhone,
         // Special flags
@@ -98,7 +102,7 @@ export async function POST(request: NextRequest) {
     if (caseError) {
       console.error('Case creation error:', caseError);
       return NextResponse.json(
-        { error: 'Failed to create case' },
+        { error: 'Failed to create case: ' + caseError.message },
         { status: 500 }
       );
     }
@@ -110,7 +114,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a placeholder animal entry
-    await supabase
+    await supabaseAdmin
       .from('case_animals')
       .insert({
         case_id: incidentCase.id,

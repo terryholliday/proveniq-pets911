@@ -19,6 +19,7 @@ import {
   CheckCircle,
   Phone
 } from 'lucide-react';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 
 type Scenario = 
   | 'LITTER'           // Found puppies/kittens together
@@ -96,6 +97,7 @@ export default function MultiAnimalReportPage() {
   const [canHold, setCanHold] = useState(false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   
   const [submitting, setSubmitting] = useState(false);
   const [caseNumber, setCaseNumber] = useState<string | null>(null);
@@ -128,6 +130,7 @@ export default function MultiAnimalReportPage() {
       formData.append('can_hold', String(canHold));
       formData.append('reporter_name', name);
       formData.append('reporter_phone', phone);
+      formData.append('reporter_email', email);
 
       const res = await fetch('/api/sighting/multi', {
         method: 'POST',
@@ -440,12 +443,11 @@ export default function MultiAnimalReportPage() {
 
             <div>
               <label className="block text-sm text-zinc-400 mb-2">Address or intersection (if known)</label>
-              <input
-                type="text"
+              <AddressAutocomplete
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="e.g., 123 Main St or Near Walmart on Rt 60"
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3"
+                onChange={setAddress}
+                county={county}
+                placeholder="Start typing address for suggestions..."
               />
             </div>
 
@@ -499,15 +501,27 @@ export default function MultiAnimalReportPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm text-zinc-400 mb-2">Phone number</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="(555) 123-4567"
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-zinc-400 mb-2">Phone number *</label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(555) 123-4567"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-zinc-400 mb-2">Email (optional)</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3"
+                />
+              </div>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-4">
