@@ -63,6 +63,17 @@ async function getAuthToken(): Promise<string | null> {
   return null;
 }
 
+async function parseJsonResponse(response: Response): Promise<any | null> {
+  const text = await response.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Sync a single queued action
  * Per OFFLINE_PROTOCOL.md: Use SAME idempotency key for all retries
@@ -88,8 +99,8 @@ async function syncAction(action: OfflineQueuedAction): Promise<SyncResult> {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      return { status: 'SYNCED', data };
+      const data = await parseJsonResponse(response);
+      return { status: 'SYNCED', data: data ?? undefined };
     }
 
     if (response.status === 409) {
@@ -99,10 +110,10 @@ async function syncAction(action: OfflineQueuedAction): Promise<SyncResult> {
 
     if (response.status >= 400 && response.status < 500) {
       // Client error - do not retry
-      const errorData = await response.json().catch(() => ({}));
+      const errorData = await parseJsonResponse(response);
       return {
         status: 'FAILED',
-        error: errorData.error?.message || `Client error: ${response.status}`
+        error: errorData?.error?.message || `Client error: ${response.status}`
       };
     }
 
