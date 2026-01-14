@@ -116,6 +116,13 @@ const DOMAIN_CONFIG = {
     label: 'PetRescue911',
   },
 
+  MAYDAY: {
+    hostnames: ['petmayday.org', 'www.petmayday.org'],
+    allowedPaths: ['/(.*)'],
+    redirectTo: '/',
+    label: 'PetMayday',
+  },
+
   // Admin/API domain - moderator console, all API routes
   ADMIN: {
     hostnames: ['proveniqpets911.org', 'www.proveniqpets911.org'],
