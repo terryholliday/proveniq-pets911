@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PhotoTips } from '@/components/shared/photo-tips';
 import { saveSightingReport } from '@/lib/db/indexed-db';
+import { LawTriggerCheckboxes, type LawTriggerCategory } from '@/components/intake/LawTriggerCheckboxes';
 import type { SightingReportExtended, Species } from '@/lib/types';
 
 type AnimalCondition = 'HEALTHY' | 'INJURED' | 'CRITICAL' | 'UNKNOWN';
@@ -44,6 +45,7 @@ interface SightingReport {
   canStayWithAnimal: boolean;
   photo: File | null;
   photoPreview: string | null;
+  lawTriggers: LawTriggerCategory[];
 }
 
 const SPECIES_OPTIONS = [
@@ -84,6 +86,7 @@ export default function ReportSighting() {
     canStayWithAnimal: false,
     photo: null,
     photoPreview: null,
+    lawTriggers: [],
   });
 
   const updateReport = (updates: Partial<SightingReport>) => {
@@ -135,6 +138,7 @@ export default function ReportSighting() {
         photo_url: photoUrl,
         county: 'GREENBRIER', // TODO: Get from user profile
         sighting_at: new Date().toISOString(),
+        law_triggers: report.lawTriggers,
       };
       
       console.log('Sending payload:', payload);
@@ -598,6 +602,14 @@ function ContactStep({
           </p>
         </CardContent>
       </Card>
+
+      {/* Law Trigger Checkboxes */}
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+        <LawTriggerCheckboxes
+          selectedTriggers={report.lawTriggers}
+          onChange={(triggers) => updateReport({ lawTriggers: triggers })}
+        />
+      </div>
       
       {/* Name */}
       <div>
