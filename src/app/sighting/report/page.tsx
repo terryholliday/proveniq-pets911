@@ -60,6 +60,12 @@ const SPECIES_OPTIONS = [
   { id: 'OTHER', label: 'Other', icon: Rabbit },
 ];
 
+const SIZE_OPTIONS = [
+  { id: 'SMALL', label: 'Small', description: 'Under 20 lbs' },
+  { id: 'MEDIUM', label: 'Medium', description: '20-50 lbs' },
+  { id: 'LARGE', label: 'Large', description: 'Over 50 lbs' },
+];
+
 const CONDITION_OPTIONS = [
   { id: 'HEALTHY', label: 'Appears Healthy', color: 'emerald' },
   { id: 'INJURED', label: 'Possibly Injured', color: 'amber' },
@@ -415,14 +421,23 @@ function AnimalDetailsStep({
       
       {/* Size */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">Approximate Size</label>
-        <input
-          type="text"
-          value={report.size}
-          onChange={(e) => updateReport({ size: e.target.value })}
-          placeholder="e.g., Small, Medium, Large"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-        />
+        <label className="block text-sm font-medium text-slate-300 mb-3">Approximate Size</label>
+        <div className="grid grid-cols-3 gap-3">
+          {SIZE_OPTIONS.map(({ id, label, description }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => updateReport({ size: id })}
+              className={`p-4 rounded-xl border-2 transition-all text-left ${report.size === id
+                ? 'border-emerald-500 bg-emerald-500/10'
+                : 'border-slate-700 hover:border-slate-600'
+                }`}
+            >
+              <span className={`block font-medium ${report.size === id ? 'text-emerald-400' : 'text-slate-300'}`}>{label}</span>
+              <span className="text-sm text-slate-500">{description}</span>
+            </button>
+          ))}
+        </div>
       </div>
       
       {/* Additional details */}
