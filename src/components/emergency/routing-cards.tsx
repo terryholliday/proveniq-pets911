@@ -663,10 +663,10 @@ function DispatchCard({
       <CardContent className="space-y-3">
         <Button
           variant="default"
-          className="w-full"
+          className="w-full text-sm"
           onClick={handleCall}
         >
-          <Phone className="h-4 w-4 mr-2" />
+          <Phone className="h-4 w-4 mr-2 flex-shrink-0" />
           Call: {contact.phone_primary}
         </Button>
 
