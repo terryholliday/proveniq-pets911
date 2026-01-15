@@ -132,7 +132,7 @@ export default function ReportSighting() {
   };
 
   const handleNext = () => {
-    if (currentStep < 2) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
     }
@@ -284,13 +284,13 @@ export default function ReportSighting() {
               <span>Back</span>
             </button>
             <span className="text-sm text-slate-400">
-              Step {currentStep + 1} of 3
+              Step {currentStep + 1} of 4
             </span>
           </div>
           
           {/* Progress */}
           <div className="flex gap-2">
-            {[0, 1, 2].map((step) => (
+            {[0, 1, 2, 3].map((step) => (
               <div
                 key={step}
                 className={`flex-1 h-1 rounded-full transition-colors ${
@@ -311,7 +311,10 @@ export default function ReportSighting() {
           <LocationStep report={report} updateReport={updateReport} onNext={handleNext} onBack={handleBack} />
         )}
         {currentStep === 2 && (
-          <ContactStep report={report} updateReport={updateReport} onSubmit={handleSubmit} onBack={handleBack} isSubmitting={isSubmitting} />
+          <ContactStep report={report} updateReport={updateReport} onNext={handleNext} onBack={handleBack} />
+        )}
+        {currentStep === 3 && (
+          <ReviewStep report={report} onSubmit={handleSubmit} onBack={handleBack} isSubmitting={isSubmitting} />
         )}
       </div>
     </main>
@@ -684,15 +687,13 @@ function LocationStep({
 function ContactStep({
   report,
   updateReport,
-  onSubmit,
+  onNext,
   onBack,
-  isSubmitting,
 }: {
   report: SightingReport;
   updateReport: (updates: Partial<SightingReport>) => void;
-  onSubmit: () => void;
+  onNext: () => void;
   onBack: () => void;
-  isSubmitting: boolean;
 }) {
   return (
     <div className="space-y-6">
@@ -765,7 +766,92 @@ function ContactStep({
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-6 disabled:opacity-50"
+          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-6"
+          onClick={onNext}
+        >
+          Review Report
+          <ChevronRight className="w-5 h-5 ml-2" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function ReviewStep({
+  report,
+  onSubmit,
+  onBack,
+  isSubmitting,
+}: {
+  report: SightingReport;
+  onSubmit: () => void;
+  onBack: () => void;
+  isSubmitting: boolean;
+}) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-amber-50 mb-2">Review Your Report</h1>
+        <p className="text-amber-200/70 text-lg">Please confirm the details are correct</p>
+      </div>
+
+      {/* Animal Details */}
+      <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-semibold text-amber-300 uppercase tracking-wide">Animal Details</h3>
+        <div className="grid gap-2 text-sm">
+          <p className="text-white"><strong className="text-slate-400">Species:</strong> {report.species}</p>
+          {report.breed && <p className="text-white"><strong className="text-slate-400">Breed:</strong> {report.breed}</p>}
+          {report.color && <p className="text-white"><strong className="text-slate-400">Color:</strong> {report.color}</p>}
+          {report.size && <p className="text-white"><strong className="text-slate-400">Size:</strong> {report.size}</p>}
+          <p className="text-white"><strong className="text-slate-400">Condition:</strong> {report.condition}</p>
+          {report.description && <p className="text-white"><strong className="text-slate-400">Description:</strong> {report.description}</p>}
+        </div>
+      </div>
+
+      {/* Location */}
+      <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-semibold text-amber-300 uppercase tracking-wide">Location & Time</h3>
+        <div className="grid gap-2 text-sm">
+          <p className="text-white"><strong className="text-slate-400">Location:</strong> {report.location || 'Not specified'}</p>
+          <p className="text-white"><strong className="text-slate-400">Date:</strong> {report.sightingDate}</p>
+          <p className="text-white"><strong className="text-slate-400">Time:</strong> {report.sightingTime || 'Not specified'}</p>
+          <p className="text-white"><strong className="text-slate-400">Still there:</strong> {report.stillThere === true ? 'Yes' : report.stillThere === false ? 'No' : 'Unknown'}</p>
+        </div>
+      </div>
+
+      {/* Contact Info */}
+      <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-semibold text-amber-300 uppercase tracking-wide">Your Contact Info</h3>
+        <div className="grid gap-2 text-sm">
+          <p className="text-white"><strong className="text-slate-400">Name:</strong> {report.reporterName || 'Anonymous'}</p>
+          <p className="text-white"><strong className="text-slate-400">Phone:</strong> {report.reporterPhone || 'Not provided'}</p>
+          <p className="text-white"><strong className="text-slate-400">Email:</strong> {report.reporterEmail || 'Not provided'}</p>
+          <p className="text-white"><strong className="text-slate-400">Can stay with animal:</strong> {report.canStayWithAnimal ? 'Yes' : 'No'}</p>
+        </div>
+      </div>
+
+      {/* Photo Preview */}
+      {report.photoPreview && (
+        <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5 space-y-3">
+          <h3 className="text-sm font-semibold text-amber-300 uppercase tracking-wide">Photo</h3>
+          <img src={report.photoPreview} alt="Sighting" className="max-h-48 rounded-lg object-cover" />
+        </div>
+      )}
+
+      {/* Buttons */}
+      <div className="flex gap-3 pt-2">
+        <Button
+          variant="outline"
+          size="lg"
+          className="flex-1 border-zinc-600 text-zinc-300 hover:bg-zinc-800 py-6"
+          onClick={onBack}
+        >
+          <ChevronLeft className="w-5 h-5 mr-2" />
+          Edit
+        </Button>
+        <Button
+          size="lg"
+          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-6 disabled:opacity-50"
           onClick={onSubmit}
           disabled={isSubmitting}
         >
