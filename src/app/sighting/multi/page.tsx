@@ -31,6 +31,7 @@ type Scenario =
 
 type Species = 'DOG' | 'CAT' | 'MIXED' | 'OTHER';
 
+// Ordered by expected frequency of use
 const SCENARIO_OPTIONS: { value: Scenario; label: string; description: string; icon: React.ReactNode; emoji: string }[] = [
   { 
     value: 'LITTER', 
@@ -40,11 +41,11 @@ const SCENARIO_OPTIONS: { value: Scenario; label: string; description: string; i
     emoji: '🐾'
   },
   { 
-    value: 'DECEASED_OWNER', 
-    label: 'Deceased Owner', 
-    description: 'Animals left after owner passed away',
-    icon: <Home className="h-6 w-6" />,
-    emoji: '🏠'
+    value: 'ABANDONMENT', 
+    label: 'Mass Abandonment', 
+    description: 'Multiple animals dumped/left behind',
+    icon: <Heart className="h-6 w-6" />,
+    emoji: '💔'
   },
   { 
     value: 'FERAL_COLONY', 
@@ -61,11 +62,11 @@ const SCENARIO_OPTIONS: { value: Scenario; label: string; description: string; i
     emoji: '⚠️'
   },
   { 
-    value: 'ABANDONMENT', 
-    label: 'Mass Abandonment', 
-    description: 'Multiple animals dumped/left behind',
-    icon: <Heart className="h-6 w-6" />,
-    emoji: '💔'
+    value: 'DECEASED_OWNER', 
+    label: 'Deceased Owner', 
+    description: 'Animals left after owner passed away',
+    icon: <Home className="h-6 w-6" />,
+    emoji: '🏠'
   },
   { 
     value: 'OTHER', 
