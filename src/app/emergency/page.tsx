@@ -61,8 +61,8 @@ export default function EmergencyPage() {
       <NetworkStatusBanner />
 
       <header className="bg-red-600 text-white py-4 px-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center gap-3 mb-3">
             <Link href="/">
               <Button variant="ghost" size="icon" className="text-white hover:bg-red-700">
                 <ArrowLeft className="h-5 w-5" />
@@ -73,7 +73,9 @@ export default function EmergencyPage() {
               <p className="text-red-100 text-sm">Get help for a found animal</p>
             </div>
           </div>
-          <CountySelectorCompact onSelect={setSelectedCounty} />
+          <div className="flex justify-end">
+            <CountySelectorCompact onSelect={setSelectedCounty} />
+          </div>
         </div>
       </header>
 
