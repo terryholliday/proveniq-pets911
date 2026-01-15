@@ -21,7 +21,7 @@ export default function HomePage() {
                 className="w-11 h-11"
               />
               <div className="flex flex-col">
-                <span className="text-2xl font-black text-white tracking-tight leading-none">MAYDAY</span>
+                <span className="text-2xl font-black text-white tracking-[0.15em] leading-none">MAYDAY</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="text-[10px] text-slate-500 italic">by</span>
                   <span className="text-[11px] font-semibold text-amber-400 tracking-widest">PET COMMAND</span>
