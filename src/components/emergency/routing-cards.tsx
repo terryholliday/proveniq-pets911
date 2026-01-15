@@ -667,7 +667,7 @@ function DispatchCard({
           onClick={handleCall}
         >
           <Phone className="h-4 w-4 mr-2 flex-shrink-0" />
-          Call: {contact.phone_primary}
+          {contact.phone_primary}
         </Button>
 
         <Button
