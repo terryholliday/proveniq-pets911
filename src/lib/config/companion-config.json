@@ -2185,6 +2185,10 @@
             "type": "grounding_tool"
         },
         {
+            "label": "Pet behavior help",
+            "type": "behavior_support"
+        },
+        {
             "label": "Safety Exit",
             "type": "safety_exit"
         }

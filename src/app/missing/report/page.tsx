@@ -86,7 +86,14 @@ export default function ReportMissingPet() {
   });
 
   const updateReport = (updates: Partial<PetReport>) => {
-    setReport(prev => ({ ...prev, ...updates }));
+    setReport(prev => {
+      const updated = { ...prev, ...updates };
+      // Persist to sessionStorage so Support Companion can access it
+      try {
+        sessionStorage.setItem('mayday_lost_pet_draft', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   };
 
   const handleNext = () => {
