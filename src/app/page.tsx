@@ -14,7 +14,7 @@ export default function HomePage() {
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <img
                 src="/favicon.ico"
                 alt="Mayday"
@@ -22,7 +22,10 @@ export default function HomePage() {
               />
               <div className="flex flex-col">
                 <span className="text-2xl font-black text-white tracking-tight leading-none">MAYDAY</span>
-                <span className="text-[13px] text-slate-400 tracking-normal mt-1.5">PET COMMAND</span>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[10px] text-slate-500 italic">by</span>
+                  <span className="text-[11px] font-semibold text-amber-400 tracking-widest">PET COMMAND</span>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-2 md:gap-4">

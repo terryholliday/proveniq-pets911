@@ -1,6 +1,6 @@
 {
-  "name": "Pet Mayday",
-  "short_name": "Pet Mayday",
+  "name": "MAYDAY by Pet Command",
+  "short_name": "MAYDAY",
   "description": "Emergency coordination for lost, found, injured, and abandoned pets in West Virginia",
   "start_url": "/",
   "display": "standalone",
