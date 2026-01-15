@@ -112,27 +112,31 @@ export default function MissingPetsBoard() {
   }, [router]);
 
   const handleShare = useCallback(async (pet: (typeof MOCK_MISSING_PETS)[number]) => {
-    const base = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-    const baseUrl = base.endsWith('/') ? base.slice(0, -1) : base;
-    const url = `${baseUrl}/missing/${pet.id}`;
-    const title = `Missing Pet: ${pet.name}`;
-    const text = `Have you seen ${pet.name}? Last seen near ${pet.lastSeenLocation}.`;
+    const text = `🚨 MISSING PET ALERT 🚨
 
+Have you seen ${pet.name}?
+${pet.breed} • ${pet.color} • ${pet.size}
+Last seen: ${pet.lastSeenLocation}
+
+${pet.description}
+
+Please share to help reunite ${pet.name} with their family! 🐾`;
+
+    // Copy to clipboard first
     try {
-      if (navigator.share) {
-        await navigator.share({ title, text, url });
-        return;
-      }
-
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard');
-        return;
-      }
-
-      window.prompt('Copy this link:', url);
+      await navigator.clipboard?.writeText(text);
     } catch {
       // ignore
+    }
+
+    // Show share options
+    const shareChoice = window.confirm(
+      `Share "${pet.name}" to help find them!\n\nThe alert has been copied to your clipboard.\n\nClick OK to open Facebook (then paste)\nClick Cancel if you've already copied it`
+    );
+
+    if (shareChoice) {
+      // Open Facebook - user will paste the copied text
+      window.open('https://www.facebook.com/', '_blank');
     }
   }, []);
 

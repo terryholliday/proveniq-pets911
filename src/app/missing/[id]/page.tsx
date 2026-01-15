@@ -86,9 +86,9 @@ function getBaseUrl() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<Params>;
+  params: Params;
 }): Promise<Metadata> {
-  const { id } = await params;
+  const { id } = params;
   const pet = MOCK_MISSING_PETS.find((p) => p.id === id);
 
   const baseUrl = getBaseUrl();
@@ -140,9 +140,9 @@ export async function generateMetadata({
 export default async function MissingPetDetailPage({
   params,
 }: {
-  params: Promise<Params>;
+  params: Params;
 }) {
-  const { id } = await params;
+  const { id } = params;
   const pet = MOCK_MISSING_PETS.find((p) => p.id === id);
 
   if (!pet) notFound();
