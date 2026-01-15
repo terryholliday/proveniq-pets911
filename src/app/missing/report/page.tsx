@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { PhotoTips } from '@/components/shared/photo-tips';
+// PhotoTips removed - not relevant for missing pets (they can't take new photos)
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 
 type Species = 'DOG' | 'CAT' | 'BIRD' | 'OTHER';
@@ -180,6 +180,7 @@ function PetDetailsStep({
   updateReport: (updates: Partial<PetReport>) => void;
   onNext: () => void;
 }) {
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const isValid = report.name && report.species && report.color;
 
   return (
@@ -191,19 +192,45 @@ function PetDetailsStep({
 
       {/* Photo Upload */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-3">Photo</label>
-        <div className="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer">
-          <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
-          <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
-          <p className="text-slate-500 text-sm">Clear, recent photos help the most</p>
-        </div>
+        <label className="block text-sm font-medium text-slate-300 mb-3">Photo (optional)</label>
+        <input
+          type="file"
+          id="pet-photo"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setPhotoPreview(reader.result as string);
+              };
+              reader.readAsDataURL(file);
+            }
+          }}
+        />
+        <label
+          htmlFor="pet-photo"
+          className="block border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-slate-500 transition-colors cursor-pointer"
+        >
+          {photoPreview ? (
+            <div className="space-y-3">
+              <img 
+                src={photoPreview} 
+                alt="Pet preview" 
+                className="max-h-48 mx-auto rounded-lg object-cover"
+              />
+              <p className="text-slate-400 text-sm">Click to change photo</p>
+            </div>
+          ) : (
+            <>
+              <Camera className="w-12 h-12 text-slate-500 mx-auto mb-3" />
+              <p className="text-slate-300 font-medium mb-1">Upload a photo</p>
+              <p className="text-slate-500 text-sm">Any recent photo you have</p>
+            </>
+          )}
+        </label>
       </div>
-
-      {/* Photo Tips */}
-      <PhotoTips 
-        animalType={report.species === 'DOG' ? 'dog' : report.species === 'CAT' ? 'cat' : 'other'}
-        context="missing"
-      />
 
       {/* Pet Name */}
       <div>
