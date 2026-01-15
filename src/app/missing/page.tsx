@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   Search, 
   Filter, 
@@ -84,10 +85,56 @@ type Species = 'ALL' | 'DOG' | 'CAT' | 'OTHER';
 type County = 'ALL' | 'GREENBRIER' | 'KANAWHA';
 
 export default function MissingPetsBoard() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [speciesFilter, setSpeciesFilter] = useState<Species>('ALL');
   const [countyFilter, setCountyFilter] = useState<County>('ALL');
   const [showFilters, setShowFilters] = useState(false);
+
+  const handleOpenMissingPet = useCallback((id: string) => {
+    router.push(`/missing/${id}`);
+  }, [router]);
+
+  const handleSeenThisPet = useCallback((pet: (typeof MOCK_MISSING_PETS)[number]) => {
+    try {
+      sessionStorage.setItem(
+        'mayday_sighting_prefill',
+        JSON.stringify({
+          missing_case_id: pet.id,
+          species: pet.species,
+          description: `Possible sighting of ${pet.name}. Last seen: ${pet.lastSeenLocation}.`,
+        })
+      );
+    } catch {
+      // ignore
+    }
+    router.push(`/sighting/report?missing_case_id=${encodeURIComponent(pet.id)}`);
+  }, [router]);
+
+  const handleShare = useCallback(async (pet: (typeof MOCK_MISSING_PETS)[number]) => {
+    const base = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    const baseUrl = base.endsWith('/') ? base.slice(0, -1) : base;
+    const url = `${baseUrl}/missing/${pet.id}`;
+    const title = `Missing Pet: ${pet.name}`;
+    const text = `Have you seen ${pet.name}? Last seen near ${pet.lastSeenLocation}.`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text, url });
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard');
+        return;
+      }
+
+      window.prompt('Copy this link:', url);
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const filteredPets = MOCK_MISSING_PETS.filter(pet => {
     const matchesSearch = searchQuery === '' || 
@@ -196,8 +243,22 @@ export default function MissingPetsBoard() {
       <div className="max-w-4xl mx-auto px-4 pb-8">
         <div className="grid gap-4">
           {filteredPets.map((pet) => (
-            <Link href={`/missing/${pet.id}`} key={pet.id} className="block group">
-              <div className="bg-slate-800 border border-slate-700 hover:border-blue-500 rounded-2xl p-5 transition-all">
+            <div
+              key={pet.id}
+              className="block group"
+            >
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => handleOpenMissingPet(pet.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleOpenMissingPet(pet.id);
+                  }
+                }}
+                className="bg-slate-800 border border-slate-700 hover:border-blue-500 rounded-2xl p-5 transition-all cursor-pointer"
+              >
                 <div className="flex gap-5">
                   {/* Photo */}
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
@@ -243,15 +304,33 @@ export default function MissingPetsBoard() {
                 
                 {/* Actions */}
                 <div className="flex gap-3 mt-4 pt-4 border-t border-slate-700">
-                  <Button variant="outline" size="sm" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleSeenThisPet(pet);
+                    }}
+                  >
                     I&apos;ve Seen This Pet
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      void handleShare(pet);
+                    }}
+                  >
                     Share
                   </Button>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
           
           {filteredPets.length === 0 && (

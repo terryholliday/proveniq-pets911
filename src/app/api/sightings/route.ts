@@ -132,6 +132,17 @@ export async function POST(request: NextRequest) {
           // If law triggers present, create ACO dispatch
           if (lawTriggers.length > 0) {
             try {
+              // Check if any triggers require police notification
+              const policeRequiredTriggers = [
+                'BITE_INCIDENT', 'ATTACK_ON_HUMAN', 'ATTACK_ON_ANIMAL', 'AGGRESSIVE_BEHAVIOR',
+                'VICIOUS_ANIMAL', 'RABIES_EXPOSURE', 'CRUELTY_SUSPECTED', 'NEGLECT_SUSPECTED',
+                'ABANDONMENT', 'NO_FOOD_WATER', 'MEDICAL_NEGLECT', 'HOARDING_SITUATION',
+                'APPEARS_MALNOURISHED', 'AT_LARGE_HAZARD', 'TRAFFIC_HAZARD', 'PACK_BEHAVIOR',
+                'EXTREME_WEATHER_EXPOSURE', 'EXOTIC_ANIMAL', 'LIVESTOCK_AT_LARGE',
+                'WILDLIFE_CONFLICT', 'ILLEGAL_BREEDING', 'OTHER_LAW_CONCERN'
+              ];
+              const notifyPolice = lawTriggers.some(t => policeRequiredTriggers.includes(t));
+              
               acoDispatchResult = await createACODispatch({
                 source_case_type: 'SIGHTING',
                 source_case_id: data.id,
@@ -144,6 +155,7 @@ export async function POST(request: NextRequest) {
                 reporter_name: body.reporter_name || 'Anonymous',
                 reporter_phone: body.reporter_phone || '',
                 law_triggers: lawTriggers,
+                notify_police: notifyPolice,
                 notes: body.animal_behavior || undefined,
               });
             } catch (acoError) {

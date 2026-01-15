@@ -54,38 +54,38 @@ const TRIGGER_GROUPS = {
   'Dangerous Behavior (ACO + Police)': [
     { id: 'BITE_INCIDENT', label: 'Bite incident occurred', aco: true, police: true, critical: true },
     { id: 'ATTACK_ON_HUMAN', label: 'Attack on human', aco: true, police: true, critical: true },
-    { id: 'ATTACK_ON_ANIMAL', label: 'Attack on another animal', aco: true },
-    { id: 'AGGRESSIVE_BEHAVIOR', label: 'Aggressive/threatening behavior', aco: true },
+    { id: 'ATTACK_ON_ANIMAL', label: 'Attack on another animal', aco: true, police: true },
+    { id: 'AGGRESSIVE_BEHAVIOR', label: 'Aggressive/threatening behavior', aco: true, police: true },
     { id: 'VICIOUS_ANIMAL', label: 'Vicious animal (known history)', aco: true, police: true, critical: true },
     { id: 'RABIES_EXPOSURE', label: 'Possible rabies exposure', aco: true, police: true, critical: true },
   ],
   'Suspected Cruelty/Neglect (ACO + Police)': [
     { id: 'CRUELTY_SUSPECTED', label: 'Suspected animal cruelty', aco: true, police: true },
     { id: 'NEGLECT_SUSPECTED', label: 'Suspected neglect', aco: true, police: true },
-    { id: 'ABANDONMENT', label: 'Animal appears abandoned', aco: true },
-    { id: 'NO_FOOD_WATER', label: 'No access to food/water', aco: true },
-    { id: 'MEDICAL_NEGLECT', label: 'Untreated medical condition', aco: true },
+    { id: 'ABANDONMENT', label: 'Animal appears abandoned', aco: true, police: true },
+    { id: 'NO_FOOD_WATER', label: 'No access to food/water', aco: true, police: true },
+    { id: 'MEDICAL_NEGLECT', label: 'Untreated medical condition', aco: true, police: true },
     { id: 'HOARDING_SITUATION', label: 'Hoarding situation', aco: true, police: true },
-    { id: 'APPEARS_MALNOURISHED', label: 'Appears malnourished/underweight', aco: true },
+    { id: 'APPEARS_MALNOURISHED', label: 'Appears malnourished/underweight', aco: true, police: true },
   ],
-  'Public Safety (ACO)': [
-    { id: 'AT_LARGE_HAZARD', label: 'At-large creating hazard', aco: true },
+  'Public Safety (ACO + Police)': [
+    { id: 'AT_LARGE_HAZARD', label: 'At-large creating hazard', aco: true, police: true },
     { id: 'TRAFFIC_HAZARD', label: 'Traffic hazard', aco: true, police: true },
     { id: 'PUBLIC_NUISANCE', label: 'Public nuisance', aco: true },
-    { id: 'PACK_BEHAVIOR', label: 'Pack/group behavior', aco: true },
+    { id: 'PACK_BEHAVIOR', label: 'Pack/group behavior', aco: true, police: true },
   ],
   'Housing & Tethering Violations (ACO)': [
     { id: 'TETHERING_VIOLATION', label: 'Improper tethering', aco: true },
     { id: 'INADEQUATE_SHELTER', label: 'Inadequate shelter/housing', aco: true },
     { id: 'INADEQUATE_CONFINEMENT', label: 'Inadequate confinement', aco: true },
-    { id: 'EXTREME_WEATHER_EXPOSURE', label: 'Exposed to extreme weather', aco: true },
+    { id: 'EXTREME_WEATHER_EXPOSURE', label: 'Exposed to extreme weather', aco: true, police: true },
   ],
-  'Other Reportable (ACO)': [
-    { id: 'EXOTIC_ANIMAL', label: 'Exotic/prohibited animal', aco: true },
-    { id: 'LIVESTOCK_AT_LARGE', label: 'Livestock at large', aco: true },
-    { id: 'WILDLIFE_CONFLICT', label: 'Wildlife conflict', aco: true },
+  'Other Reportable (ACO + Police)': [
+    { id: 'EXOTIC_ANIMAL', label: 'Exotic/prohibited animal', aco: true, police: true },
+    { id: 'LIVESTOCK_AT_LARGE', label: 'Livestock at large', aco: true, police: true },
+    { id: 'WILDLIFE_CONFLICT', label: 'Wildlife conflict', aco: true, police: true },
     { id: 'ILLEGAL_BREEDING', label: 'Suspected illegal breeding', aco: true, police: true },
-    { id: 'OTHER_LAW_CONCERN', label: 'Other legal concern', aco: true },
+    { id: 'OTHER_LAW_CONCERN', label: 'Other legal concern', aco: true, police: true },
   ],
 } as const;
 

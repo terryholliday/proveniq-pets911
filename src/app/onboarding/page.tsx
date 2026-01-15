@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Heart, MapPin, Phone, ChevronRight, ChevronLeft, Check, Plus, Trash2, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { AddressAutocomplete, type AddressSuggestion } from '@/components/AddressAutocomplete';
 import type { County } from '@/lib/types';
 
 interface UserProfile {
@@ -391,12 +392,34 @@ function AddressStep({
               </div>
 
               <div className="space-y-3">
-                <input
-                  type="text"
+                <AddressAutocomplete
                   value={address.street}
-                  onChange={(e) => updateAddress(address.id, { street: e.target.value })}
+                  onChange={(value: string) => updateAddress(address.id, { street: value })}
+                  onSelect={(suggestion: AddressSuggestion) => {
+                    const city =
+                      suggestion.address?.city ||
+                      suggestion.address?.town ||
+                      suggestion.address?.village ||
+                      '';
+                    const state = suggestion.address?.state || 'WV';
+                    const zip = suggestion.address?.postcode || '';
+
+                    // Prefer street_number + route when available
+                    const street = suggestion.address?.house_number && suggestion.address?.road
+                      ? `${suggestion.address.house_number} ${suggestion.address.road}`
+                      : suggestion.address?.road
+                      ? suggestion.address.road
+                      : suggestion.display_name.split(',')[0];
+
+                    updateAddress(address.id, {
+                      street,
+                      city: city || address.city,
+                      state: state || address.state,
+                      zip: zip || address.zip,
+                    });
+                  }}
                   placeholder="Street address"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 outline-none"
+                  className="text-gray-900 placeholder-gray-400"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <input

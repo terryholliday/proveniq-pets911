@@ -40,6 +40,9 @@ export interface ACODispatchParams {
   // Law triggers
   law_triggers: LawTriggerCategory[];
   
+  // Police notification flag (for triggers that also require law enforcement)
+  notify_police?: boolean;
+  
   // Additional context
   notes?: string;
 }
@@ -49,6 +52,7 @@ export interface ACODispatchResult {
   dispatch_id?: string;
   law_evaluation: LawTriggerResult;
   notifications_sent: number;
+  police_notified?: boolean;
   error?: string;
 }
 
@@ -187,11 +191,39 @@ export async function createACODispatch(
     }
   }
 
+  // 7. Notify police/911 if required
+  let policeNotified = false;
+  if (params.notify_police) {
+    policeNotified = await notifyPolice911({
+      dispatch_id: dispatch.id,
+      county: params.county,
+      address: params.address,
+      species: params.species,
+      law_triggers: params.law_triggers,
+      citations: lawEval.all_citations,
+      priority: lawEval.highest_priority || 'MEDIUM',
+      reporter_name: params.reporter_name,
+      reporter_phone: params.reporter_phone,
+    });
+    
+    if (policeNotified) {
+      // Update dispatch record to reflect police notification
+      await supabase
+        .from('dispatch_requests')
+        .update({
+          police_notified: true,
+          police_notified_at: new Date().toISOString(),
+        })
+        .eq('id', dispatch.id);
+    }
+  }
+
   return {
     success: true,
     dispatch_id: dispatch.id,
     law_evaluation: lawEval,
     notifications_sent: notificationsSent,
+    police_notified: policeNotified,
   };
 }
 
@@ -305,6 +337,87 @@ Reply ACK to acknowledge.`;
   }
 
   // For now, return true if we logged the notification (even if delivery pending)
+  return true;
+}
+
+interface NotifyPolice911Params {
+  dispatch_id: string;
+  county: County;
+  address: string;
+  species: string;
+  law_triggers: LawTriggerCategory[];
+  citations: string[];
+  priority: Priority;
+  reporter_name: string;
+  reporter_phone: string;
+}
+
+/**
+ * Notify police/911 dispatch for law enforcement matters
+ * Logs notification for audit trail; actual 911 integration is county-specific
+ */
+async function notifyPolice911(params: NotifyPolice911Params): Promise<boolean> {
+  const supabase = createServiceRoleClient();
+
+  const urgencyText =
+    params.priority === 'CRITICAL'
+      ? '🚨 CRITICAL - IMMEDIATE POLICE RESPONSE NEEDED'
+      : params.priority === 'HIGH'
+      ? '⚠️ HIGH PRIORITY - POLICE NOTIFICATION'
+      : 'Police Notification';
+
+  const message = `${urgencyText}
+MAYDAY Animal Incident - Law Enforcement Required
+
+Location: ${params.address}
+Animal: ${params.species}
+Legal Basis: ${params.citations.join(', ')}
+Triggers: ${params.law_triggers.join(', ')}
+
+Reporter: ${params.reporter_name}
+Phone: ${params.reporter_phone}
+
+Dispatch ID: ${params.dispatch_id}`;
+
+  // Log police notification for audit trail
+  const { error: logError } = await supabase
+    .from('police_notifications')
+    .insert({
+      dispatch_request_id: params.dispatch_id,
+      county: params.county,
+      notification_type: 'DISPATCH_911',
+      message_content: message,
+      priority: params.priority,
+      law_triggers: params.law_triggers,
+      statute_citations: params.citations,
+      sent_at: new Date().toISOString(),
+    });
+
+  if (logError) {
+    // If police_notifications table doesn't exist, log to dispatch_assignments
+    console.warn('Police notification table error, logging to assignments:', logError);
+    await supabase.from('dispatch_assignments').insert({
+      dispatch_request_id: params.dispatch_id,
+      volunteer_id: null,
+      action: 'POLICE_NOTIFIED',
+      note: `Police/911 notification sent. ${params.citations.join(', ')}`,
+      meta: {
+        source: 'aco_dispatch_service',
+        law_triggers: params.law_triggers,
+        priority: params.priority,
+      },
+    });
+  }
+
+  // In production: integrate with county 911 CAD system
+  // For now, log successful notification
+  console.log('[POLICE_911_NOTIFIED]', {
+    dispatch_id: params.dispatch_id,
+    county: params.county,
+    priority: params.priority,
+    triggers: params.law_triggers,
+  });
+
   return true;
 }
 

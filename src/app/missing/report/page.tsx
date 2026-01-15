@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PhotoTips } from '@/components/shared/photo-tips';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 
 type Species = 'DOG' | 'CAT' | 'BIRD' | 'OTHER';
 type Size = 'SMALL' | 'MEDIUM' | 'LARGE';
@@ -430,12 +431,11 @@ function LocationStep({
           <MapPin className="w-4 h-4 inline mr-2" />
           Location *
         </label>
-        <input
-          type="text"
+        <AddressAutocomplete
           value={report.lastSeenLocation}
-          onChange={(e) => updateReport({ lastSeenLocation: e.target.value })}
+          onChange={(value: string) => updateReport({ lastSeenLocation: value })}
           placeholder="Street address, intersection, or landmark"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+          className="text-white placeholder-slate-500"
         />
         <Button 
           variant="outline" 

@@ -19,12 +19,15 @@ import { ChevronLeft, AlertTriangle, Shield, Phone, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { LawTriggerCheckboxes, type LawTriggerCategory } from '@/components/intake/LawTriggerCheckboxes';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { createClient } from '@/lib/supabase/client';
 
 interface ReportForm {
   // Location
   county: 'GREENBRIER' | 'KANAWHA' | '';
   address: string;
+  lat: number | null;
+  lng: number | null;
   locationDetails: string;
   
   // Animal info
@@ -76,6 +79,8 @@ export default function ReportNeglectPage() {
   const [form, setForm] = useState<ReportForm>({
     county: '',
     address: '',
+    lat: null,
+    lng: null,
     locationDetails: '',
     species: '',
     animalCount: '1',
@@ -118,6 +123,8 @@ export default function ReportNeglectPage() {
         body: JSON.stringify({
           county: form.county,
           sighting_address: form.address,
+          sighting_lat: form.lat,
+          sighting_lng: form.lng,
           description: `NEGLECT/CRUELTY REPORT: ${form.situationDetails}\n\nAnimal: ${form.species} (${form.animalCount})\nDescription: ${form.description}\n\nOngoing: ${form.isOngoing ? 'Yes - ' + form.frequency : 'No'}\nWitnesses: ${form.hasWitnesses ? form.witnessInfo : 'None reported'}\nPhotos available: ${form.hasPhotos ? 'Yes' : 'No'}\n\nSafety concern: ${form.isUnsafeLocation ? form.safetyNotes : 'None'}`,
           species: form.species,
           reporter_name: form.isAnonymous ? 'Anonymous' : form.reporterName,
@@ -182,6 +189,8 @@ export default function ReportNeglectPage() {
                   setForm({
                     county: '',
                     address: '',
+                    lat: null,
+                    lng: null,
                     locationDetails: '',
                     species: '',
                     animalCount: '1',
@@ -285,12 +294,12 @@ export default function ReportNeglectPage() {
                 <MapPin className="w-4 h-4 inline mr-1" />
                 Address or Location *
               </label>
-              <input
-                type="text"
+              <AddressAutocomplete
                 value={form.address}
-                onChange={(e) => updateForm({ address: e.target.value })}
+                onChange={(value: string) => updateForm({ address: value })}
+                onCoordinatesChange={(lat: number, lng: number) => updateForm({ lat, lng })}
                 placeholder="Street address, intersection, or landmark"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
+                className="text-white placeholder-slate-500"
               />
             </div>
 
