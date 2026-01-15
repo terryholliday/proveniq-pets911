@@ -112,6 +112,7 @@ export default function MissingPetsBoard() {
   }, [router]);
 
   const handleShare = useCallback(async (pet: (typeof MOCK_MISSING_PETS)[number]) => {
+    const title = `Missing Pet: ${pet.name}`;
     const text = `🚨 MISSING PET ALERT 🚨
 
 Have you seen ${pet.name}?
@@ -122,7 +123,26 @@ ${pet.description}
 
 Please share to help reunite ${pet.name} with their family! 🐾`;
 
-    // Copy to clipboard
+    // Try native Web Share API with image first (works on mobile + some desktop)
+    if (navigator.share && navigator.canShare) {
+      try {
+        // Fetch the pet image and convert to file
+        const response = await fetch(pet.photoUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `${pet.name.toLowerCase()}-missing.jpg`, { type: 'image/jpeg' });
+        
+        const shareData = { title, text, files: [file] };
+        
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return; // Success! Exit early
+        }
+      } catch {
+        // Native share failed or cancelled, fall through to manual options
+      }
+    }
+
+    // Fallback: Copy text to clipboard
     try {
       await navigator.clipboard?.writeText(text);
     } catch {
@@ -131,20 +151,17 @@ Please share to help reunite ${pet.name} with their family! 🐾`;
 
     // Show share platform choice
     const choice = window.prompt(
-      `Share "${pet.name}" - Alert copied to clipboard!\n\nType a number:\n1 = Twitter/X (auto-fills text)\n2 = Facebook (you'll paste)\n3 = Just copy (already done)\n\nEnter 1, 2, or 3:`,
+      `Share "${pet.name}" - Alert copied to clipboard!\n\n(Note: Photo sharing requires mobile or saving image separately)\n\n1 = Twitter/X (auto-fills text)\n2 = Facebook (you'll paste)\n3 = Just copy (done)\n\nEnter 1, 2, or 3:`,
       '1'
     );
 
     if (choice === '1') {
-      // Twitter/X - supports pre-filled text!
       const tweetText = `🚨 MISSING PET ALERT: ${pet.name}\n${pet.breed} • ${pet.color}\n📍 Last seen: ${pet.lastSeenLocation}\n\nPlease RT to help! 🐾`;
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank', 'width=600,height=400');
     } else if (choice === '2') {
-      // Facebook - open composer, user pastes
       window.open('https://www.facebook.com/', '_blank');
-      alert('Facebook opened! Click "What\'s on your mind?" and press Ctrl+V to paste the alert.');
+      alert('Facebook opened!\n\n1. Click "What\'s on your mind?"\n2. Press Ctrl+V to paste text\n3. Click the photo icon to add the pet image');
     }
-    // choice === '3' or cancel = already copied, do nothing
   }, []);
 
   const filteredPets = MOCK_MISSING_PETS.filter(pet => {
