@@ -46,7 +46,7 @@ const TRIGGER_GROUPS = {
   'Animal Condition': [
     { id: 'INJURED_SEVERE', label: 'Severely injured (life-threatening)', critical: true },
     { id: 'INJURED_MODERATE', label: 'Moderately injured' },
-    { id: 'SICK_CONTAGIOUS', label: 'Appears sick/contagious' },
+    { id: 'SICK_CONTAGIOUS', label: 'Appears sick/contagious', critical: true },
     { id: 'DECEASED_ANIMAL', label: 'Deceased animal' },
     { id: 'RABIES_EXPOSURE', label: 'Possible rabies exposure', critical: true },
   ],

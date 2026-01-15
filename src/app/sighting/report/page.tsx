@@ -22,6 +22,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PhotoTips } from '@/components/shared/photo-tips';
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { saveSightingReport } from '@/lib/db/indexed-db';
 import { LawTriggerCheckboxes, type LawTriggerCategory } from '@/components/intake/LawTriggerCheckboxes';
 import type { SightingReportExtended, Species } from '@/lib/types';
@@ -211,10 +212,26 @@ export default function ReportSighting() {
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
-            <Link href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+            <button 
+              onClick={() => {
+                if (currentStep > 0) {
+                  handleBack();
+                } else {
+                  // On first step, confirm before leaving
+                  if (report.species !== 'OTHER' || report.color || report.photo) {
+                    if (confirm('Are you sure you want to leave? Your progress will be lost.')) {
+                      window.location.href = '/';
+                    }
+                  } else {
+                    window.location.href = '/';
+                  }
+                }
+              }}
+              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+            >
               <ChevronLeft className="w-5 h-5" />
               <span>Back</span>
-            </Link>
+            </button>
             <span className="text-sm text-slate-400">
               Step {currentStep + 1} of 3
             </span>
@@ -353,28 +370,6 @@ function AnimalDetailsStep({
         context="found"
       />
       
-      {/* Animal Condition - IMPORTANT */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-3">Animal&apos;s Condition</label>
-        <div className="grid grid-cols-2 gap-3">
-          {CONDITION_OPTIONS.map(({ id, label, color }) => (
-            <button
-              key={id}
-              onClick={() => updateReport({ condition: id as AnimalCondition })}
-              className={`p-4 rounded-xl border-2 transition-all text-left ${
-                report.condition === id
-                  ? `border-${color}-500 bg-${color}-500/10`
-                  : 'border-slate-700 hover:border-slate-600'
-              }`}
-            >
-              <span className={`font-medium ${report.condition === id ? `text-${color}-400` : 'text-slate-300'}`}>
-                {label}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-      
       {/* Species */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">Type of Animal</label>
@@ -455,7 +450,50 @@ function LocationStep({
   onNext: () => void;
   onBack: () => void;
 }) {
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const isValid = report.location;
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsGettingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+          const address = data.display_name || `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          updateReport({ location: address });
+        } catch {
+          updateReport({ location: `${latitude.toFixed(6)}, ${longitude.toFixed(6)}` });
+        }
+        setIsGettingLocation(false);
+      },
+      (error) => {
+        setIsGettingLocation(false);
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert('Location permission denied. Please enable location access.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert('Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            alert('Location request timed out.');
+            break;
+          default:
+            alert('An error occurred while getting your location.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
 
   return (
     <div className="space-y-8">
@@ -498,16 +536,20 @@ function LocationStep({
           <MapPin className="w-4 h-4 inline mr-2" />
           Location *
         </label>
-        <input
-          type="text"
+        <AddressAutocomplete
           value={report.location}
-          onChange={(e) => updateReport({ location: e.target.value })}
+          onChange={(value) => updateReport({ location: value })}
           placeholder="Street address, intersection, or landmark"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+          className="text-white placeholder-slate-500"
         />
-        <Button variant="outline" className="mt-3 border-slate-600 text-slate-300">
+        <Button 
+          variant="outline" 
+          className="mt-3 border-slate-600 text-slate-300"
+          onClick={handleUseCurrentLocation}
+          disabled={isGettingLocation}
+        >
           <MapPin className="w-4 h-4 mr-2" />
-          Use Current Location
+          {isGettingLocation ? 'Getting Location...' : 'Use Current Location'}
         </Button>
       </div>
       
@@ -589,69 +631,69 @@ function ContactStep({
   onBack: () => void;
 }) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Almost done!</h1>
-        <p className="text-slate-400 text-lg">Your contact info (optional but helpful)</p>
+        <h1 className="text-3xl font-bold text-amber-50 mb-2">Almost done!</h1>
+        <p className="text-amber-200/70 text-lg">Your contact info (optional but helpful)</p>
       </div>
       
-      <Card className="bg-slate-800 border-slate-700">
-        <CardContent className="p-4">
-          <p className="text-slate-300 text-sm">
-            💡 <strong>You can submit anonymously</strong>, but providing contact info helps us follow up if we need more details.
-          </p>
-        </CardContent>
-      </Card>
+      <div className="bg-amber-900/30 border border-amber-700/50 rounded-xl p-4">
+        <p className="text-amber-100 text-sm">
+          💡 <strong>You can submit anonymously</strong>, but providing contact info helps us follow up if we need more details.
+        </p>
+      </div>
+
+      {/* Contact Fields */}
+      <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5 space-y-4">
+        <h3 className="text-sm font-semibold text-amber-300 uppercase tracking-wide">Contact Information</h3>
+        
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-2">Your Name</label>
+          <input
+            type="text"
+            value={report.reporterName}
+            onChange={(e) => updateReport({ reporterName: e.target.value })}
+            placeholder="Optional"
+            className="w-full px-4 py-3 bg-zinc-800/80 border border-zinc-600 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-2">Phone Number</label>
+          <input
+            type="tel"
+            value={report.reporterPhone}
+            onChange={(e) => updateReport({ reporterPhone: e.target.value })}
+            placeholder="Optional - for follow-up only"
+            className="w-full px-4 py-3 bg-zinc-800/80 border border-zinc-600 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-zinc-300 mb-2">Email</label>
+          <input
+            type="email"
+            value={report.reporterEmail}
+            onChange={(e) => updateReport({ reporterEmail: e.target.value })}
+            placeholder="Optional"
+            className="w-full px-4 py-3 bg-zinc-800/80 border border-zinc-600 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+          />
+        </div>
+      </div>
 
       {/* Law Trigger Checkboxes */}
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+      <div className="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-5">
         <LawTriggerCheckboxes
           selectedTriggers={report.lawTriggers}
           onChange={(triggers) => updateReport({ lawTriggers: triggers })}
         />
       </div>
       
-      {/* Name */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">Your Name</label>
-        <input
-          type="text"
-          value={report.reporterName}
-          onChange={(e) => updateReport({ reporterName: e.target.value })}
-          placeholder="Optional"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-        />
-      </div>
-      
-      {/* Phone */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number</label>
-        <input
-          type="tel"
-          value={report.reporterPhone}
-          onChange={(e) => updateReport({ reporterPhone: e.target.value })}
-          placeholder="Optional - for follow-up only"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-        />
-      </div>
-      
-      {/* Email */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
-        <input
-          type="email"
-          value={report.reporterEmail}
-          onChange={(e) => updateReport({ reporterEmail: e.target.value })}
-          placeholder="Optional"
-          className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-        />
-      </div>
-      
-      <div className="flex gap-3">
+      <div className="flex gap-3 pt-2">
         <Button
           variant="outline"
           size="lg"
-          className="flex-1 border-slate-600 text-slate-300 py-6"
+          className="flex-1 border-zinc-600 text-zinc-300 hover:bg-zinc-800 py-6"
           onClick={onBack}
         >
           <ChevronLeft className="w-5 h-5 mr-2" />
@@ -659,7 +701,7 @@ function ContactStep({
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-6"
+          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-6"
           onClick={onSubmit}
         >
           Submit Sighting

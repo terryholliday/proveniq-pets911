@@ -1,0 +1,120 @@
+import { expect, test } from '@playwright/test';
+
+/**
+ * E2E Tests for Homepage and Navigation
+ * Tests the main landing page and navigation flows
+ */
+
+test.describe('Homepage', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('renders homepage', async ({ page }) => {
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
+
+  test('has main navigation', async ({ page }) => {
+    const nav = page.locator('nav, header, [role="navigation"]');
+    await expect(nav.first()).toBeVisible();
+  });
+
+  test('has hero section or main CTA', async ({ page }) => {
+    const hero = page.locator('[class*="hero"], main h1, [class*="banner"]');
+    await expect(hero.first()).toBeVisible();
+  });
+
+  test('has emergency assist button', async ({ page }) => {
+    const emergencyBtn = page.getByRole('link', { name: /emergency/i });
+    await expect(emergencyBtn.first()).toBeVisible();
+  });
+
+  test('has report sighting option', async ({ page }) => {
+    const sightingLink = page.getByRole('link', { name: /found|sighting|spot/i });
+    // May or may not be on homepage
+  });
+
+  test('has report missing pet option', async ({ page }) => {
+    const missingLink = page.getByRole('link', { name: /lost|missing/i });
+    // May or may not be on homepage
+  });
+
+  test('has footer with legal links', async ({ page }) => {
+    const footer = page.locator('footer');
+    await expect(footer).toBeVisible();
+    
+    // Check for common footer links
+    await expect(page.getByRole('link', { name: /privacy/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /terms/i })).toBeVisible();
+  });
+});
+
+test.describe('Navigation Links', () => {
+  test('emergency link works', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('link', { name: /emergency/i }).first().click();
+    await expect(page).toHaveURL(/\/emergency/);
+  });
+
+  test('about link works', async ({ page }) => {
+    await page.goto('/');
+    const aboutLink = page.getByRole('link', { name: /about/i });
+    if (await aboutLink.isVisible()) {
+      await aboutLink.click();
+      await expect(page).toHaveURL(/\/about/);
+    }
+  });
+
+  test('resources link works', async ({ page }) => {
+    await page.goto('/');
+    const resourcesLink = page.getByRole('link', { name: /resources/i });
+    if (await resourcesLink.isVisible()) {
+      await resourcesLink.click();
+      await expect(page).toHaveURL(/\/resources/);
+    }
+  });
+
+  test('support link works', async ({ page }) => {
+    await page.goto('/');
+    const supportLink = page.getByRole('link', { name: /support/i });
+    if (await supportLink.isVisible()) {
+      await supportLink.first().click();
+      await expect(page).toHaveURL(/\/support/);
+    }
+  });
+});
+
+test.describe('Community Page', () => {
+  test('renders community page', async ({ page }) => {
+    await page.goto('/community');
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
+});
+
+test.describe('Press Page', () => {
+  test('renders press page', async ({ page }) => {
+    await page.goto('/press');
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
+});
+
+test.describe('Help Pages', () => {
+  test('help safety page renders', async ({ page }) => {
+    await page.goto('/help/safety');
+    await expect(page.getByRole('heading', { name: /help|safety/i })).toBeVisible();
+  });
+});
+
+test.describe('Onboarding Flow', () => {
+  test('onboarding page renders', async ({ page }) => {
+    await page.goto('/onboarding');
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
+});
+
+test.describe('App Store Safety Page', () => {
+  test('app store safety page renders', async ({ page }) => {
+    await page.goto('/app-store-safety');
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
+});

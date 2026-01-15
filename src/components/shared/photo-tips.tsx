@@ -29,7 +29,7 @@ export function PhotoTips({ animalType, context }: PhotoTipsProps) {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-blue-800">
           <Camera className="h-5 w-5" />
-          Photo Guidelines for {isMissing ? 'Finding' : 'Identifying'} Your {animalType}
+          Photo Guidelines for {isMissing ? `Finding Your ${animalType}` : `Documenting This ${animalType}`}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -74,7 +74,7 @@ export function PhotoTips({ animalType, context }: PhotoTipsProps) {
                   icon={<Maximize2 className="h-4 w-4" />}
                   title="Unique Markings"
                   description="Spots, patches, scars, or unusual patterns"
-                  good="Permanent markings help prove ownership"
+                  good={isMissing ? "Permanent markings help prove ownership" : "Permanent markings help identify the pet"}
                 />
               </>
             )}

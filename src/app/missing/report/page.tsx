@@ -340,7 +340,50 @@ function LocationStep({
   onNext: () => void;
   onBack: () => void;
 }) {
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const isValid = report.lastSeenLocation && report.lastSeenDate;
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsGettingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+          const address = data.display_name || `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          updateReport({ lastSeenLocation: address });
+        } catch {
+          updateReport({ lastSeenLocation: `${latitude.toFixed(6)}, ${longitude.toFixed(6)}` });
+        }
+        setIsGettingLocation(false);
+      },
+      (error) => {
+        setIsGettingLocation(false);
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert('Location permission denied. Please enable location access.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert('Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            alert('Location request timed out.');
+            break;
+          default:
+            alert('An error occurred while getting your location.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
 
   return (
     <div className="space-y-8">
@@ -387,9 +430,14 @@ function LocationStep({
           placeholder="Street address, intersection, or landmark"
           className="w-full px-4 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
         />
-        <Button variant="outline" className="mt-3 border-slate-600 text-slate-300">
+        <Button 
+          variant="outline" 
+          className="mt-3 border-slate-600 text-slate-300"
+          onClick={handleUseCurrentLocation}
+          disabled={isGettingLocation}
+        >
           <MapPin className="w-4 h-4 mr-2" />
-          Use Current Location
+          {isGettingLocation ? 'Getting Location...' : 'Use Current Location'}
         </Button>
       </div>
 
