@@ -16,6 +16,7 @@
     "test:watch": "jest --watch",
     "e2e:install": "playwright install",
     "e2e": "playwright test",
+    "e2e:companion": "playwright test e2e/companion.spec.ts",
     "governance": "node scripts/canon-governance.js",
     "pre-commit": "npm run governance && npm run test:Mayday-alert-compliance"
   },

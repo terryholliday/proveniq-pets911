@@ -84,6 +84,7 @@ import { useSingleFlight } from './useSingleFlight';
 import { useOfflineMode } from './useOfflineMode';
 import { useFollowThrough } from './useFollowThrough';
 import { usePipelineV2 } from './usePipelineV2';
+import { companionLogger } from './companion-logger';
 
 // Components
 import { SafetyErrorBoundary } from './SafetyErrorBoundary';
@@ -497,17 +498,12 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
       // =====================================================================
       // PIPELINE V2: Structured, testable output
       // =====================================================================
+      const processStartTime = Date.now();
       const output = pipelineV2.process(userMessage, messageHistory);
+      const processingTimeMs = Date.now() - processStartTime;
       
-      // Log structured output for debugging/monitoring
-      console.log('[PIPELINE_V2] Output:', {
-        tier: output.tier,
-        mode: output.mode,
-        markers: output.markers.slice(0, 5),
-        factsExtracted: Object.keys(output.factsExtractedThisTurn),
-        guardsTriggered: output.guardsTriggered,
-        volatility: output.volatility,
-      });
+      // Structured logging for monitoring
+      companionLogger.messageProcessed(output, processingTimeMs);
       
       // Update legacy refs for backward compatibility
       sessionFactsRef.current = mergeFacts(sessionFactsRef.current, output.factsExtractedThisTurn);
@@ -642,7 +638,7 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
       // Generate handoff packet for CRITICAL/HIGH (for monitoring, not display)
       if (output.requiresHumanHandoff) {
         const packet = pipelineV2.generateHandoffPacket();
-        console.log('[HANDOFF_PACKET_V2]', packet);
+        companionLogger.handoffGenerated(packet);
         // In production: send to monitoring API
       }
       
@@ -734,14 +730,20 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     // Generate handoff packet via pipeline V2
     if (output.requiresHumanHandoff) {
       const packet = pipelineV2.generateHandoffPacket();
-      console.log('[HANDOFF_PACKET_V2_CONFIRMED]', packet);
+      companionLogger.handoffGenerated(packet);
     }
+    
+    // Log crisis confirmation
+    companionLogger.crisisConfirmed(output.tier);
   }, [pendingConfirmation, simulateTyping, pipelineV2]);
   
   const handleDenyCrisis = useCallback(() => {
     setPendingConfirmation(null);
     setRiskTier('STANDARD');
     setLowCognitionMode(false);
+    
+    // Log crisis denial
+    companionLogger.crisisDenied();
     
     simulateTyping(
       "I apologize for misunderstanding. Please tell me in your own words what's happening, and I'll do my best to help."
