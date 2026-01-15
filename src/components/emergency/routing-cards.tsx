@@ -351,11 +351,11 @@ function InjuredRoutingCard({
                     key={vet.id}
                     variant="default"
                     size="lg"
-                    className="w-full bg-green-600 hover:bg-green-700"
+                    className="w-full bg-green-600 hover:bg-green-700 h-auto py-3 whitespace-normal text-left"
                     onClick={() => onNotifyVet?.(vet)}
                   >
-                    <Phone className="h-5 w-5 mr-2" />
-                    Notify {vet.name}
+                    <Phone className="h-5 w-5 mr-2 flex-shrink-0" />
+                    <span className="flex-1">Notify {vet.name}</span>
                   </Button>
                 ))}
                 {erVets.length > 3 && (
