@@ -1,7 +1,7 @@
 {
   "name": "Pet Mayday",
   "short_name": "Pet Mayday",
-  "description": "Emergency coordination for lost and found pets in West Virginia",
+  "description": "Emergency coordination for lost, found, injured, and abandoned pets in West Virginia",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f9fafb",

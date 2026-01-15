@@ -64,6 +64,8 @@ import {
 
 import { detectRegion, resolveHotlines, type Region } from './hotline-resolver';
 
+import { useResponseEngine } from './Responseengine';
+
 import {
   createSessionFacts,
   extractFactsFromMessage,
@@ -162,6 +164,9 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
   // Confirmation state
   const [pendingConfirmation, setPendingConfirmation] = useState<PendingConfirmation | null>(null);
   const [crisisConfirmed, setCrisisConfirmed] = useState(false);
+  
+  // Response engine for contextual responses
+  const responseEngine = useResponseEngine();
   
   // =========================================================================
   // REFS (for stale state prevention)
@@ -421,19 +426,21 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     historyWindow: string,
     factsBlock: string
   ): string => {
-    // This is where you'd integrate with an LLM API
-    // The key is injecting history + facts to prevent re-asking questions
+    // Use the ResponseEngine for contextual, advancing responses
+    // Map CrisisAssessment to the format ResponseEngine expects
+    // Map STANDARD -> LOW since ResponseEngine doesn't have STANDARD
+    const riskLevel = assessment.tier === 'STANDARD' ? 'LOW' : assessment.tier;
+    const engineResponse = responseEngine.generateResponse(userMessage, {
+      level: riskLevel as 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW',
+      primaryCategory: assessment.primaryCrisis as any || null,
+      confidence: assessment.score / 100,
+      signals: assessment.markers,
+      requiresConfirmation: false,
+    });
     
-    const sessionFacts = sessionFactsRef.current;
+    let response = engineResponse;
     
-    // Build personalized response based on context
-    let response = '';
-    
-    if (sessionFacts.petName) {
-      response += `I hear you about ${sessionFacts.petName}. `;
-    }
-    
-    // Check for volatility
+    // Check for volatility - prepend safety check if needed
     const hasVolatility = detectVolatilitySignals(messagesRef.current);
     if (hasVolatility) {
       response = "I'm noticing a shift in what you're saying. Before we continue: are you feeling safe right now?\n\n" + response;
@@ -441,13 +448,11 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     
     // Add nighttime context if applicable
     if (isNighttimeLocal() && (assessment.tier === 'HIGH' || assessment.tier === 'MEDIUM')) {
-      response += "It's late where you are. If this is urgent, don't wait to reach out for support.\n\n";
+      response = "It's late where you are. If this is urgent, don't wait to reach out for support.\n\n" + response;
     }
     
-    response += "I'm here with you. Tell me more about what's happening.";
-    
     return response;
-  }, []);
+  }, [responseEngine]);
   
   // =========================================================================
   // MAIN MESSAGE PROCESSING (Pipeline V2 Integration)
