@@ -106,6 +106,7 @@ const CONDITION_OPTIONS = [
 export default function ReportSighting() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [report, setReport] = useState<SightingReport>({
     species: 'OTHER',
     breed: '',
@@ -145,6 +146,8 @@ export default function ReportSighting() {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return; // Prevent double-submit
+    setIsSubmitting(true);
     console.log('Submitting sighting:', report);
     
     // Convert photo to data URL if exists
@@ -204,6 +207,7 @@ export default function ReportSighting() {
       if (!response.ok) {
         console.error('Failed to submit sighting:', responseData);
         alert(`Failed to submit sighting: ${responseData.error || 'Unknown error'}`);
+        setIsSubmitting(false);
         return;
       }
       
@@ -214,6 +218,7 @@ export default function ReportSighting() {
     } catch (error) {
       console.error('Error submitting sighting:', error);
       alert('Failed to submit sighting. Please try again.');
+      setIsSubmitting(false);
     }
   };
 
@@ -306,7 +311,7 @@ export default function ReportSighting() {
           <LocationStep report={report} updateReport={updateReport} onNext={handleNext} onBack={handleBack} />
         )}
         {currentStep === 2 && (
-          <ContactStep report={report} updateReport={updateReport} onSubmit={handleSubmit} onBack={handleBack} />
+          <ContactStep report={report} updateReport={updateReport} onSubmit={handleSubmit} onBack={handleBack} isSubmitting={isSubmitting} />
         )}
       </div>
     </main>
@@ -681,11 +686,13 @@ function ContactStep({
   updateReport,
   onSubmit,
   onBack,
+  isSubmitting,
 }: {
   report: SightingReport;
   updateReport: (updates: Partial<SightingReport>) => void;
   onSubmit: () => void;
   onBack: () => void;
+  isSubmitting: boolean;
 }) {
   return (
     <div className="space-y-6">
@@ -758,10 +765,11 @@ function ContactStep({
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-6"
+          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-6 disabled:opacity-50"
           onClick={onSubmit}
+          disabled={isSubmitting}
         >
-          Submit Sighting
+          {isSubmitting ? 'Submitting...' : 'Submit Sighting'}
         </Button>
       </div>
     </div>
