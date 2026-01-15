@@ -122,22 +122,29 @@ ${pet.description}
 
 Please share to help reunite ${pet.name} with their family! 🐾`;
 
-    // Copy to clipboard first
+    // Copy to clipboard
     try {
       await navigator.clipboard?.writeText(text);
     } catch {
       // ignore
     }
 
-    // Show share options
-    const shareChoice = window.confirm(
-      `Share "${pet.name}" to help find them!\n\nThe alert has been copied to your clipboard.\n\nClick OK to open Facebook (then paste)\nClick Cancel if you've already copied it`
+    // Show share platform choice
+    const choice = window.prompt(
+      `Share "${pet.name}" - Alert copied to clipboard!\n\nType a number:\n1 = Twitter/X (auto-fills text)\n2 = Facebook (you'll paste)\n3 = Just copy (already done)\n\nEnter 1, 2, or 3:`,
+      '1'
     );
 
-    if (shareChoice) {
-      // Open Facebook - user will paste the copied text
+    if (choice === '1') {
+      // Twitter/X - supports pre-filled text!
+      const tweetText = `🚨 MISSING PET ALERT: ${pet.name}\n${pet.breed} • ${pet.color}\n📍 Last seen: ${pet.lastSeenLocation}\n\nPlease RT to help! 🐾`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank', 'width=600,height=400');
+    } else if (choice === '2') {
+      // Facebook - open composer, user pastes
       window.open('https://www.facebook.com/', '_blank');
+      alert('Facebook opened! Click "What\'s on your mind?" and press Ctrl+V to paste the alert.');
     }
+    // choice === '3' or cancel = already copied, do nothing
   }, []);
 
   const filteredPets = MOCK_MISSING_PETS.filter(pet => {
