@@ -109,7 +109,7 @@ class CompanionLogger {
   // PUBLIC METHODS
   // =========================================================================
 
-  sessionStart(): void {
+  logSessionStart(): void {
     this.log('session_start', {
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -132,7 +132,7 @@ class CompanionLogger {
       processingTimeMs,
     };
 
-    this.log('message_processed', data);
+    this.log('message_processed', data as unknown as Record<string, unknown>);
 
     // Also log crisis detection if applicable
     if (output.tier === 'CRITICAL' || output.tier === 'HIGH') {
@@ -150,7 +150,7 @@ class CompanionLogger {
       cognitiveLoad: output.cognitiveLoad,
     };
 
-    this.log('crisis_detected', data);
+    this.log('crisis_detected', data as unknown as Record<string, unknown>);
   }
 
   crisisConfirmed(tier: RiskTier): void {
@@ -168,7 +168,7 @@ class CompanionLogger {
       trigger,
     };
 
-    this.log('mode_transition', data);
+    this.log('mode_transition', data as unknown as Record<string, unknown>);
   }
 
   handoffGenerated(packet: HandoffPacket): void {
