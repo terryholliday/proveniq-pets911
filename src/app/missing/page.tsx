@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -13,96 +13,75 @@ import {
   Dog,
   Cat,
   Bird,
-  Rabbit
+  Rabbit,
+  Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Mock data for missing pets
-const MOCK_MISSING_PETS = [
-  {
-    id: '1',
-    name: 'Buddy',
-    species: 'DOG',
-    breed: 'Golden Retriever',
-    color: 'Golden',
-    size: 'Large',
-    lastSeenDate: '2024-01-03',
-    lastSeenLocation: 'Downtown Lewisburg',
-    county: 'GREENBRIER',
-    description: 'Friendly, wearing blue collar with tags. Responds to name.',
-    photoUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop',
-    status: 'ACTIVE',
-    daysAgo: 2,
-  },
-  {
-    id: '2',
-    name: 'Whiskers',
-    species: 'CAT',
-    breed: 'Domestic Shorthair',
-    color: 'Orange Tabby',
-    size: 'Medium',
-    lastSeenDate: '2024-01-02',
-    lastSeenLocation: 'East End, Charleston',
-    county: 'KANAWHA',
-    description: 'Indoor cat, very timid. Has microchip.',
-    photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&h=300&fit=crop',
-    status: 'ACTIVE',
-    daysAgo: 3,
-  },
-  {
-    id: '3',
-    name: 'Max',
-    species: 'DOG',
-    breed: 'German Shepherd',
-    color: 'Black and Tan',
-    size: 'Large',
-    lastSeenDate: '2024-01-01',
-    lastSeenLocation: 'White Sulphur Springs',
-    county: 'GREENBRIER',
-    description: 'Neutered male, no collar. Friendly but may be scared.',
-    photoUrl: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=300&h=300&fit=crop',
-    status: 'ACTIVE',
-    daysAgo: 4,
-  },
-  {
-    id: '4',
-    name: 'Luna',
-    species: 'CAT',
-    breed: 'Siamese Mix',
-    color: 'Cream with dark points',
-    size: 'Small',
-    lastSeenDate: '2023-12-30',
-    lastSeenLocation: 'South Charleston',
-    county: 'KANAWHA',
-    description: 'Blue eyes, very vocal. Indoor only.',
-    photoUrl: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=300&h=300&fit=crop',
-    status: 'ACTIVE',
-    daysAgo: 5,
-  },
-];
+interface MissingPet {
+  id: string;
+  case_reference: string;
+  pet_name: string;
+  species: string;
+  breed: string | null;
+  color_primary: string | null;
+  size: string | null;
+  last_seen_at: string;
+  last_seen_address: string | null;
+  county: string;
+  photo_url: string | null;
+  status: string;
+  created_at: string;
+}
 
 type Species = 'ALL' | 'DOG' | 'CAT' | 'OTHER';
 type County = 'ALL' | 'GREENBRIER' | 'KANAWHA';
 
 export default function MissingPetsBoard() {
   const router = useRouter();
+  const [pets, setPets] = useState<MissingPet[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [speciesFilter, setSpeciesFilter] = useState<Species>('ALL');
   const [countyFilter, setCountyFilter] = useState<County>('ALL');
   const [showFilters, setShowFilters] = useState(false);
 
+  // Fetch missing pets from API
+  useEffect(() => {
+    async function fetchPets() {
+      try {
+        const params = new URLSearchParams();
+        if (speciesFilter !== 'ALL') params.set('species', speciesFilter);
+        if (countyFilter !== 'ALL') params.set('county', countyFilter);
+        
+        const response = await fetch(`/api/missing-pets?${params}`);
+        const data = await response.json();
+        
+        if (data.pets) {
+          setPets(data.pets);
+        }
+      } catch (error) {
+        console.error('Error fetching missing pets:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchPets();
+  }, [speciesFilter, countyFilter]);
+
   const handleOpenMissingPet = useCallback((id: string) => {
     router.push(`/missing/${id}`);
   }, [router]);
 
-  const handleSeenThisPet = useCallback((pet: (typeof MOCK_MISSING_PETS)[number]) => {
+  const handleSeenThisPet = useCallback((pet: MissingPet) => {
     try {
       sessionStorage.setItem(
         'mayday_sighting_prefill',
         JSON.stringify({
           missing_case_id: pet.id,
           species: pet.species,
-          description: `Possible sighting of ${pet.name}. Last seen: ${pet.lastSeenLocation}.`,
+          description: `Possible sighting of ${pet.pet_name}. Last seen: ${pet.last_seen_address}.`,
         })
       );
     } catch {
@@ -111,25 +90,23 @@ export default function MissingPetsBoard() {
     router.push(`/sighting/report?missing_case_id=${encodeURIComponent(pet.id)}`);
   }, [router]);
 
-  const handleShare = useCallback(async (pet: (typeof MOCK_MISSING_PETS)[number]) => {
-    const title = `Missing Pet: ${pet.name}`;
+  const handleShare = useCallback(async (pet: MissingPet) => {
+    const title = `Missing Pet: ${pet.pet_name}`;
     const text = `🚨 MISSING PET ALERT 🚨
 
-Have you seen ${pet.name}?
-${pet.breed} • ${pet.color} • ${pet.size}
-Last seen: ${pet.lastSeenLocation}
+Have you seen ${pet.pet_name}?
+${pet.breed || 'Unknown breed'} • ${pet.color_primary || 'Unknown color'} • ${pet.size || ''}
+Last seen: ${pet.last_seen_address || 'Unknown location'}
 
-${pet.description}
-
-Please share to help reunite ${pet.name} with their family! 🐾`;
+Please share to help reunite ${pet.pet_name} with their family! 🐾`;
 
     // Try native Web Share API with image first (works on mobile + some desktop)
-    if (navigator.share && navigator.canShare) {
+    if (navigator.share && navigator.canShare && pet.photo_url) {
       try {
         // Fetch the pet image and convert to file
-        const response = await fetch(pet.photoUrl);
+        const response = await fetch(pet.photo_url);
         const blob = await response.blob();
-        const file = new File([blob], `${pet.name.toLowerCase()}-missing.jpg`, { type: 'image/jpeg' });
+        const file = new File([blob], `${pet.pet_name.toLowerCase()}-missing.jpg`, { type: 'image/jpeg' });
         
         const shareData = { title, text, files: [file] };
         
@@ -151,12 +128,12 @@ Please share to help reunite ${pet.name} with their family! 🐾`;
 
     // Show share platform choice
     const choice = window.prompt(
-      `Share "${pet.name}" - Alert copied to clipboard!\n\n(Note: Photo sharing requires mobile or saving image separately)\n\n1 = Twitter/X (auto-fills text)\n2 = Facebook (you'll paste)\n3 = Just copy (done)\n\nEnter 1, 2, or 3:`,
+      `Share "${pet.pet_name}" - Alert copied to clipboard!\n\n(Note: Photo sharing requires mobile or saving image separately)\n\n1 = Twitter/X (auto-fills text)\n2 = Facebook (you'll paste)\n3 = Just copy (done)\n\nEnter 1, 2, or 3:`,
       '1'
     );
 
     if (choice === '1') {
-      const tweetText = `🚨 MISSING PET ALERT: ${pet.name}\n${pet.breed} • ${pet.color}\n📍 Last seen: ${pet.lastSeenLocation}\n\nPlease RT to help! 🐾`;
+      const tweetText = `🚨 MISSING PET ALERT: ${pet.pet_name}\n${pet.breed || ''} • ${pet.color_primary || ''}\n📍 Last seen: ${pet.last_seen_address || ''}\n\nPlease RT to help! 🐾`;
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank', 'width=600,height=400');
     } else if (choice === '2') {
       window.open('https://www.facebook.com/', '_blank');
@@ -164,17 +141,15 @@ Please share to help reunite ${pet.name} with their family! 🐾`;
     }
   }, []);
 
-  const filteredPets = MOCK_MISSING_PETS.filter(pet => {
-    const matchesSearch = searchQuery === '' || 
-      pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pet.breed.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pet.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pet.lastSeenLocation.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesSpecies = speciesFilter === 'ALL' || pet.species === speciesFilter;
-    const matchesCounty = countyFilter === 'ALL' || pet.county === countyFilter;
-    
-    return matchesSearch && matchesSpecies && matchesCounty;
+  // Filter pets based on search query (species/county already filtered via API)
+  const filteredPets = pets.filter((pet: MissingPet) => {
+    if (searchQuery === '') return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      pet.pet_name.toLowerCase().includes(query) ||
+      (pet.breed?.toLowerCase().includes(query)) ||
+      (pet.last_seen_address?.toLowerCase().includes(query))
+    );
   });
 
   return (
@@ -290,10 +265,10 @@ Please share to help reunite ${pet.name} with their family! 🐾`;
                 <div className="flex gap-5">
                   {/* Photo */}
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    {pet.photoUrl ? (
+                    {pet.photo_url ? (
                       <img 
-                        src={pet.photoUrl} 
-                        alt={pet.name}
+                        src={pet.photo_url} 
+                        alt={pet.pet_name}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -309,24 +284,20 @@ Please share to help reunite ${pet.name} with their family! 🐾`;
                   {/* Details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="text-xl font-bold text-white truncate">{pet.name}</h3>
+                      <h3 className="text-xl font-bold text-white truncate">{pet.pet_name}</h3>
                       <span className="px-2 py-1 bg-amber-600/20 text-amber-400 text-xs font-medium rounded-full flex-shrink-0">
-                        {pet.daysAgo} days ago
+                        {Math.floor((Date.now() - new Date(pet.last_seen_at).getTime()) / (1000 * 60 * 60 * 24))} days ago
                       </span>
                     </div>
                     
                     <p className="text-slate-300 mb-2">
-                      {pet.breed} • {pet.color} • {pet.size}
+                      {pet.breed || 'Unknown'} • {pet.color_primary || 'Unknown'} • {pet.size || ''}
                     </p>
                     
                     <div className="flex items-center gap-2 text-slate-400 text-sm mb-3">
                       <MapPin className="w-4 h-4" />
-                      <span>{pet.lastSeenLocation}</span>
+                      <span>{pet.last_seen_address || 'Unknown location'}</span>
                     </div>
-                    
-                    <p className="text-slate-400 text-sm line-clamp-2">
-                      {pet.description}
-                    </p>
                   </div>
                 </div>
                 

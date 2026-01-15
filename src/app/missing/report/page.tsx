@@ -111,10 +111,53 @@ export default function ReportMissingPet() {
     }
   };
 
-  const handleSubmit = () => {
-    // In production, this would submit to the API
-    console.log('Submitting report:', report);
-    router.push('/missing/report/success');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    
+    try {
+      const payload = {
+        pet_name: report.name,
+        species: report.species,
+        breed: report.breed,
+        color: report.color,
+        size: report.size,
+        distinctive_features: report.distinctiveFeatures,
+        last_seen_date: report.lastSeenDate,
+        last_seen_location: report.lastSeenLocation,
+        description: report.description,
+        is_chipped: report.isChipped,
+        collar_description: report.collarDescription,
+        owner_name: report.ownerName,
+        owner_phone: report.ownerPhone,
+        owner_email: report.ownerEmail,
+        county: 'GREENBRIER', // TODO: detect from location
+      };
+
+      const response = await fetch('/api/missing-pets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(`Failed to submit: ${data.error || 'Unknown error'}`);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Store case reference for success page
+      sessionStorage.setItem('mayday_case_reference', data.case_reference);
+      router.push('/missing/report/success');
+    } catch (error) {
+      console.error('Error submitting report:', error);
+      alert('Failed to submit report. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -157,7 +200,7 @@ export default function ReportMissingPet() {
           <ContactStep report={report} updateReport={updateReport} onNext={handleNext} onBack={handleBack} />
         )}
         {currentStep === 3 && (
-          <ReviewStep report={report} onSubmit={handleSubmit} onBack={handleBack} />
+          <ReviewStep report={report} onSubmit={handleSubmit} onBack={handleBack} isSubmitting={isSubmitting} />
         )}
       </div>
 
@@ -603,10 +646,12 @@ function ReviewStep({
   report,
   onSubmit,
   onBack,
+  isSubmitting,
 }: {
   report: PetReport;
   onSubmit: () => void;
   onBack: () => void;
+  isSubmitting: boolean;
 }) {
   return (
     <div className="space-y-8">
@@ -662,10 +707,11 @@ function ReviewStep({
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-blue-600 hover:bg-blue-700 py-6"
+          className="flex-1 bg-blue-600 hover:bg-blue-700 py-6 disabled:opacity-50"
           onClick={onSubmit}
+          disabled={isSubmitting}
         >
-          Submit Report
+          {isSubmitting ? 'Submitting...' : 'Submit Report'}
         </Button>
       </div>
     </div>
