@@ -9,6 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:companion": "vitest run --config tests/vitest.config.ts",
+    "test:companion:watch": "vitest --config tests/vitest.config.ts",
+    "test:companion:gate": "node scripts/companion-quality-gate.js",
     "test:Mayday-alert-compliance": "jest --testPathPattern=Mayday-alert-compliance",
     "test:watch": "jest --watch",
     "e2e:install": "playwright install",
@@ -48,6 +51,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@types/uuid": "^9.0.7",
+    "@vitest/coverage-v8": "^4.0.17",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.55.0",
     "eslint-config-next": "^16.1.2",
@@ -57,6 +61,7 @@
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.17"
   }
 }

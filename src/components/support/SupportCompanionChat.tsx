@@ -83,6 +83,7 @@ import { useReducedMotion } from './useReducedMotion';
 import { useSingleFlight } from './useSingleFlight';
 import { useOfflineMode } from './useOfflineMode';
 import { useFollowThrough } from './useFollowThrough';
+import { usePipelineV2 } from './usePipelineV2';
 
 // Components
 import { SafetyErrorBoundary } from './SafetyErrorBoundary';
@@ -191,6 +192,9 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
   const { isOffline } = useOfflineMode();
   const singleFlight = useSingleFlight();
   
+  // Pipeline V2 - Structured, testable pipeline
+  const pipelineV2 = usePipelineV2();
+  
   // Safety exit
   const handleSafetyExitCleanup = useCallback(() => {
     setMessages([]);
@@ -205,7 +209,9 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     setPendingConfirmation(null);
     setWaitingRoomMode(false);
     setPostCrisisMode(false);
-  }, []);
+    // Reset pipeline V2 state
+    pipelineV2.reset();
+  }, [pipelineV2]);
   
   const {
     triggerSafetyExit,
@@ -279,8 +285,10 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
         if (draft.isChipped !== null) prefilled.microchipped = draft.isChipped;
         if (draft.collarDescription) prefilled.wearingCollar = !!draft.collarDescription;
         
-        // Merge into sessionFactsRef
+        // Merge into sessionFactsRef (legacy)
         sessionFactsRef.current = mergeFacts(sessionFactsRef.current, prefilled);
+        // Also prefill pipeline V2
+        pipelineV2.prefillFacts(prefilled);
         console.log('[SUPPORT_COMPANION] Prefilled facts from lost pet draft:', prefilled);
       }
     } catch (e) {
@@ -290,8 +298,9 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     // Also check for petName prop (passed directly from widget)
     if (petName) {
       sessionFactsRef.current = mergeFacts(sessionFactsRef.current, { petName });
+      pipelineV2.prefillFacts({ petName });
     }
-  }, [petName]);
+  }, [petName, pipelineV2]);
   
   // =========================================================================
   // OPENING MESSAGE
@@ -440,7 +449,7 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
   }, []);
   
   // =========================================================================
-  // MAIN MESSAGE PROCESSING
+  // MAIN MESSAGE PROCESSING (Pipeline V2 Integration)
   // =========================================================================
   
   const processMessage = useCallback(async (userMessage: string) => {
@@ -464,31 +473,11 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     setMessages(prev => [...prev, userMsg]);
     setCompanionState('thinking');
     
-    // Extract and update session facts (prevents re-asking)
-    const newFacts = extractFactsFromMessage(userMessage);
-    sessionFactsRef.current = mergeFacts(sessionFactsRef.current, newFacts);
-    
-    // Detect region from conversation
-    regionRef.current = detectRegion(messagesRef.current);
-    
-    // Assess crisis with disambiguation
-    const { assessment, updatedVolatility } = assessCrisis(
-      userMessage,
-      volatilityRef.current
-    );
-    volatilityRef.current = updatedVolatility;
-    
-    // Store assessment on message for reference
-    userMsg.assessment = assessment;
-    
-    // Update risk tier
-    setRiskTier(assessment.tier);
-    
-    // Determine low cognition mode
-    const useLowCog = 
-      (assessment.tier === 'CRITICAL' || assessment.tier === 'HIGH') &&
-      (LOW_COGNITION_MODE?.enabled ?? true);
-    setLowCognitionMode(useLowCog);
+    // Build message history for pipeline V2
+    const messageHistory = messagesRef.current.map(m => ({
+      role: m.role === 'companion' ? 'assistant' as const : 'user' as const,
+      content: m.content,
+    }));
     
     // Check for follow-through response
     const lower = userMessage.toLowerCase();
@@ -501,97 +490,143 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     const delay = setTimeout(async () => {
       // Check if this request is still active
       if (!singleFlight.isActive(requestId)) {
-        console.log('Dropping stale request');
+        console.log('[PIPELINE_V2] Dropping stale request');
         return;
       }
       
-      // Build pipeline context
-      const pipelineContext: PipelineContext = {
-        userMessage,
-        assessment,
-        region: regionRef.current,
-        sessionFacts: sessionFactsRef.current,
-        previousAssessment: previousAssessmentRef.current,
-        isPostCrisis: postCrisisMode,
-        crisisConfirmed,
-      };
+      // =====================================================================
+      // PIPELINE V2: Structured, testable output
+      // =====================================================================
+      const output = pipelineV2.process(userMessage, messageHistory);
       
-      // Process through pipeline
-      const result = processPipeline(pipelineContext);
+      // Log structured output for debugging/monitoring
+      console.log('[PIPELINE_V2] Output:', {
+        tier: output.tier,
+        mode: output.mode,
+        markers: output.markers.slice(0, 5),
+        factsExtracted: Object.keys(output.factsExtractedThisTurn),
+        guardsTriggered: output.guardsTriggered,
+        volatility: output.volatility,
+      });
       
-      // Update previous assessment
-      previousAssessmentRef.current = assessment;
+      // Update legacy refs for backward compatibility
+      sessionFactsRef.current = mergeFacts(sessionFactsRef.current, output.factsExtractedThisTurn);
+      regionRef.current = output.region as Region;
       
-      // Handle result
-      setCurrentMode(result.mode);
+      // Update risk tier from pipeline V2
+      setRiskTier(output.tier);
+      
+      // Update low cognition mode from UI directives
+      setLowCognitionMode(output.ui.showLowCognition);
       
       // Handle confirmation requirement for CRITICAL
-      if (result.requiresConfirmation && result.confirmationParaphrase) {
+      if (output.ui.requiresConfirmation && output.ui.confirmationParaphrase) {
         setPendingConfirmation({
-          assessment,
+          assessment: {
+            tier: output.tier,
+            score: output.score,
+            markers: output.markers,
+            primaryCrisis: output.primaryCrisis,
+            requiresHumanHandoff: output.requiresHumanHandoff,
+            requiresGrounding: output.ui.showGroundingTool !== null,
+            isCompoundCrisis: output.markers.length > 2,
+            compoundTypes: [],
+            volatility: output.volatility,
+            cognitiveLoad: (output.cognitiveLoad === 'SEVERELY_IMPAIRED' ? 'IMPAIRED' : output.cognitiveLoad) as 'NORMAL' | 'IMPAIRED',
+            bystander: output.isBystander ? { isBystander: true, isRemote: output.bystanderIsRemote, isMinor: output.bystanderIsMinor, relationship: null } : null,
+            waitingRoom: output.ui.showWaitingRoom,
+            language: 'en',
+          },
           originalMessage: userMessage,
-          paraphrase: result.confirmationParaphrase,
+          paraphrase: output.ui.confirmationParaphrase,
         });
         setCompanionState('idle');
         singleFlight.finish(requestId);
         return;
       }
       
-      // Update UI state based on pipeline result
-      if (result.showGrounding && result.groundingType) {
+      // Update UI state based on pipeline V2 UI directives
+      if (output.ui.showGroundingTool) {
         setShowGrounding(true);
-        setGroundingType(result.groundingType);
+        setGroundingType(output.ui.showGroundingTool as GroundingType);
       }
       
-      if (result.showVisualAid) {
-        setShowVisualAid(result.showVisualAid);
+      if (output.ui.showVisualAid) {
+        setShowVisualAid(output.ui.showVisualAid as VisualAidType);
       }
       
-      if (result.showTakeawayCard) {
-        setShowTakeawayCard(result.showTakeawayCard);
+      if (output.ui.showTakeawayCard) {
+        setShowTakeawayCard(output.ui.showTakeawayCard as TakeawayCardType);
       }
       
-      if (result.enterWaitingRoom) {
+      if (output.ui.showWaitingRoom) {
         setWaitingRoomMode(true);
       }
       
-      if (result.enterPostCrisis) {
+      if (output.ui.enterPostCrisis) {
         setPostCrisisMode(true);
+        pipelineV2.enterPostCrisis();
       }
       
-      if (result.mode === 'SCAM_WARNING') {
+      if (output.ui.showScamWarning) {
         setShowScamWarning(true);
       }
       
+      // Map pipeline V2 mode to legacy mode
+      const legacyMode = mapPipelineV2Mode(output.mode);
+      setCurrentMode(legacyMode);
+      
       // Generate response
-      let finalResponse = result.response;
+      let finalResponse = output.responseTemplate || '';
       
       // If no template response, generate clinical response with context injection
-      if (!finalResponse) {
+      if (!finalResponse && output.requiresModelCall) {
         // Build history window for context
         const historyWindow = messagesRef.current
           .slice(-10)
           .map(m => `${m.role.toUpperCase()}: ${m.content}`)
           .join('\n');
         
-        // Build facts block
-        const factsBlock = Object.entries(sessionFactsRef.current)
+        // Build facts block from pipeline V2 facts
+        const factsBlock = Object.entries(output.facts)
           .filter(([_, v]) => v != null)
           .map(([k, v]) => `${k}: ${String(v)}`)
           .join(', ') || 'None';
         
+        // Use the model prompt from pipeline V2 if available
+        if (output.promptForModel) {
+          console.log('[PIPELINE_V2] Model prompt generated');
+        }
+        
         finalResponse = generateClinicalResponse(
           userMessage,
-          assessment,
+          {
+            tier: output.tier,
+            score: output.score,
+            markers: output.markers,
+            primaryCrisis: output.primaryCrisis,
+            requiresHumanHandoff: output.requiresHumanHandoff,
+            requiresGrounding: output.ui.showGroundingTool !== null,
+            isCompoundCrisis: output.markers.length > 2,
+            compoundTypes: [],
+            volatility: output.volatility,
+            cognitiveLoad: (output.cognitiveLoad === 'SEVERELY_IMPAIRED' ? 'IMPAIRED' : output.cognitiveLoad) as 'NORMAL' | 'IMPAIRED',
+            bystander: null,
+            waitingRoom: output.ui.showWaitingRoom,
+            language: 'en',
+          },
           historyWindow,
           factsBlock
         );
       }
       
       // Resolve hotline placeholders
-      finalResponse = resolveHotlines(finalResponse, regionRef.current);
+      if (output.ui.hotlineNumber) {
+        finalResponse = finalResponse.replace(/\{HOTLINE\}/g, output.ui.hotlineNumber);
+      }
+      finalResponse = resolveHotlines(finalResponse, output.region as Region);
       
-      // Apply response guards (authority claims, prohibited phrases)
+      // Apply response guards (already applied in pipeline V2, but double-check)
       const guardResult = runAllGuards(finalResponse);
       finalResponse = guardResult.clean;
       
@@ -605,23 +640,18 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
       }
       
       // Generate handoff packet for CRITICAL/HIGH (for monitoring, not display)
-      if (assessment.requiresHumanHandoff) {
-        const packet = generateHandoffPacket(
-          assessment,
-          messagesRef.current.length,
-          regionRef.current,
-          sessionStartRef.current
-        );
-        console.log('[HANDOFF_PACKET]', packet);
+      if (output.requiresHumanHandoff) {
+        const packet = pipelineV2.generateHandoffPacket();
+        console.log('[HANDOFF_PACKET_V2]', packet);
         // In production: send to monitoring API
       }
       
       // Start follow-through if user indicates they will call
       if (
-        (assessment.tier === 'CRITICAL' || assessment.tier === 'HIGH') &&
+        (output.tier === 'CRITICAL' || output.tier === 'HIGH') &&
         (lower.includes('i will call') || lower.includes("i'll call") || lower.includes('calling now'))
       ) {
-        const hotline = HOTLINES[regionRef.current]?.crisis_988 || HOTLINES.US.crisis_988;
+        const hotline = output.ui.hotlineNumber || HOTLINES[output.region as keyof typeof HOTLINES]?.crisis_988 || HOTLINES.US.crisis_988;
         startFollowThrough(hotline);
       }
       
@@ -642,7 +672,6 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     registerTimeout(delay);
     
   }, [
-    crisisConfirmed,
     postCrisisMode,
     singleFlight,
     isExitCommand,
@@ -652,7 +681,24 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     registerTimeout,
     startFollowThrough,
     recordFollowThroughResponse,
+    pipelineV2,
   ]);
+  
+  // Helper to map pipeline V2 modes to legacy modes
+  function mapPipelineV2Mode(mode: string): ResponseMode {
+    const modeMap: Record<string, ResponseMode> = {
+      'safety': 'CRITICAL_SAFETY',
+      'lost_pet': 'LOST_PET',
+      'grief': 'CLINICAL',
+      'pet_emergency': 'CLINICAL',
+      'scam': 'SCAM_WARNING',
+      'waiting_room': 'WAITING_ROOM',
+      'post_crisis': 'POST_CRISIS',
+      'bystander': 'BYSTANDER',
+      'normal': 'STANDARD',
+    };
+    return modeMap[mode] || 'STANDARD';
+  }
   
   // =========================================================================
   // CONFIRMATION HANDLERS
@@ -664,36 +710,33 @@ const SupportCompanionChatInner: React.FC<SupportCompanionChatProps> = ({ onClos
     setCrisisConfirmed(true);
     setPendingConfirmation(null);
     
-    // Re-process with confirmation
-    const pipelineContext: PipelineContext = {
-      userMessage: pendingConfirmation.originalMessage,
-      assessment: pendingConfirmation.assessment,
-      region: regionRef.current,
-      sessionFacts: sessionFactsRef.current,
-      previousAssessment: previousAssessmentRef.current,
-      isPostCrisis: postCrisisMode,
-      crisisConfirmed: true,
-    };
+    // Mark crisis as confirmed in pipeline V2
+    pipelineV2.confirmCrisis();
     
-    const result = processPipeline(pipelineContext);
+    // Build message history for re-processing
+    const messageHistory = messagesRef.current.map(m => ({
+      role: m.role === 'companion' ? 'assistant' as const : 'user' as const,
+      content: m.content,
+    }));
     
-    let response = result.response;
+    // Re-process with confirmation via pipeline V2
+    const output = pipelineV2.process(pendingConfirmation.originalMessage, messageHistory);
+    
+    let response = output.responseTemplate || '';
     if (response) {
-      response = resolveHotlines(response, regionRef.current);
+      if (output.ui.hotlineNumber) {
+        response = response.replace(/\{HOTLINE\}/g, output.ui.hotlineNumber);
+      }
+      response = resolveHotlines(response, output.region as Region);
       simulateTyping(response);
     }
     
-    // Generate handoff packet
-    if (pendingConfirmation.assessment.requiresHumanHandoff) {
-      const packet = generateHandoffPacket(
-        pendingConfirmation.assessment,
-        messagesRef.current.length,
-        regionRef.current,
-        sessionStartRef.current
-      );
-      console.log('[HANDOFF_PACKET_CONFIRMED]', packet);
+    // Generate handoff packet via pipeline V2
+    if (output.requiresHumanHandoff) {
+      const packet = pipelineV2.generateHandoffPacket();
+      console.log('[HANDOFF_PACKET_V2_CONFIRMED]', packet);
     }
-  }, [pendingConfirmation, postCrisisMode, simulateTyping]);
+  }, [pendingConfirmation, simulateTyping, pipelineV2]);
   
   const handleDenyCrisis = useCallback(() => {
     setPendingConfirmation(null);

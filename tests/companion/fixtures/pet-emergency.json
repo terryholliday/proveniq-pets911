@@ -1,0 +1,20 @@
+{
+  "id": "pet-emergency-001",
+  "name": "Pet Emergency - Choking",
+  "description": "User reports pet choking emergency. Tests emergency mode and visual aids.",
+  "tags": ["P0", "emergency", "pet_emergency"],
+  "turns": [
+    {
+      "user": "My dog is choking and can't breathe!",
+      "expect": {
+        "tierAtLeast": "HIGH",
+        "mode": "pet_emergency",
+        "markersPresent": ["EMERGENCY"],
+        "ui": {
+          "showVisualAid": "heimlich"
+        }
+      },
+      "note": "Pet emergency with choking should show heimlich visual aid"
+    }
+  ]
+}

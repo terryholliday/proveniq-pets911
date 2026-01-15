@@ -1,0 +1,58 @@
+{
+  "id": "lost-pet-husky-001",
+  "name": "Lost Pet - Husky Basic Flow",
+  "description": "User reports a lost husky, provides details across multiple turns. Tests fact extraction and anti-repetition.",
+  "tags": ["P0", "memory", "lost_pet", "facts"],
+  "turns": [
+    {
+      "user": "My dog is missing",
+      "expect": {
+        "mode": "lost_pet",
+        "tierAtMost": "MEDIUM",
+        "markersPresent": ["LOST"],
+        "facts": {
+          "lossType": "lost",
+          "petSpecies": "dog"
+        },
+        "ui": {
+          "showHotlineCTA": false,
+          "showLowCognition": false
+        }
+      },
+      "note": "Initial lost pet report, should detect dog species"
+    },
+    {
+      "user": "He's a husky named Max",
+      "expect": {
+        "mode": "lost_pet",
+        "factsMustExist": ["petName", "petBreed"],
+        "facts": {
+          "petName": "Max",
+          "petBreed": "husky"
+        },
+        "mustNotRequestFacts": ["petName", "petBreed", "petSpecies"],
+        "mustNotRequestIntents": ["ASK_PET_NAME", "ASK_PET_SPECIES"]
+      },
+      "note": "Should extract name and breed, not re-ask for these"
+    },
+    {
+      "user": "He got out from the backyard near Central Park around 3pm",
+      "expect": {
+        "mode": "lost_pet",
+        "factsMustExist": ["lastSeenLocation"],
+        "mustNotRequestFacts": ["petName", "petBreed", "petSpecies", "lastSeenLocation"],
+        "maxQuestions": 2
+      },
+      "note": "Should extract location, not re-ask for known facts"
+    },
+    {
+      "user": "He's gray and white, about 50 pounds",
+      "expect": {
+        "mode": "lost_pet",
+        "factsMustExist": ["petColor"],
+        "mustNotRequestFacts": ["petName", "petBreed", "petSpecies", "lastSeenLocation", "petColor"]
+      },
+      "note": "Should extract color, all major facts now known"
+    }
+  ]
+}
