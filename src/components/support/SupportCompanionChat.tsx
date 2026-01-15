@@ -30,6 +30,250 @@ interface SupportCompanionChatProps {
   initialCrisisType?: 'lost_pet' | 'found_pet' | 'emergency' | 'general';
 }
 
+type LostPetFlow =
+  | { stage: 'awaiting_animal_type' }
+  | { stage: 'awaiting_details'; animalType: 'dog' | 'cat' | 'other' }
+  | { stage: 'awaiting_location'; animalType: 'dog' | 'cat' | 'other'; details: string }
+  | { stage: 'complete'; animalType: 'dog' | 'cat' | 'other'; details: string; location: string };
+
+function renderMarkdown(text: string): React.ReactNode {
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  
+  lines.forEach((line, i) => {
+    let content: React.ReactNode = line;
+    
+    // Headers
+    if (line.startsWith('### ')) {
+      elements.push(<h3 key={i} className="text-base font-bold mt-3 mb-1 text-teal-300">{line.slice(4)}</h3>);
+      return;
+    }
+    if (line.startsWith('## ')) {
+      elements.push(<h2 key={i} className="text-lg font-bold mt-3 mb-1 text-teal-300">{line.slice(3)}</h2>);
+      return;
+    }
+    
+    // Bold text: **text**
+    const boldRegex = /\*\*([^*]+)\*\*/g;
+    if (boldRegex.test(line)) {
+      const parts: React.ReactNode[] = [];
+      let lastIndex = 0;
+      let match;
+      boldRegex.lastIndex = 0;
+      while ((match = boldRegex.exec(line)) !== null) {
+        if (match.index > lastIndex) {
+          parts.push(line.slice(lastIndex, match.index));
+        }
+        parts.push(<strong key={`${i}-${match.index}`} className="font-semibold text-white">{match[1]}</strong>);
+        lastIndex = match.index + match[0].length;
+      }
+      if (lastIndex < line.length) {
+        parts.push(line.slice(lastIndex));
+      }
+      content = parts;
+    }
+    
+    // Empty line = paragraph break
+    if (line.trim() === '') {
+      elements.push(<div key={i} className="h-2" />);
+      return;
+    }
+    
+    // List items
+    if (line.match(/^\d+\)\s/) || line.startsWith('- ')) {
+      elements.push(<div key={i} className="ml-2">{content}</div>);
+      return;
+    }
+    
+    elements.push(<div key={i}>{content}</div>);
+  });
+  
+  return <div className="space-y-0.5">{elements}</div>;
+}
+
+function parseAnimalType(input: string): 'dog' | 'cat' | 'other' | null {
+  const lower = input.toLowerCase();
+  if (lower.includes('dog') || lower.includes('puppy') || lower.includes('pup')) return 'dog';
+  if (lower.includes('cat') || lower.includes('kitten') || lower.includes('kitty')) return 'cat';
+  if (lower.includes('bird') || lower.includes('rabbit') || lower.includes('hamster') || 
+      lower.includes('ferret') || lower.includes('turtle') || lower.includes('snake') ||
+      lower.includes('lizard') || lower.includes('guinea pig')) return 'other';
+  return null;
+}
+
+function getAnimalTypePrompt(): string {
+  return [
+    `I'm so sorry you're going through this. Let's work together to bring them home.`,
+    ``,
+    `**First, what kind of animal is missing?**`,
+    `- Dog (breed matters a lot for search strategy)`,
+    `- Cat`,
+    `- Other (bird, rabbit, etc.)`
+  ].join('\n');
+}
+
+function getDetailsPrompt(animalType: 'dog' | 'cat' | 'other'): string {
+  if (animalType === 'dog') {
+    return [
+      `Got it — a **dog**. Search strategy varies hugely by breed and age.`,
+      ``,
+      `**Tell me about your dog:**`,
+      `- Breed (or mix) — e.g., "husky", "senior lab", "small chihuahua"`,
+      `- Age — puppy, adult, or senior?`,
+      `- Personality — bold/adventurous or shy/skittish?`,
+      ``,
+      `(Even a quick answer like "8yo beagle, friendly" helps me tailor advice)`
+    ].join('\n');
+  } else if (animalType === 'cat') {
+    return [
+      `Got it — a **cat**. Cats behave very differently than dogs when lost.`,
+      ``,
+      `**Tell me about your cat:**`,
+      `- Indoor-only, outdoor, or indoor/outdoor?`,
+      `- Age — kitten, adult, or senior?`,
+      `- Personality — confident explorer or shy hider?`,
+      ``,
+      `(This determines whether they're likely hiding nearby or traveling)`
+    ].join('\n');
+  } else {
+    return [
+      `Got it. **Tell me what kind of animal** and any details that might help (species, can they fly, etc.)`
+    ].join('\n');
+  }
+}
+
+function getLocationPrompt(animalType: 'dog' | 'cat' | 'other', details: string): string {
+  return [
+    `Thanks — that helps a lot.`,
+    ``,
+    `**Where and when were they last seen?**`,
+    `(Be specific: "backyard on Oak St" or "ran out the front door 2 hours ago")`
+  ].join('\n');
+}
+
+function getSearchPlan(animalType: 'dog' | 'cat' | 'other', details: string, location: string): string {
+  const lowerDetails = details.toLowerCase();
+  
+  // Dog-specific strategies
+  if (animalType === 'dog') {
+    const isHusky = lowerDetails.includes('husky') || lowerDetails.includes('malamute') || lowerDetails.includes('sled');
+    const isSenior = lowerDetails.includes('senior') || lowerDetails.includes('old') || lowerDetails.includes('elderly') || /\b1[0-9]\s*(yo|year|yr)/.test(lowerDetails);
+    const isSmall = lowerDetails.includes('small') || lowerDetails.includes('chihuahua') || lowerDetails.includes('yorkie') || lowerDetails.includes('toy') || lowerDetails.includes('pomeranian');
+    const isShy = lowerDetails.includes('shy') || lowerDetails.includes('skittish') || lowerDetails.includes('scared') || lowerDetails.includes('nervous');
+    const isBeagle = lowerDetails.includes('beagle') || lowerDetails.includes('hound');
+    
+    let strategy: string[] = [`**Search Plan for ${location}**`, ''];
+    
+    if (isHusky) {
+      strategy.push(`### ⚡ Husky/Northern Breed Alert`);
+      strategy.push(`Huskies can cover **10-20+ miles** in hours. They don't typically come when called.`);
+      strategy.push(`1) **Expand search radius immediately** — check 3-5 mile radius`);
+      strategy.push(`2) **Alert animal control + shelters** in neighboring counties NOW`);
+      strategy.push(`3) **Post on lost pet Facebook groups** for your area + surrounding areas`);
+      strategy.push(`4) **DO NOT CHASE** — they'll run. Sit down, look away, use high-value food`);
+      strategy.push(`5) **Set a humane trap** with your worn clothing + smelly food`);
+    } else if (isSenior) {
+      strategy.push(`### 🐕 Senior Dog Strategy`);
+      strategy.push(`Older dogs typically stay **very close to home** — often within a few blocks.`);
+      strategy.push(`1) **Search close first** — check neighbors' yards, under porches, sheds`);
+      strategy.push(`2) **They may be injured or stuck** — check anywhere they could get trapped`);
+      strategy.push(`3) **Check with neighbors** — seniors often go to familiar places/people`);
+      strategy.push(`4) **Call softly** — they may be resting and not hear well`);
+      strategy.push(`5) **Leave your scent outside** — unwashed clothing by door`);
+    } else if (isSmall) {
+      strategy.push(`### 🐕 Small Dog Strategy`);
+      strategy.push(`Small dogs are **high theft risk** and can hide in tiny spaces.`);
+      strategy.push(`1) **Check SMALL hiding spots** — under bushes, in drainage pipes, under cars`);
+      strategy.push(`2) **Alert neighbors ASAP** — someone may have "rescued" them`);
+      strategy.push(`3) **Watch for coyotes/hawks** — search at dawn/dusk when predators are less active`);
+      strategy.push(`4) **Post with REWARD** — deters people keeping a found small dog`);
+      strategy.push(`5) **Check Craigslist/Facebook** for "found dog" posts`);
+    } else if (isBeagle) {
+      strategy.push(`### 🐕 Scent Hound Strategy`);
+      strategy.push(`Beagles/hounds follow their nose and can travel **miles** on a scent trail.`);
+      strategy.push(`1) **Follow their likely path** — they chase scents, often in straight lines`);
+      strategy.push(`2) **Expand search 1-3 miles** in direction of travel`);
+      strategy.push(`3) **Use high-value SMELLY food** — bacon, hot dogs at "scent stations"`);
+      strategy.push(`4) **Don't chase** — they may think it's a game and keep running`);
+      strategy.push(`5) **Alert hunters/outdoor groups** — hounds often found in woods`);
+    } else if (isShy) {
+      strategy.push(`### 🐕 Shy/Skittish Dog Strategy`);
+      strategy.push(`Shy dogs often **hide and won't come when called** — even to their owner.`);
+      strategy.push(`1) **DO NOT CHASE OR CALL LOUDLY** — this scares them further`);
+      strategy.push(`2) **Search at dawn/dusk/night** — shy dogs move when it's quiet`);
+      strategy.push(`3) **Set a humane trap** with your worn clothing + smelly food`);
+      strategy.push(`4) **Use calming signals** — sit sideways, don't make eye contact`);
+      strategy.push(`5) **Check hiding spots** — under decks, in culverts, dense brush`);
+    } else {
+      strategy.push(`### 🐕 General Dog Search — First 60 Minutes`);
+      strategy.push(`1) **Tight radius first (100-300 ft)** — call their name softly, pause, listen`);
+      strategy.push(`2) **Check hiding spots** — under porches, sheds, crawlspaces, parked cars`);
+      strategy.push(`3) **Alert immediate neighbors** — ask them to check garages/sheds`);
+      strategy.push(`4) **Leave scent station** — your unwashed clothing + treats outside`);
+      strategy.push(`5) **Flashlight at night** — look for eye-shine in bushes/under vehicles`);
+    }
+    
+    strategy.push('');
+    strategy.push(`### 📱 Report Now`);
+    strategy.push(`Would you like help creating a **missing pet flyer** to post in that area?`);
+    
+    return strategy.join('\n');
+  }
+  
+  // Cat-specific strategies
+  if (animalType === 'cat') {
+    const isIndoor = lowerDetails.includes('indoor') && !lowerDetails.includes('outdoor');
+    const isShy = lowerDetails.includes('shy') || lowerDetails.includes('skittish') || lowerDetails.includes('scared');
+    
+    let strategy: string[] = [`**Search Plan for ${location}**`, ''];
+    
+    if (isIndoor) {
+      strategy.push(`### 🐱 Indoor-Only Cat — CRITICAL`);
+      strategy.push(`Indoor cats are usually **hiding within 3-5 houses** of home. They're terrified.`);
+      strategy.push(`1) **DO NOT CALL LOUDLY** — this scares them deeper into hiding`);
+      strategy.push(`2) **Search at night (10pm-2am)** — they come out when it's quiet`);
+      strategy.push(`3) **Use a flashlight** — look for eye-shine under bushes, decks, cars`);
+      strategy.push(`4) **Check YOUR property first** — under deck, in garage, shed, crawlspace`);
+      strategy.push(`5) **Put litter box outside** — the scent travels far and guides them home`);
+      strategy.push(`6) **Shake treat bag** at 2am — they respond when neighborhood is silent`);
+    } else if (isShy) {
+      strategy.push(`### 🐱 Shy Cat Strategy`);
+      strategy.push(`Shy cats hide in **silence mode** — they won't meow or come when called.`);
+      strategy.push(`1) **Night search only** — daytime is useless for shy cats`);
+      strategy.push(`2) **Set a humane trap** — with your worn clothing + strong-smelling food`);
+      strategy.push(`3) **Check EVERY hiding spot** — they squeeze into tiny spaces`);
+      strategy.push(`4) **Ask neighbors to check** — garages, sheds, under decks`);
+      strategy.push(`5) **Be patient** — shy cats can hide for 7-10 days before emerging`);
+    } else {
+      strategy.push(`### 🐱 Cat Search Strategy`);
+      strategy.push(`Cats typically stay within **3-5 houses** of home, even outdoor cats.`);
+      strategy.push(`1) **Search at night** — cats are most active 10pm-6am`);
+      strategy.push(`2) **Put litter box outside** — familiar scent helps guide them home`);
+      strategy.push(`3) **Check hiding spots** — under porches, in bushes, garage, shed`);
+      strategy.push(`4) **Talk to ALL neighbors** — cats often get trapped in garages/sheds`);
+      strategy.push(`5) **Leave food + water outside** — they'll return if they can`);
+    }
+    
+    strategy.push('');
+    strategy.push(`### 📱 Report Now`);
+    strategy.push(`Would you like help creating a **missing pet flyer** to post nearby?`);
+    
+    return strategy.join('\n');
+  }
+  
+  // Other animals
+  return [
+    `**Search Plan for ${location}**`,
+    '',
+    `For exotic pets, contact:`,
+    `1) **Local animal control** — report immediately`,
+    `2) **Exotic pet groups on Facebook** for your area`,
+    `3) **Neighbors** — they may have seen something unusual`,
+    '',
+    `Would you like help creating a missing pet flyer?`
+  ].join('\n');
+}
+
 /**
  * CLINICAL RESPONSE GENERATION ENGINE
  * 
@@ -66,6 +310,7 @@ export default function SupportCompanionChat({
   const [displayedResponse, setDisplayedResponse] = useState('');
   const [crisisType, setCrisisType] = useState<string | undefined>(initialCrisisType);
   const [showQuickActions, setShowQuickActions] = useState(!initialCrisisType);
+  const [lostPetFlow, setLostPetFlow] = useState<LostPetFlow>({ stage: 'awaiting_animal_type' });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -118,6 +363,12 @@ export default function SupportCompanionChat({
   const handleQuickAction = (actionType: string) => {
     setShowQuickActions(false);
     setCrisisType(actionType);
+    
+    // Reset flow state for lost_pet
+    if (actionType === 'lost_pet') {
+      setLostPetFlow({ stage: 'awaiting_animal_type' });
+    }
+    
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -129,7 +380,11 @@ export default function SupportCompanionChat({
     // Generate and display response
     setCompanionState('thinking');
     setTimeout(() => {
-      const { response } = generateClinicalResponse(userMessage.content);
+      // Use custom flow for lost_pet, otherwise use clinical response
+      const response = actionType === 'lost_pet' 
+        ? getAnimalTypePrompt()
+        : generateClinicalResponse(userMessage.content).response;
+      
       simulateTyping(response, () => {
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
@@ -160,7 +415,46 @@ export default function SupportCompanionChat({
 
       // Generate response after thinking delay
       setTimeout(() => {
+        // LOST PET FLOW: multi-stage state machine
+        if (crisisType === 'lost_pet') {
+          let response: string;
+          
+          if (lostPetFlow.stage === 'awaiting_animal_type') {
+            // Try to parse animal type from their message
+            const animalType = parseAnimalType(userMessage.content);
+            if (animalType) {
+              response = getDetailsPrompt(animalType);
+              setLostPetFlow({ stage: 'awaiting_details', animalType });
+            } else {
+              // Couldn't parse - ask again
+              response = getAnimalTypePrompt();
+            }
+          } else if (lostPetFlow.stage === 'awaiting_details') {
+            response = getLocationPrompt(lostPetFlow.animalType, userMessage.content);
+            setLostPetFlow({ stage: 'awaiting_location', animalType: lostPetFlow.animalType, details: userMessage.content });
+          } else if (lostPetFlow.stage === 'awaiting_location') {
+            response = getSearchPlan(lostPetFlow.animalType, lostPetFlow.details, userMessage.content);
+            setLostPetFlow({ stage: 'complete', animalType: lostPetFlow.animalType, details: lostPetFlow.details, location: userMessage.content });
+          } else {
+            // Flow complete - use default engine
+            const { response: clinicalResponse } = generateClinicalResponse(userMessage.content);
+            response = clinicalResponse;
+          }
+          
+          simulateTyping(response, () => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 1).toString(),
+              role: 'companion',
+              content: response,
+              timestamp: new Date()
+            }]);
+          });
+          return;
+        }
+
+        // Default: use clinical response engine with just the latest message
         const { response } = generateClinicalResponse(userMessage.content);
+        
         simulateTyping(response, () => {
           setMessages(prev => [...prev, {
             id: (Date.now() + 1).toString(),
@@ -271,7 +565,7 @@ export default function SupportCompanionChat({
                     <span className="text-teal-400 text-sm font-medium">Support Companion</span>
                   </div>
                 )}
-                <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                <div className="leading-relaxed">{renderMarkdown(message.content)}</div>
                 <p className={`text-xs mt-2 ${message.role === 'user' ? 'text-teal-200' : 'text-slate-500'
                   }`}>
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -293,7 +587,7 @@ export default function SupportCompanionChat({
                 <SupportCompanionAvatar size="sm" state="speaking" />
                 <span className="text-teal-400 text-sm font-medium">Support Companion</span>
               </div>
-              <p className="leading-relaxed whitespace-pre-wrap">{displayedResponse}</p>
+              <div className="leading-relaxed">{renderMarkdown(displayedResponse)}</div>
             </div>
           </motion.div>
         )}

@@ -10,6 +10,11 @@
 import { useState } from 'react';
 
 export type LawTriggerCategory =
+  | 'APPEARS_HEALTHY'
+  | 'MILDLY_INJURED'
+  | 'APPEARS_MALNOURISHED'
+  | 'ELDERLY_FRAIL'
+  | 'PREGNANT_NURSING'
   | 'CRUELTY_SUSPECTED'
   | 'NEGLECT_SUSPECTED'
   | 'ABANDONMENT'
@@ -42,47 +47,45 @@ export type LawTriggerCategory =
   | 'WILDLIFE_CONFLICT'
   | 'OTHER_LAW_CONCERN';
 
+// ACO = Animal Control Officer notification required per WV statute
+// POLICE = Also notify law enforcement (crimes, attacks on humans)
+// CRITICAL = Immediate/urgent response needed
 const TRIGGER_GROUPS = {
-  'Animal Condition': [
-    { id: 'INJURED_SEVERE', label: 'Severely injured (life-threatening)', critical: true },
-    { id: 'INJURED_MODERATE', label: 'Moderately injured' },
-    { id: 'SICK_CONTAGIOUS', label: 'Appears sick/contagious', critical: true },
-    { id: 'DECEASED_ANIMAL', label: 'Deceased animal' },
-    { id: 'RABIES_EXPOSURE', label: 'Possible rabies exposure', critical: true },
+  'Dangerous Behavior (ACO + Police)': [
+    { id: 'BITE_INCIDENT', label: 'Bite incident occurred', aco: true, police: true, critical: true },
+    { id: 'ATTACK_ON_HUMAN', label: 'Attack on human', aco: true, police: true, critical: true },
+    { id: 'ATTACK_ON_ANIMAL', label: 'Attack on another animal', aco: true },
+    { id: 'AGGRESSIVE_BEHAVIOR', label: 'Aggressive/threatening behavior', aco: true },
+    { id: 'VICIOUS_ANIMAL', label: 'Vicious animal (known history)', aco: true, police: true, critical: true },
+    { id: 'RABIES_EXPOSURE', label: 'Possible rabies exposure', aco: true, police: true, critical: true },
   ],
-  'Dangerous Behavior': [
-    { id: 'BITE_INCIDENT', label: 'Bite incident occurred', critical: true },
-    { id: 'ATTACK_ON_HUMAN', label: 'Attack on human', critical: true },
-    { id: 'ATTACK_ON_ANIMAL', label: 'Attack on another animal' },
-    { id: 'AGGRESSIVE_BEHAVIOR', label: 'Aggressive/threatening behavior' },
-    { id: 'VICIOUS_ANIMAL', label: 'Vicious animal', critical: true },
+  'Suspected Cruelty/Neglect (ACO + Police)': [
+    { id: 'CRUELTY_SUSPECTED', label: 'Suspected animal cruelty', aco: true, police: true },
+    { id: 'NEGLECT_SUSPECTED', label: 'Suspected neglect', aco: true, police: true },
+    { id: 'ABANDONMENT', label: 'Animal appears abandoned', aco: true },
+    { id: 'NO_FOOD_WATER', label: 'No access to food/water', aco: true },
+    { id: 'MEDICAL_NEGLECT', label: 'Untreated medical condition', aco: true },
+    { id: 'HOARDING_SITUATION', label: 'Hoarding situation', aco: true, police: true },
+    { id: 'APPEARS_MALNOURISHED', label: 'Appears malnourished/underweight', aco: true },
   ],
-  'Cruelty & Neglect': [
-    { id: 'CRUELTY_SUSPECTED', label: 'Suspected animal cruelty' },
-    { id: 'NEGLECT_SUSPECTED', label: 'Suspected neglect' },
-    { id: 'ABANDONMENT', label: 'Animal appears abandoned' },
-    { id: 'NO_FOOD_WATER', label: 'No access to food/water' },
-    { id: 'MEDICAL_NEGLECT', label: 'Untreated medical condition' },
-    { id: 'HOARDING_SITUATION', label: 'Hoarding situation' },
+  'Public Safety (ACO)': [
+    { id: 'AT_LARGE_HAZARD', label: 'At-large creating hazard', aco: true },
+    { id: 'TRAFFIC_HAZARD', label: 'Traffic hazard', aco: true, police: true },
+    { id: 'PUBLIC_NUISANCE', label: 'Public nuisance', aco: true },
+    { id: 'PACK_BEHAVIOR', label: 'Pack/group behavior', aco: true },
   ],
-  'Public Safety': [
-    { id: 'AT_LARGE_HAZARD', label: 'At-large creating hazard' },
-    { id: 'TRAFFIC_HAZARD', label: 'Traffic hazard' },
-    { id: 'PUBLIC_NUISANCE', label: 'Public nuisance' },
-    { id: 'PACK_BEHAVIOR', label: 'Pack/group behavior' },
+  'Housing & Tethering Violations (ACO)': [
+    { id: 'TETHERING_VIOLATION', label: 'Improper tethering', aco: true },
+    { id: 'INADEQUATE_SHELTER', label: 'Inadequate shelter/housing', aco: true },
+    { id: 'INADEQUATE_CONFINEMENT', label: 'Inadequate confinement', aco: true },
+    { id: 'EXTREME_WEATHER_EXPOSURE', label: 'Exposed to extreme weather', aco: true },
   ],
-  'Housing & Tethering': [
-    { id: 'TETHERING_VIOLATION', label: 'Improper tethering' },
-    { id: 'INADEQUATE_SHELTER', label: 'Inadequate shelter/housing' },
-    { id: 'INADEQUATE_CONFINEMENT', label: 'Inadequate confinement' },
-    { id: 'EXTREME_WEATHER_EXPOSURE', label: 'Exposed to extreme weather' },
-  ],
-  'Other': [
-    { id: 'EXOTIC_ANIMAL', label: 'Exotic/prohibited animal' },
-    { id: 'LIVESTOCK_AT_LARGE', label: 'Livestock at large' },
-    { id: 'WILDLIFE_CONFLICT', label: 'Wildlife conflict' },
-    { id: 'ILLEGAL_BREEDING', label: 'Suspected illegal breeding' },
-    { id: 'OTHER_LAW_CONCERN', label: 'Other legal concern' },
+  'Other Reportable (ACO)': [
+    { id: 'EXOTIC_ANIMAL', label: 'Exotic/prohibited animal', aco: true },
+    { id: 'LIVESTOCK_AT_LARGE', label: 'Livestock at large', aco: true },
+    { id: 'WILDLIFE_CONFLICT', label: 'Wildlife conflict', aco: true },
+    { id: 'ILLEGAL_BREEDING', label: 'Suspected illegal breeding', aco: true, police: true },
+    { id: 'OTHER_LAW_CONCERN', label: 'Other legal concern', aco: true },
   ],
 } as const;
 
@@ -115,41 +118,53 @@ export function LawTriggerCheckboxes({
     }
   };
 
-  const hasCritical = selectedTriggers.some((t) =>
-    Object.values(TRIGGER_GROUPS)
-      .flat()
-      .find((item) => item.id === t && 'critical' in item && item.critical)
-  );
+  const allItems = Object.values(TRIGGER_GROUPS).flat();
+  const selectedItems = allItems.filter(item => selectedTriggers.includes(item.id as LawTriggerCategory));
+  const hasCritical = selectedItems.some(item => 'critical' in item && item.critical);
+  const hasPolice = selectedItems.some(item => 'police' in item && item.police);
+  const hasAco = selectedItems.some(item => 'aco' in item && item.aco);
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-gray-700">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <label className="text-sm font-medium text-zinc-300">
           Report Concerns (Optional)
         </label>
         {selectedTriggers.length > 0 && (
-          <span className={`text-xs px-2 py-1 rounded ${
-            hasCritical ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
-          }`}>
-            {hasCritical ? '⚠️ Critical - ACO will be notified immediately' : `${selectedTriggers.length} concern(s) selected`}
-          </span>
+          <div className="flex gap-2 flex-wrap">
+            {hasCritical && (
+              <span className="text-xs px-2 py-1 rounded bg-red-900/50 text-red-300">
+                ⚠️ Critical
+              </span>
+            )}
+            {hasPolice && (
+              <span className="text-xs px-2 py-1 rounded bg-blue-900/50 text-blue-300">
+                🚔 Police notified
+              </span>
+            )}
+            {hasAco && (
+              <span className="text-xs px-2 py-1 rounded bg-amber-900/50 text-amber-300">
+                📋 ACO notified
+              </span>
+            )}
+          </div>
         )}
       </div>
 
-      <p className="text-xs text-gray-500">
-        Selecting any concerns below will automatically notify Animal Control per WV law.
+      <p className="text-xs text-zinc-400">
+        All items below trigger ACO notification per WV Code. Items marked with 🚔 also notify law enforcement.
       </p>
 
-      <div className="border rounded-lg divide-y">
+      <div className="border border-zinc-700 rounded-lg divide-y divide-zinc-700">
         {Object.entries(TRIGGER_GROUPS).map(([groupName, items]) => (
           <div key={groupName}>
             <button
               type="button"
               onClick={() => toggleGroup(groupName)}
-              className="w-full px-3 py-2 flex items-center justify-between text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="w-full px-3 py-2 flex items-center justify-between text-sm font-medium text-zinc-200 hover:bg-zinc-800/50"
             >
               <span>{groupName}</span>
-              <span className="text-gray-400">
+              <span className="text-zinc-500">
                 {expandedGroups.includes(groupName) ? '−' : '+'}
               </span>
             </button>
@@ -159,11 +174,11 @@ export function LawTriggerCheckboxes({
                 {items.map((item) => (
                   <label
                     key={item.id}
-                    className={`flex items-start gap-2 cursor-pointer p-2 rounded hover:bg-gray-50 ${
+                    className={`flex items-start gap-2 cursor-pointer p-2 rounded hover:bg-zinc-800/50 ${
                       selectedTriggers.includes(item.id as LawTriggerCategory)
                         ? 'critical' in item && item.critical
-                          ? 'bg-red-50'
-                          : 'bg-amber-50'
+                          ? 'bg-red-900/30'
+                          : 'bg-amber-900/30'
                         : ''
                     }`}
                   >
@@ -171,12 +186,15 @@ export function LawTriggerCheckboxes({
                       type="checkbox"
                       checked={selectedTriggers.includes(item.id as LawTriggerCategory)}
                       onChange={() => toggleTrigger(item.id as LawTriggerCategory)}
-                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                      className="mt-0.5 h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-amber-600 focus:ring-amber-500"
                     />
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-zinc-200">
                       {item.label}
+                      {'police' in item && item.police && (
+                        <span className="ml-1 text-xs text-blue-400">🚔</span>
+                      )}
                       {'critical' in item && item.critical && (
-                        <span className="ml-1 text-xs text-red-600">(Critical)</span>
+                        <span className="ml-1 text-xs text-red-400">(Critical)</span>
                       )}
                     </span>
                   </label>
@@ -188,8 +206,8 @@ export function LawTriggerCheckboxes({
       </div>
 
       {selectedTriggers.length > 0 && (
-        <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-          <p className="text-xs text-amber-800">
+        <div className="p-3 bg-amber-900/30 border border-amber-700/50 rounded-lg">
+          <p className="text-xs text-amber-200">
             <strong>Legal Notice:</strong> By submitting this report with the selected concerns,
             Animal Control will be automatically notified per WV Code §7-1-14, §7-10-4, and/or §19-20-20.
             All notifications are logged for accountability.

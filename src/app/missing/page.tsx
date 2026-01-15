@@ -29,7 +29,7 @@ const MOCK_MISSING_PETS = [
     lastSeenLocation: 'Downtown Lewisburg',
     county: 'GREENBRIER',
     description: 'Friendly, wearing blue collar with tags. Responds to name.',
-    photoUrl: null,
+    photoUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop',
     status: 'ACTIVE',
     daysAgo: 2,
   },
@@ -44,7 +44,7 @@ const MOCK_MISSING_PETS = [
     lastSeenLocation: 'East End, Charleston',
     county: 'KANAWHA',
     description: 'Indoor cat, very timid. Has microchip.',
-    photoUrl: null,
+    photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&h=300&fit=crop',
     status: 'ACTIVE',
     daysAgo: 3,
   },
@@ -59,7 +59,7 @@ const MOCK_MISSING_PETS = [
     lastSeenLocation: 'White Sulphur Springs',
     county: 'GREENBRIER',
     description: 'Neutered male, no collar. Friendly but may be scared.',
-    photoUrl: null,
+    photoUrl: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=300&h=300&fit=crop',
     status: 'ACTIVE',
     daysAgo: 4,
   },
@@ -74,7 +74,7 @@ const MOCK_MISSING_PETS = [
     lastSeenLocation: 'South Charleston',
     county: 'KANAWHA',
     description: 'Blue eyes, very vocal. Indoor only.',
-    photoUrl: null,
+    photoUrl: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=300&h=300&fit=crop',
     status: 'ACTIVE',
     daysAgo: 5,
   },
@@ -199,12 +199,22 @@ export default function MissingPetsBoard() {
             <Link href={`/missing/${pet.id}`} key={pet.id} className="block group">
               <div className="bg-slate-800 border border-slate-700 hover:border-blue-500 rounded-2xl p-5 transition-all">
                 <div className="flex gap-5">
-                  {/* Photo placeholder */}
-                  <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0">
-                    {pet.species === 'DOG' && <Dog className="w-12 h-12 text-slate-500" />}
-                    {pet.species === 'CAT' && <Cat className="w-12 h-12 text-slate-500" />}
-                    {pet.species === 'BIRD' && <Bird className="w-12 h-12 text-slate-500" />}
-                    {pet.species === 'OTHER' && <Rabbit className="w-12 h-12 text-slate-500" />}
+                  {/* Photo */}
+                  <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    {pet.photoUrl ? (
+                      <img 
+                        src={pet.photoUrl} 
+                        alt={pet.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <>
+                        {pet.species === 'DOG' && <Dog className="w-12 h-12 text-slate-500" />}
+                        {pet.species === 'CAT' && <Cat className="w-12 h-12 text-slate-500" />}
+                        {pet.species === 'BIRD' && <Bird className="w-12 h-12 text-slate-500" />}
+                        {pet.species === 'OTHER' && <Rabbit className="w-12 h-12 text-slate-500" />}
+                      </>
+                    )}
                   </div>
                   
                   {/* Details */}

@@ -1,11 +1,54 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle, Share2, Bell, Search, Heart, Sparkles } from 'lucide-react';
+import { CheckCircle, Share2, Bell, Search, Heart, Sparkles, FileText, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import MissingPetFlyer from '@/components/flyers/MissingPetFlyer';
 
 export default function ReportSuccessPage() {
+  const [showFlyer, setShowFlyer] = useState(false);
+  const caseNumber = `MP-2024-${Math.floor(Math.random() * 9000) + 1000}`;
+
+  // Demo data - in production this would come from the submitted report
+  const petData = {
+    petName: 'Buddy',
+    species: 'DOG' as const,
+    breed: 'Golden Retriever',
+    color: 'Golden',
+    size: 'Large',
+    lastSeenDate: new Date().toLocaleDateString(),
+    lastSeenLocation: 'Downtown Area, West Virginia',
+    description: 'Friendly, wearing blue collar with tags',
+    photoUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop',
+    contactPhone: '(304) 555-0123',
+    contactName: 'Pet Owner',
+    reward: '$100',
+    caseNumber,
+  };
+
+  if (showFlyer) {
+    return (
+      <main className="min-h-screen bg-slate-900 px-6 py-12">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-white">Missing Pet Flyer</h1>
+            <Button 
+              variant="ghost" 
+              onClick={() => setShowFlyer(false)}
+              className="text-slate-400 hover:text-white"
+            >
+              <X className="w-5 h-5 mr-1" />
+              Close
+            </Button>
+          </div>
+          <MissingPetFlyer {...petData} />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-slate-900 flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-lg w-full text-center">
@@ -79,15 +122,25 @@ export default function ReportSuccessPage() {
             <p className="text-purple-100 text-sm text-left mb-4">
               Losing a pet is hard. The Support Companion can provide emotional support, search tips, and check in on you during this difficult time.
             </p>
-            <Button className="w-full bg-purple-600 hover:bg-purple-700">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Talk to Support Companion
-            </Button>
+            <Link href="/support">
+              <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Talk to Support Companion
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
         {/* Actions */}
         <div className="space-y-3">
+          <Button 
+            onClick={() => setShowFlyer(true)}
+            className="w-full bg-orange-600 hover:bg-orange-700 py-6 text-lg"
+          >
+            <FileText className="w-5 h-5 mr-2" />
+            Create Missing Pet Flyer
+          </Button>
+
           <Button className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg">
             <Share2 className="w-5 h-5 mr-2" />
             Share on Social Media
