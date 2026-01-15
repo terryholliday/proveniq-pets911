@@ -274,8 +274,8 @@ export function AddressAutocomplete({
 
             const suggestion: AddressSuggestion = {
               display_name: formattedAddress,
-              lat: place.geometry?.location.lat().toString() || '',
-              lon: place.geometry?.location.lng().toString() || '',
+              lat: place.geometry?.location?.lat().toString() || '',
+              lon: place.geometry?.location?.lng().toString() || '',
               place_id: prediction.place_id,
               address: {
                 house_number: getComponent('street_number'),
