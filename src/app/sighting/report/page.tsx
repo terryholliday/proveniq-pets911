@@ -60,11 +60,41 @@ const SPECIES_OPTIONS = [
   { id: 'OTHER', label: 'Other', icon: Rabbit },
 ];
 
-const SIZE_OPTIONS = [
-  { id: 'SMALL', label: 'Small', description: 'Under 20 lbs' },
-  { id: 'MEDIUM', label: 'Medium', description: '20-50 lbs' },
-  { id: 'LARGE', label: 'Large', description: 'Over 50 lbs' },
-];
+// Species-specific size options
+const SIZE_OPTIONS_BY_SPECIES: Record<string, { id: string; label: string; description: string }[] | null> = {
+  DOG: [
+    { id: 'SMALL', label: 'Small', description: 'Under 20 lbs' },
+    { id: 'MEDIUM', label: 'Medium', description: '20-50 lbs' },
+    { id: 'LARGE', label: 'Large', description: 'Over 50 lbs' },
+  ],
+  CAT: [
+    { id: 'SMALL', label: 'Small', description: 'Kitten or petite' },
+    { id: 'MEDIUM', label: 'Medium', description: 'Average cat' },
+    { id: 'LARGE', label: 'Large', description: 'Maine Coon size' },
+  ],
+  BIRD: [
+    { id: 'SMALL', label: 'Small', description: 'Finch, parakeet' },
+    { id: 'MEDIUM', label: 'Medium', description: 'Cockatiel, conure' },
+    { id: 'LARGE', label: 'Large', description: 'Parrot, macaw' },
+  ],
+  RABBIT: [
+    { id: 'SMALL', label: 'Small', description: 'Dwarf breeds' },
+    { id: 'MEDIUM', label: 'Medium', description: 'Standard breeds' },
+    { id: 'LARGE', label: 'Large', description: 'Giant breeds' },
+  ],
+  LIVESTOCK: [
+    { id: 'SMALL', label: 'Small', description: 'Goat, sheep, pig' },
+    { id: 'MEDIUM', label: 'Medium', description: 'Llama, donkey' },
+    { id: 'LARGE', label: 'Large', description: 'Horse, cow' },
+  ],
+  REPTILE: null, // No size options - not relevant
+  SMALL_MAMMAL: null, // Hamsters, guinea pigs - all small
+  OTHER: [
+    { id: 'SMALL', label: 'Small', description: 'Fits in your hands' },
+    { id: 'MEDIUM', label: 'Medium', description: 'Cat-sized' },
+    { id: 'LARGE', label: 'Large', description: 'Dog-sized or bigger' },
+  ],
+};
 
 const CONDITION_OPTIONS = [
   { id: 'HEALTHY', label: 'Appears Healthy', color: 'emerald' },
@@ -419,26 +449,28 @@ function AnimalDetailsStep({
         />
       </div>
       
-      {/* Size */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-3">Approximate Size</label>
-        <div className="grid grid-cols-3 gap-3">
-          {SIZE_OPTIONS.map(({ id, label, description }) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => updateReport({ size: id })}
-              className={`p-4 rounded-xl border-2 transition-all text-left ${report.size === id
-                ? 'border-emerald-500 bg-emerald-500/10'
-                : 'border-slate-700 hover:border-slate-600'
-                }`}
-            >
-              <span className={`block font-medium ${report.size === id ? 'text-emerald-400' : 'text-slate-300'}`}>{label}</span>
-              <span className="text-sm text-slate-500">{description}</span>
-            </button>
-          ))}
+      {/* Size - only show for species where it's relevant */}
+      {SIZE_OPTIONS_BY_SPECIES[report.species] && (
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-3">Approximate Size</label>
+          <div className="grid grid-cols-3 gap-3">
+            {SIZE_OPTIONS_BY_SPECIES[report.species]!.map(({ id, label, description }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => updateReport({ size: id })}
+                className={`p-4 rounded-xl border-2 transition-all text-left ${report.size === id
+                  ? 'border-emerald-500 bg-emerald-500/10'
+                  : 'border-slate-700 hover:border-slate-600'
+                  }`}
+              >
+                <span className={`block font-medium ${report.size === id ? 'text-emerald-400' : 'text-slate-300'}`}>{label}</span>
+                <span className="text-sm text-slate-500">{description}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       
       {/* Additional details */}
       <div>
