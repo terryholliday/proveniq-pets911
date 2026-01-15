@@ -700,8 +700,8 @@ function DispatchCard({
             <p className="text-sm font-medium mb-2">What was the outcome?</p>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { value: 'OFFICER_DISPATCHED', label: 'Officer Dispatched' },
-                { value: 'CALLBACK_PROMISED', label: 'Callback Promised' },
+                { value: 'OFFICER_DISPATCHED', label: 'Dispatched' },
+                { value: 'CALLBACK_PROMISED', label: 'Callback' },
                 { value: 'NO_ANSWER', label: 'No Answer' },
                 { value: 'REFERRED_ELSEWHERE', label: 'Referred' },
                 { value: 'DECLINED', label: 'Declined' },
@@ -711,6 +711,7 @@ function DispatchCard({
                   key={option.value}
                   variant="outline"
                   size="sm"
+                  className="text-xs py-2"
                   onClick={() => handleLogOutcome(option.value as MunicipalOutcome)}
                 >
                   {option.label}
