@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/client';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
@@ -25,13 +25,29 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get('code');
   const redirectTo = getSafeRedirectPath(requestUrl.searchParams.get('redirectTo'));
 
-  const response = NextResponse.redirect(new URL(redirectTo, request.url));
-
   if (code) {
+    const cookieStore = cookies();
+    
+    // Create Supabase client that can set cookies on the response
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value;
+          },
+          set(name: string, value: string, options: any) {
+            cookieStore.set({ name, value, ...options });
+          },
+          remove(name: string, options: any) {
+            cookieStore.set({ name, value: '', ...options });
+          },
+        },
+      }
+    );
+    
     try {
-      const cookieStore = cookies();
-      const supabase = createServerClient(cookieStore);
-      
       const { data, error } = await supabase.auth.exchangeCodeForSession(code);
       
       if (error) {
@@ -41,14 +57,14 @@ export async function GET(request: Request) {
       
       console.log('OAuth session created successfully for user:', data.user?.email);
       
-      // Session is now set in cookies via createServerClient
-      // Return the redirect response
-      return response;
+      // Redirect to the intended destination
+      return NextResponse.redirect(new URL(redirectTo, request.url));
     } catch (err) {
       console.error('OAuth callback exception:', err);
       return NextResponse.redirect(new URL('/login?error=auth_failed', request.url));
     }
   }
 
-  return response;
+  // No code provided, just redirect
+  return NextResponse.redirect(new URL(redirectTo, request.url));
 }
