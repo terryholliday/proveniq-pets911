@@ -380,12 +380,12 @@ function InjuredRoutingCard({
           {/* NO - Cannot Transport */}
           <div className="space-y-3">
             <div className="p-4 border-2 border-amber-200 bg-amber-50 rounded-xl">
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-2">
                 <Building2 className="h-5 w-5 text-amber-600" />
                 <p className="font-semibold text-amber-800">No, I cannot transport</p>
               </div>
-              <p className="text-sm text-amber-700 mb-3">
-                We have two options to help:
+              <p className="text-sm text-amber-700">
+                Contact one of these resources for assistance:
               </p>
             </div>
 
@@ -404,9 +404,8 @@ function InjuredRoutingCard({
               />
             )}
 
-            {/* Option 2: Animal Control */}
+            {/* Option 2: Animal Control / Humane Society */}
             <div className="p-4 border-2 border-slate-200 bg-slate-50 rounded-xl space-y-3">
-              <p className="text-sm font-medium text-slate-800">Or contact Animal Control:</p>
               {animalControl.length > 0 ? (
                 animalControl.map((contact) => (
                   <DispatchCard 
