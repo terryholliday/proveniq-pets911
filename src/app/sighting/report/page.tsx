@@ -124,12 +124,22 @@ export default function ReportSighting() {
     
     // Submit to backend API
     try {
+      // Auto-generate description from form data
+      const descriptionParts = [];
+      if (report.species && report.species !== 'OTHER') descriptionParts.push(report.species.toLowerCase());
+      if (report.color) descriptionParts.push(report.color);
+      if (report.breed) descriptionParts.push(report.breed);
+      if (report.size) descriptionParts.push(report.size);
+      const autoDescription = descriptionParts.length > 0 
+        ? `Sighting of ${descriptionParts.join(', ')}` 
+        : 'Animal sighting reported';
+      
       const payload = {
         reporter_name: report.reporterName,
         reporter_phone: report.reporterPhone,
         reporter_email: report.reporterEmail,
         sighting_address: report.location,
-        description: report.description,
+        description: report.description || autoDescription,
         species: report.species,
         breed: report.breed,
         color: report.color,
