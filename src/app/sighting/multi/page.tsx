@@ -334,29 +334,52 @@ export default function MultiAnimalReportPage() {
             {/* Photo */}
             <div>
               <label className="block text-sm text-zinc-400 mb-2">Photo (optional but helpful)</label>
-              <div 
-                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
-                  photoPreview ? 'border-green-600 bg-green-900/20' : 'border-zinc-700 hover:border-amber-600'
-                }`}
-                onClick={() => document.getElementById('photo-input')?.click()}
-              >
-                {photoPreview ? (
-                  <img src={photoPreview} alt="Preview" className="max-h-40 mx-auto rounded-lg" />
-                ) : (
-                  <>
-                    <Camera className="h-8 w-8 mx-auto mb-2 text-zinc-500" />
-                    <p className="text-zinc-400 text-sm">Tap to add photo</p>
-                  </>
-                )}
-                <input
-                  id="photo-input"
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handlePhotoChange}
-                  className="hidden"
-                />
-              </div>
+              {photoPreview ? (
+                <div className="border-2 border-green-600 bg-green-900/20 rounded-xl p-4 text-center">
+                  <img src={photoPreview} alt="Preview" className="max-h-40 mx-auto rounded-lg mb-3" />
+                  <button
+                    type="button"
+                    onClick={() => { setPhoto(null); setPhotoPreview(null); }}
+                    className="text-sm text-zinc-400 hover:text-white"
+                  >
+                    Remove photo
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('photo-camera')?.click()}
+                    className="border-2 border-dashed border-zinc-700 hover:border-amber-600 rounded-xl p-4 text-center transition-colors"
+                  >
+                    <Camera className="h-6 w-6 mx-auto mb-2 text-zinc-500" />
+                    <p className="text-zinc-400 text-sm">Take Photo</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('photo-upload')?.click()}
+                    className="border-2 border-dashed border-zinc-700 hover:border-amber-600 rounded-xl p-4 text-center transition-colors"
+                  >
+                    <Plus className="h-6 w-6 mx-auto mb-2 text-zinc-500" />
+                    <p className="text-zinc-400 text-sm">Upload Photo</p>
+                  </button>
+                </div>
+              )}
+              <input
+                id="photo-camera"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
+              <input
+                id="photo-upload"
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
             </div>
 
             {/* Description */}
