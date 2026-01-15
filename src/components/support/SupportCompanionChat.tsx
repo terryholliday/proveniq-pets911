@@ -40,37 +40,45 @@ function renderMarkdown(text: string): React.ReactNode {
   const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
   
-  lines.forEach((line, i) => {
-    let content: React.ReactNode = line;
+  const parseBold = (line: string, lineIndex: number): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let remaining = line;
+    let partIndex = 0;
     
+    while (remaining.includes('**')) {
+      const startIdx = remaining.indexOf('**');
+      const endIdx = remaining.indexOf('**', startIdx + 2);
+      
+      if (endIdx === -1) break;
+      
+      if (startIdx > 0) {
+        parts.push(<span key={`${lineIndex}-${partIndex++}`}>{remaining.slice(0, startIdx)}</span>);
+      }
+      
+      const boldText = remaining.slice(startIdx + 2, endIdx);
+      parts.push(<strong key={`${lineIndex}-${partIndex++}`} className="font-semibold text-white">{boldText}</strong>);
+      
+      remaining = remaining.slice(endIdx + 2);
+    }
+    
+    if (remaining) {
+      parts.push(<span key={`${lineIndex}-${partIndex++}`}>{remaining}</span>);
+    }
+    
+    return parts.length > 0 ? parts : line;
+  };
+  
+  lines.forEach((line, i) => {
     // Headers
     if (line.startsWith('### ')) {
-      elements.push(<h3 key={i} className="text-base font-bold mt-3 mb-1 text-teal-300">{line.slice(4)}</h3>);
+      const headerContent = parseBold(line.slice(4), i);
+      elements.push(<h3 key={i} className="text-base font-bold mt-3 mb-1 text-teal-300">{headerContent}</h3>);
       return;
     }
     if (line.startsWith('## ')) {
-      elements.push(<h2 key={i} className="text-lg font-bold mt-3 mb-1 text-teal-300">{line.slice(3)}</h2>);
+      const headerContent = parseBold(line.slice(3), i);
+      elements.push(<h2 key={i} className="text-lg font-bold mt-3 mb-1 text-teal-300">{headerContent}</h2>);
       return;
-    }
-    
-    // Bold text: **text**
-    const boldRegex = /\*\*([^*]+)\*\*/g;
-    if (boldRegex.test(line)) {
-      const parts: React.ReactNode[] = [];
-      let lastIndex = 0;
-      let match;
-      boldRegex.lastIndex = 0;
-      while ((match = boldRegex.exec(line)) !== null) {
-        if (match.index > lastIndex) {
-          parts.push(line.slice(lastIndex, match.index));
-        }
-        parts.push(<strong key={`${i}-${match.index}`} className="font-semibold text-white">{match[1]}</strong>);
-        lastIndex = match.index + match[0].length;
-      }
-      if (lastIndex < line.length) {
-        parts.push(line.slice(lastIndex));
-      }
-      content = parts;
     }
     
     // Empty line = paragraph break
@@ -78,6 +86,8 @@ function renderMarkdown(text: string): React.ReactNode {
       elements.push(<div key={i} className="h-2" />);
       return;
     }
+    
+    const content = parseBold(line, i);
     
     // List items
     if (line.match(/^\d+\)\s/) || line.startsWith('- ')) {
