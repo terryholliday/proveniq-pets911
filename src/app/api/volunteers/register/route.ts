@@ -4,6 +4,25 @@ import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth'
 
 export const dynamic = 'force-dynamic';
 
+const ALLOWED_SELF_SERVICE_CAPABILITIES = new Set([
+  'TRANSPORT',
+  'FOSTER_SHORT_TERM',
+  'FOSTER_LONG_TERM',
+  'EMERGENCY_RESPONSE',
+  'VET_TRANSPORT',
+  'SHELTER_TRANSPORT',
+]);
+
+const PRIVILEGED_CAPABILITIES = new Set(['SYSOP', 'MODERATOR']);
+
+function normalizeCapabilities(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+  const normalized = input
+    .map((value) => String(value).trim().toUpperCase())
+    .filter(Boolean);
+  return Array.from(new Set(normalized));
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { user } = await getSupabaseUser();
@@ -25,7 +44,7 @@ export async function POST(request: NextRequest) {
       primary_county,
       address_city,
       address_zip,
-      capabilities,
+      capabilities: rawCapabilities,
       max_response_radius_miles,
       has_vehicle,
       vehicle_type,
@@ -57,7 +76,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!capabilities || capabilities.length === 0) {
+    const requestedCapabilities = normalizeCapabilities(rawCapabilities);
+
+    if (requestedCapabilities.length === 0) {
       return NextResponse.json(
         { 
           success: false, 
@@ -65,6 +86,40 @@ export async function POST(request: NextRequest) {
             code: 'VALIDATION_ERROR', 
             message: 'At least one capability must be selected' 
           } 
+        },
+        { status: 400 }
+      );
+    }
+
+    const privilegedRequested = requestedCapabilities.filter((capability) =>
+      PRIVILEGED_CAPABILITIES.has(capability)
+    );
+
+    if (privilegedRequested.length > 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: `Privileged capabilities are not self-assignable: ${privilegedRequested.join(', ')}`,
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    const capabilities = requestedCapabilities.filter((capability) =>
+      ALLOWED_SELF_SERVICE_CAPABILITIES.has(capability)
+    );
+
+    if (capabilities.length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: `Unsupported capability selection. Allowed: ${Array.from(ALLOWED_SELF_SERVICE_CAPABILITIES).join(', ')}`,
+          },
         },
         { status: 400 }
       );

@@ -1,19 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClientForAPI } from '@/lib/supabase/client';
+import { createServiceRoleClient, getSupabaseUser } from '@/lib/api/server-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClientForAPI();
+    const { user } = await getSupabaseUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const supabase = createServiceRoleClient();
     const body = await request.json();
     const sightingId = params.id;
+
+    const { data: actorVolunteer } = await supabase
+      .from('volunteers')
+      .select('status, capabilities')
+      .eq('user_id', user.id)
+      .maybeSingle<{ status: string; capabilities: string[] }>();
+
+    const isPrivileged =
+      actorVolunteer?.status === 'ACTIVE' &&
+      Array.isArray(actorVolunteer.capabilities) &&
+      (actorVolunteer.capabilities.includes('SYSOP') || actorVolunteer.capabilities.includes('MODERATOR'));
+
+    if (!isPrivileged) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     // Validate the sighting exists
     const { data: existing, error: fetchError } = await supabase
       .from('sighting')
-      .select('*')
+      .select('id, status, priority')
       .eq('id', sightingId)
       .single();
 
@@ -30,7 +52,12 @@ export async function PATCH(
     };
 
     if (body.status) {
-      updates.status = body.status;
+      const nextStatus = String(body.status).toUpperCase();
+      const allowed = new Set(['ACTIVE', 'IN_PROGRESS', 'RESOLVED']);
+      if (!allowed.has(nextStatus)) {
+        return NextResponse.json({ error: `Invalid status. Allowed: ${Array.from(allowed).join(', ')}` }, { status: 400 });
+      }
+      updates.status = nextStatus;
     }
 
     if (body.estimated_arrival) {
@@ -58,20 +85,21 @@ export async function PATCH(
 
     // Log the status change
     if (body.status && body.status !== existing.status) {
-      await supabase
-        .from('sighting_status_log')
-        .insert({
+      try {
+        await supabase.from('sighting_status_log').insert({
           sighting_id: sightingId,
           from_status: existing.status,
-          to_status: body.status,
-          changed_by: body.changed_by || 'SYSTEM',
+          to_status: updates.status || body.status,
+          changed_by: user.id,
           notes: body.notes || null,
-        });
+        } as any);
+      } catch {
+      }
     }
 
     // If status changed to IN_PROGRESS and this is a high priority sighting,
     // send notifications
-    if (body.status === 'IN_PROGRESS' && existing.priority === 'HIGH') {
+    if (updates.status === 'IN_PROGRESS' && existing.priority === 'HIGH') {
       // TODO: Send notification to reporter
       console.log('Sighting marked IN_PROGRESS, sending notification to reporter');
     }

@@ -6,14 +6,10 @@ import {
   MapPin, 
   Clock, 
   User, 
-  Phone, 
-  Mail,
   Camera,
   AlertCircle,
   CheckCircle,
   Activity,
-  ChevronRight,
-  Edit
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,7 +19,6 @@ import type { SightingReportExtended } from '@/lib/types';
 export default function SightingsPage() {
   const [sightings, setSightings] = useState<SightingReportExtended[]>([]);
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState<string | null>(null);
 
   useEffect(() => {
     loadSightings();
@@ -41,36 +36,6 @@ export default function SightingsPage() {
       console.error('Failed to load sightings:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const updateStatus = async (sightingId: string, status: 'ACTIVE' | 'IN_PROGRESS' | 'RESOLVED') => {
-    setUpdating(sightingId);
-    try {
-      const response = await fetch(`/api/sightings/${sightingId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          status,
-          // Add ETA and rescuer for IN_PROGRESS status
-          ...(status === 'IN_PROGRESS' && {
-            estimated_arrival: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
-            rescuer_assigned: 'Rescue Team Alpha',
-          }),
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to update sighting');
-      }
-      
-      await loadSightings();
-    } catch (error) {
-      console.error('Failed to update sighting:', error);
-    } finally {
-      setUpdating(null);
     }
   };
 
@@ -309,12 +274,6 @@ export default function SightingsPage() {
                             <span className="text-white">{sighting.reporter_name}</span>
                           </div>
                         )}
-                        {sighting.reporter_phone && (
-                          <div className="flex items-center gap-2">
-                            <Phone className="w-4 h-4 text-slate-400" />
-                            <span className="text-white">{sighting.reporter_phone}</span>
-                          </div>
-                        )}
                         {sighting.estimated_arrival && (
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-orange-500" />
@@ -339,31 +298,6 @@ export default function SightingsPage() {
                       </div>
                     )}
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-3 mt-6 pt-4 border-t border-slate-700">
-                      {sighting.status === 'ACTIVE' && (
-                        <Button
-                          onClick={() => updateStatus(sighting.id, 'IN_PROGRESS')}
-                          disabled={updating === sighting.id}
-                          className="bg-orange-600 hover:bg-orange-700"
-                        >
-                          {updating === sighting.id ? 'Updating...' : 'Mark In Progress'}
-                        </Button>
-                      )}
-                      {sighting.status === 'IN_PROGRESS' && (
-                        <Button
-                          onClick={() => updateStatus(sighting.id, 'RESOLVED')}
-                          disabled={updating === sighting.id}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          {updating === sighting.id ? 'Updating...' : 'Mark Resolved'}
-                        </Button>
-                      )}
-                      <Button variant="outline" className="border-slate-600 text-slate-300">
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit Details
-                      </Button>
-                    </div>
                   </CardContent>
                 </Card>
               ))}

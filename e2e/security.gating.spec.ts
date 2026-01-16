@@ -91,6 +91,16 @@ test.describe('security gating', () => {
         },
         expectedStatus: 401,
       },
+      {
+        name: 'PATCH /api/sightings/:id',
+        run: async () => {
+          const res = await request.patch('/api/sightings/00000000-0000-0000-0000-000000000000', {
+            data: { status: 'IN_PROGRESS' },
+          });
+          return { status: res.status() };
+        },
+        expectedStatus: 401,
+      },
     ];
 
     for (const c of cases) {
@@ -110,6 +120,17 @@ test.describe('security gating', () => {
       form: { From: '+15555550100', Body: 'Y', MessageSid: 'SM123' },
     });
     expect(res.status()).toBe(401);
+  });
+
+  test('does not expose reporter phone in public sightings payload', async ({ request }) => {
+    const res = await request.get('/api/sightings');
+    test.skip(res.status() !== 200, 'Sightings endpoint not available in this environment');
+
+    const json = await res.json();
+    const sightings = (json as any)?.sightings;
+    test.skip(!Array.isArray(sightings) || sightings.length === 0, 'No sightings to validate');
+
+    expect('reporter_phone' in sightings[0]).toBe(false);
   });
 });
 

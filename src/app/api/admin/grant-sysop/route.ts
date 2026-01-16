@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
         address_city: 'SYSOP',
         address_zip: '00000',
         capabilities: ['SYSOP'],
+        sysop_granted_at: new Date().toISOString(),
         status: 'ACTIVE',
         max_response_radius_miles: 100,
         updated_at: new Date().toISOString(),

@@ -16,14 +16,31 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('sighting')
       .select(`
-        *,
-        reporter:reporter_id(display_name, phone),
-        missing_case:missing_case_id(
-          id,
-          pet_name,
-          species,
-          owner:owner_id(display_name)
-        )
+        id,
+        reporter_id,
+        reporter_name,
+        missing_case_id,
+        sighting_at,
+        sighting_lat,
+        sighting_lng,
+        sighting_address,
+        description,
+        direction_heading,
+        animal_behavior,
+        confidence_level,
+        photo_url,
+        county,
+        can_stay_with_animal,
+        priority,
+        status,
+        estimated_arrival,
+        rescuer_assigned,
+        is_verified,
+        verified_by,
+        verified_at,
+        created_at,
+        updated_at,
+        is_deleted
       `)
       .eq('is_deleted', false)
       .order('created_at', { ascending: false });

@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Phone, Heart, Car, Clock, AlertTriangle, Users, Settings, Shield } from 'lucide-react';
+import { Phone, Heart, Car, Clock, AlertTriangle, Users, Shield } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import type { County, Species, VolunteerCapability } from '@/lib/types';
 
@@ -57,8 +57,6 @@ export default function HelperSignupPage() {
       case 'EMERGENCY_RESPONSE': return AlertTriangle;
       case 'VET_TRANSPORT':
       case 'SHELTER_TRANSPORT': return Car;
-      case 'MODERATOR': return Shield;
-      case 'SYSOP': return Settings;
       default: return Users;
     }
   };
@@ -93,16 +91,6 @@ export default function HelperSignupPage() {
       value: 'SHELTER_TRANSPORT',
       label: 'Shelter Transport',
       description: 'Transport animals to and from shelters',
-    },
-    {
-      value: 'MODERATOR',
-      label: 'Moderator',
-      description: 'Help moderate online communities and forums',
-    },
-    {
-      value: 'SYSOP',
-      label: 'SysOp',
-      description: 'Help manage and maintain our systems and infrastructure',
     },
   ];
 
@@ -334,16 +322,6 @@ export default function HelperSignupPage() {
                       value: 'SHELTER_TRANSPORT',
                       label: 'Shelter Transport',
                       description: 'Transport pets between shelters/rescues',
-                    },
-                    {
-                      value: 'MODERATOR',
-                      label: 'Moderator',
-                      description: 'Review cases, verify matches, coordinate volunteers',
-                    },
-                    {
-                      value: 'SYSOP',
-                      label: 'System Operator (SYSOP)',
-                      description: 'System administrator: superuser access (approval required)',
                     },
                   ].map(({ value, label, description }) => {
                     const Icon = getCapabilityIcon(value);
